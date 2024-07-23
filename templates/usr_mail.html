@@ -1,0 +1,295 @@
+
+<template>
+    <link rel="stylesheet" href="style/tree.css"> 
+    <style>
+
+        .cmbMail > option:hover{
+            background-color: crimson;
+            color: aliceblue;
+            cursor: pointer;
+        }
+
+        /* */
+
+        .frm-mail{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .left-panel, .rigth-panel{
+            width: 100%;
+            max-width: 584px;
+        }
+
+        .left-panel fieldset, .rigth-panel fieldset{
+            height: 100%;
+        }
+
+        .rigth-panel fieldset{
+            min-height: 600px;
+        }
+
+        .message-body h3{
+            width: 100%;
+            text-align: center;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 10px;
+        }
+
+        .tab-content h3{
+            text-align: center;
+        }
+
+        .tab-content textarea{
+            height: 350px;
+        }
+
+        .hide{
+            display: none;
+        }
+
+        .radio:nth-of-type(1):checked ~ label{ 
+            display: block;
+            font-weight: bold; 
+        } 
+
+        .tabbed [type="radio"]:nth-of-type(1):checked ~ .tab-content:nth-of-type(1),
+        .tabbed [type="radio"]:nth-of-type(2):checked ~ .tab-content:nth-of-type(2),
+        .tabbed [type="radio"]:nth-of-type(3):checked ~ .tab-content:nth-of-type(3),
+        .tabbed [type="radio"]:nth-of-type(4):checked ~ .tab-content:nth-of-type(4) {
+            display: block;
+        }
+
+        @media all and (max-width : 768px) {
+            .left-panel, .rigth-panel{
+                width: 100%;
+            }
+        }
+
+    </style>
+  
+
+    <div class="frm-mail">
+
+        
+        <div class="left-panel">
+            <fieldset>
+                <legend>Pastas</legend>
+                <ul class="tree">
+                    <li>
+                        <details open class="menu-data">
+                            <summary id="mail-raiz"></summary>
+                            <ul>
+                                <li>
+                                    <details>
+                                        <summary class="new-mail"> <label for="tab-1">Nova Mensagem</label></summary>
+                                    </details>
+                                </li>
+                                <li>
+                                    <details>
+                                        <summary class="inbox"><label for="tab-2">Caixa de Entrada</label> </summary>
+                                    </details>                                 
+                                </li>
+                                <li>
+                                    <details>
+                                        <summary class="send"><label for="tab-3">Mensagens Enviadas</label></summary>
+                                    </details>                                 
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                </ul>   
+    
+            </fieldset>
+    
+        </div>
+        <div class="rigth-panel">
+            <fieldset>
+                <legend>Mensagem</legend>
+                <div class="tabbed">
+                    <input type="radio" class="radio hide" id="tab-1" name="message-tabs">
+                    <input type="radio" class="radio hide" id="tab-2" name="message-tabs" checked>
+                    <input type="radio" class="radio hide" id="tab-3" name="message-tabs">
+
+                    <div class="tab-content">
+                        <h3>Nova Mensagem</h3>
+                        <div class="inline">
+                            <label for="cmbUser">Destinatário</label>
+                            <select id="cmbUser"></select>
+                        </div>
+                        <textarea id="edtMail" cols="30" rows="10" maxlength="512"></textarea>
+                        <button id="btnEnviar">Enviar</button>
+                    </div>
+                    <div class="tab-content">
+                        <h3>Caixa de Entrada</h3>
+                        <select id="cmbEntrada" class="cmbMail" size="10"></select>
+                        <textarea id="edtViewEntrada" cols="30" rows="10" maxlength="512" readonly></textarea>
+                    </div>
+                    <div class="tab-content">
+                        <h3>Mensagens Enviadas</h3>
+                        <select id="cmbSaida" class="cmbMail" size="10"></select>
+                        <textarea id="edtViewSaida" cols="30" rows="10" maxlength="512" readonly></textarea>
+                    </div>
+    
+                </div>
+
+            </fieldset>
+        </div>
+
+    </div>
+
+</template>
+
+<script>
+
+    const pageData = main_data.usr_mail.data
+    const pageFunc = main_data.usr_mail.func
+    const pageScreen = document.querySelector('#card-usr_mail')
+
+    function readMail(send=1){
+
+        const cmb = send ? pageScreen.querySelector('#cmbEntrada') : pageScreen.querySelector('#cmbSaida')
+        const txt = send ? pageScreen.querySelector('#edtViewEntrada') : pageScreen.querySelector('#edtViewSaida')
+        if(cmb.selectedIndex >= 0){
+            const data = cmb.options[cmb.selectedIndex].data
+            txt.value = data.txt
+
+            if(data.nao_lida == '1' && send){
+
+                const params = new Object;
+                    params.data = data.data
+                    params.id_from = data.de
+                    params.id_to = data.para
+
+                const myPromisse = queryDB(params,'MAIL-4');
+                myPromisse.then((resolve)=>{
+                    pageFunc.refreshMail()
+                })
+            }
+        }
+    }
+
+    function loadMail(send=1){
+        const params = new Object;
+            params.I_send = send
+
+        const myPromisse = queryDB(params,'MAIL-1');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+
+            const mail = send ? pageScreen.querySelector('#cmbEntrada') : pageScreen.querySelector('#cmbSaida')
+            mail.innerHTML = ''
+
+            for(let i=0; i<json.length; i++){        
+                const opt = document.createElement('option')
+                opt.data = json[i]       
+                opt.style["font-weight"] = json[i].nao_lida=='0' ? 'lighter' : 'bold'
+                opt.innerHTML = json[i].data.date()+' '+json[i].data.time()+' '+(send ? json[i].mail_from : json[i].mail_to) + ' - ' + json[i].txt.substring(0,60)
+                mail.appendChild(opt)
+            }
+            send ? checkUserMail() : null
+        })
+    }
+
+    pageFunc.refreshMail = ()=>{
+        pageFunc.viewEntrada()
+        pageFunc.viewEnviados()        
+    }
+
+    pageFunc.fillUsers = ()=>{
+
+        const cmb = pageScreen.querySelector('#cmbUser')
+        cmb.innerHTML = ''
+        const params = new Object;
+            params.hash = localStorage.getItem('hash');
+
+        const myPromisse = queryDB(params,'MAIL-2');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+
+            function addOpt(id,email){
+                const opt = document.createElement('option')
+                opt.value = id
+                opt.innerHTML = email
+                opt.selected = pageData.access == id 
+                cmb.appendChild(opt)
+            }
+
+            for(let i=0; i<json.length;i++){
+                addOpt(json[i].id,json[i].email)                
+            }
+        });
+    }
+
+    pageFunc.sendMail = ()=>{
+        if(confirm('Enviar mensagem?')){
+            const params = new Object;
+                params.id_to = pageScreen.querySelector('#cmbUser').value
+                params.message =  pageScreen.querySelector('#edtMail').value.trim()
+
+            const myPromisse = queryDB(params,'MAIL-0');
+            myPromisse.then((resolve)=>{
+                pageFunc.refreshMail()
+                pageScreen.querySelector('#edtMail').value = ''
+            })
+        }
+    }
+
+    pageFunc.viewEntrada = ()=>{
+        loadMail(1)  
+    }
+
+    pageFunc.viewEnviados = ()=>{
+        loadMail(0)     
+    }
+
+    pageFunc.delMail = (cmb)=>{
+        if(cmb.selectedIndex >= 0){
+            if(confirm('Deletar esta mensagem?')){
+                const data = cmb.options[cmb.selectedIndex].data
+                const params = new Object;
+                    params.data = data.data
+                    params.id_from = data.de
+                    params.id_to = data.para
+
+                const myPromisse = queryDB(params,'MAIL-3');
+                myPromisse.then((resolve)=>{
+                    pageFunc.refreshMail()
+                    pageScreen.querySelector('#edtViewEntrada').value = ''
+                    pageScreen.querySelector('#edtViewSaida').value = ''
+                })
+            }
+        }
+    }
+
+    pageScreen.querySelector('#mail-raiz').innerHTML = localStorage.getItem('email')
+
+    pageScreen.querySelector('#btnEnviar').addEventListener('click',()=>{
+        pageFunc.sendMail()        
+    })
+
+    pageScreen.querySelector('#cmbEntrada').addEventListener('click',()=>{
+        readMail(1)
+    })
+
+    pageScreen.querySelector('#cmbEntrada').addEventListener('dblclick',()=>{
+        pageFunc.delMail(pageScreen.querySelector('#cmbEntrada'))
+    })
+
+    pageScreen.querySelector('#cmbSaida').addEventListener('click',()=>{
+        readMail(0)
+    })
+
+    pageScreen.querySelector('#cmbSaida').addEventListener('dblclick',()=>{
+        pageFunc.delMail(pageScreen.querySelector('#cmbSaida'))
+    })
+
+    pageFunc.fillUsers()
+    pageFunc.refreshMail()
+
+</script>

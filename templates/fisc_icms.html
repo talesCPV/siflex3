@@ -1,0 +1,45 @@
+
+<template>
+    <style>
+        #btnDel, #fdsAlq{
+            display: none;
+        }
+    </style>
+  
+    <table id="tblIcms"></table>
+
+</template>
+<script>
+
+    const pageData = main_data.fisc_icms.data
+    const pageFunc = main_data.fisc_icms.func
+    const pageScreen = document.querySelector('#card-fisc_icms')
+
+    pageFunc.fillUF = ()=>{
+        const params = new Object;     
+            params.field = 'nome'
+            params.signal = 'LIKE'
+            params.value = "'%%'"
+
+        const myPromisse = queryDB(params,'FIN-1');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+
+            const tbl = document.querySelector('#tblIcms')  
+            tbl.head('UF,Nome,Valor')
+            for(let i=0; i<json.length;i++){
+                tbl.plot(json[i],'sigla,nome,valor','Upp,Upp,%..')
+            }                      
+        })
+    }
+
+    document.querySelector('#tblIcms').addEventListener('click',(e)=>{
+        data = e.target.parentNode.data
+        data.callby = 'edit'        
+        openHTML('fisc_edit_icms.html','pop-up',data.nome,data,450)
+    })
+
+
+    pageFunc.fillUF()
+
+</script>

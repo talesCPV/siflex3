@@ -1,0 +1,251 @@
+<template>
+    <link rel="stylesheet" href="style/tree.css">
+
+    <style>
+
+        .frm-perm{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .panel-left, .panel-rigth{
+            width: 100%;
+            max-width: 584px;
+        }
+
+    </style>
+  
+    <div class="frm-perm">
+        <div class="panel-left">
+            <fieldset class="fds-busca perm">
+                <legend>Perfis de usuário</legend>
+                <div class="inline">
+                    <label for="cmbBusca">Pesquisa</label>
+                    <select id="cmbBusca">
+                        <option value="nome" signal="LIKE">Nome</option>
+                        <option value="id" signal="IN">Código</option>
+                    </select>
+                    <input type="text" id="edtBusca" onkeypress="return getEnter(event, 'btnBusca-perfil')">
+                    <button id="btnBusca-perfil" class="btn-round"><span class="mdi mdi-magnify"></span></button>
+                    <button id="btnNovoPerfil" class="btn-round"><span class="mdi mdi-plus-thick"></span></button>            
+                </div>
+                <table id="tblPerfil"></table>
+            </fieldset>
+        </div>
+        <div class="panel-rigth">
+            <fieldset>
+                <legend>Menu</legend>
+                <ul class="tree">
+                    <li>
+                        <details open class="menu-data"></details>
+                    </li>
+                </ul>
+            </fieldset>
+        </div>
+    </div>
+
+</template>
+<script>
+
+    const pageData = main_data.sys_perm.data
+    const pageFunc = main_data.sys_perm.func
+    const pageScreen = document.querySelector('#card-sys_perm')
+
+    function createTree(data,index){
+        const ul = document.createElement('ul')
+        for(let i=0; i<data.length; i++){          
+            const li = document.createElement('li')
+            const details = document.createElement('details')
+            const summary = document.createElement('summary')
+            summary.access = data[i].access
+            summary.innerHTML = data[i].modulo
+            summary.itens = data[i].itens
+            summary.index = index.concat(i)
+            summary.link = data[i].link
+            summary.icone = data[i].icone
+            summary.janela = data[i].janela
+            summary.width = data[i].width
+            summary.label = data[i].label
+            if(data[i].itens.length == 0){
+                summary.className = 'last'
+            }
+            summary.addEventListener('click',(e)=>{                        
+                if(data[i].itens.length == 0){                            
+                    openHTML('sys_view_perm.html','pop-up',`Controle de Permissão - ${data[i].modulo}`,summary,800)
+                }
+            })
+            summary.addEventListener('contextmenu',(e)=>{
+                e.preventDefault()
+                openHTML('sys_new_menu.html','pop-up',`Item de Menu - ${data[i].modulo}`,summary,600)
+            })
+            details.appendChild(summary)
+            details.appendChild(createTree(data[i].itens,index.concat(i)))
+            li.appendChild(details)
+            ul.appendChild(li)
+        }
+        return ul
+    }
+
+    pageFunc.getMenu = ()=>{
+        const data = new URLSearchParams();        
+        data.append("path", '/../config/menu.json');
+
+        const myRequest = new Request("backend/loadFile.php",{
+            method : "POST",
+            body : data
+        });
+
+        const myPromisse = new Promise((resolve,reject) =>{
+            fetch(myRequest)
+            .then(function (response){        
+                resolve(response.text()); 
+            })
+        })
+
+        myPromisse.then((json)=>{     
+            pageData.json = JSON.parse(json)
+            pageFunc.refreshMenu()      
+        })
+    }
+
+    pageFunc.setMenu = (json)=>{
+        const data = new URLSearchParams();        
+        data.append("hash", localStorage.getItem('hash'));
+        data.append("json", json);
+
+        const myRequest = new Request("backend/setPerm.php",{
+            method : "POST",
+            body : data
+        });
+
+        const myPromisse = new Promise((resolve,reject) =>{
+            fetch(myRequest)
+        })      
+    }
+
+    pageFunc.refreshMenu = ()=>{       
+        const ul_menu = pageScreen.querySelector('.menu-data')
+        ul_menu.innerHTML = ''
+        const sum = document.createElement('summary')
+        sum.id = 'menu-raiz'
+        sum.innerHTML = 'RAIZ'
+        sum.access = '[0]'
+        sum.itens = '[]'
+        sum.index = 0
+        sum.link = 'menu'
+        sum.janela = 'pop-up'
+        sum.label = ''
+        sum.width = 'auto'
+        sum.addEventListener('contextmenu',(e)=>{
+            e.preventDefault();
+            openHTML('sys_new_menu.html','pop-up',`Novo Módulo Raíz`,sum,600)
+        })
+        ul_menu.appendChild(sum)
+        ul_menu.appendChild(createTree(pageData.json.itens,[]))
+    }
+
+    pageFunc.fillPerfil = ()=>{      
+        const tbl = pageScreen.querySelector('#tblPerfil')
+        tbl.innerHTML = ''
+        const query = getVal('perm')
+        const params = new Object;
+            params.field = query[0]
+            params.signal = query[1]
+            params.value = query[2]
+        const myPromisse = queryDB(params,'SYS-1');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
+            tbl.head('Cod.,Perfil')
+            for(let i=0; i<json.length;i++){
+                tbl.plot(json[i],'id,nome','str,str')                
+            }         
+        });
+    }
+
+    pageFunc.setAccess = (index,access)=>{
+
+        function merge(a, b){
+            const c = a.concat([])           
+            b.forEach((bItem) => ( !a.includes(bItem) ? c.push(bItem) : 0)) 
+            return c.sort()
+        }
+
+        function getTarget(obj){            
+            for(let i=0; i<index.length; i++){
+                obj = obj.itens[index[i]]
+            }
+            return obj
+        }
+
+        function getChildPerm(obj){
+            let out = [0]
+            for(let i=0; i<obj.itens.length; i++){
+                if(obj.itens[i].itens.length > 0){
+                    out = merge(out,getChildPerm(obj.itens[i]))                    
+                }else{
+                    out = merge(out,obj.itens[i].access)
+                }
+            }
+            return out
+        }
+
+        function setPerm(arr){
+            for(let i=0; i<arr.itens.length; i++){       
+                if(arr.itens[i].itens.length > 0){
+                    arr.itens[i].access = getChildPerm(arr.itens[i])
+                    setLog(`Permissão alterada, Módulo: ${arr.itens[i].modulo}, Acesso:[${JSON.stringify(arr.itens[i].access)}])`)             
+                }
+                setPerm(arr.itens[i])
+            }
+        }
+        target =  getTarget(pageData.json)
+        target.access = access 
+        setPerm(pageData.json)
+
+        pageFunc.refreshMenu()
+        pageFunc.setMenu(JSON.stringify(pageData.json))
+    }
+
+
+    pageScreen.querySelector('#btnBusca-perfil').addEventListener('click',()=>{
+        pageFunc.fillPerfil()
+    })
+
+    pageScreen.querySelector('#btnNovoPerfil').addEventListener('click',()=>{
+        try{
+            const params = new Object
+                params.id = 0
+                params.nome = prompt('Digite o nome do Perfil:').toUpperCase()
+
+            const myPromisse = queryDB(params,'SYS-0');
+            myPromisse.then((resolve)=>{
+                setLog(`Inclusão de novo Perfil de usuário (${params.nome})`)
+                pageFunc.fillPerfil()
+            })
+        }catch{
+            console.error('Cancelado pelo usuário!')
+        }
+    })
+
+    pageScreen.querySelector('#tblPerfil').addEventListener('click',(e)=>{
+        data = e.target.parentNode.data                
+        try{
+            const params = new Object
+                params.id = data.id
+                params.nome = prompt('Digite o nome do Perfil:',data.nome).toUpperCase().trim()
+
+            const myPromisse = queryDB(params,'SYS-0');
+            myPromisse.then((resolve)=>{
+                setLog(`${params.nome =='' ? 'Deleção' : 'Edição'} de Perfil de Usuário (${data.nome} -> ${params.nome})`)
+                pageFunc.fillPerfil()
+            })
+        }catch{
+            console.error('Cancelado pelo usuário!')
+        }
+    })
+    pageFunc.getMenu()
+    
+</script>

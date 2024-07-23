@@ -1,0 +1,80 @@
+
+<template>
+    <style>
+
+        #fdsUser{
+            display: none;
+        }
+
+    </style>
+        <fieldset class="fds-busca usr">
+            <legend>Busca</legend>
+            <div class="inline">
+                <label for="cmbBusca">Pesquisa</label>
+                <select id="cmbBusca">
+                    <option value="email" signal="LIKE">Email</option>
+                    <option value="id" signal="IN">Código</option>
+                    <option value="access" signal="IN">Acesso</option>
+                </select>
+                <input type="text" id="edtBusca" onkeypress="return getEnter(event, 'btnBusca-usr')">
+                <button id="btnBusca-usr" class="btn-round"><span class="mdi mdi-magnify"></span></button>
+                <button id="btnNovoUser" class="btn-round"><span class="mdi mdi-plus-thick"></span></button>            
+            </div>
+        </fieldset>
+
+
+        <fieldset id="fdsUser">
+            <legend>Usuários</legend>
+            <table id="tblUser"></table>
+        </fieldset>  
+
+</template>
+<script>
+
+    const pageData = main_data.sys_usuarios.data
+    const pageFunc = main_data.sys_usuarios.func
+    const pageScreen = document.querySelector('#card-sys_usuarios')
+  
+    pageFunc.fillUser = ()=>{      
+        const tbl = pageScreen.querySelector('#tblUser')
+        tbl.innerHTML = ''
+        const query = getVal('usr')
+        const params = new Object;
+            params.field = query[0]
+            params.signal = query[1]
+            params.value = query[2]
+        const myPromisse = queryDB(params,'USR-0');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            pageScreen.querySelector('#fdsUser').style.display = json.length > 0 ? 'block' : 'none'
+
+            tbl.head('Cod.,Email,Perfil')
+            for(let i=0; i<json.length;i++){
+                tbl.plot(json[i],'id,email,perfil','str,Low,Upp')                
+            }         
+        });
+    }
+
+    pageScreen.querySelector('#btnBusca-usr').addEventListener('click',()=>{
+        pageFunc.fillUser()
+    })
+
+    pageScreen.querySelector('#btnNovoUser').addEventListener('click',()=>{
+        openHTML('sys_view_user.html','pop-up','Novo Usuario',{'id':'0'},800)
+    })
+    
+
+    pageScreen.querySelector('#tblUser').addEventListener('click',(e)=>{
+        data = e.target.parentNode.data
+        try{
+            if(main_data.hasOwnProperty('sys_view_user')){
+                closeModal('sys_view_user')
+            }
+            data.mode = 'edit'
+            data != undefined ? openHTML('sys_view_user.html','pop-up','Editar Usuario',data,800) : null
+        }catch{
+            null
+        }
+    })
+
+</script>

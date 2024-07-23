@@ -1,0 +1,230 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    background-color: #e3e9f7;
+}
+
+main {
+    padding: 20px;
+    position: fixed;
+    z-index: 1;
+    padding-left: calc(82px + 20px);
+}
+
+ul>li>label>span, #logout_btn {
+    padding-left: 10px;
+    font-size: 1.5em;
+}
+
+#sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #ffffff;
+    height: 100vh;
+    border-radius: 0px 18px 18px 0px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: all .5s;
+    min-width: 82px;
+    z-index: 2000;
+}
+
+#sidebar li{
+    list-style: none;
+}
+/*
+#sidebar_content {
+    padding: 12px;
+}
+*/
+#user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+#user_avatar {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+#user_infos {
+    display: flex;
+    flex-direction: column;
+}
+
+#user_infos span:last-child {
+    color: #6b6b6b;
+    font-size: 12px;
+}
+
+#side_items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+   
+}
+
+.side-item {
+    border-radius: 8px;
+/*    padding: 5px 14px;*/
+}
+
+.side-item.active {
+    background-color: #4f46e5;
+}
+
+.side-item:hover:not(.active),
+#logout_btn:hover {
+    background-color: #4f46e5;
+    color: #e3e9f7;
+}
+
+.side-item label {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+/*    color: #0a0a0a;*/
+}
+
+.side-item.active label {
+    color: #e3e9f7;
+}
+
+.side-item label i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+}
+
+#logout {
+    border-top: 1px solid #e3e9f7;
+/*    padding: 12px;*/
+}
+
+#logout_btn {
+    border: none;
+    padding: 5px;
+    margin: 5px;
+    font-size: 14px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: flex-end;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+#open_btn {
+    position: absolute;
+    top: 30px;
+    right: -30px;
+    background-color: #4f46e5;
+    color: #e3e9f7;
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+#open_btn_icon {
+    transition: transform .3s ease;
+    display: block;
+    font-size: 1.5em;
+}
+
+.open-sidebar #open_btn_icon {
+    transform: rotate(180deg);
+}
+
+.item-description {
+    width: 0px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 11px;
+    transition: width .6s;
+    height: 0px;
+}
+
+.item-description:hover{
+    cursor: pointer;
+    border-bottom: solid 1px;
+}
+
+#sidebar.open-sidebar {
+    min-width: 15%;
+}
+
+#sidebar.open-sidebar .item-description {
+    width: 150px;
+    height: auto;
+}
+
+#sidebar.open-sidebar .side-item label {
+    justify-content: flex-start;
+    gap: 14px;
+}
+
+/* **/
+
+.side-item label{
+  cursor: pointer;
+}
+
+.side-item input {
+  display: none;
+}
+
+.side-item input:checked ~ ul{
+
+  max-height: 500px;
+  overflow-y: scroll;
+  padding-left: 10px;
+}
+
+.side-item ul{
+  max-height: 0;
+  overflow: hidden;
+
+  transition: all .5s ease;
+
+}
+
+@media all and (max-width : 768px) {
+
+    #sidebar{
+        left: -82px;
+    }
+
+    #sidebar.open-sidebar{
+        left: 0;
+    }
+
+    #open_btn{
+        top: 5px;
+        right: -50px;
+    }
+
+}

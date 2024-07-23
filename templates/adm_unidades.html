@@ -1,0 +1,74 @@
+
+<template>
+    <style>
+
+        #fdsUND{
+            display: none;
+        }
+
+
+    </style>
+        
+        <fieldset class="fds-busca und">
+            <legend>Busca</legend>
+            <div class="inline">                
+                <select id="cmbBusca">
+                    <option value="nome" signal="LIKE">Nome</option>
+                    <option value="sigla" signal="LIKE">Sigla</option>
+                </select>
+                <input type="text" id="edtBusca" onkeypress="return getEnter(event, 'btnBusca-und')">
+                <button id="btnBusca-und" class="btn-round"><span class="mdi mdi-magnify"></span></button>
+                <button id="btnNovaUND" class="btn-round"><span class="mdi mdi-plus-thick"></span></button>            
+            </div>
+        </fieldset>
+
+
+        <fieldset id="fdsUND">
+            <legend>Unidades</legend>
+            <table id="tblUND"></table>            
+        </fieldset>
+
+</template>
+<script>
+
+    const pageData = main_data.adm_unidades.data
+    const pageFunc = main_data.adm_unidades.func
+    const pageScreen = document.querySelector('#card-adm_unidades')
+  
+    pageFunc.fillUnd = ()=>{
+        const tbl = pageScreen.querySelector('#tblUND')
+        tbl.innerHTML = ''
+        const query = getVal('und')
+        const params = new Object;
+            params.field = query[0]
+            params.signal = query[1]
+            params.value = query[2]
+        const myPromisse = queryDB(params,'ADM-5');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            pageScreen.querySelector('#fdsUND').style.display = json.length > 0 ? 'block' : 'none'
+
+            tbl.head('Nome,Sigla')
+            for(let i=0; i<json.length;i++){
+                tbl.plot(json[i],'nome,sigla','str,Upp')                
+            }         
+        });
+    }
+
+    pageScreen.querySelector('#btnBusca-und').addEventListener('click',()=>{
+        pageFunc.fillUnd()
+    })
+
+    pageScreen.querySelector('#btnNovaUND').addEventListener('click',()=>{
+        openHTML('adm_view_und.html','pop-up','Nova Unidade',{'id':'0'},500)
+    })
+
+    pageScreen.querySelector('#tblUND').addEventListener('click',(e)=>{
+        if(main_data.hasOwnProperty('adm_view_und')){
+            closeModal('adm_view_und')
+        }
+        data = e.target.parentNode.data
+        data != undefined ? openHTML('adm_view_und.html','pop-up',`Unidades - ${data.nome.toUpperCase()}`,data,500) : null
+    })
+
+</script>

@@ -1,0 +1,76 @@
+
+<template>
+    <style>
+
+    </style>
+
+        <fieldset class="fds-busca emp">
+            <legend>Busca</legend>
+            <div class="inline">
+                <label for="edtBusca">por:</label>
+                <select id="cmbBusca">
+                    <option value="id" signal="IN">Código</option>
+                    <option value="nome" signal="LIKE" selected>Razão Social</option>
+                    <option value="fantasia" signal="LIKE">Nome Fantasia</option>
+                    <option value="cnpj" signal="LIKE" >CNPJ</option>
+                    <option value="ie" signal="LIKE">Insc. Estadual</option>
+                    <option value="tipo" signal="=" val="'CLI'">Clientes</option>
+                    <option value="tipo" signal="=" val="'FOR'">Fornecedores</option>
+                    <option value="ramo" signal="LIKE" >Ramo de Atuação</option>
+                </select>
+                <input type="text" id="edtBusca" onkeypress="return getEnter(event, 'btnBusca-emp')">
+                <button id="btnBusca-emp" class="btn-round" ><span class="mdi mdi-magnify"></span></button>
+                <button id="btnNovo" class="btn-round"><span class="mdi mdi-plus-thick"></span></button>            
+
+            </div>
+
+            <table id="tblEmp"></table>
+        </fieldset>
+    
+</template>
+<script>
+  
+    const pageData = main_data.adm_empresas.data
+    const pageFunc = main_data.adm_empresas.func
+    const pageScreen = document.querySelector('#card-adm_empresas')
+
+    pageFunc.fillEmp = ()=>{      
+        const tbl = pageScreen.querySelector('#tblEmp')
+        tbl.innerHTML = ''
+        const query = getVal('emp')
+        const params = new Object;
+            params.field = query[0]
+            params.signal = query[1]
+            params.value = query[2]
+        const myPromisse = queryDB(params,'EMP-0');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
+            tbl.head('Razao Social,CNPJ,Tipo')
+            for(let i=0; i<json.length;i++){
+                tbl.plot(json[i],'nome,cnpj,tipo','Upp,cnp,cha CLI=CLIENTE FOR=FORN. ')
+            }         
+        });
+    }
+
+    pageScreen.querySelector('#btnBusca-emp').addEventListener('click',()=>{
+        pageFunc.fillEmp()
+    })
+
+    pageScreen.querySelector('#btnNovo').addEventListener('click',()=>{
+        openHTML('adm_view_emp.html','pop-up','Cadastro de Empresas')
+    })
+
+    pageScreen.querySelector('#tblEmp').addEventListener('click',(e)=>{
+        try{
+            if(main_data.hasOwnProperty('adm_view_emp')){
+                closeModal('adm_view_emp')
+            }
+            data = e.target.parentNode.data
+            data != undefined ? openHTML('adm_view_emp.html','pop-up',`Edição de dados - ${data.nome.toUpperCase()}`,data) : null
+       }catch{
+
+        }
+    })
+
+</script>

@@ -1,0 +1,75 @@
+<template>
+    <style>
+        .resp-busca{
+            width: 100%;
+            max-height: 400px;
+            overflow-y: scroll;
+        }
+
+    </style>
+
+    <fieldset class="fds-busca buscaEmp">
+        <legend>Busca</legend>
+        <div class="inline">
+            <label for="edtBusca">por:</label>
+            <select id="cmbBusca">
+                <option value="id" signal="IN">Código</option>
+                <option value="nome" signal="LIKE" selected>Razão Social</option>
+                <option value="fantasia" signal="LIKE">Nome Fantasia</option>
+                <option value="cnpj" signal="LIKE" >CNPJ</option>
+                <option value="ie" signal="LIKE">Insc. Estadual</option>
+                <option value="tipo" signal="=" val="'CLI'">Clientes</option>
+                <option value="tipo" signal="=" val="'FOR'">Fornecedores</option>
+                <option value="ramo" signal="LIKE" >Ramo de Atuação</option>
+            </select>
+            <input type="text" id="edtBusca" onkeypress="return getEnter(event, 'btnBusca',document.querySelector('#card-busca_emp'))">
+            <button id="btnBusca" class="btn-round" ><span class="mdi mdi-magnify"></span></button>
+        </div>
+    </fieldset>
+    <div class="resp-busca">
+        <table id="tblBuscaEmp"></table>
+    </div>
+</template>
+<script>
+
+    const pageData = main_data.busca_emp.data
+    const pageFunc = main_data.busca_emp.func
+    const pageScreen = document.querySelector('#card-busca_emp')
+
+    pageFunc.fillEmp = ()=>{      
+        const tbl = document.getElementById('tblBuscaEmp')
+        tbl.innerHTML = ''
+        const query = getVal('buscaEmp')
+        const params = new Object;
+            params.field = query[0]
+            params.signal = query[1]
+            params.value = query[2]
+        const myPromisse = queryDB(params,'EMP-0');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
+            tbl.head('Razao Social,CNPJ,Tipo')
+            for(let i=0; i<json.length;i++){
+                tbl.plot(json[i],'nome,cnpj,tipo','Upp,cnp,cha CLI=CLIENTE FOR=FORN. ')
+            }         
+        });
+    }
+
+    pageScreen.querySelector('#btnBusca').addEventListener('click',()=>{
+        pageFunc.fillEmp()
+    })
+
+    pageScreen.querySelector('#tblBuscaEmp').addEventListener('click',(e)=>{
+        try{            
+            if(main_data.hasOwnProperty(pageData.org)){
+                data = e.target.parentNode.data
+                data != undefined ?  main_data[pageData.org].func.buscaEmp(data) : null               
+            }
+            closeModal('busca_emp')
+       }catch{
+
+        }
+        
+    })
+
+</script>

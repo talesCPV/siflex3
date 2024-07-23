@@ -1,0 +1,150 @@
+
+<template>
+    <style>
+
+        #btnDel{
+            display: none;
+        }
+
+    </style>
+  
+    <fieldset>
+        <legend>Dados da Cotação</legend>
+        <div class="inline">
+            <label for="edtNumPed">Num. Pedido</label>
+            <input type="text" id="edtNumPed" readonly>
+            <label for="edtData">Data *</label>
+            <input type="date" id="edtData">             
+            <label for="edtDesc">Desconto R$</label>
+            <input type="text" id="edtDesc" onkeyup="return valFloat(this)" value="0">             
+        </div>        
+        <div class="inline">
+            <label for="edtCliente">Cliente *</label>
+            <div class="edtbtn">
+                <input type="text" id="edtCliente" readonly>
+                <button id="btnCliente" class="btn-round"><span class="mdi mdi-magnify"></span></button>
+            </div>
+        </div>
+        <div class="inline">
+            <label for="edtCond">Cond. Pgto.</label>
+            <textarea id="edtCond" cols="30" rows="10"></textarea>
+        </div>
+        <div class="inline">
+            <label for="edtObs">Obs</label>
+            <textarea id="edtObs" cols="30" rows="10"></textarea>
+        </div>
+        <div class="inline">
+            <label for="edtVend">Vendedor</label>
+            <input type="text" id="edtVend" readonly>
+            <label for="edtComp">Comprador</label>
+            <input type="text" id="edtComp">
+            <label for="edtEntrega">Entrega</label>
+            <input type="date" id="edtEntrega">
+        </div>     
+        <div class="line">
+            <button id="btnSalvar"><span class="mdi mdi-content-save-check"></span>Cadastrar</button>
+            <button id="btnDel"><span class="mdi mdi-delete-outline"></span>Deletar</button>
+        </div>
+
+    </fieldset>
+
+</template>
+<script>
+
+    const pageData = main_data.com_new_cot.data
+    const pageFunc = main_data.com_new_cot.func
+    const pageScreen = document.querySelector('#card-com_new_cot')
+
+    pageFunc.buscaEmp = (emp)=>{
+        pageData.id_emp = emp.id
+        pageScreen.querySelector('#edtCliente').value = emp.fantasia.toUpperCase()
+    }
+
+    pageScreen.querySelector('#btnCliente').addEventListener('click',()=>{        
+        openHTML('busca_emp.html','pop-up','Selecione o Cliente',{'org':'com_new_cot'},600)
+    })
+
+    pageFunc.startPage = ()=>{
+
+
+
+
+        if(Object.keys(pageData).length == 0){ 
+            pageData.id =  'DEFAULT'
+
+            pageScreen.querySelector('#edtData').value = today.getFormatDate()
+            pageScreen.querySelector('#edtEntrega').value = today.overday(30)
+            pageScreen.querySelector('#edtVend').value = localStorage.getItem('nome').toUpperCase()
+
+    /*        
+            getConfig('config').then((txt)=>{    
+                const json =  JSON.parse(txt)
+                document.querySelector('#edtCond').value = json.cond_pgto
+            })        
+    */        
+
+        }else{
+            
+            pageScreen.querySelector('#edtNumPed').value = pageData.num_ped
+            pageScreen.querySelector('#edtData').value = pageData.data_ped
+            pageScreen.querySelector('#edtDesc').value = pageData.desconto
+            pageScreen.querySelector('#edtCliente').value = pageData.EMPRESA.toUpperCase()
+            pageScreen.querySelector('#edtObs').value = pageData.obs
+            pageScreen.querySelector('#edtCond').value = pageData.cond_pgto
+            pageScreen.querySelector('#edtVend').value = pageData.resp
+            pageScreen.querySelector('#edtComp').value = pageData.comp
+            pageScreen.querySelector('#edtEntrega').value = pageData.data_ent
+            pageScreen.querySelector('#btnDel').style.display = 'block'
+            pageScreen.querySelector('#btnSalvar').innerHTML = '<span class="mdi mdi-content-save-check"></span>Salvar'
+            pageScreen.querySelector('#edtNumPed').readOnly = false
+        }
+    }
+
+    pageScreen.querySelector('#btnSalvar').addEventListener('click',()=>{
+
+        if(checkField(['edtData','edtCliente'])){
+            const params = new Object;
+                params.id = pageData.id 
+                params.id_emp = pageData.id_emp 
+                params.data_ped = document.querySelector('#edtData').value
+                params.data_ent = document.querySelector('#edtEntrega').value
+                params.resp = document.querySelector('#edtVend').value.trim()
+                params.comp = document.querySelector('#edtComp').value.trim().toUpperCase()
+                params.num_ped = document.querySelector('#edtNumPed').value.trim()
+                params.desconto = document.querySelector('#edtDesc').value
+                params.cond_pgto = document.querySelector('#edtCond').value.trim()
+                params.obs = document.querySelector('#edtObs').value.trim()
+            const myPromisse = queryDB(params,'COT-1');
+            myPromisse.then((resolve)=>{
+               const json = JSON.parse(resolve)[0]
+                json.EMPRESA = pageScreen.querySelector('#edtCliente').value
+                closeModal('com_view_cot')   
+                openHTML('com_view_cot.html','pop-up','Cotação',json)
+                closeModal('com_new_cot')
+                try{
+                    main_data.com_cotacoes.func.fillCot()
+                }catch{
+                    console.error('Janela COTAÇÕES fechada pelo usuário!')
+                }
+            })
+        }
+        
+    })
+
+    pageScreen.querySelector('#btnDel').addEventListener('click',()=>{
+        if(confirm('Deseja realmente deletar esta cotação?')){
+            const params = new Object
+                params.id = pageData.id
+            const myPromisse = queryDB(params,'COT-4')
+            myPromisse.then((resolve)=>{
+                console.log(resolve)
+                closeModal('com_new_cot')
+                closeModal('com_view_cot')
+                main_data.com_cotacoes.func.fillCot()
+            })
+        }
+    })
+
+    pageFunc.startPage()
+
+</script>

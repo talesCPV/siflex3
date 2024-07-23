@@ -1,0 +1,73 @@
+
+<template>
+    <style>
+        .inline label{
+            min-width: unset !important;
+        }
+
+    </style>
+
+<fieldset>
+    <legend id="lgdItem"></legend>
+
+    <div class="inline">
+        <label for="edtQtd">Qtd</label>
+        <input type="text" id="edtQtd" onkeyup="return valFloat(this,0)">
+        <label for="edtPreco">Preço R$</label>
+        <input type="text" id="edtPreco" onkeyup="return valFloat(this)">
+    </div>
+    <div class="line">
+        <button id="btnSaveItem"><span class="mdi mdi-content-save-check"></span>Salvar</button>
+        <button id="btnDelItem"><span class="mdi mdi-delete-outline"></span>Deletar</button>
+    </div>
+</fieldset>
+
+
+</template>
+<script>
+
+    const pageData = main_data.com_edit_prod.data
+    const pageFunc = main_data.com_edit_prod.func
+    const pageScreen = document.querySelector('#card-com_edit_prod')
+
+    pageScreen.querySelector('#lgdItem').innerHTML = pageData.descricao
+    pageScreen.querySelector('#edtQtd').value = pageData.qtd
+    pageScreen.querySelector('#edtPreco').value = parseFloat(pageData.preco).toFixed(2)
+
+    pageFunc.saveItem = (qtd,preco)=>{
+        const params = new Object
+        params.id = pageData.id
+        params.id_prod = pageData.id_prod
+        params.id_ped = pageData.id_ped
+        params.qtd = qtd
+        params.preco = preco
+        params.und = pageData.und
+        const myPromisse = queryDB(params,'COT-3')
+        myPromisse.then((resolve)=>{
+            try{
+                main_data.com_cotacoes.func.fillCot()
+                main_data.com_view_cot.func.fillItens()
+            }catch{
+                console.error('Janela COTAÇÕES fechada pelo usuário!')
+            }
+            closeModal('com_edit_prod')
+        })
+    }
+
+
+    pageScreen.querySelector('#btnSaveItem').addEventListener('click',()=>{
+        const qtd = pageScreen.querySelector('#edtQtd').value
+        const preco = pageScreen.querySelector('#edtPreco').value
+        pageFunc.saveItem(qtd,preco)
+    })
+
+    pageScreen.querySelector('#btnDelItem').addEventListener('click',()=>{
+
+        if (confirm('Deseja realmente deletar este ítem?')) {
+            pageFunc.saveItem(0,0)
+        }
+
+    })
+
+
+</script>

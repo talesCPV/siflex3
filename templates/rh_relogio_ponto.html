@@ -1,0 +1,301 @@
+<template>
+    <style>
+        table{
+            font-size: 0.8em;
+            line-height: 10px;
+            color: rgb(47, 79, 79);
+        }
+     
+        td,th {
+            text-align: center;
+            border: 1px solid #dddddd;
+        }
+
+        .tb-horas, .tb-resumo{
+            display: none;
+        }
+
+        .weekend {
+            background-color: #fac4c7 !important;
+        }
+
+        .hora-extra{
+            background-color: #547ee0 ;
+            color: #c8dce4;
+        }
+
+        .falta{
+            background-color: #e06454 ;
+            color: #c8dce4;
+    
+        }
+        td[class*='ent']:hover, td[class*='sai']:hover,
+        td[class*='ent']:hover + td, 
+        td[class*='sai']:hover,  
+        td:has(+ td[class*='sai']:hover),
+/*        table:has(td:hover)  > tr:has(th[class*='func']) > th[class*='func'], */
+        tr:has(td:hover),
+        .mark{
+            background-color: yellow !important;
+            color: black;
+        }
+
+
+    </style>
+  
+    <fieldset class="fds-busca relogio">
+        <legend>Filtro</legend>
+        <div class="inline">
+
+            <div class="line-ckb">
+                <label for="ckbAtv">Ativo</label>
+                <input type="checkbox" id="ckbAtv" checked>
+            </div>  
+            <select id="cmbBusca">
+                <option value="nome" signal="LIKE">Nome</option>
+                <option value="cargo" signal="LIKE">Cargo</option>
+                <option value="setor" signal="LIKE">Setor</option>
+                <option value="horista" signal="=" val="1" selected>Horista</option>
+                <option value="horista" signal="=" val="0">Mensalista</option>
+            </select>
+           
+            <input type="text" id="edtBusca" onkeypress="return getEnter(event, 'btnBusca')">
+            <button id="btnBusca" class="btn-round" ><span class="mdi mdi-magnify"></span></button>
+ 
+        </div>
+        <div class="inline fdata">
+            <input type="date" id="edtIni" onkeypress="return getEnter(event, 'btnBusca')">
+            <input type="date" id="edtFin" onkeypress="return getEnter(event, 'btnBusca')">
+        </div>
+    </fieldset>  
+
+    <fieldset class="tb-horas">
+        <legend>Horas</legend>
+        <table id="tblRelogio"></table>
+    </fieldset>
+
+    <fieldset class="tb-resumo">
+        <legend>Resumo</legend>
+        <table id="tblResumo"></table>
+    </fieldset>
+
+
+</template>
+<script>
+
+
+    const pageData = main_data.rh_relogio_ponto.data
+    const pageFunc = main_data.rh_relogio_ponto.func
+    const pageScreen = document.querySelector('#card-rh_relogio_ponto')
+
+    pageFunc.feriados = ()=>{
+        queryDB({},'ADM-6').then((resolve)=>{
+            pageData.feriados = JSON.parse(resolve)
+        })
+    }
+
+    pageFunc.fillFunc = ()=>{
+        const query = getVal('relogio')
+        const params = new Object;
+            params.field = query[0]
+            params.signal = query[1]
+            params.value = query[2]
+            params.ativo = pageScreen.querySelector('#ckbAtv').checked ? 1 : 0                      
+        const myPromisse = queryDB(params,'FUN-0');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            pageData.funcionarios = json
+            let func_id = ''
+            
+            for(let i=0; i<json.length;i++){
+                func_id += (i!=0 ? ',' : '') + json[i].id
+            }   
+
+            pageFunc.fillRelogio(func_id)
+        });
+    }
+
+    pageFunc.fillRelogio = (func)=>{      
+        const params = new Object;
+            params.inicio = pageScreen.querySelector('#edtIni').value
+            params.final = pageScreen.querySelector('#edtFin').value
+            params.func = func         
+        const myPromisse = queryDB(params,'REL-0')
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)        
+            for(let i=0; i<pageData.funcionarios.length; i++){
+                pageData.funcionarios[i].horas = json.filter(obj => obj.id_func == pageData.funcionarios[i].id)
+//                pageData.funcionarios[i].resumo = {'H_Tot':0,'H_Trab':0, 'H_Norm':0,'H_Falta':0,'H_Ext':0,'H_ADN':0,'H_ADN_EXT':0}
+            }      
+            pageFunc.makeCalendar()       
+        })
+    }
+
+    pageFunc.makeCalendar =()=>{
+
+        const tbl = pageScreen.querySelector('#tblRelogio')
+        tbl.innerHTML = ''
+        const td_ini = new Date(pageScreen.querySelector('#edtIni').value)
+        td_ini.change()
+        const td_fin = new Date(pageScreen.querySelector('#edtFin').value)
+        td_fin.change()
+
+        const range = ((td_fin - td_ini) / 86400000) +1
+
+        const head_1 = document.createElement('tr')
+        const head_2 = document.createElement('tr')
+        head_1.innerHTML = '<th colspan="2"></th>'
+        head_2.innerHTML = '<th colspan="2">DATA</th>'
+        for(let i=0; i<pageData.funcionarios.length; i++){
+            head_1.innerHTML += `<th colspan="2" class="func-${pageData.funcionarios[i].id}">${pageData.funcionarios[i].nome.split(' ')[0]}</th>`
+            head_2.innerHTML += '<th>Ent.</th><th>Sai.</th>'
+        }
+        tbl.appendChild(head_1)
+        tbl.appendChild(head_2)
+
+        let h_trab = 0
+
+        for(let i=0; i<range; i++){
+            const feriados = pageData.feriados.filter(e => e.mes === (td_ini.getMonth()+1).toString())
+            const he = feriados.filter(e => e.dia === (td_ini.getDate()).toString())
+            const tr = document.createElement('tr')
+            tr.id = 'row-'+td_ini.getFormatDate()
+            tr.dt = td_ini.getFormatDate()
+            tr.classList.add(['Sab','Dom'].includes(td_ini.getWeekDay()) ||  he.length > 0 ?'weekend':'workday')
+            tr.innerHTML = `<th>${td_ini.getFormatBR()}</th><th>${td_ini.getWeekDay()}</th>`
+
+            function add_td(func,classname='ent'){
+                const td = document.createElement('td')
+                td.id_func = func.id
+                td.dt_ent = td_ini.getFormatDate()
+                td.dt_sai = td_ini.getFormatDate()
+                td.classList = classname
+                td.innerHTML = classname=='ent' ? tr.classList.contains('weekend') || td_ini>=today ? '00:00' : '07:00' : tr.classList.contains('weekend') || td_ini>=today ? '00:00' :  td_ini.getWeekDay() == 'Sex' ? '16:00' : '17:00'
+                td.addEventListener('click',(e)=>{
+                    const obj = new Object                    
+                    obj.data = e.target.parentNode.dt
+                    obj.id_func = e.target.id_func
+                    obj.ent = e.target.cellIndex%2 ? e.target.parentNode.cells[e.target.cellIndex-1] : e.target.parentNode.cells[e.target.cellIndex]
+                    obj.sai = e.target.cellIndex%2 ? e.target.parentNode.cells[e.target.cellIndex] : e.target.parentNode.cells[e.target.cellIndex+1]
+                    closeModal('rh_add_relogio_ponto')
+                    openHTML('rh_add_relogio_ponto.html','pop-up',`${func.nome} - ${obj.data.date()}`,obj,500)
+                })
+
+                td.addEventListener('mouseover',(e)=>{
+                    tbl.rows[0].cells[Math.floor((e.target.cellIndex)/2)].classList.add('mark')
+                })
+                td.addEventListener('mouseout',(e)=>{
+                    tbl.rows[0].cells[Math.floor((e.target.cellIndex)/2)].classList.remove('mark')
+                })
+                return td
+            }
+
+            for(let j=0; j<pageData.funcionarios.length; j++){
+
+                tr.appendChild(add_td(pageData.funcionarios[j],'ent'))
+                tr.appendChild(add_td(pageData.funcionarios[j],'sai'))
+            }
+            h_trab += (he.length  || [0,6].includes(td_ini.getDay()) || td_ini>=today) ? 0 : td_ini.getDay() == 5 ? 8 : 9
+            tbl.appendChild(tr)
+            td_ini.change()
+        }
+
+        pageScreen.querySelector('.tb-horas').style.display =  pageData.funcionarios.length > 0 ? 'block' : 'none'
+        pageScreen.querySelector('.tb-resumo').style.display =  pageData.funcionarios.length > 0 ? 'block' : 'none'
+
+        const tbl_resumo = pageScreen.querySelector('#tblResumo')
+        tbl_resumo.head('Nome,H. Normais,H. Extra,Ad. Not, He+Adn,Faltas,H. Total')
+        for(let i=0; i<pageData.funcionarios.length; i++){            
+            pageData.funcionarios[i].resumo = {'Nome':pageData.funcionarios[i].nome,'HT':h_trab,'HN':h_trab, 'Faltas':0,'HE':0,'ADN':0,'HE_ADN':0}
+            for(let j=0; j<pageData.funcionarios[i].horas.length; j++){                
+                const he = pageData.funcionarios[i].horas[j]
+                const dt_ent = new Date(he.entrada)
+                const dt_sai = new Date(he.saida)
+                const feriado = pageData.feriados.filter(e => e.mes === (dt_ent.getMonth()+1).toString()).filter(f => f.dia === (dt_ent.getDate()).toString()).length
+                
+                he.dt_ent = he.entrada.split(' ')[0]
+                he.hr_ent = he.entrada.split(' ')[1]
+                he.dt_sai = he.saida.split(' ')[0]
+                he.hr_sai = he.saida.split(' ')[1]
+                he.calc = count_hour(dt_ent, dt_sai, vac=feriado, almoco=1)
+
+                pageData.funcionarios[i].resumo.HE += he.calc.HE
+                pageData.funcionarios[i].resumo.HE_ADN += he.calc.HE_ADN
+                pageData.funcionarios[i].resumo.ADN += he.calc.ADN
+                pageData.funcionarios[i].resumo.Faltas += he.calc.Faltas
+                pageData.funcionarios[i].resumo.HT += he.calc.HT - he.calc.HN
+
+                const tbl_rows = pageScreen.querySelector('#row-'+he.dt_ent).cells
+                const cell_ent = tbl_rows[(i+1)*2]
+                const cell_sai = tbl_rows[(i+1)*2 +1]
+
+                cell_ent.innerHTML = he.hr_ent.substr(0,5)
+                cell_sai.innerHTML = he.hr_sai.substr(0,5)
+                cell_ent.dt_ent = he.dt_ent
+                cell_sai.dt_sai = he.dt_sai
+                cell_ent.data = he
+
+                cell_ent.classList.add(he.calc.Faltas > 0 ? 'falta' : 'hora-extra')
+                cell_sai.classList.add(he.calc.Faltas > 0 ? 'falta' : 'hora-extra')
+              
+            }
+            tbl_resumo.plot(pageData.funcionarios[i].resumo,'Nome,HN,HE,ADN,HE_ADN,Faltas,HT','Upp,hor,hor,hor,hor,hor,hor')
+        }
+    }
+
+    function startPage(){
+        pageFunc.feriados()
+        const month = (today.getDate() <= 25 ? today.getMonth() : today.getMonth()+1)
+        pageScreen.querySelector('#edtIni').value = `${today.getFullYear()}-${month.toString().padStart(2, "0")}-26`
+        pageScreen.querySelector('#edtFin').value = `${today.getFullYear()}-${(month+1).toString().padStart(2, "0")}-25`
+    }
+
+    function count_hour(dt_ini, dt_fin, vac=0, almoco=1){
+
+        const out = new Object
+
+        function formatTime(tm){
+            return(parseFloat((tm).toFixed(2)))
+        }
+
+        function adn_not(dt_ini, dt_fin){
+            let adn = 0
+            let point =  new Date(dt_ini.getFullDateTime())
+            point =  point < new Date(dt_ini.getFormatDate()+' 05:00:00') ? new Date(dt_ini.getFormatDate()+' 05:00:00') : point
+
+            while (point < dt_fin){
+
+                if(point.getHours() < 5 || point.getHours() >= 22){
+                    const next = new Date( (point.getHours() < 5 ? point.getFormatDate() : point.overday(1)) +' 05:00:00')
+                    adn += (next < dt_fin ? next : dt_fin) - point
+                    point = next
+                }else{
+                    point = new Date(point.getFormatDate() +' 22:00:00')
+                }
+            }
+            return formatTime(adn/3600000)
+        }
+
+        out.HN = (vac || [0,6].includes(dt_ini.getDay())) ? 0 : dt_ini.getDay()==5 ? 8 : 9
+        out.HT = formatTime((dt_fin-dt_ini)/3600000) - almoco
+        out.HT =  out.HT<0 ? 0 : out.HT
+        out.Faltas = (out.HT > out.HN ? 0 : formatTime(out.HN - out.HT))
+        out.Almoco = almoco
+        const only_HE = new Date(dt_ini)
+        out.HN ? only_HE.addHour(out.HN + almoco) : null      
+        out.HE_ADN = adn_not(only_HE,dt_fin)
+        out.ADN = adn_not(dt_ini,dt_fin) - out.HE_ADN
+        out.HE = out.HT > out.HN ? formatTime(out.HT - out.HN - out.HE_ADN) : 0      
+        return out
+    }
+
+
+    pageScreen.querySelector('#btnBusca').addEventListener('click',()=>{
+        pageFunc.fillFunc()
+        
+    })
+
+
+    startPage()
+
+</script>

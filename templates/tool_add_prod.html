@@ -1,0 +1,60 @@
+<template>
+    <style>
+        input[type=radio]{
+            width: auto;
+            height: 20px;
+        }
+
+        #btn-addinv{
+            width: 100%;
+            padding: 10px 50px;
+        }
+
+        .radio{
+            justify-content: center;
+        }
+
+        #head-tool_add_prod{
+            font-size: 0.8em;
+        }
+
+
+    </style>
+
+    <div class="inline">
+        <label for="edtQtd">Qtd.</label>
+        <input type="text" id="edtQtd" inputmode="numeric" onkeyup="valFloat(this)" onkeypress="return getEnter(event, 'btn-addinv')">
+        <label id="inv-und"></label>
+    </div>
+
+    <div class="inline radio">
+
+        <label for="add">Adicionar</label>
+        <input type="radio" name="inv" id="add" checked>
+        <label for="sub">Retirar</label>
+        <input type="radio" name="inv" id="sub">
+        <label for="res">Reservar</label>
+        <input type="radio" name="inv" id="res">
+    </div>
+
+        <button class="btn" id="btn-addinv">OK</button>
+
+</template>
+<script>
+
+    const pageData = main_data.tool_add_prod.data
+    const pageFunc = main_data.tool_add_prod.func
+    const pageScreen = document.querySelector('#card-tool_add_prod')
+
+    pageScreen.querySelector('#edtQtd').focus()
+    pageScreen.querySelector('#inv-und').innerHTML = pageData.unidade +'(s)'
+
+    pageScreen.querySelector('#btn-addinv').addEventListener('click',()=>{
+        const qtd = pageScreen.querySelector('#edtQtd').value 
+        pageData.radio = pageScreen.querySelector('#add').checked ? 'add' : pageScreen.querySelector('#sub').checked ? 'sub' : 'res'
+        pageData.qtd = qtd==''? 0 : qtd
+        main_data.tool_inventario.func.addItem(pageData)
+    })
+
+
+</script>

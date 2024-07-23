@@ -1,0 +1,360 @@
+<template>
+    <style>
+        .top-form{
+            display: flex;
+            flex-direction: row;
+            margin: 10px;
+            padding: 10px 0 10px 10px;            
+        }
+
+        .pic{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: solid 1px;
+            border-radius: 10px;
+            padding: 5px;
+            margin: 10px;
+        }
+        .side-pic{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .side-pic .inline{
+            padding-right: 0;
+        }
+     
+        #up_file{
+            max-width: 300px;
+        }
+
+        @media all and (max-width : 1000px) {
+            .top-form{
+                flex-direction: column;
+                margin: 0;
+                padding: 0;
+            }
+        }
+
+    </style>
+    
+    <fieldset>
+        <legend>Dados do Funcionário</legend>
+
+
+        <div class="top-form">
+
+            <div class="pic">
+                <canvas width="300" height="300" id="cnvImg"></canvas>
+                <input  name="up_file" id="up_file" type="file" accept=".jpg,.jpeg" class="only-view" disabled>            
+            </div>
+            <div class="side-pic">
+                <div class="inline">
+                    <label for="edtNome">Nome *</label>
+                    <input type="text" id="edtNome" maxlength="30" class="only-view" disabled>
+                </div>
+                <div class="inline">
+                    <label for="edtNasc">Nascimento</label>
+                    <input type="date" id="edtNasc" class="only-view" disabled>
+                    <label for="edtPIS">PIS</label>
+                    <input type="text" id="edtPIS" maxlength="16" onkeyup="return valPIS(this)" class="only-view" disabled>        
+                </div>
+                <div class="inline">
+                    <label for="edtRG">RG</label>
+                    <input type="text" id="edtRG" maxlength="12" onkeyup="return valRG(this)" class="only-view" disabled>
+                    <label for="edtCPF">CPF</label>
+                    <input type="text" id="edtCPF" maxlength="14" onkeyup="return valCPF(this)" class="only-view" disabled>
+                </div>
+                <div class="inline">
+                    <label for="cmbCargo">Cargo</label>
+                    <select id="cmbCargo" class="only-view" disabled></select>      
+                    <label for="cmbSetor">Setor</label>
+                    <select id="cmbSetor" class="only-view" disabled></select>      
+                    <label for="cmbAtivo">Status</label>
+                    <select id="cmbAtivo" class="only-view" disabled>
+                        <option value="1" selected>Ativo</option>
+                        <option value="0">Inativo</option>
+                    </select>
+                </div>
+                <div class="inline">
+                    <label for="edtAdm">Admissão</label>
+                    <input type="date" id="edtAdm" class="only-view" disabled>          
+                    <label for="edtDem">Desligamento</label>
+                    <input type="date" id="edtDem" class="only-view" disabled>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="inline">
+            <label for="edtEnd">Endereço</label>
+            <input type="text" id="edtEnd" maxlength="60" class="only-view" disabled> 
+            <label for="edtNum">Num.</label>
+            <input type="text" id="edtNum" maxlength="6" class="only-view control-size" style="width: 160px;" disabled> 
+
+        </div>       
+        <div class="inline">
+            <label for="edtCidade">Cidade</label>
+            <input type="text" id="edtCidade" maxlength="30" class="only-view" disabled>
+            <label for="cmbUF">Estado</label>
+            <select id="cmbUF" class="only-view control-size" style="width: 260px;"disabled>
+                <option value="AC">Acre</option>
+                <option value="AL">Alagoas</option>
+                <option value="AP">Amapa</option>
+                <option value="AM">Amazonas</option>
+                <option value="BA">Bahia</option>
+                <option value="CE">Ceara</option>
+                <option value="ES">Espirito Santo</option>
+                <option value="DF">Distrito Federal</option>
+                <option value="MA">Maranhao</option>
+                <option value="MT">Mato Grosso</option>
+                <option value="MS">Mato Grosso do Sul</option>
+                <option value="MG">Minas Gerais</option>
+                <option value="PA">Para</option>
+                <option value="PB">Paraiba</option>
+                <option value="PR">Parana</option>
+                <option value="PE">Pernambuco</option>
+                <option value="PI">Piaui</option>
+                <option value="RJ">Rio de Janeiro</option>
+                <option value="RN">Rio Grande do Norte</option>
+                <option value="RS">Rio Grande do Sul</option>
+                <option value="RO">Rondonia</option>
+                <option value="RR">Roraima</option>
+                <option value="SC">Santa Catarina</option>
+                <option selected="selected" value="SP">Sao Paulo</option>
+                <option value="SE">Sergipe</option>
+                <option value="TO">Tocantins</option>              
+            </select>    
+        </div>
+        <div class="inline">
+            <label for="edtBairro">Bairro</label>
+            <input type="text" id="edtBairro" maxlength="40" class="only-view" disabled>
+            <label for="edtCEP">CEP</label>
+            <input type="text" id="edtCEP" maxlength="10" onkeyup="return valCEP(this)" class="only-view control-size" style="width: 160px;" disabled>        
+        </div>
+        <div class="inline">
+            <label for="edtFone">Fone</label>
+            <input type="text" id="edtFone" maxlength="15" onkeyup="return phone(this)" class="only-view" disabled>
+            <label for="edtCel">Cel</label>
+            <input type="text" id="edtCel" maxlength="15" onkeyup="return phone(this)" class="only-view" disabled>   
+        </div>
+        <div class="inline">
+            <label for="edtObs">Obs.</label>
+            <textarea id="edtObs" cols="30" rows="10" class="only-view" disabled></textarea>
+        </div>
+        <div class="line">
+            <button id="btnDel" class="only-view" disabled>Deletar</button>
+            <button id="btnEdit">Editar</button>
+            <button id="btnSalvar" class="only-view" disabled>Salvar</button>
+        </div>
+        <div class="line">
+            <button id="btnVale">Vale</button>
+            <button id="btnRecibo">Recibo</button>
+        </div>
+      </fieldset>    
+
+
+
+</template>
+<script>
+
+    const pageData = main_data.adm_view_func.data
+    const pageFunc = main_data.adm_view_func.func
+    const pageScreen = document.querySelector('#card-adm_view_func')
+    const newFunc = Object.keys(pageData).length == 0
+
+    function openFields(open=1){
+        const view = pageScreen.querySelectorAll('.only-view')
+        for(let i=0; i<view.length; i++){
+            view[i].disabled = !open
+        }
+    }
+
+    function startPage(){
+        if(newFunc){
+            openFields(1)
+            pageScreen.querySelector('#btnDel').disabled = 1
+            pageScreen.querySelector('#btnEdit').disabled = 1
+            pageScreen.querySelector('#up_file').disabled = 1
+        }else{
+            pageScreen.querySelector('#edtNome').value = pageData.nome
+            pageScreen.querySelector('#edtNasc').value = pageData.data_nasc
+            pageScreen.querySelector('#edtRG').value = getRG(pageData.rg)
+            pageScreen.querySelector('#edtCPF').value = getCPF(pageData.cpf)
+            pageScreen.querySelector('#edtPIS').value = pageData.pis
+            pageScreen.querySelector('#edtEnd').value = pageData.endereco
+            pageScreen.querySelector('#edtNum').value = pageData.num
+            pageScreen.querySelector('#edtCidade').value = pageData.cidade
+            pageScreen.querySelector('#edtBairro').value = pageData.bairro
+            pageScreen.querySelector('#cmbUF').value = pageData.estado
+            pageScreen.querySelector('#edtCEP').value = pageData.cep
+            pageScreen.querySelector('#edtAdm').value = pageData.data_adm
+            pageScreen.querySelector('#edtDem').value = pageData.data_dem
+            pageScreen.querySelector('#edtFone').value = pageData.tel
+            pageScreen.querySelector('#edtCel').value = pageData.cel
+            pageScreen.querySelector('#cmbAtivo').value = pageData.status=='ATIVO' ? 1 : 0
+            pageScreen.querySelector('#edtObs').value = pageData.obs
+            pageScreen.querySelector('#btnEdit').disabled = 0
+
+            const back = backFunc({'filename':`../assets/func/${pageData.id}/foto.jpg`},1)
+            back.then((resp)=>{
+                const imgExist = JSON.parse(resp)    
+                loadImg(imgExist ? `assets/func/${pageData.id}/foto.jpg` : 'assets/func/noimage.png')
+            })
+        }
+    }
+
+    pageFunc.setFun = ()=>{
+        const params = new Object;
+            params.id = newFunc ? 0 : pageData.id
+            params.nome = pageScreen.querySelector('#edtNome').value.trim()
+            params.nasc = pageScreen.querySelector('#edtNasc').value.trim()
+            params.rg = getNum(pageScreen.querySelector('#edtRG').value)
+            params.cpf = getNum(pageScreen.querySelector('#edtCPF').value)
+            params.pis = getNum(pageScreen.querySelector('#edtPIS').value)
+            params.end = pageScreen.querySelector('#edtEnd').value.trim()
+            params.num = pageScreen.querySelector('#edtNum').value.trim()
+            params.cidade = pageScreen.querySelector('#edtCidade').value.trim()
+            params.bairro = pageScreen.querySelector('#edtBairro').value.trim()
+            params.uf = pageScreen.querySelector('#cmbUF').value.trim()
+            params.cep = pageScreen.querySelector('#edtCEP').value.trim()
+            params.data_adm = pageScreen.querySelector('#edtAdm').value.trim()
+            params.data_dem = pageScreen.querySelector('#edtDem').value.trim()
+            params.id_cargo = pageScreen.querySelector('#cmbCargo').value.trim()
+            params.id_setor = pageScreen.querySelector('#cmbSetor').value.trim()
+            params.tel = pageScreen.querySelector('#edtFone').value.trim()
+            params.cel = pageScreen.querySelector('#edtCel').value.trim()
+            params.ativo = pageScreen.querySelector('#cmbAtivo').value
+            params.obs = pageScreen.querySelector('#edtObs').value.trim()
+         
+        const myPromisse = queryDB(params,'FUN-1');
+        myPromisse.then((resolve)=>{
+            try{
+                main_data.adm_funcionarios.func.fillFunc()
+            }catch{
+                console.error('Tela fechada pelo usuário!')
+            }            
+            setLog(`Funcionário ${newFunc?'Cadastrado':'Editado'} ${ !newFunc ? pageData.nome :''} -> ${params.nome}`)
+            alert('Cadastrado efetuado!')
+            closeModal('adm_view_func')
+        })
+    }
+
+    pageFunc.delFun = ()=>{
+        if(confirm('Deseja realmente deletar este registro?')){
+            const params = new Object;
+                params.id = pageData.id
+            
+            const myPromisse = queryDB(params,'FUN-2');
+            myPromisse.then((resolve)=>{
+                setLog(`Funcionário Deletado -> ${pageData.nome}`)
+                try{
+                    main_data.adm_funcionarios.func.fillFunc()
+                }catch{
+                    console.error('Tela fechada pelo usuário!')
+                }                  
+                closeModal('adm_view_func')
+            })
+        }
+    }
+
+    pageFunc.fillCargo = ()=>{
+        const params = new Object;
+            params.field = 'cargo'
+            params.signal = 'LIKE'
+            params.value = "'%%'"
+        const myPromisse = queryDB(params,'ADM-3');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const cmb = pageScreen.querySelector('#cmbCargo')
+            cmb.innerHTML=''
+            let achou = 0
+            for(let i=0; i<json.length; i++){
+                const opt = document.createElement('option')
+                opt.value = json[i].id
+                opt.innerHTML = json[i].cargo
+                if(!newFunc){
+                    opt.selected =  json[i].id == pageData.id_cargo ? 1 : 0
+                    achou = opt.selected || achou ? 1 : 0
+                }
+                cmb.appendChild(opt)
+            }
+            if(!achou){
+                cmb.selectedIndex = 0
+            }
+        });
+    }
+
+    pageFunc.fillSetor = ()=>{
+        const params = new Object;
+            params.field = 'nome'
+            params.signal = 'LIKE'
+            params.value = "'%%'"
+        const myPromisse = queryDB(params,'ADM-1');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const cmb = pageScreen.querySelector('#cmbSetor')
+            cmb.innerHTML=''
+            let achou = 0
+            for(let i=0; i<json.length; i++){
+                const opt = document.createElement('option')
+                opt.value = json[i].id
+                opt.innerHTML = json[i].nome
+                if(!newFunc){
+                    opt.selected =  json[i].id == pageData.id_setor ? 1 : 0
+                    achou = opt.selected || achou ? 1 : 0
+                }
+                cmb.appendChild(opt)
+            }
+            if(!achou){
+                cmb.selectedIndex = 0
+            }
+        });
+    }
+
+    pageScreen.querySelector('#up_file').addEventListener('change',()=>{        
+        showFile()
+        const up = uploadImage('up_file',`assets/func/${pageData.id}/`,'foto')
+/*
+        up.then((resp)=>{
+        })
+*/
+    })
+
+    pageScreen.querySelector('#btnSalvar').addEventListener('click',()=>{
+        pageFunc.setFun()
+    })
+
+    pageScreen.querySelector('#btnDel').addEventListener('click',()=>{
+        pageFunc.delFun()
+    })
+
+    pageScreen.querySelector('#btnEdit').addEventListener('click',()=>{
+        if(pageScreen.querySelector('#btnSalvar').disabled){
+            if(confirm('Abrir registro para edição?')){
+                openFields(1)
+            }
+        }else{
+            openFields(0)
+        }
+    })
+
+    pageScreen.querySelector('#btnVale').addEventListener('click',()=>{
+        openHTML('rh_vale.html','pop-up','Vales e Empréstimos',pageData)
+    })
+
+    pageScreen.querySelector('#btnRecibo').addEventListener('click',()=>{
+        pageData.data = new Date()
+        pageData.horas = {'vale' : prompt('Digite o valor:')}
+        holerite(pageData,'VALE')
+    })
+
+    pageFunc.fillCargo()
+    pageFunc.fillSetor()
+    startPage()
+
+</script>

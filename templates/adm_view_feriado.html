@@ -1,0 +1,89 @@
+<template>
+    <style>
+
+        .linCKB{
+            display: flex;
+            flex-direction: row;
+        }
+
+        .linCKB label {
+            text-align: right;
+            width: auto;
+            min-width: 120px;
+            align-self: flex-end;
+            padding: 10px;
+            white-space: nowrap;
+        }
+
+        .linCKB input[type=checkbox]{
+            margin: 30px 10px 10px 0 !important;
+
+        }
+
+    </style>
+    
+    <fieldset>
+
+        <div class="inline">
+            <label for="edtNome">Nome</label>
+            <input type="text" id="edtNome" maxlength="40">
+        </div>
+
+        <div class="inline">
+            <label for="edtData">Data</label>
+            <input type="date" id="edtData">
+        </div>
+
+        <div class="line">
+            <button id="btnSave">Salvar</button>
+        </div>
+    
+      </fieldset>    
+
+
+
+</template>
+<script>
+
+    const pageData = main_data.adm_view_feriado.data
+    const pageFunc = main_data.adm_view_feriado.func
+    const pageScreen = document.querySelector('#card-adm_view_feriado')
+
+    pageFunc.fill = ()=>{
+        if(parseInt(pageData.id)>0){
+            pageScreen.querySelector('#edtNome').value = pageData.nome
+            pageScreen.querySelector('#edtData').value = today.getFullYear()+'-'+ pageData.data.split('/')[1]+'-'+ pageData.data.split('/')[0]
+        }
+    }
+
+    pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
+        const dt = pageScreen.querySelector('#edtData').value.split('-')
+        const params = new Object
+            params.id = pageData.id
+            params.nome = pageScreen.querySelector('#edtNome').value.trim().toUpperCase()
+            params.dia = dt[2]
+            params.mes = dt[1]
+            params.ano = dt[0]
+
+        const myPromisse = queryDB(params,'ADM-7');
+        myPromisse.then((resolve)=>{
+            if(params.id == '0'){
+                setLog(`Inclusão de Feriado: ${params.dia}/${params.mes} - ${params.nome}`)
+            }else if(params.nome==''){
+                setLog(`Deleção de Feriado (${pageData.nome})`)
+            }else{
+                setLog(`Edição de Feriado (${pageData.nome} -> ${params.nome}, ${pageData.data} -> ${params.dia}/${params.mes})`)
+            }
+            
+            try{
+                main_data.adm_feriados.func.fillFeriado()
+            }catch{
+                console.error('Tela fechada pelo usuário!')
+            }            
+            closeModal('adm_view_feriado')
+        })
+    })
+
+    pageFunc.fill()
+
+</script>

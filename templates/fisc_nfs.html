@@ -1,0 +1,473 @@
+
+<template>
+    <style>
+
+        button{
+            width: 98%;
+        }
+
+        #btnAddAll{
+            display: none;
+        }
+
+    </style>
+
+    <h1>NFs Serviço</h1>
+
+    <div class="tab-bar">
+        <div class="tab-item" id="tab-emitente" onclick="pictab(this)">Emitente    </div>
+        <div class="tab-item" id="tab-pedido"   onclick="pictab(this)">Serviço     </div>
+        <div class="tab-item" id="tab-cliente"  onclick="pictab(this)">Cliente     </div>            
+        <div class="tab-item" id="tab-itens"    onclick="pictab(this)">Itens       </div>
+        <div class="tab-item" id="tab-fatura"   onclick="pictab(this)">Faturamento </div>
+        <div class="tab-item" id="tab-export"   onclick="pictab(this)">Arquivos</div>
+    </div>
+    
+    <div class="tab-screen">        
+        <div id="emitente" class="tab">
+            <div id="CONF" class="grupo">
+                <div class="inline">
+                    <label for="RazSocPre"> Razão Social *</label>
+                    <input type="text" id="RazSocPre" class="campo" maxlength="60" />
+                </div>
+                <div class="inline">
+                    <label for="CpfCnpjPre"> CNPJ </label>
+                    <input type="text" id="CpfCnpjPre" class="campo" maxlength="18" onkeyup="valCNPJ(this)"/>
+                    <label for="IMTom">Insc. Mun.</label>
+                    <input type="text" id="IMTom" class="campo">
+                </div>
+                <div class="inline">
+                    <label for="LogPre"> Endereço </label>
+                    <input type="text" id="LogPre" class="campo" maxlength="60" />
+                    <label for="NumEndPre"> Número: </label>
+                    <input type="text" id="NumEndPre" class="campo" maxlength="10" style="max-width: 100px;" />
+                </div>
+                <div class="inline">
+                    <label for="BairroPre"> Bairro </label>
+                    <input type="text" id="BairroPre" class="campo" maxlength="60" />
+                    <label for="ComplEndPre"> Complemento </label>
+                    <input type="text" id="ComplEndPre" class="campo" maxlength="60" style="max-width: 200px;" />
+                </div>
+                <div class="inline">
+                    <label for="MunPre"> Municipio</label>
+                    <input type="text" id="MunPre" class="campo" maxlength="60" />
+                    <label for="SiglaUFPre"> Sigla da UF </label>
+                    <input type="text" id="SiglaUFPre" class="campo" maxlength="2" style="max-width: 50px;" />
+                </div>
+                <div class="inline">
+                    <label for="CepPre"> CEP </label>
+                    <input type="text" id="CepPre" class="campo" maxlength="10" onkeyup="valCEP(this)"/>
+                    <label for="TelPre"> Tel </label>
+                    <input type="text" id="TelPre" class="campo" maxlength="15" onkeyup="phone(this)"/>
+                </div>
+                <div class="inline">
+                    <label> Email </label>
+                    <input type="text" id="EmailPre" class="campo" maxlength="50" onkeyup="validaEmail(this)"/>
+                </div>
+            </div>
+            <button id="btnSaveEmit">Salvar</button>
+        </div>
+        <div id="pedido" class="tab">
+            <fieldset class="fds-busca nfs">
+                <legend>Filtro</legend>
+                <div class="inline">
+                    <select id="cmbBusca">
+                        <option value="id" signal="IN">Código</option>
+                        <option value="empresa" signal="LIKE" selected>Cliente</option>
+                        <option value="id_emp" signal="=">Cód. Cliente.</option>
+                        <option value="num_carro" signal="IN" >Num. Carro</option>
+                        <option value="num_carro" signal="IN" >NF</option>
+                        <option value="num_carro" signal="IN" >Pedido</option>
+                    </select>
+                    <input type="text" id="edtBusca" onkeypress="return getEnter(event, 'btnBuscaServ')">
+                    <button id="btnBuscaServ" class="btn-round" ><span class="mdi mdi-magnify"></span></button>
+                </div>
+                <div class="inline fdata">
+                    <label for="ckbData">entre:</label>
+                    <input type="checkbox" id="ckbData" checked>
+                    <input type="date" id="edtIni" onkeypress="return getEnter(event, 'btnBuscaServ')">
+                    <input type="date" id="edtFin" onkeypress="return getEnter(event, 'btnBuscaServ')">
+                </div>
+            </fieldset>  
+
+            <table id="tblServExec"></table>
+            <button id="btnAddAll">Adicionar Todos</button>
+
+        </div>
+
+        <div id="G-20" class="grupo">
+
+            <div id="cliente" class="tab">
+                    <div class="inline">
+                        <label> Razão Social *</label>
+                        <input type="text" id="RazSocTom" class="campo" maxlength="60" />
+                    </div>
+                    <div class="inline">
+                        <label> CNPJ </label>
+                        <input type="text" id="CpfCnpjTom" class="campo" maxlength="18" onkeyup="valCNPJ(this)"/>
+                        <label> Insc. MUn. </label>
+                        <input type="text" id="IMTom" class="campo" maxlength="18" onkeyup="valInt(this)"/>
+                    </div>
+                    <div class="inline">
+                        <label> Endereço </label>
+                        <input type="text" id="LogTom" class="campo" maxlength="60" />
+                        <label> Número: </label>
+                        <input type="text" id="NumEndTom" class="campo" maxlength="5" style="max-width: 100px;" />
+                    </div>
+                    <div class="inline">
+                        <label> Bairro </label>
+                        <input type="text" id="BairroTom" class="campo" maxlength="60" />
+                        <label> Complemento </label>
+                        <input type="text" id="ComplEndTom" class="campo" maxlength="60" style="max-width: 200px;" />
+                    </div>
+                    <div class="inline">
+                        <label> Municipio</label>
+                        <input type="text" id="MunTom" class="campo" maxlength="60" />
+                        <label> Sigla da UF </label>
+                        <input type="text" id="SiglaUFTom" class="campo" maxlength="2" style="max-width: 50px;" />
+                    </div>
+                    <div class="inline">
+                        <label> CEP </label>
+                        <input type="text" id="CepTom" class="campo" maxlength="8" onkeyup="valCEP(this)"/>
+                        <label for="Telefone">Fone</label>
+                        <input type="text" id="Telefone" class="campo" onkeyup="phone(this)" maxlength="15">
+                    </div>
+                    <div class="inline">
+                        <label> Email </label>
+                        <input type="text" id="EMail_1" class="campo" class="campo" maxlength="50" onkeyup="validaEmail(this)"/>
+                    </div>
+                <button id="btnSaveCli">Salvar</button>
+            </div>
+            <div id="itens" class="tab">
+                <fieldset>
+                    <legend>Descriminação dos Serviços</legend>
+                    <textarea id="DiscrSrv" cols="30" rows="80"></textarea>
+                </fieldset>
+            </div>
+
+            <div id="fatura" class="tab">
+                <div class="inline">
+                    <label for="numNFS">Num NFs</label>
+                    <input type="text" id="numNFS" onkeyup="valInt(this)">
+                    <label for="DefRPS">RPS Defasagem</label>
+                    <input type="text" id="DefRPS" class="campo" onkeyup="valInt(this)">
+                    <label for="">Data Emissão</label>
+                    <input type="date" id="dtEmit">
+                </div>
+                <div class="inline">
+                    <label for="VlNFS">Valor R$</label>
+                    <input type="text" id="VlNFS" value="0.00" onkeyup="valFloat(this)">
+                    <label for="dfat">Dias entre Parcelas (separar por /)</label>
+                    <input type="text" id="dfat" value="28">
+                    <button class="btn-round" id="btnCalendar"><span class="mdi mdi-calendar-range"></span></button>
+                    <label for="AlqIssSN">Alíq. ISS</label>
+                    <input type="text" id="AlqIssSN" onkeyup="valFloat(this)">
+                </div>
+                <div class="inline">
+                    <label for="cmbLocal">Local Execução</label>
+                    <select id="cmbLocal">
+                        <option value="TOM" selected>No Cliente</option>
+                        <option value="PRE">Na Empresa</option>
+                    </select>
+                    <label for="cmbRetFont">ISS Retido na Fonte</label>
+                    <select id="cmbRetFont">
+                        <option value="SIM">Sim</option>
+                        <option value="NAO" selected>Não</option>
+                    </select>
+                </div>
+                <fieldset>
+                    <legend>Dedução / Outras Informações</legend>
+                    <textarea id="DiscrDed" cols="30" rows="15">Serviço aprovado conforme Pedido:</textarea>
+                </fieldset>
+                <button id="brnGeraNFs">Gerar NFs</button>
+            </div>
+        </div>
+        <div id="export" class="tab">
+            <fieldset>
+                <legend>TXT</legend>
+                <select id="txtFiles" size="20"></select>
+            </fieldset>
+            <button id="btnUpPDF">UPLOAD PDF</button>
+            <fieldset>
+                <legend>PDF</legend>
+                <select id="pdfFiles" size="20"></select>
+            </fieldset>                
+        </div>                
+    </div>
+
+</template>
+<script>
+
+    const pageData = main_data.fisc_nfs.data
+    const pageFunc = main_data.fisc_nfs.func
+    const pageScreen = document.querySelector('#card-fisc_nfs')
+    pageData.NFs = new NFs('10,20,90,CONF',nfs_rules)
+
+    startPage()
+
+/* CHAMADA DE FUNÇÕES INICIAL */    
+
+function startPage(){
+        pageScreen.querySelector('#tab-emitente').click()
+        pageScreen.querySelector('#edtIni').value =  today.iniMonth()
+        pageScreen.querySelector('#edtFin').value =  today.finMonth()
+        pageScreen.querySelector('#dtEmit').value = today.getFormatDate()
+        pageScreen.querySelector('#DefRPS').value = pageData.NFs.CONF.DefRPS
+        pageScreen.querySelector('#numNFS').value = parseInt(pageData.NFs.CONF.numNFS) + 1
+        pageScreen.querySelector('#AlqIssSN').value = pageData.NFs.CONF.AlqIssSN.replace(',','.')
+
+        listNF('../NF/NFs/txt')
+        listNF('../NF/NFs/pdf','pdf')
+        fillForms(pageData.NFs,'CONF')
+
+    }
+
+    function fillForms(obj,grupos){
+        grupos = grupos.split(',')
+        for(let i=0; i<grupos.length; i++){
+            for(const key in obj[grupos[i]]){
+                const id_grupo = isNaN(Number(grupos[i])) ? grupos[i] : 'G-'+grupos[i]
+                const field = pageScreen.querySelector(`#${id_grupo}`).querySelector(`#${key}`)
+                if(field != undefined){
+                    field.value = obj[grupos[i]][key]
+                    try{
+                        field.onkeyup()
+                    }catch{null}
+                }
+            }
+        }
+    }
+
+    function saveNFs(){
+        const out = new Object
+        const grupo = pageScreen.querySelectorAll('.grupo')
+        for(let g=0; g<grupo.length; g++){
+            grupo[g].id = grupo[g].id.substring(0,2) == 'G-' ? grupo[g].id.substring(2,99) : grupo[g].id
+            out[grupo[g].id] = new Object
+            const campo = grupo[g].querySelectorAll('.campo')
+            for(let c=0; c<campo.length; c++){
+                out[grupo[g].id][campo[c].id] = campo[c].value
+            }
+        }
+
+        saveFiscal()
+        pageData.NFs.import(out)
+        pageData.NFs.saveRules()
+    }
+
+
+    function saveFiscal(){
+
+        const fat =  getFat()
+        const vNF = parseFloat(pageScreen.querySelector('#VlNFS').value)
+
+        let fatura = ''
+        let sum = 0
+        for(let i=0; i<fat.length; i++){
+            const day = new Date()
+            day.change(parseInt(fat[i]))
+       
+            const pgto = new Object            
+                pgto.ref =  (i+1).toString().padStart(2,"0") +'/'+ (fat.length).toString().padStart(2,"0")
+                pgto.val = i != (fat.length-1) ? (vNF/fat.length).toFixed(2) : (vNF-sum).toFixed(2)
+            
+                fatura += `\\\\Pgto ${pgto.ref} Venc.${day.getFormatBR()} Valor R$${pgto.val}`
+                sum += parseFloat(pgto.val)
+        }  
+        fatura += '\\\\**Tributado pelo ANEXO III Simples Nacional Conforme LC 123/2006'
+
+        pageData.NFs.CONF.AlqIssSN = pageScreen.querySelector('#AlqIssSN').value.replace('.',',')
+        pageData.NFs.CONF.DefRPS = pageScreen.querySelector('#DefRPS').value
+        pageData.NFs.CONF.numNFS = pageScreen.querySelector('#numNFS').value
+        pageData.NFs['10'].AlqIssSN_IP = pageData.NFs.CONF.AlqIssSN
+        pageData.NFs['20'].AlqIss = pageData.NFs.CONF.AlqIssSN
+        pageData.NFs.CONF.LocalTom = pageScreen.querySelector('#cmbLocal').value
+
+        pageData.NFs['10'].DtIni = pageScreen.querySelector('#dtEmit').value.date()
+        pageData.NFs['10'].DtFin = pageScreen.querySelector('#dtEmit').value.date()
+        pageData.NFs['20'].DtEmi = pageScreen.querySelector('#dtEmit').value.date()
+
+        const vISS = vNF * (parseFloat(pageData.NFs.CONF.AlqIssSN)/100)
+        const nRPS = (parseInt(pageData.NFs.CONF.numNFS)-parseInt(pageData.NFs.CONF.DefRPS)).toString().padStart(9,'0')
+ 
+        const local = pageData.NFs.CONF.LocalTom
+        const retido = pageScreen.querySelector('#cmbRetFont').value
+
+        pageData.NFs['20'].NumRPS = nRPS
+        pageData.NFs['20'].VlNFS = vNF.toFixed(2)
+        pageData.NFs['20'].VlBasCalc = vNF.toFixed(2)
+        pageData.NFs['20'].VlIss = vISS.toFixed(2).replace('.',',')
+        pageData.NFs['20'].DiscrSrv = pageScreen.querySelector('#DiscrSrv').value.replaceAll('\n', '\\\\')
+        pageData.NFs['20'].DiscrDed = pageScreen.querySelector('#DiscrDed').value.replaceAll('\n', '\\\\') + fatura
+        pageData.NFs['20'].RetFonte = retido
+        pageData.NFs['20'].TipoLogLocPre = local=='TOM' ? '.' : ''
+        pageData.NFs['20'].LogLocPre = local=='TOM' ? pageData.NFs['20'].LogTom : ''
+        pageData.NFs['20'].NumEndLocPre = local=='TOM' ? pageData.NFs['20'].NumEndTom : ''
+        pageData.NFs['20'].ComplEndLocPre = local=='TOM' ? pageData.NFs['20'].ComplEndTom : ''
+        pageData.NFs['20'].BairroLocPre = local=='TOM' ? pageData.NFs['20'].BairroTom : ''
+        pageData.NFs['20'].MunLocPre = local=='TOM' ? pageData.NFs['20'].MunTom : ''
+        pageData.NFs['20'].SiglaUFLocpre = local=='TOM' ? pageData.NFs['20'].SiglaUFTom : ''
+        pageData.NFs['20'].CepLocPre = local=='TOM' ? pageData.NFs['20'].CepTom : ''
+        pageData.NFs['20'].Telefone = local=='TOM' ? getNum(pageScreen.querySelector('#cliente').querySelector('#Telefone').value) : ''
+        pageData.NFs['20'].VlIss = retido=='SIM' ? '0,00' : vISS.toFixed(2).replace('.',',')
+        pageData.NFs['20'].VlIssRet = retido=='SIM' ? vISS.toFixed(2).replace('.',',') : '0,00'
+        pageData.NFs['90'].ValorNFS = pageScreen.querySelector('#VlNFS').value.replace('.',',')
+        pageData.NFs['90'].ValorISS = retido=='SIM' ? '0,00' : vISS.toFixed(2).replace('.',',')
+        pageData.NFs['90'].ValorIssRetTom = retido=='SIM' ? vISS.toFixed(2).replace('.',',') : '0,00'
+      
+    }
+
+
+    function downloadFile(path){
+        const link = document.createElement("a")
+        link.download = path.split('/')[path.split('/').length-1]
+        link.href = path
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        delete link
+    }
+
+    function addCliente(obj){
+        for(const key in obj){
+            const field = pageScreen.querySelector(`#G-20`).querySelector(`#${key}`)
+            if(field != undefined){
+                field.value =  obj[key]
+                try{
+                    field.onkeyup()
+                }catch{null}
+            }
+        }
+        pageData.NFs.import({"20" : obj})
+
+    }
+
+    pageScreen.querySelector('#btnSaveEmit').addEventListener('click',()=>{
+        saveNFs()      
+    })
+
+    pageScreen.querySelector('#btnSaveCli').addEventListener('click',()=>{
+        saveNFs()       
+    })
+
+    pageScreen.querySelector('#brnGeraNFs').addEventListener('click',()=>{
+        saveNFs()
+        const txt = pageData.NFs.export('10,20,90')
+        const filename = 'NFs-'+(pageData.NFs.CONF.numNFS).padStart(6,'0')
+        uploadNFs(txt, filename) 
+
+    })
+
+    pageScreen.querySelector('#txtFiles').addEventListener('dblclick',()=>{
+        downloadFile('../NF/NFs/txt/' + pageScreen.querySelector('#txtFiles').value)
+    })
+
+    pageScreen.querySelector('#pdfFiles').addEventListener('dblclick',()=>{
+        downloadFile('../NF/NFs/pdf/' + pageScreen.querySelector('#pdfFiles').value)
+    })
+
+    pageScreen.querySelector('#btnBuscaServ').addEventListener('click',()=>{
+        pageFunc.fillServExec()
+    })
+
+    pageFunc.fillServExec = ()=>{
+        
+        function getDate(){
+            return (pageScreen.querySelector('#edtIni').value.length > 0 && pageScreen.querySelector('#edtFin').value.length > 0) || !pageScreen.querySelector('#ckbData').checked
+        }
+        
+        if(getDate()){
+            const tbl = pageScreen.querySelector('#tblServExec')
+            tbl.innerHTML = ''
+            const query = getVal('nfs')
+            const params = new Object;
+                params.field = query[0]
+                params.signal = query[1]
+                params.value = query[2]
+                params.ini = pageScreen.querySelector('#ckbData').checked ? pageScreen.querySelector('#edtIni').value : '0000-00-00'
+                params.fin = pageScreen.querySelector('#ckbData').checked ? pageScreen.querySelector('#edtFin').value : '9999-12-31'
+            const myPromisse = queryDB(params,'SERV-0');
+            myPromisse.then((resolve)=>{
+                const json = JSON.parse(resolve)
+                tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
+                pageScreen.querySelector('#btnAddAll').style.display = json.length > 0 ? 'inline-table' : 'none'
+                tbl.head('Cod.,Data,Cliente,Carro,Valor')               
+                for(let i=0; i<json.length;i++){
+                    tbl.plot(json[i],'id,data_exec,empresa,num_carro,valor','str,dat,Upp,str,R$.')
+                }         
+            });
+        }else{
+            alert('Favor preencher as datas corretamente.')
+        }
+    }
+
+    pageScreen.querySelector('#tblServExec').addEventListener('click',(e)=>{
+        data = e.target.parentNode.data
+        data.mode = 'edit'
+        if (confirm(`Carregar Carro.${data.num_carro} de ${data.empresa.toUpperCase()}?`)) {
+            const serv = pageScreen.querySelector('#DiscrSrv')
+            if(serv.innerHTML.trim() == ''){
+                addCliente(data)          
+                serv.innerHTML = `CARRO:${data.num_carro}\n` + data.obs +'\n'
+                pageScreen.querySelector('#VlNFS').value = data.valor
+            }else if (confirm(`Adicionar o carro ${data.num_carro} a NFs atual?`)){
+                serv.innerHTML += `\nCARRO:${data.num_carro}\n` + data.obs +'\n'
+                pageScreen.querySelector('#VlNFS').value =  (parseFloat(pageScreen.querySelector('#VlNFS').value)+parseFloat(data.valor)).toFixed(2)
+            }
+        }
+    })
+
+    pageScreen.querySelector('#btnUpPDF').addEventListener('click',()=>{
+        const data = new Object
+        data.ext = '.pdf'
+        data.path = '../NF/NFs/pdf/'
+        data.filename = ''
+        openHTML('uploadFile.html','pop-up','Nota Fiscal de Serviço',data)
+    })
+
+    pageScreen.querySelector('#btnAddAll').addEventListener('click',()=>{        
+        if (confirm('Deseja adicionar todos os ítens acima?')) {
+            const rows = pageScreen.querySelector('#tblServExec').querySelectorAll('tr')
+            const serv = pageScreen.querySelector('#DiscrSrv')
+            const info = pageScreen.querySelector('#DiscrDed')
+            let pedidos = ['']
+            pageScreen.querySelector('#VlNFS').value = '0'
+            serv.innerHTML = ''
+
+            info.innerHTML = rows.length > 2 ? 'Serviço aprovado conforme Pedidos:' : 'Serviço aprovado conforme Pedido:'
+            addCliente(rows[1].data)
+            for(let i=1; i<rows.length; i++){
+                serv.innerHTML += `\nCARRO:${rows[i].data.num_carro}\n` + rows[i].data.obs +'\n'
+                pageScreen.querySelector('#VlNFS').value =  (parseFloat(pageScreen.querySelector('#VlNFS').value)+parseFloat(rows[i].data.valor)).toFixed(2)
+                info.innerHTML += pedidos.includes(rows[i].data.pedido.trim()) ? '' : rows[i].data.pedido.trim()+' '
+                pedidos.push(rows[i].data.pedido.trim())
+            }
+        }
+
+    })
+
+    function getFat(){
+        const fat = pageScreen.querySelector('#fatura').querySelector('#dfat').value.split('/')
+        
+        for(let i=fat.length-1; i>=0; i--){
+            fat[i] = getNum(fat[i])
+            if(fat[i] == ''){
+                fat.splice(i,1)
+            }
+        }
+        return fat
+    }
+
+    pageScreen.querySelector('#btnCalendar').addEventListener('click',()=>{
+        const fat = getFat()
+
+        let out = ''
+        for(let i=0; i<fat.length; i++){
+            const day = new Date()
+            day.change(parseInt(fat[i]))
+            out += `Parcela ${i+1} - ${day.getFormatBR()}\n`
+        }        
+        alert(out)
+    })   
+
+</script>

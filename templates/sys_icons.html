@@ -1,0 +1,96 @@
+<template>
+    <style>
+
+        .showIcons{
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            height: 300px;
+            overflow: scroll;
+        }
+
+        .icons{
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            max-width: 500px;
+            height: fit-content;
+            align-items: center;
+            flex-wrap: wrap;            
+        }
+
+    
+        .icons span{
+            font-size: 3em;
+        }
+
+        .icons span:hover{
+            cursor: pointer;
+            color: rgb(221, 25, 25);
+        }
+
+    </style>
+
+    <div class="inline">
+        <label for="edtBuscaIcone">Busca</label>
+        <input type="text" id="edtBuscaIcone" onkeypress="return getEnter(event, 'btnBuscaIcone')">
+        <button id="btnBuscaIcone">Busca</button>
+    </div>
+
+
+    <div class="showIcons">
+        <div class="icons"></div>
+    </div>
+    
+
+
+</template>
+<script>
+
+    var icons
+
+    const data = new URLSearchParams()
+        data.append("path",'/../config/icons.json' )
+
+
+    const myRequest = new Request("backend/loadFile.php",{
+        method : "POST",
+        body : data
+    });
+
+    const MyPromisse = new Promise((resolve,reject) =>{
+        fetch(myRequest)
+        .then(function (response){
+            if (response.status === 200) { 
+                response.text()
+                .then((txt)=>{
+                    icons = JSON.parse(txt)
+                })
+            } else { 
+                reject(new Error("Houve algum erro na comunicação com o servidor"));
+            } 
+        })
+    })
+
+    document.querySelector('#btnBuscaIcone').addEventListener('click',()=>{
+
+        var resp = icons.filter(function (str) { return str.includes(document.querySelector('#edtBuscaIcone').value.trim())})
+        const show_icons = document.querySelector('.icons')
+        show_icons.innerHTML = ''
+        for(let i=0; i<resp.length; i++){
+            const span = document.createElement('span')
+            span.className = 'mdi '+resp[i]
+            span.addEventListener('click',()=>{
+                document.querySelector('#edtIcon').value = resp[i]
+//                alert(resp[i])
+                closeModal('sys_icons')
+            })
+
+
+            show_icons.appendChild(span)
+        }
+
+    })
+
+
+</script>

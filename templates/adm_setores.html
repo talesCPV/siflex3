@@ -1,0 +1,104 @@
+
+<template>
+    <style>
+
+        #fdsSetor{
+            display: none;
+        }
+
+
+    </style>
+        
+        <fieldset class="fds-busca setor">
+            <legend>Busca</legend>
+            <div class="inline">                
+                <select id="cmbBusca">
+                    <option value="nome" signal="LIKE">Setor</option>
+                    <option value="id" signal="IN">Código</option>
+                </select>
+                <input type="text" id="edtBusca" onkeypress="return getEnter(event, 'btnBusca-setor')">
+                <button id="btnBusca-setor" class="btn-round"><span class="mdi mdi-magnify"></span></button>
+                <button id="btnNovoSetor" class="btn-round"><span class="mdi mdi-plus-thick"></span></button>            
+            </div>
+        </fieldset>
+
+
+        <fieldset id="fdsSetor">
+            <legend>Setores</legend>
+            <table id="tblSetor"></table>            
+        </fieldset>
+
+</template>
+<script>
+
+    const pageData = main_data.adm_setores.data
+    const pageFunc = main_data.adm_setores.func
+    const pageScreen = document.querySelector('#card-adm_setores')
+  
+    pageFunc.fillSetor = ()=>{
+        const tbl = pageScreen.querySelector('#tblSetor')
+        tbl.innerHTML = ''
+        const query = getVal('setor')
+        const params = new Object;
+            params.field = query[0]
+            params.signal = query[1]
+            params.value = query[2]
+        const myPromisse = queryDB(params,'ADM-1');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            pageScreen.querySelector('#fdsSetor').style.display = json.length > 0 ? 'block' : 'none'
+
+            tbl.head('Cod.,Nome')
+            for(let i=0; i<json.length;i++){
+                tbl.plot(json[i],'id,nome','str,Upp')                
+            }         
+        });
+    }
+
+    pageScreen.querySelector('#btnBusca-setor').addEventListener('click',()=>{
+        pageFunc.fillSetor()
+    })
+
+    pageScreen.querySelector('#btnNovoSetor').addEventListener('click',()=>{
+
+        try{
+            const params = new Object
+                params.id = 0
+                params.nome = prompt('Digite o nome do setor:').toUpperCase()
+
+            const myPromisse = queryDB(params,'ADM-0');
+            myPromisse.then((resolve)=>{
+                setLog(`Inclusão de novo Setor (${params.nome})`)
+                pageFunc.fillSetor()
+            })
+
+        }catch{
+            console.error('Cancelado pelo usuário!')
+        }
+    })
+
+    pageScreen.querySelector('#tblSetor').addEventListener('click',(e)=>{
+        data = e.target.parentNode.data
+     
+        try{
+            const params = new Object
+            params.id = data.id
+            params.nome = prompt('Digite o nome do setor:',data.nome).toUpperCase().trim()
+
+            const myPromisse = queryDB(params,'ADM-0');
+            myPromisse.then((resolve)=>{
+                if(params.nome == ''){
+                    setLog(`Deleção de Setor (${data.nome})`)
+                }else{
+                    setLog(`Alteração de nome de Setor (${data.nome} -> ${params.nome})`)
+                }
+
+                pageFunc.fillSetor()
+            })
+        }catch{
+            console.error('operação cancelada pelo usuário!')
+        }
+    })
+
+
+</script>

@@ -1,0 +1,110 @@
+
+<template>
+    <style>
+        #lblTotal{
+            font-weight: bolder;
+            font-size: 1.4em;
+            padding: 20px;
+            display: none;
+            width: 100%;
+            text-align: right;
+        }
+
+        #btnRelat{
+            width: 98%;
+            display: none;
+        }
+
+        .busca-itens{
+            display: flex;
+            width: 100%;
+        }
+
+        tr .mdi{
+            font-size: 1.5em;
+        }
+
+    </style>
+
+    <fieldset class="fds-busca cotacao">
+        <legend>Filtro</legend>
+
+        <div class="inline">
+            <select id="cmbBusca">
+                <optgroup label="Geral">
+                    <option value="id"     signal=">" val="0"   >Todos      </option>                        
+                    <option value="status"   signal="=" val="'COT'" >Cotações   </option>
+                    <option value="status"   signal="=" val="'PED'">Pedidos    </option>
+                    <option value="status"   signal="=" val="'FAT'"   >Faturados  </option>
+                    <option value="id"       signal="IN"   >Código</option>
+                    <option value="num_ped"  signal="LIKE">Número</option>
+                    <option value="id_prod"  signal="LIKE"  >Cod. do Produto</option>
+                    <option value="EMPRESA"  signal="LIKE"   >Cliente</option>
+                    <option value="id_emp"   signal="IN"   >Cod. do Cliente</option>      
+                </optgroup>
+            </select>
+            <div class="busca-itens">
+                <input type="text" id="edtBusca" placeholder="Digite sua Busca" onkeypress="return getEnter(event, 'btnBusca')">
+                <button id="btnBusca" class="btn-round"><span class="mdi mdi-magnify"></span></button>
+                <button id="btnNovo" class="btn-round"><span class="mdi mdi-plus-thick"></span></button>
+            </div>
+        </div>
+        <div class="inline">
+            <div class="line-ckb">
+                <label for="ckbData">Início/Final</label>
+                <input type="checkbox" id="ckbData" checked>
+            </div>
+            <input type="date" id="edtIni">
+            <input type="date" id="edtFin">
+        </div>            
+    </fieldset>
+
+    <table id="tblCot"></table>
+    <p id="lblTotal"></p>
+            
+
+</template>
+<script>
+
+    const pageData = main_data.com_cotacoes.data
+    const pageFunc = main_data.com_cotacoes.func
+    const pageScreen = document.querySelector('#card-com_cotacoes')
+
+    pageFunc.fillCot = ()=>{
+        const query = getVal('cotacao')
+        const params = new Object;
+            params.field = query[0]
+            params.signal = query[1]
+            params.value = query[2]
+            params.dt_ini = pageScreen.querySelector('#edtIni').value
+            params.dt_fin = pageScreen.querySelector('#edtFin').value
+        const myPromisse = queryDB(params,'COT-0');
+        myPromisse.then((resolve)=>{            
+            const json = JSON.parse(resolve)
+            const tbl = document.getElementById('tblCot')
+            tbl.innerHTML = ''
+            json.length > 0 ? tbl.head('Cod.|mobHide,Num.,Cliente.,Data,Status|mobHide,Valor R$|mobHide,NF|mobHide') : 0
+            for(let i=0; i<json.length;i++){
+                tbl.plot(json[i],'id|mobHide,num_ped,EMPRESA,data_ped,status|mobHide,VALOR|mobHide,status|mobHide','int,str,Upp,date,Upp,R$.,ico FAT=mdi-file-check-outline .=mdi-file-document-remove-outline',true)
+            }   
+        });
+    }
+
+    pageScreen.querySelector('#btnNovo').addEventListener('click',()=>{
+        openHTML('com_new_cot.html','pop-up','Nova Cotação')
+    })
+
+
+    pageScreen.querySelector('#btnBusca').addEventListener('click',()=>{
+        pageFunc.fillCot()      
+    })
+
+    pageScreen.querySelector('#tblCot').addEventListener('click',(e)=>{
+        data = e.target.parentNode.data
+        openHTML('com_view_cot.html','pop-up','Cotação',data)
+    })
+
+    pageScreen.querySelector('#edtIni').value = today.iniMonth()
+    pageScreen.querySelector('#edtFin').value = today.finMonth()
+
+</script>

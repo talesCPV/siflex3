@@ -1,0 +1,62 @@
+<template>
+    <style>
+
+        .frm{
+            display: flex;
+            flex-direction: column;
+        }
+     
+    </style>
+  
+    <fieldset class="frm">
+        <legend>Arquivos de Log</legend>
+        <div class="inline">
+            <label for="cmbLog">Mês/Ano:</label>
+            <select id="cmbLog"></select>
+            <button id="btnVer" class="btn-round"><span class="mdi mdi-text-search-variant"></span></button>
+        </div>
+    </fieldset>
+
+</template>
+<script>
+
+    getLog()
+
+    function getLog(){
+
+        const data = new URLSearchParams();        
+            data.append("dir",`config/log/`);
+        const myRequest = new Request("backend/show_dir.php",{
+            method : "POST",
+            body : data
+        })
+        const myPromisse = new Promise((resolve,reject) =>{
+            fetch(myRequest)
+            .then(function (response){
+                if (response.status === 200) { 
+                    resolve(response.text());             
+                } else { 
+                    reject(new Error("Houve algum erro na comunicação com o servidor"));                    
+                } 
+            })
+        })  
+        myPromisse.then((txt)=>{
+            const json = JSON.parse(txt)
+            const combo = document.querySelector('#cmbLog')
+            for(let i=json.length-1; i>=2; i--){
+                const opt = document.createElement('option')
+                opt.value = json[i]
+                opt.innerHTML = json[i]
+                combo.appendChild(opt)
+            }
+
+        })     
+    }
+
+    document.querySelector('#btnVer').addEventListener('click',()=>{
+        const url = `config/log/${document.querySelector('#cmbLog').value.trim()}`
+        window.open(url, '_blank')
+    })
+
+
+</script>
