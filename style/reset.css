@@ -8,6 +8,7 @@
         --top-bar : #8CC03FF1;
         --top-bar-font : #000000FF;
         --top-bar-hover : #5f832bF1;
+        --top-font-hover : #000000FF;
     
         --win-back : #f0fbe5F1;
         --win-font : #202c2aFF;
@@ -226,10 +227,11 @@
         #main-screen{
             display: flex;
             gap: 10px;
+            width: 100%;
             flex-wrap: wrap;
             padding-top: 70px;
             justify-content: center;
-            align-items: center;
+            align-content: start;
         }
 
         .form-base{

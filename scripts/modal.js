@@ -29,6 +29,15 @@ async function openHTML(template='',where="content-screen",label="", data="",wid
                     document.getElementById(where).innerHTML = cont;                    
                 }
 
+                try{
+                    const ckb = document.querySelector('#sidebar_content').querySelectorAll('input[type=checkbox]')
+                    for(let i=0; i<ckb.length; i++){
+                        ckb[i].checked = 0
+                    }
+                }catch{null}
+
+
+
                 const new_obj = page_name
 
                 main_data[new_obj] = new Object
@@ -61,7 +70,7 @@ function newModal(title, content, width, id){
 
     if(pages[call_page.i] == undefined){
         call_page.zIndex = mod_main.querySelectorAll('.modal-content').length +1          
-        call_page.top = 95
+        call_page.top = 15
         call_page.left = 100 + (document.querySelector('body').offsetWidth - 100 - parseInt(width))/2 + call_page.zIndex*offset
     }else{
         call_page.zIndex = parseInt(pages[call_page.i].style.zIndex)+1

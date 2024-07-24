@@ -41,3 +41,9 @@
 23/07/2024 20:48 tales@flexibus.com.br : Menu Alterado (Sistema, menu, pop-up, )
 23/07/2024 21:10 tales@flexibus.com.br : Menu Alterado (Ferramentas, none, pop-up, )
 23/07/2024 21:10 tales@flexibus.com.br : Menu Alterado (Operacional, menu, pop-up, )
+24/07/2024 15:45 tales@flexibus.com.br :  Imagem Alterada -> Perfil Usuario: tales@flexibus.com.br
+24/07/2024 15:47 tales@flexibus.com.br :  Imagem Alterada -> Perfil Usuario: tales@flexibus.com.br
+24/07/2024 15:49 tales@flexibus.com.br :  Imagem Alterada -> Perfil Usuario: tales@flexibus.com.br
+24/07/2024 15:55 tales@flexibus.com.br :  Imagem Alterada -> Perfil Usuario: tales@flexibus.com.br
+24/07/2024 16:05 tales@flexibus.com.br :  Imagem Alterada -> Perfil Usuario: tales@flexibus.com.br
+24/07/2024 16:06  :  Imagem Alterada -> Perfil Usuario: comercial@flexibus.com.br

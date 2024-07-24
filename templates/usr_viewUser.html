@@ -17,24 +17,41 @@
             margin: 10px;
         }
 
+        .frm{
+            display: flex;
+            flex-direction: row;
+        }
+
+        #cnvImg{
+            border: solid 1px;
+            border-radius: 10px;
+        }
+
 
     </style>
   
     <fieldset class="frm">
         <legend>Usuario</legend>
-        <div class="inline">
-            <label for="edtEmail">Email:</label>
-            <input type="text" id="edtEmail" placeholder="Email" maxlength="70" readonly>
+        <div class="pic">
+            <canvas id="cnvImg"></canvas>
+            <input  name="up_file" id="up_file" type="file" accept=".jpg,.jpeg" class="only-view">            
         </div>
-        <div class="inline">
-            <label for="edtPass">Senha:</label>
-            <input type="password" id="edtPass" placeholder="Senha" value="">
-            <input type="password" id="edtRepass" placeholder="Repita a senha" value="" maxlength="12">
-        </div>
-        <button id="btnSave">Salvar</button>
 
+        <div>
+            <div class="inline">
+                <label for="edtEmail">Email:</label>
+                <input type="text" id="edtEmail" placeholder="Email" maxlength="70" readonly>
+            </div>
+            <div class="inline">
+                <label for="edtPass">Senha:</label>
+                <input type="password" id="edtPass" placeholder="Senha" value="">
+                <input type="password" id="edtRepass" placeholder="Repita a senha" value="" maxlength="12">
+            </div>
+        </div>
     </fieldset>
-
+    <div class="line">
+        <button id="btnSave">Salvar</button>
+    </div>
 </template>
 <script>
 
@@ -45,6 +62,13 @@
     pageScreen.querySelector('#edtPass').value = ''
     pageScreen.querySelector('#edtRepass').value = ''
     pageScreen.querySelector('#edtEmail').value = localStorage.getItem('email')
+
+    const back = backFunc({'filename':`../assets/users/${localStorage.getItem('id_user')}/perfil.jpg`},1)
+    back.then((resp)=>{
+        const imgExist = JSON.parse(resp)    
+        loadImg( imgExist ? `assets/users/${localStorage.getItem('id_user')}/perfil.jpg` : 'assets/icons/user_default.png')
+    })  
+
 
     pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
         if(checkField(['edtPass']) && checkRepass(['edtPass','edtRepass'])){
@@ -70,6 +94,14 @@
             })
         }   
              
+    })
+
+    pageScreen.querySelector('#up_file').addEventListener('change',()=>{        
+        showFile()
+        const up = uploadImage('up_file',`assets/users/${localStorage.getItem('id_user')}/`,`perfil.jpg`)
+        up.then((resp)=>{
+            setLog(` Imagem Alterada -> Perfil Usuário: ${localStorage.getItem('email')}`)
+        })
     })
 
 </script>

@@ -99,6 +99,11 @@
     .modal-content {
       width: auto !important;
     }
+
+    .fullscreen{
+      left: unset;
+    }
+
   }
 
 /* FIM MODAL */

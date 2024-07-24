@@ -11,16 +11,6 @@
                 "access":[-1],
                 "itens":[
                     {
-                        "modulo":"Usuário",
-                        "icone":"mdi mdi-account",
-                        "link":"usr_viewUser.html",
-                        "janela":"pop-up",
-                        "label":"Alteração de Senha",
-                        "width":"500",
-                        "access":[-1],
-                        "itens":[]
-                    },
-                    {
                         "modulo":"Mens.",
                         "icone":"mdi-email-outline",
                         "link":"usr_mail.html",

@@ -124,7 +124,7 @@ function openMenu(){
                                 main_data.dashboard.data.shortcut = json.shortcut
                             })
                         })
-                        document.querySelector('#ckb-menu').checked = false
+//                        document.querySelector('#ckb-menu').checked = false
                     }
                 })                        
                 li.appendChild(lbl)                

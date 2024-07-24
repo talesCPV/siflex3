@@ -94,6 +94,12 @@
         <input type="color" id="edtBarMouse">
         <input id="rngBarMouse" type="range" min="0" max="255" step="1" value="255">
     </div>
+    <div class="inline">
+        <label for="edtFontMouse">Cor da Fonte Selecionada</label>
+        <input type="color" id="edtFontMouse">
+        <input id="rngFontMouse" type="range" min="0" max="255" step="1" value="255">
+    </div>
+
   </fieldset>
 
   <fieldset>
@@ -123,12 +129,14 @@
     pageScreen.querySelector('#edtBarColor').value = dashboard.colors.bar_back_color.substr(0,7)
     pageScreen.querySelector('#edtBarFontColor').value = dashboard.colors.bar_font_color.substr(0,7)
     pageScreen.querySelector('#edtBarMouse').value = dashboard.colors.bar_mouse_color.substr(0,7)
+    pageScreen.querySelector('#edtFontMouse').value = dashboard.colors.font_mouse_color.substr(0,7)
     pageScreen.querySelector('#edtWinColor').value = dashboard.colors.win_back_color.substr(0,7)
     pageScreen.querySelector('#edtWinFontColor').value = dashboard.colors.win_font_color.substr(0,7)
     
     pageScreen.querySelector('#rngBarColor').value = parseInt(dashboard.colors.bar_back_color.substr(7,2),16)
     pageScreen.querySelector('#rngFontColor').value = parseInt(dashboard.colors.bar_font_color.substr(7,2),16)
     pageScreen.querySelector('#rngBarMouse').value = parseInt(dashboard.colors.bar_mouse_color.substr(7,2),16)
+    pageScreen.querySelector('#rngFontMouse').value = parseInt(dashboard.colors.font_mouse_color.substr(7,2),16)
     pageScreen.querySelector('#rngWinColor').value = parseInt(dashboard.colors.win_back_color.substr(7,2),16)
     pageScreen.querySelector('#rngWinFontColor').value = parseInt(dashboard.colors.win_font_color.substr(7,2),16)
 
@@ -209,6 +217,7 @@
             dashboard.colors.bar_back_color = pageScreen.querySelector('#edtBarColor').value + parseInt(pageScreen.querySelector('#rngBarColor').value).toString(16).padStart(2, "0")
             dashboard.colors.bar_font_color = pageScreen.querySelector('#edtBarFontColor').value + parseInt(pageScreen.querySelector('#rngFontColor').value).toString(16).padStart(2, "0")
             dashboard.colors.bar_mouse_color = pageScreen.querySelector('#edtBarMouse').value + parseInt(pageScreen.querySelector('#rngBarMouse').value).toString(16).padStart(2, "0")
+            dashboard.colors.font_mouse_color = pageScreen.querySelector('#edtFontMouse').value + parseInt(pageScreen.querySelector('#rngFontMouse').value).toString(16).padStart(2, "0")
             dashboard.colors.win_back_color = pageScreen.querySelector('#edtWinColor').value + parseInt(pageScreen.querySelector('#rngWinColor').value).toString(16).padStart(2, "0")
             dashboard.colors.win_font_color = pageScreen.querySelector('#edtWinFontColor').value + parseInt(pageScreen.querySelector('#rngWinFontColor').value).toString(16).padStart(2, "0")
 

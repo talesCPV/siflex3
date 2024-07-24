@@ -21,7 +21,7 @@
     <nav id="sidebar">
         <div id="sidebar_content">
             <div id="user">
-                <img src="assets/icons/user_default.png" id="user_avatar" alt="Avatar">               
+                <img src="assets/icons/user_default.png" id="user_avatar" alt="=)">               
                 <p id="user_infos">
                     <span id="user-name" class="item-description"></span>
                     <span id="user-email" class="item-description"></span>
@@ -64,6 +64,7 @@
         pageData.colors.bar_back_color = json.hasOwnProperty('bar_back_color') ? json.bar_back_color : styleSheet.getPropertyValue('--top-bar')
         pageData.colors.bar_font_color = json.hasOwnProperty('bar_font_color') ? json.bar_font_color : styleSheet.getPropertyValue('--top-bar-font')
         pageData.colors.bar_mouse_color = json.hasOwnProperty('bar_mouse_color') ? json.bar_mouse_color : styleSheet.getPropertyValue('--top-bar-hover')
+        pageData.colors.font_mouse_color = json.hasOwnProperty('font_mouse_color') ? json.font_mouse_color : styleSheet.getPropertyValue('--top-font-hover')
         pageData.colors.win_back_color = json.hasOwnProperty('win_back_color') ? json.win_back_color : styleSheet.getPropertyValue('--win-back')
         pageData.colors.win_font_color = json.hasOwnProperty('win_font_color') ? json.win_font_color : styleSheet.getPropertyValue('--win-font')
 
@@ -94,6 +95,7 @@
         styleSheet.setProperty('--top-bar', main_data.dashboard.data.colors.bar_back_color)
         styleSheet.setProperty('--top-bar-font', main_data.dashboard.data.colors.bar_font_color)
         styleSheet.setProperty('--top-bar-hover', main_data.dashboard.data.colors.bar_mouse_color)
+        styleSheet.setProperty('--top-font-hover', main_data.dashboard.data.colors.font_mouse_color)
         styleSheet.setProperty('--win-back', main_data.dashboard.data.colors.win_back_color);
         styleSheet.setProperty('--win-font', main_data.dashboard.data.colors.win_font_color);
     }
@@ -106,16 +108,21 @@
 
     document.getElementById('open_btn').addEventListener('click', function () {
         document.getElementById('sidebar').classList.toggle('open-sidebar');
-
-        const ckb = document.querySelector('#sidebar_content').querySelectorAll('input[type=checkbox]')
-        for(let i=0; i<ckb.length; i++){
-            ckb[i].checked = 0
-        }
-
     });
-/*
-    document.querySelector('#logout_btn').addEventListener('click',()=>{
-        
+
+    document.querySelector('#user-name').addEventListener('click',()=>{
+        openHTML('usr_viewUser.html','pop-up','Configuração de Usuário',{},900)
     })
-*/
+
+    document.querySelector('#user-email').addEventListener('click',()=>{
+        openHTML('usr_mail.html','pop-up','Comunicação Interna',{},900)
+    })
+
+    const back = backFunc({'filename':`../assets/users/${localStorage.getItem('id_user')}/perfil.jpg`},1)
+    back.then((resp)=>{
+        const imgExist = JSON.parse(resp)
+        const img = document.querySelector('#user_avatar')
+        img.src =  imgExist ? `assets/users/${localStorage.getItem('id_user')}/perfil.jpg` : 'assets/icons/user_default.png'
+    }) 
+
 </script>
