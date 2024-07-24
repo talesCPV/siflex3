@@ -11,7 +11,7 @@
 body {
     display: flex;
     min-height: 100vh;
-    background-color: #e3e9f7;
+/*    background-color: #e3e9f7;*/
 }
 
 main {
@@ -109,10 +109,11 @@ ul>li>label>span, #logout_btn {
 /*    color: #0a0a0a;*/
 }
 
+*/*
 .side-item.active label {
     color: #e3e9f7;
 }
-
+*/
 .side-item label i {
     display: flex;
     align-items: center;
@@ -145,7 +146,7 @@ ul>li>label>span, #logout_btn {
     top: 30px;
     right: -30px;
     background-color: var(--top-bar-hover);
-    color: #e3e9f7;
+    color: var(--top-font-hover);
     border-radius: 100%;
     width: 40px;
     height: 40px;

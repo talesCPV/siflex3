@@ -29,14 +29,7 @@ async function openHTML(template='',where="content-screen",label="", data="",wid
                     document.getElementById(where).innerHTML = cont;                    
                 }
 
-                try{
-                    const ckb = document.querySelector('#sidebar_content').querySelectorAll('input[type=checkbox]')
-                    for(let i=0; i<ckb.length; i++){
-                        ckb[i].checked = 0
-                    }
-                }catch{null}
-
-
+                closeMenu()
 
                 const new_obj = page_name
 

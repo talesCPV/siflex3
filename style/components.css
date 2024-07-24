@@ -141,6 +141,7 @@
 
     .icone:hover{
         background-color: var(--top-bar-hover);
+        color: var(--top-font-hover);
         
     }
 

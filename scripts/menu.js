@@ -1,3 +1,13 @@
+function closeMenu(){
+    try{
+        document.getElementById('sidebar').classList.remove('open-sidebar');
+        const ckb = document.querySelector('#sidebar_content').querySelectorAll('input[type=checkbox]')
+        for(let i=0; i<ckb.length; i++){
+            ckb[i].checked = 0
+        }
+    }catch{null}
+}
+
 
 function openMenu(){
 
@@ -100,7 +110,7 @@ function openMenu(){
                 lbl.addEventListener('click',()=>{
                     main_data.dashboard.data.access = obj[i].access
                     openHTML(obj[i].link,obj[i].janela,obj[i].label,{},obj[i].width)
-                    document.getElementById('sidebar').classList.remove('open-sidebar');
+                    closeMenu()
                 })    
                 lbl.addEventListener('contextmenu',(e)=>{
                     e.preventDefault()
