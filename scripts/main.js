@@ -47,9 +47,7 @@ function pictab(e){
         myPromisse.then((resolve)=>{
             const json = JSON.parse(resolve)[0]
             const unread = json.new_mail
-/*            document.querySelector('#mail-badge').innerHTML = unread!='0' ? unread : ''
-            document.querySelector('#mail-badge-menu').innerHTML  = unread!='0' ? unread : ''
-*/            
+            document.querySelector('#mail-badge-lbl').innerHTML = unread!='0' ? unread : ''
         })
     }
 

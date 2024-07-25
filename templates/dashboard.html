@@ -16,6 +16,12 @@
             margin-top: 80px;
         }
 
+        #mail-badge-lbl{
+            position: absolute;
+            top: 15px;
+            left: 55px;
+        }
+
     </style>
          
     <nav id="sidebar">
@@ -23,8 +29,9 @@
             <div id="user">
                 <img src="assets/icons/user_default.png" id="user_avatar" alt="=)">               
                 <p id="user_infos">
-                    <span id="user-name" class="item-description"></span>
-                    <span id="user-email" class="item-description"></span>
+                    <span id="user-name" class="item-description" onclick="openHTML('usr_viewUser.html','pop-up','Configuração de Usuário',{},900)"></span>
+                    <span id="user-email" class="item-description" onclick="openHTML('usr_mail.html','pop-up','Comunicação Interna',{},900)"></span>
+                    <span id="mail-badge-lbl" class="badge" onclick="openHTML('usr_mail.html','pop-up','Comunicação Interna',{},900)"></span>
                 </p>
             </div>
     
@@ -114,14 +121,6 @@
         }
 
     });
-
-    document.querySelector('#user-name').addEventListener('click',()=>{
-        openHTML('usr_viewUser.html','pop-up','Configuração de Usuário',{},900)
-    })
-
-    document.querySelector('#user-email').addEventListener('click',()=>{
-        openHTML('usr_mail.html','pop-up','Comunicação Interna',{},900)
-    })
 
     const back = backFunc({'filename':`../assets/users/${localStorage.getItem('id_user')}/perfil.jpg`},1)
     back.then((resp)=>{

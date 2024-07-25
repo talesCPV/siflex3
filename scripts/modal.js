@@ -39,11 +39,7 @@ async function openHTML(template='',where="content-screen",label="", data="",wid
 
                 eval(script.innerHTML);
                 resolve = body
-/*                
-                if(localStorage.getItem('hash') != null){
-                    document.querySelector('#ckb-menu').checked = false // close menu
-                }           
-*/                    
+                 
             }); 
         }); 
     }
@@ -55,31 +51,30 @@ function newModal(title, content, width, id){
     const mod_main = document.querySelector('#main-screen')
     mod_main.scrollTo(0, 0)    
     const pages = mod_main.querySelectorAll('.modal-content')    
-    const call_page = new Object
-    call_page.i = 0
+    const upper_page = new Object
+    upper_page.i = 0
     for(let i=1; i<pages.length; i++){
-        call_page.i = parseInt(pages[call_page.i].style.zIndex) < parseInt(pages[i].style.zIndex) ? i : call_page.i
+        upper_page.i = parseInt(pages[upper_page.i].style.zIndex) < parseInt(pages[i].style.zIndex) ? i : upper_page.i
     }
 
-    if(pages[call_page.i] == undefined){
-        call_page.zIndex = mod_main.querySelectorAll('.modal-content').length +1          
-        call_page.top = 15
-        call_page.left = 100 + (document.querySelector('body').offsetWidth - 100 - parseInt(width))/2 + call_page.zIndex*offset
+    if(pages[upper_page.i] == undefined){
+        upper_page.zIndex = mod_main.querySelectorAll('.modal-content').length +1          
+        upper_page.top = 15
     }else{
-        call_page.zIndex = parseInt(pages[call_page.i].style.zIndex)+1
-        call_page.top = parseInt(pages[call_page.i].style.top)+15
-        call_page.left = parseInt(pages[call_page.i].style.left)+15
+        upper_page.zIndex = parseInt(pages[upper_page.i].style.zIndex)+1
+        upper_page.top = parseInt(pages[upper_page.i].style.top)+15
     }
+    upper_page.left = 100 + (document.querySelector('body').offsetWidth - 100 - parseInt(width))/2 + upper_page.zIndex*offset
 
     const mod_card = document.createElement('div')
         mod_card.classList = 'modal-content'
         mod_card.id = 'card-'+id        
         mod_card.style.position = 'absolute'
-        mod_card.style.zIndex = call_page.zIndex+1
+        mod_card.style.zIndex = upper_page.zIndex+1
         mod_card.style.margin = '0 auto'
         mod_card.style.width = width
-        mod_card.style.top = call_page.top+'px'
-        mod_card.style.left = call_page.left+'px'
+        mod_card.style.top = upper_page.top+'px'
+        mod_card.style.left = upper_page.left+'px'
         mod_card.style.overflow = 'auto'
         mod_card.addEventListener('mousedown',(e)=>{
             queueModal(id)
@@ -99,8 +94,6 @@ function newModal(title, content, width, id){
                 document.onmouseup = null;
                 document.onmousemove = null;
             }
-
-
         })
 
     mod_card.appendChild(resize)
