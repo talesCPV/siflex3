@@ -81,7 +81,8 @@ ul>li>label>span, #logout_btn {
     display: flex;
     flex-direction: column;
     gap: 8px;
-   
+    overflow-y: scroll !important;
+    max-height: calc(100vh - 140px);
 }
 
 .side-item {
@@ -167,12 +168,24 @@ ul>li>label>span, #logout_btn {
 
 .item-description {
     width: 0px;
+    display: flex;
+    justify-content: space-between;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     font-size: 11px;
     transition: width .6s;
     height: 0px;
+}
+
+.item-description span:nth-child(2){
+    font-size: 1.8em;
+    width: auto !important;
+    transition: transform .3s ease;
+}
+
+.item-description span:nth-child(2):hover{
+    border: unset !important;
 }
 
 .item-description:hover{
@@ -205,10 +218,13 @@ ul>li>label>span, #logout_btn {
 }
 
 .side-item input:checked ~ ul{
+    max-height: 500px;
+    overflow-y: scroll;
+    padding-left: 10px;
+}
 
-  max-height: 500px;
-  overflow-y: scroll;
-  padding-left: 10px;
+.side-item:has(input:checked) > label > div span:nth-child(2){
+    transform: rotate(90deg);
 }
 
 .side-item ul{

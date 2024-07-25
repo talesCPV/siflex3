@@ -18,7 +18,7 @@ DELIMITER $$
 		IN Ihash varchar(64)
     )
 	BEGIN    
-		SET @access = (SELECT IFNULL(access,-1) FROM tb_user WHERE hash COLLATE utf8_general_ci = Ihash COLLATE utf8_general_ci LIMIT 1);
+		SET @access = (SELECT IFNULL(access,-1) FROM tb_usuario WHERE hash COLLATE utf8_general_ci = Ihash COLLATE utf8_general_ci LIMIT 1);
 		SET @quer =CONCAT('SET @allow = (SELECT ',@access,' IN ',Iallow,');');
 			PREPARE stmt1 FROM @quer;
 			EXECUTE stmt1;
@@ -35,7 +35,15 @@ DELIMITER $$
     )
 	BEGIN    
 		SET @hash = (SELECT SHA2(CONCAT(Iemail, Isenha), 256));
-		SELECT *, SUBSTRING_INDEX(email,"@",1) AS nick FROM tb_user WHERE hash=@hash;
+        SET @id_func = (SELECT id_func FROM tb_usuario WHERE hash=@hash);
+        IF(@id_func)THEN
+			SELECT USR.id, USR.email,USR.hash,USR.access,FNC.nome
+            FROM tb_usuario AS USR
+            INNER JOIN tb_funcionario AS FNC
+            ON USR.id_func = FNC.id;
+        ELSE
+			SELECT *, SUBSTRING_INDEX(email,"@",1) AS nome FROM tb_usuario WHERE hash=@hash;
+        END IF;
 	END $$
 DELIMITER ;
 
@@ -139,7 +147,7 @@ DELIMITER $$
 		IN Inome varchar(30)
     )
 	BEGIN    
-		SET @access = (SELECT IFNULL(access,-1) FROM tb_user WHERE hash COLLATE utf8_general_ci = Ihash COLLATE utf8_general_ci LIMIT 1);
+		SET @access = (SELECT IFNULL(access,-1) FROM tb_usuario WHERE hash COLLATE utf8_general_ci = Ihash COLLATE utf8_general_ci LIMIT 1);
         IF(@access IN(0))THEN
 			IF(Iid = 0 AND Inome != "")THEN
 				INSERT INTO tb_usr_perm_perfil (nome) VALUES (Inome);
@@ -165,7 +173,7 @@ DELIMITER $$
 		IN Ivalue varchar(50)
     )
 	BEGIN    
-		SET @access = (SELECT IFNULL(access,-1) FROM tb_user WHERE hash COLLATE utf8_general_ci = Ihash COLLATE utf8_general_ci LIMIT 1);
+		SET @access = (SELECT IFNULL(access,-1) FROM tb_usuario WHERE hash COLLATE utf8_general_ci = Ihash COLLATE utf8_general_ci LIMIT 1);
 		IF(@access IN (0))THEN
 			SET @quer = CONCAT('SELECT * FROM tb_usr_perm_perfil WHERE ',Ifield,' ',Isignal,' ',Ivalue,' ORDER BY ',Ifield,';');
 			PREPARE stmt1 FROM @quer;
@@ -439,88 +447,6 @@ DELIMITER $$
 	END $$
 DELIMITER ;
 
- DROP PROCEDURE sp_view_vale;
-DELIMITER $$
-	CREATE PROCEDURE sp_view_vale(	
-		IN Iallow varchar(80),
-		IN Ihash varchar(64),
-		IN Iid_func int(11)
-    )
-	BEGIN    
-		CALL sp_allow(Iallow,Ihash);
-		IF(@allow)THEN
-			SELECT * FROM vw_vales WHERE id_func=Iid_func ORDER BY data DESC;
-        END IF;
-	END $$
-DELIMITER ;
-
- DROP PROCEDURE sp_set_vale;
- DELIMITER $$
-	CREATE PROCEDURE sp_set_vale(
-		IN Iallow varchar(80),
-		IN Ihash varchar(64),
-		IN Iid int(11),
-		IN Iid_func int(11),
-        IN Ivalor double,
-        IN Iquitado boolean,
-		IN Iobs varchar(200),
-        IN Idata datetime
-    )
-	BEGIN
-		CALL sp_allow(Iallow,Ihash);
-		IF(@allow)THEN
-			IF(Iid > 0) THEN
-				IF(Ivalor <= 0)THEN
-					DELETE FROM tb_vale WHERE id=Iid;
-                    DELETE FROM tb_vale_pgto WHERE id_vale=Iid;
-                ELSE
-					UPDATE tb_vale SET quitado=Iquitado, valor=Ivalor, obs=Iobs, data=Idata WHERE id=Iid;
-                END IF;
-			ELSE
-				INSERT INTO tb_vale (id_func,valor,obs,data) VALUES (Iid_func,Ivalor,Iobs,Idata);
-			END IF;
-        END IF;
-	END $$
-DELIMITER ;
-
- DROP PROCEDURE sp_set_vale_pgto;
-DELIMITER $$
-	CREATE PROCEDURE sp_set_vale_pgto(
-		IN Iallow varchar(80),
-		IN Ihash varchar(64),
-		IN Iid int(11),
-        IN Ivalor double,
-        IN Idata datetime,
-		IN Iobs varchar(200)        
-    )
-	BEGIN
-		CALL sp_allow(Iallow,Ihash);
-		IF(@allow)THEN
-			IF(Ivalor <= 0)THEN
-				DELETE FROM tb_vale_pgto WHERE id=Iid;
-            ELSE            
-				INSERT INTO tb_vale_pgto (id_vale,valor,obs,data) VALUES (Iid,Ivalor,Iobs,Idata);
-            END IF;
-        END IF;
-		SELECT * FROM tb_vale_pgto WHERE id_vale=Iid;
-	END $$
-DELIMITER ;
-
- DROP PROCEDURE sp_view_vale_pgto;
-DELIMITER $$
-	CREATE PROCEDURE sp_view_vale_pgto(	
-		IN Iallow varchar(80),
-		IN Ihash varchar(64),
-		IN Iid_vale int(11)
-    )
-	BEGIN    
-		CALL sp_allow(Iallow,Ihash);
-		IF(@allow)THEN
-			SELECT * FROM tb_vale_pgto WHERE id_vale=Iid_vale ORDER BY data;
-        END IF;
-	END $$
-DELIMITER ;
-
  DROP PROCEDURE sp_set_feriado;
 DELIMITER $$
 	CREATE PROCEDURE sp_set_feriado(	
@@ -545,28 +471,6 @@ DELIMITER $$
 				END IF;
             END IF;			
 			SELECT * FROM tb_feriados;
-        END IF;
-	END $$
-DELIMITER ;
-
- DROP PROCEDURE sp_view_imposto;
-DELIMITER $$
-	CREATE PROCEDURE sp_view_imposto(	
-		IN Iallow varchar(80),
-		IN Ihash varchar(64),
-		IN Iid_imp varchar(30)
-    )
-	BEGIN    
-		CALL sp_allow(Iallow,Ihash);
-		IF(@allow)THEN
-			SET @quer =CONCAT('SELECT IMP.nome, ALQ.* 
-						FROM tb_imposto AS IMP
-						INNER JOIN tb_aliquota AS ALQ
-						ON ALQ.id_imp = IMP.id
-						AND IMP.id IN (',Iid_imp,')
-						ORDER BY ALQ.ini_range ASC;');
-			PREPARE stmt1 FROM @quer;
-			EXECUTE stmt1;
         END IF;
 	END $$
 DELIMITER ;
@@ -603,8 +507,8 @@ DELIMITER $$
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
 			SET @status = (SELECT IF(Iativo,'ATIVO','DEMIT'));
-			INSERT INTO tb_funcionario (id,nome,data_nasc,rg,cpf,pis,endereco,num,cidade,bairro,estado,cep,data_adm,id_cargo,id_setor,tel,cel,obs,status) 
-				VALUES (Iid,Inome,Inasc,Irg,Icpf,Ipis,Iend,Inum,Icidade,Ibairro,Iuf,Icep,Idata_adm,Iid_cargo,Iid_setor,Itel,Icel,Iobs,@status)
+			INSERT INTO tb_funcionario (id,nome,data_nasc,rg,cpf,pis,endereco,num,cidade,bairro,estado,cep,data_adm,id_cargo,id_setor,tel,cel,obs) 
+				VALUES (Iid,Inome,Inasc,Irg,Icpf,Ipis,Iend,Inum,Icidade,Ibairro,Iuf,Icep,Idata_adm,Iid_cargo,Iid_setor,Itel,Icel,Iobs)
 				ON DUPLICATE KEY UPDATE
 				nome=Inome,data_nasc=Inasc,rg=Irg,cpf=Icpf,pis=Ipis,endereco=Iend,num=Inum,cidade=Icidade,bairro=Ibairro,estado=Iuf,cep=Icep,data_adm=Idata_adm,
 				data_dem=Idata_dem,id_cargo=Iid_cargo,id_setor=Iid_setor,tel=Itel,cel=Icel,status=@status,obs=Iobs;
@@ -671,28 +575,6 @@ DELIMITER $$
 		ELSE 
 			SELECT 0 AS ok;
         END IF;	
-	END $$
-DELIMITER ;
-
- DROP PROCEDURE sp_view_ferias;
-DELIMITER $$
-	CREATE PROCEDURE sp_view_ferias(	
-		IN Iallow varchar(80),
-		IN Ihash varchar(64),
-		IN Ifield varchar(30),
-        IN Isignal varchar(4),
-		IN Ivalue varchar(50),
-        IN Iativo boolean
-    )
-	BEGIN    
-		CALL sp_allow(Iallow,Ihash);
-		IF(@allow)THEN
-			SET @quer =CONCAT('SELECT * FROM vw_func WHERE ativo = ',Iativo,' AND ',Ifield,' ',Isignal,' ',Ivalue,' ORDER BY nome;');
-			PREPARE stmt1 FROM @quer;
-			EXECUTE stmt1;
-		ELSE 
-			SELECT 0 AS id, "" AS nome;
-        END IF;
 	END $$
 DELIMITER ;
 
@@ -922,7 +804,6 @@ DELIMITER $$
 	END $$
 	DELIMITER ;
 
- DROP PROCEDURE sp_set_serv_exec;
 DELIMITER $$
 	CREATE PROCEDURE sp_set_serv_exec(
 		IN Iallow varchar(80),
@@ -967,14 +848,14 @@ DELIMITER $$
 	END $$
 	DELIMITER ;
 
- DROP PROCEDURE sp_view_pcp;
+-- DROP PROCEDURE sp_view_pcp;
 DELIMITER $$
 	CREATE PROCEDURE sp_view_pcp(
 		IN Iallow varchar(80),
 		IN Ihash varchar(64),
         IN Idt date
     )
-	BEGIN
+BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
 			SET @ini = (SELECT IF(dayofweek(Idt) = 1,DATE_ADD(Idt, INTERVAL -6 DAY),DATE_ADD(Idt, INTERVAL 2-dayofweek(Idt) DAY)));
@@ -986,7 +867,7 @@ DELIMITER $$
 	END $$
 	DELIMITER ;
 
- DROP PROCEDURE sp_set_pcp;
+-- DROP PROCEDURE sp_set_pcp;
 DELIMITER $$
 	CREATE PROCEDURE sp_set_pcp(
 		IN Iallow varchar(80),
@@ -998,8 +879,8 @@ DELIMITER $$
 BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
-			IF(TRIM(Ivalor) = "")THEN
-				DELETE FROM tb_pcp_2 WHERE data_serv = Idt AND id_setor = Iid_setor;
+			IF(Ivalor = "")THEN
+				DELETE FROM tb_pcp_2 WHERE data_serv = Idata AND id_setor = Iid_setor;
             ELSE
 				INSERT INTO tb_pcp_2 (data_serv, id_setor,valor) VALUES (Idt,Iid_setor,Ivalor)
 				ON DUPLICATE KEY UPDATE valor=Ivalor;
@@ -1007,12 +888,12 @@ BEGIN
         END IF;
 	END $$
 	DELIMITER ;
-
-/* COTAÇÕES */
-
- DROP PROCEDURE sp_view_cotacao;
+    
+/* COTAÇÕES */    
+    
+ DROP PROCEDURE sp_view_cotacao;    
 DELIMITER $$
-	CREATE PROCEDURE sp_view_cotacao(
+	CREATE PROCEDURE sp_view_cotacao(    
 		IN Iallow varchar(80),
 		IN Ihash varchar(64),
 		IN Ifield varchar(30),
@@ -1024,7 +905,6 @@ DELIMITER $$
 	BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
-
 			SET @quer =CONCAT('SELECT COT.*, ITN.id_prod            
 								FROM vw_cotacoes AS COT 
 								LEFT JOIN vw_cot_itens AS ITN 
@@ -1040,10 +920,10 @@ DELIMITER $$
         END IF;
 	END $$
 	DELIMITER ;
-
- DROP PROCEDURE sp_set_pedido;
+    
+ DROP PROCEDURE sp_set_cotacao;
 DELIMITER $$
-	CREATE PROCEDURE sp_set_pedido(
+	CREATE PROCEDURE sp_set_cotacao(
 		IN Iallow varchar(80),
 		IN Ihash varchar(64),
         IN Iid_ped int(11),
@@ -1082,27 +962,9 @@ DELIMITER $$
 	END $$
 	DELIMITER ;
     
- DROP PROCEDURE sp_view_item_cot;
+ DROP PROCEDURE sp_set_item_cot;
 DELIMITER $$
-	CREATE PROCEDURE sp_view_item_cot(
-		IN Iallow varchar(80),
-		IN Ihash varchar(64),
-		IN Iid_ped int(11)
-    )
-	BEGIN
-		CALL sp_allow(Iallow,Ihash);
-		IF(@allow)THEN
-			SELECT * FROM vw_item_cot WHERE id_ped = Iid_ped;
-		ELSE
-			SELECT 0 AS id, "" AS nome;
-        END IF;
-	END $$
-	DELIMITER ;    
-    
-
--- DROP PROCEDURE sp_set_item_ped;
-DELIMITER $$
-	CREATE PROCEDURE sp_set_item_ped(
+	CREATE PROCEDURE sp_set_item_cot(
 		IN Iallow varchar(80),
 		IN Ihash varchar(64),
         IN Iid int(11),
@@ -1110,57 +972,23 @@ DELIMITER $$
         IN Iid_ped int(11),
         IN Iqtd double,
         IN Ipreco double,
-        IN Iund varchar(10),
-        IN Iserv varchar(5)
+        IN Iund varchar(10)
     )
 	BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
-			INSERT INTO tb_item_ped (id,id_prod,id_ped,qtd,preco,und,serv) 
-            VALUES (Iid,Iid_prod,Iid_ped,Iqtd,Ipreco,Iund,Iserv)
-			ON DUPLICATE KEY UPDATE 
-			qtd=Iqtd,preco=Ipreco,und=Iund,serv=Iserv;
+			IF(Iqtd = 0)THEN
+				DELETE FROM tb_item_ped WHERE id = Iid;
+            ELSE
+				INSERT INTO tb_item_ped (id,id_prod,id_ped,qtd,preco,und) 
+				VALUES (Iid,Iid_prod,Iid_ped,Iqtd,Ipreco,Iund)
+				ON DUPLICATE KEY UPDATE
+				qtd=Iqtd,preco=Ipreco,und=Iund;
+			END IF;
         END IF;
 	END $$
-	DELIMITER ;    
-
--- DROP PROCEDURE sp_del_cot;    
-DELIMITER $$
-	CREATE PROCEDURE sp_del_cot(
-		IN Iallow varchar(80),
-		IN Ihash varchar(64),
-		IN Iid_ped int(11)
-    )
-	BEGIN    
-		CALL sp_allow(Iallow,Ihash);
-		IF(@allow)THEN
-			DELETE FROM tb_item_ped WHERE id_ped = Iid_ped;
-			DELETE FROM tb_pedido WHERE id = Iid_ped;
-            SELECT 1 AS ok;
-		ELSE 
-			SELECT 0 AS ok;
-        END IF;	
-	END $$
-	DELIMITER ;    
-
--- DROP PROCEDURE sp_change_cot;    
-DELIMITER $$
-	CREATE PROCEDURE sp_change_cot(
-		IN Iallow varchar(80),
-		IN Ihash varchar(64),
-		IN Iid_ped int(11),
-        IN Istatus varchar(7)
-    )
-	BEGIN    
-		CALL sp_allow(Iallow,Ihash);
-		IF(@allow)THEN
-			UPDATE tb_pedido SET status=Istatus WHERE id = Iid_ped;
-            SELECT 1 AS ok;
-		ELSE 
-			SELECT 0 AS ok;
-        END IF;	
-	END $$
-	DELIMITER ;       
+	DELIMITER ;  
+    
     
 /* RELOGIO DE PONTO */
 
@@ -1206,52 +1034,37 @@ BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
 			SET @id = (SELECT IF(COUNT(*) = 0,"DEFAULT",id) AS id FROM tb_hora_extra WHERE DATE(entrada) = DATE(Ient) AND id_func = Iid_func);
-			INSERT INTO tb_pcp_2 (id,id_func,entrada,saida) VALUES (@id,Iid_func,Ient,Isai)
+			INSERT INTO tb_hora_extra (id,id_func,entrada,saida) VALUES (@id,Iid_func,Ient,Isai)
 			ON DUPLICATE KEY UPDATE entrada=Ient, saida=Isai;
         END IF;
 	END $$
 	DELIMITER ;
-
- DROP PROCEDURE sp_view_icms;
+    
+ DROP PROCEDURE sp_del_relogio_ponto;
 DELIMITER $$
-	CREATE PROCEDURE sp_view_icms(
+	CREATE PROCEDURE sp_del_relogio_ponto(
 		IN Iallow varchar(80),
 		IN Ihash varchar(64),
-		IN Ifield varchar(30),
-        IN Isignal varchar(4),
-		IN Ivalue varchar(50)
+        IN Ient date,
+        IN Iid_func int(11)
     )
-	BEGIN
+BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
-			SET @quer =CONCAT('SELECT * FROM tb_icms WHERE ',Ifield,' ',Isignal,' ',Ivalue,' ORDER BY ',Ifield,';');
-			PREPARE stmt1 FROM @quer;
-			EXECUTE stmt1;            
+			SET @id = (SELECT IF(COUNT(*) = 0,0,id) AS id FROM tb_hora_extra WHERE DATE(entrada) = Ient AND id_func = Iid_func);
+			IF(@id > 0)THEN
+				DELETE FROM tb_hora_extra WHERE DATE(entrada) = DATE(Ient) AND id_func = Iid_func;
+            END IF;
         END IF;
 	END $$
-	DELIMITER ;
+	DELIMITER ;    
+    
+    
+/* FINNCEIRO */    
 
- DROP PROCEDURE sp_edtICMS;
+ DROP PROCEDURE sp_view_pedido;    
 DELIMITER $$
-	CREATE PROCEDURE sp_edtICMS(
-		IN Iallow varchar(80),
-		IN Ihash varchar(64),
-		IN Iid_uf int(11),
-        IN Ivalor double
-    )
-	BEGIN
-		CALL sp_allow(Iallow,Ihash);
-		IF(@allow)THEN
-			UPDATE tb_icms SET valor=Ivalor WHERE id=Iid_uf;
-        END IF;
-
-		SELECT * FROM tb_icms;
-	END $$
-	DELIMITER ;
-
- DROP PROCEDURE sp_view_serv_exec_nfs;
-DELIMITER $$
-	CREATE PROCEDURE sp_view_serv_exec_nfs(
+	CREATE PROCEDURE sp_view_pedido(    
 		IN Iallow varchar(80),
 		IN Ihash varchar(64),
 		IN Ifield varchar(30),
@@ -1263,11 +1076,33 @@ DELIMITER $$
 	BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
-			SET @quer =CONCAT('SELECT * FROM vw_serv_exec WHERE ',Ifield,' ',Isignal,' ',Ivalue,'AND data_exec BETWEEN "',Idt_ini,'" AND "',Idt_fin,'" ORDER BY data_exec;');
+			SET @quer =CONCAT('SELECT COT.*, ITN.id_prod            
+								FROM vw_pedidos AS COT 
+								LEFT JOIN vw_cot_itens AS ITN 
+                                ON COT.id = ITN.id_ped 
+                                WHERE ',Ifield,' ',Isignal,' ',Ivalue,' 
+                                AND data_ped BETWEEN "',Idt_ini,'" 
+                                AND "',Idt_fin,'" 
+                                ORDER BY data_ped;');
 			PREPARE stmt1 FROM @quer;
 			EXECUTE stmt1;
 		ELSE
 			SELECT 0 AS id, "" AS nome;
+        END IF;
+	END $$
+	DELIMITER ;
+
+ DROP PROCEDURE sp_view_item_ped;    
+DELIMITER $$
+CREATE PROCEDURE sp_view_item_ped(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Iid_ped int(11)
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SELECT * FROM vw_item_ped WHERE id_ped = Iid_ped;
         END IF;
 	END $$
 	DELIMITER ;

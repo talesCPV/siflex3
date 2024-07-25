@@ -68,15 +68,24 @@ function openMenu(){
                 icon.className = `mdi ${obj[i].icone}`
                 lbl.appendChild(icon)
 
-                const desc = document.createElement('span')
+                const desc = document.createElement('div')
                 desc.className = 'item-description'
-                desc.innerHTML = obj[i].modulo
+
+                const name_mod = document.createElement('span')
+                name_mod.innerHTML = obj[i].modulo
+                desc.appendChild(name_mod)
+
+                const arrow = document.createElement('span')
+                arrow.className = 'mdi mdi-arrow-right-thick item-description'
+                desc.appendChild(arrow)
+
                 lbl.appendChild(desc)
+
 
                 li.appendChild(lbl)
                 
                 if(obj[i].modulo == '@username'){
-                    desc.innerHTML = 'Configurações'
+                    name_mod.innerHTML = 'Configurações'
                     icon.className = `mdi mdi-account-circle-outline`
                 }
                 
@@ -101,11 +110,11 @@ function openMenu(){
                 const icon = document.createElement('span')
                 icon.className = `mdi ${obj[i].icone}`
                 lbl.appendChild(icon)
+               
                 const desc = document.createElement('span')
                 desc.className = 'item-description'
                 desc.innerHTML = obj[i].modulo
                 lbl.appendChild(desc)
-
 
                 lbl.addEventListener('click',()=>{
                     main_data.dashboard.data.access = obj[i].access
