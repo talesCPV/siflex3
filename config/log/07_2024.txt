@@ -47,3 +47,6 @@
 24/07/2024 15:55 tales@flexibus.com.br :  Imagem Alterada -> Perfil Usuario: tales@flexibus.com.br
 24/07/2024 16:05 tales@flexibus.com.br :  Imagem Alterada -> Perfil Usuario: tales@flexibus.com.br
 24/07/2024 16:06  :  Imagem Alterada -> Perfil Usuario: comercial@flexibus.com.br
+26/07/2024 20:09 tales@flexibus.com.br :  Imagem Alterada -> Produto: PINO REI
+26/07/2024 20:21 tales@flexibus.com.br :  Imagem Alterada -> Produto: PINO REI
+26/07/2024 20:21 tales@flexibus.com.br : Produto Editado PINO REI -> PINO REI

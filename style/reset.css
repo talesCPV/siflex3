@@ -33,6 +33,7 @@
         padding: 0;
         word-wrap:break-word !important;
         font-family: 'Open Sans', sans-serif;
+        scroll-behavior: smooth;
     }
 
     button{

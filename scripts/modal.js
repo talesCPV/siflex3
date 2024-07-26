@@ -3,6 +3,7 @@ async function openHTML(template='',where="content-screen",label="", data="",wid
 
     width = width == 'auto' ? (document.querySelector('body').offsetWidth - 160)+'px' : width+'px'
 
+
     if(template.trim() != "" && !main_data.hasOwnProperty(template.split('.')[0])){
         const page_name = template.split('.')[0]
         return await new Promise((resolve,reject) =>{
@@ -149,6 +150,8 @@ function newModal(title, content, width, id){
 
     mod_main.appendChild(mod_card)
     mod_main.style.display = "block"
+    
+    window.scrollTo(upper_page.left-82, upper_page.top);
 }
 
 function closeModal(id='all'){

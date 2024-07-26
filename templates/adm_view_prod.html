@@ -62,7 +62,7 @@
                     <input type="text" class="only-view" id="edtDesc" maxlength="80" disabled>
                 </div>
                 <div class="inline">
-                    <label for="edtCodFW">Código FW</label>
+                    <label for="edtCodFW">Código</label>
                     <input type="text" class="only-view" id="edtCodFW" maxlength="20" disabled>
                     <label for="edtCodForn">Código Forn.</label>
                     <input type="text" class="only-view" id="edtCodForn" maxlength="20" disabled>
@@ -188,10 +188,10 @@
             pageScreen.querySelector('#edtNCM').value = pageData.ncm
             pageScreen.querySelector('#btnEdit').disabled = 0
 
-            const back = backFunc({'filename':`../assets/prod/prod_${pageData.id}.jpg`},1)
+            const back = backFunc({'filename':`../assets/prod/prod_${pageData.cod}.jpg`},1)
             back.then((resp)=>{
                 const imgExist = JSON.parse(resp)    
-                loadImg( imgExist ? `assets/prod/prod_${pageData.id}.jpg` : 'assets/prod/noimage.jpg')
+                loadImg( imgExist ? `assets/prod/prod_${pageData.cod}.jpg` : 'assets/prod/noimage.jpg')
             })            
         }
     }
@@ -271,7 +271,7 @@
 
     pageScreen.querySelector('#up_file').addEventListener('change',()=>{        
         showFile()
-        const up = uploadImage('up_file','assets/prod/',`prod_${pageData.id}`)
+        const up = uploadImage('up_file','assets/prod/',`prod_${pageData.cod}.jpg`)
         up.then((resp)=>{
             setLog(` Imagem Alterada -> Produto: ${pageData.descricao}`)
         })
