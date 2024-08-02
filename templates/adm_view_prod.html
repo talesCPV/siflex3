@@ -123,9 +123,9 @@
 
     function fillEmp(){
         const params = new Object;
-            params.field = 'id'
-            params.signal = '>='
-            params.value = '1'
+            params.field = 'fantasia'
+            params.signal = 'LIKE'
+            params.value = "'%%'"
         const myPromisse = queryDB(params,'EMP-0');
         myPromisse.then((resolve)=>{
             const json = JSON.parse(resolve)

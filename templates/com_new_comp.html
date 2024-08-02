@@ -1,0 +1,127 @@
+
+<template>
+    <style>
+
+        #btnDel{
+            display: none;
+        }
+
+    </style>
+  
+    <fieldset>
+        <legend>Entrada de Material</legend>
+        <div class="inline">
+            <label for="edtNF">NF/Pedido *</label>
+            <input type="text" id="edtNF">
+            <label for="edtData">Data *</label>
+            <input type="date" id="edtData">             
+        </div>        
+        <div class="inline">
+            <label for="cmbForn">Fornecedor</label>
+            <select id="cmbForn"></select>
+        </div>
+        <div class="inline">
+            <label for="edtObs">Obs</label>
+            <textarea id="edtObs" cols="30" rows="10"></textarea>
+        </div>
+        <div class="inline">
+            <label for="edtResp">Emitido por</label>
+            <input type="text" id="edtResp" readonly>
+        </div>     
+        <div class="line">
+            <button id="btnCad">Cadastrar</button>
+        </div>
+
+    </fieldset>
+
+
+</template>
+<script>
+
+    const pageData = main_data.com_new_comp.data
+    const pageFunc = main_data.com_new_comp.func
+    const pageScreen = document.querySelector('#card-com_new_comp')
+
+    function fillEmp(){
+        const params = new Object;
+            params.field = 'fantasia'
+            params.signal = 'LIKE'
+            params.value = "'%%'"
+        const myPromisse = queryDB(params,'EMP-0');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const cmb = pageScreen.querySelector('#cmbForn')
+            cmb.innerHTML=''
+            for(let i=0; i<json.length; i++){
+                const opt = document.createElement('option')
+                opt.value = json[i].id
+                opt.innerHTML = json[i].fantasia.toUpperCase()
+/*                
+                if(!newProd){
+                    opt.selected =  json[i].id == pageData.id_emp ? 1 : 0
+                }
+*/                    
+                cmb.appendChild(opt)
+            }            
+        })
+    }
+
+
+    pageFunc.pageStart = ()=>{
+        pageScreen.querySelector('#edtData').value = today.getFormatDate()
+        fillEmp()
+
+/*        
+        const params = new Object;
+            params.hash = localStorage.getItem('hash');
+            params.field = 'tipo'
+            params.signal = '='
+            params.value = 'FOR'     
+
+        fillCombo('cmbForn',params,11,['id','cod_nome'],typeof main_data.newComp.data === 'object' ? main_data.newComp.data.id_emp :'' )
+
+        if(main_data.newComp.data === 'new'){
+            pageScreen.querySelector('#edtResp').value = localStorage.getItem('nome').trim() == '' ? localStorage.getItem('username').toUpperCase() : localStorage.getItem('nome').toUpperCase()
+        }else{
+            pageScreen.querySelector('#edtNF').value = main_data.newComp.data.nf.toUpperCase()
+            pageScreen.querySelector('#edtData').value = main_data.newComp.data.data_ent
+            pageScreen.querySelector('#edtObs').value = main_data.newComp.data.OBS
+            pageScreen.querySelector('#edtResp').value = main_data.newComp.data.resp.toUpperCase()
+            pageScreen.querySelector('#btnCad').innerHTML = 'Salvar'
+        }
+**/
+
+    }
+
+
+    pageScreen.querySelector('#btnCad').addEventListener('click',()=>{
+
+        if(checkField(['edtData','edtNF'])){
+            const params = new Object;
+                params.id = main_data.newComp.data === 'new' ? 'DEFAULT' : main_data.newComp.data.id 
+                params.nf = pageScreen.querySelector('#edtNF').value.toUpperCase()
+                params.emp_id = pageScreen.querySelector('#cmbForn').value
+                params.data_ent = pageScreen.querySelector('#edtData').value
+                params.resp = pageScreen.querySelector('#edtResp').value.trim()
+                params.status = 'ABERTO'
+                params.OBS = pageScreen.querySelector('#edtObs').value.trim()
+            const myPromisse = queryDB(params,42);
+            myPromisse.then((resolve)=>{
+                if(main_data.newComp.data != 'new'){
+                    main_data.viewComp.data.OBS = params.OBS
+                    main_data.viewComp.data.nf = params.nf
+                    main_data.viewComp.data.id_emp = params.emp_id
+                    main_data.viewComp.data.data_ent = params.data_ent
+                    main_data.viewComp.data.fantasia = pageScreen.querySelector('#cmbForn').options[pageScreen.querySelector('#cmbForn').selectedIndex].text
+                    main_data.viewComp.open()                                    
+                }else{
+                    pageScreen.querySelector('#btnBusca').click()
+                }
+                closeModal('newComp')
+            })
+        }        
+    })
+
+    pageFunc.pageStart()
+
+</script>

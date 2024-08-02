@@ -1271,3 +1271,36 @@ DELIMITER $$
         END IF;
 	END $$
 	DELIMITER ;
+    /* COMPRAS */
+    
+     DROP PROCEDURE sp_view_compra;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_compra(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Ifield varchar(30),
+        IN Isignal varchar(4),
+		IN Ivalue varchar(50),
+        IN Idt_ini date,
+        IN Idt_fin date
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+
+			SET @quer =CONCAT('SELECT ENT.*, EMP.fantasia, EMP.id AS emp_id, EMP.endereco,
+								EMP.num, EMP.cidade, EMP.estado, EMP.bairro
+								FROM tb_entrada AS ENT
+								INNER JOIN tb_empresa AS EMP 
+								ON ENT.id_emp = EMP.id
+								AND ',Ifield,' ',Isignal,' ',Ivalue,' 
+								AND data_ent BETWEEN "',Idt_ini,'" 
+								AND "',Idt_fin,'"
+								ORDER BY ENT.data_ent DESC;');
+			PREPARE stmt1 FROM @quer;
+			EXECUTE stmt1;
+		ELSE
+			SELECT 0 AS id, "" AS nome;
+        END IF;
+	END $$
+	DELIMITER ;

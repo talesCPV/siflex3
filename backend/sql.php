@@ -82,6 +82,8 @@
         "COT-3" => 'CALL sp_set_item_cot(@access,@hash,"x00",x01,x02,"x03","x04","x05");', // id,id_prod,id_ped,qtd,valor,und
         "COT-4" => 'CALL sp_del_cot(@access,@hash,x00);', // ID_PED
         "COT-5" => 'CALL sp_change_cot(@access,@hash,x00,"x01");', // ID_PED,STATUS
+        "COM-6" => 'CALL sp_view_compra(@access,@hash,"x00","x01","x02","x03","x04");', // FIELD,SIGNAL, VALUE, DT_INI, DT_FIN
+
 
         /* FINANCEIRO */
 

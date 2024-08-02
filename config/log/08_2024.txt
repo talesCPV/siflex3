@@ -1,0 +1,5 @@
+02/08/2024 20:00 tales@flexibus.com.br : Empresa Deletada -> undefined
+02/08/2024 20:01 tales@flexibus.com.br : Empresa Editada undefined -> DELNIGNO LOURENCO DA CUNHA
+02/08/2024 20:02 tales@flexibus.com.br : Menu Incluido (Compras)
+02/08/2024 20:04 tales@flexibus.com.br : Menu Alterado (Compras, com_compras.html, pop-up, Compras)
+02/08/2024 20:53 tales@flexibus.com.br : Empresa Editada undefined -> VIACAO SAENS PENA LTDA
