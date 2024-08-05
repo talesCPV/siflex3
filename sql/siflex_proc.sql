@@ -1304,3 +1304,32 @@ DELIMITER $$
         END IF;
 	END $$
 	DELIMITER ;
+    
+	DROP PROCEDURE sp_set_compra;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_compra(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),        
+		IN Iid int(11),
+        IN Inf varchar(10),
+		IN Iid_emp int(11),
+        IN Idt_ent date,
+        IN Iresp varchar(15),
+        IN Istatus varchar(7),
+        IN Iobs varchar(150)
+    )
+	BEGIN    
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			IF(Iid=0)THEN
+				INSERT INTO tb_entrada (id, nf, id_emp, data_ent, resp, status, OBS)
+				VALUES (@id,Inf,Iid_emp,Idt_ent,Iresp,Istatus,Iobs);
+            ELSE
+				 UPDATE tb_entrada 
+                 SET nf=Inf, id_emp=Iid_emp, data_ent=Idt_ent, resp=Iresp, status=Istatus, OBS=Iobs
+                 WHERE id=Iid;
+            END IF;
+		END IF;    
+	END $$
+DELIMITER ;
+    

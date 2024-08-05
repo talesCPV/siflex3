@@ -41,6 +41,7 @@
     const pageData = main_data.com_new_comp.data
     const pageFunc = main_data.com_new_comp.func
     const pageScreen = document.querySelector('#card-com_new_comp')
+    const newComp = pageData.id == undefined
 
     function fillEmp(){
         const params = new Object;
@@ -56,11 +57,11 @@
                 const opt = document.createElement('option')
                 opt.value = json[i].id
                 opt.innerHTML = json[i].fantasia.toUpperCase()
-/*                
-                if(!newProd){
+
+                if(!newComp){
                     opt.selected =  json[i].id == pageData.id_emp ? 1 : 0
                 }
-*/                    
+
                 cmb.appendChild(opt)
             }            
         })
@@ -69,16 +70,10 @@
 
     pageFunc.pageStart = ()=>{
         pageScreen.querySelector('#edtData').value = today.getFormatDate()
+        pageScreen.querySelector('#edtResp').value = localStorage.getItem('nome').toUpperCase()
         fillEmp()
 
 /*        
-        const params = new Object;
-            params.hash = localStorage.getItem('hash');
-            params.field = 'tipo'
-            params.signal = '='
-            params.value = 'FOR'     
-
-        fillCombo('cmbForn',params,11,['id','cod_nome'],typeof main_data.newComp.data === 'object' ? main_data.newComp.data.id_emp :'' )
 
         if(main_data.newComp.data === 'new'){
             pageScreen.querySelector('#edtResp').value = localStorage.getItem('nome').trim() == '' ? localStorage.getItem('username').toUpperCase() : localStorage.getItem('nome').toUpperCase()
@@ -98,26 +93,26 @@
 
         if(checkField(['edtData','edtNF'])){
             const params = new Object;
-                params.id = main_data.newComp.data === 'new' ? 'DEFAULT' : main_data.newComp.data.id 
+                params.id = newComp ? 0 : pageData.id 
                 params.nf = pageScreen.querySelector('#edtNF').value.toUpperCase()
                 params.emp_id = pageScreen.querySelector('#cmbForn').value
                 params.data_ent = pageScreen.querySelector('#edtData').value
                 params.resp = pageScreen.querySelector('#edtResp').value.trim()
                 params.status = 'ABERTO'
                 params.OBS = pageScreen.querySelector('#edtObs').value.trim()
-            const myPromisse = queryDB(params,42);
+            const myPromisse = queryDB(params,'COM-7');
             myPromisse.then((resolve)=>{
-                if(main_data.newComp.data != 'new'){
-                    main_data.viewComp.data.OBS = params.OBS
-                    main_data.viewComp.data.nf = params.nf
-                    main_data.viewComp.data.id_emp = params.emp_id
-                    main_data.viewComp.data.data_ent = params.data_ent
-                    main_data.viewComp.data.fantasia = pageScreen.querySelector('#cmbForn').options[pageScreen.querySelector('#cmbForn').selectedIndex].text
-                    main_data.viewComp.open()                                    
+                if(!newComp){
+                    main_data.com_view_comp.data.OBS = params.OBS
+                    main_data.com_view_comp.data.nf = params.nf
+                    main_data.com_view_comp.data.id_emp = params.emp_id
+                    main_data.com_view_comp.data.data_ent = params.data_ent
+                    main_data.com_view_comp.data.fantasia = pageScreen.querySelector('#cmbForn').options[pageScreen.querySelector('#cmbForn').selectedIndex].text
+                    main_data.com_view_comp.open()                                    
                 }else{
-                    pageScreen.querySelector('#btnBusca').click()
+                    main_data.com_compras.func.fillCompras()
                 }
-                closeModal('newComp')
+                closeModal('com_new_comp')
             })
         }        
     })

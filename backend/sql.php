@@ -83,7 +83,7 @@
         "COT-4" => 'CALL sp_del_cot(@access,@hash,x00);', // ID_PED
         "COT-5" => 'CALL sp_change_cot(@access,@hash,x00,"x01");', // ID_PED,STATUS
         "COM-6" => 'CALL sp_view_compra(@access,@hash,"x00","x01","x02","x03","x04");', // FIELD,SIGNAL, VALUE, DT_INI, DT_FIN
-
+        "COM-7" => 'CALL sp_set_compra(@access,@hash,x00,"x01",x02,"x03","x04","x05","x06");', // ID, NF, ID_EMP, DATA_ENT, RESP, STATUS, OBS
 
         /* FINANCEIRO */
 
