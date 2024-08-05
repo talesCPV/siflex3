@@ -42,22 +42,6 @@ function addItem($access,$obj){
   return $menu;
 }
 
-function userMenu(){
-
-  if (file_exists("../config/user_menu.json")) {
-    $fp = fopen("../config/user_menu.json", "r"); 
-    $resp = "";
-  
-    while (!feof ($fp)) {
-        $resp = $resp . fgets($fp,4096);
-    }
-
-    fclose($fp);  
-    $json = json_decode($resp);
-    return addItem(-1,$json->itens);    
-  }
-}
-
   $out = [];
   $qtd_lin = 0;
   
@@ -102,7 +86,6 @@ function userMenu(){
 
 
 //    var_dump($out);
-//	print json_encode($out);
-print json_encode(array_merge($out, userMenu()));
+	print json_encode($out);
 
 ?>

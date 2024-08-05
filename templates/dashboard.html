@@ -107,9 +107,49 @@
         styleSheet.setProperty('--win-font', main_data.dashboard.data.colors.win_font_color);
     }
 
-    document.querySelector('body').addEventListener('keyup',(event)=>{
-        if(main_data.dashboard.up_page == 'card-usr_calc'){
-            main_data.usr_calc.func.type(event.keyCode)
+    document.querySelector('body').addEventListener('contextmenu',(e)=>{
+        e.preventDefault()
+
+        if(e.target.nodeName == 'BODY'){
+            const tbl = []
+
+            const calc = new Object
+            calc.label = 'Calculadora'
+            calc.link = ()=>{
+                openHTML('usr_calc.html','pop-up','Calculadora',{},300)
+            }            
+            tbl.push(calc)
+
+            const mail = new Object
+            mail.label = 'Mensagens'
+            mail.link = ()=>{
+                openHTML('usr_mail.html','pop-up','Comunicação Interna',{},800)
+            }            
+            tbl.push(mail)
+
+            const user = new Object
+            user.label = 'Usuário'
+            user.link = ()=>{
+                openHTML('usr_viewUser.html','pop-up','Configuração do Usuário',{},800)
+            }            
+            tbl.push(user)
+
+            const agenda = new Object
+            agenda.label = 'Agenda'
+            agenda.link = ()=>{
+                openHTML('usr_agenda.html','pop-up','Agenda')
+            }
+            tbl.push(agenda)
+
+            const config = new Object
+            config.label = 'Configurar Aparência'
+            config.link = ()=>{
+                openHTML('usr_config.html','pop-up','Aparência do Sistema',{},600)
+            }
+            tbl.push(config)
+
+            menuContext(tbl,e)
+
         }
     })
 

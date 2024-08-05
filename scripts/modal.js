@@ -210,6 +210,7 @@ function menuContext(tbl,e){
 
     const mod_content = document.createElement('table')
         mod_content.classList = 'modal-text'
+        mod_content.style.left = '-7px'
         for(let i=0; i<tbl.length; i++){
             const tr = document.createElement('tr')
             const td = document.createElement('td')
