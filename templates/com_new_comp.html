@@ -69,23 +69,18 @@
 
 
     pageFunc.pageStart = ()=>{
-        pageScreen.querySelector('#edtData').value = today.getFormatDate()
-        pageScreen.querySelector('#edtResp').value = localStorage.getItem('nome').toUpperCase()
         fillEmp()
 
-/*        
-
-        if(main_data.newComp.data === 'new'){
-            pageScreen.querySelector('#edtResp').value = localStorage.getItem('nome').trim() == '' ? localStorage.getItem('username').toUpperCase() : localStorage.getItem('nome').toUpperCase()
+        if(newComp){
+            pageScreen.querySelector('#edtResp').value = localStorage.getItem('nome').toUpperCase()
+            pageScreen.querySelector('#edtData').value = today.getFormatDate()
         }else{
-            pageScreen.querySelector('#edtNF').value = main_data.newComp.data.nf.toUpperCase()
-            pageScreen.querySelector('#edtData').value = main_data.newComp.data.data_ent
-            pageScreen.querySelector('#edtObs').value = main_data.newComp.data.OBS
-            pageScreen.querySelector('#edtResp').value = main_data.newComp.data.resp.toUpperCase()
+            pageScreen.querySelector('#edtNF').value = pageData.nf.toUpperCase()            
+            pageScreen.querySelector('#edtData').value = pageData.data_ent
+            pageScreen.querySelector('#edtObs').value = pageData.OBS
+            pageScreen.querySelector('#edtResp').value = pageData.resp.toUpperCase()
             pageScreen.querySelector('#btnCad').innerHTML = 'Salvar'
         }
-**/
-
     }
 
 
@@ -108,7 +103,7 @@
                     main_data.com_view_comp.data.id_emp = params.emp_id
                     main_data.com_view_comp.data.data_ent = params.data_ent
                     main_data.com_view_comp.data.fantasia = pageScreen.querySelector('#cmbForn').options[pageScreen.querySelector('#cmbForn').selectedIndex].text
-                    main_data.com_view_comp.open()                                    
+                    main_data.com_view_comp.func.pageStart()
                 }else{
                     main_data.com_compras.func.fillCompras()
                 }

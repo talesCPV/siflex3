@@ -1333,3 +1333,70 @@ DELIMITER $$
 	END $$
 DELIMITER ;
     
+-- DROP PROCEDURE sp_view_item_compra;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_item_compra(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN IidCompra int(11)
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SELECT IC.*, PROD.descricao, PROD.unidade, PROD.cod, PROD.cod_bar AS cod_cli, ROUND((IC.qtd * IC.preco),2) as total
+				FROM tb_item_compra AS IC 
+				INNER JOIN tb_produto AS PROD
+				ON PROD.id = IC.id_prod
+				AND id_ent=IidCompra;
+        END IF;
+	END $$
+	DELIMITER ;
+    
+    
+ DROP PROCEDURE sp_set_item_compra;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_item_compra(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Iid int(11),
+        IN Iid_prod int(11),
+        IN Iid_comp int(11),
+        IN Iqtd double,
+        IN Ipreco double
+    )
+BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			IF(Iqtd = 0)THEN
+				DELETE FROM tb_item_compra WHERE id=Iid;
+            ELSE
+				IF(Iid=0)THEN
+                INSERT INTO tb_item_compra (id_prod, id_ent, qtd, preco)
+					VALUES (Iid_prod,Iid_comp,Iqtd,Ipreco);
+                ELSE
+					UPDATE tb_item_compra
+					SET id_prod=Iid_prod, id_ent=Iid_comp, qtd=Iqtd, preco=Ipreco
+                    WHERE id=Iid;                
+                END IF;
+			END IF;
+        END IF;
+	END
+    
+ DROP PROCEDURE sp_del_comp;    
+ 
+DELIMITER $$
+	CREATE PROCEDURE sp_del_comp(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN IidCompra int(11)
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			IF((SELECT status FROM tb_entrada WHERE id=IidCompra) = "ABERTO")THEN
+				DELETE FROM tb_item_compra WHERE id_ent=IidCompra;
+				DELETE FROM tb_entrada WHERE id=IidCompra;
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;
