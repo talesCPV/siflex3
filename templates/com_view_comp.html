@@ -88,19 +88,36 @@
     }
 
     pageFunc.buscaProd = (data)=>{
-        data.qtd = prompt(`Digite a Quantidade: (em estoque: ${data.estoque} ${data.unidade})`)
-        console.log(data)
-        const params = new Object;
+        data.qtd = prompt(`Digite a Quantidade: (em estoque: ${data.estoque} ${data.unidade})`,1)
+        const params = new Object
             params.id = 0
             params.id_prod = data.id
             params.id_compra = pageData.id
             params.qtd = data.qtd
             params.valor = data.preco_comp
-        const myPromisse = queryDB(params,'COT-9');
+        const myPromisse = queryDB(params,'COT-9')
         myPromisse.then((resolve)=>{
             pageFunc.fillItens()
             main_data.com_compras.func.fillCompras()
         })    
+    }
+
+    pageFunc.edtItem = (data)=>{
+        const params = new Object    
+        params.id = data.id
+        params.id_prod = data.id_prod
+        params.id_ped = data.id_ent
+        params.qtd = data.qtd
+        params.preco = data.preco
+        const myPromisse = queryDB(params,'COT-9')
+        myPromisse.then((resolve)=>{
+            try{
+                main_data.com_compras.func.fillCompras()
+                pageFunc.fillItens()
+            }catch{
+                console.error('Janela COMPRAS fechada pelo usuário!')
+            }
+        })
     }
 
     pageFunc.fillItens = ()=>{
@@ -134,7 +151,7 @@
             const params = new Object;
                 params.id_compra = pageData.id
 
-            const myPromisse = queryDB(params,'COM-10');
+            const myPromisse = queryDB(params,'COT-10');
 
             myPromisse.then((resolve)=>{
                 main_data.com_compras.func.fillCompras()
@@ -182,10 +199,18 @@
     })
 
     pageScreen.querySelector('#tblItens').addEventListener('click',(e)=>{
+        if(pageData.status=='ABERTO'){
+            data = e.target.parentNode.data
+            data.org = 'com_view_comp'
+            openHTML('com_edit_prod.html','pop-up','Alteração do Ítem',data,500)
+        }
+    })
+/*
+    pageScreen.querySelector('#tblItens').addEventListener('click',(e)=>{
         if(pageData.status == 'ABERTO'){
             const data = e.target.parentNode.data
             console.log(data)
-            data.mode = 'edit'
+           
             data.edt = function(data){
                 const params = new Object;
                     params.id = data.id 
@@ -193,10 +218,10 @@
                     params.id_ent = data.id_ent
                     params.qtd = data.qtd
                     params.preco = data.preco
-                const myPromisse = queryDB(params,46);
+                const myPromisse = queryDB(params,'COT-9');
                 myPromisse.then((resolve)=>{
                     if(resolve.trim() != ""){
-                        main_data.viewComp.fillItens()
+                        pageFunc.fillItens()
                         closeModal('edtProd')
                     }  
                 })
@@ -212,11 +237,12 @@
                         closeModal('edtProd')
                     }  
                 })                
-            }                        
-            openHTML('edtProd.html','pop-up','Alteração de Ítem',data)
+            }    
+                                    
+            openHTML('com_edit_prod.html','pop-up','Alteração de Ítem',data)
         }
     })
-
+*/
     function cot_pdf(tipo='cot'){
         const params = new Object;
             params.field = 'id'

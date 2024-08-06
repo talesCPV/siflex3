@@ -3,3 +3,11 @@
 02/08/2024 20:02 tales@flexibus.com.br : Menu Incluido (Compras)
 02/08/2024 20:04 tales@flexibus.com.br : Menu Alterado (Compras, com_compras.html, pop-up, Compras)
 02/08/2024 20:53 tales@flexibus.com.br : Empresa Editada undefined -> VIACAO SAENS PENA LTDA
+06/08/2024 19:48 tales@flexibus.com.br : Permissao alterada, Modulo: Sistema, Acesso:[[0]])
+06/08/2024 19:48 tales@flexibus.com.br : Permissao alterada, Modulo: Ferramentas, Acesso:[[0,1,2]])
+06/08/2024 19:48 tales@flexibus.com.br : Permissao alterada, Modulo: Cadastros, Acesso:[[0,1]])
+06/08/2024 19:48 tales@flexibus.com.br : Permissao alterada, Modulo: Parametros, Acesso:[[0,1,2]])
+06/08/2024 19:48 tales@flexibus.com.br : Permissao alterada, Modulo: Operacional, Acesso:[[0,1]])
+06/08/2024 19:48 tales@flexibus.com.br : Permissao alterada, Modulo: RH, Acesso:[[0,1,2]])
+06/08/2024 19:48 tales@flexibus.com.br : Permissao alterada, Modulo: Comercial, Acesso:[[0,1]])
+06/08/2024 19:48 tales@flexibus.com.br : Permissao alterada, Modulo: Fiscal, Acesso:[[0,1]])

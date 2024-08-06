@@ -129,6 +129,25 @@
         })
     }
 
+    pageFunc.edtItem = (data)=>{
+        const params = new Object
+        params.id = data.id
+        params.id_prod = data.id_prod
+        params.id_ped = data.id_ped
+        params.qtd = data.qtd
+        params.preco = data.preco
+        params.und = data.und
+        const myPromisse = queryDB(params,'COT-3')
+        myPromisse.then((resolve)=>{
+            try{
+                main_data.com_cotacoes.func.fillCot()
+                pageFunc.fillItens()
+            }catch{
+                console.error('Janela COTAÇÕES fechada pelo usuário!')
+            }
+        })
+    }
+
     pageFunc.uploadCallBack= (promisse)=>{
         promisse.then((response)=>{
             pageFunc.changeStatus('FAT')            
@@ -194,6 +213,7 @@
     pageScreen.querySelector('#tblItens').addEventListener('click',(e)=>{
         if(pageData.status=='COT'){
             data = e.target.parentNode.data
+            data.org = 'com_view_cot'
             openHTML('com_edit_prod.html','pop-up','Alteração do Ítem',data,500)
         }
     })

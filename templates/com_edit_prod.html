@@ -30,44 +30,39 @@
     const pageFunc = main_data.com_edit_prod.func
     const pageScreen = document.querySelector('#card-com_edit_prod')
 
-    pageScreen.querySelector('#lgdItem').innerHTML = pageData.descricao
-    pageScreen.querySelector('#edtQtd').value = pageData.qtd
-    pageScreen.querySelector('#edtPreco').value = parseFloat(pageData.preco).toFixed(2)
-
-    pageFunc.saveItem = (qtd,preco)=>{
-        const params = new Object
-        params.id = pageData.id
-        params.id_prod = pageData.id_prod
-        params.id_ped = pageData.id_ped
-        params.qtd = qtd
-        params.preco = preco
-        params.und = pageData.und
-        const myPromisse = queryDB(params,'COT-3')
-        myPromisse.then((resolve)=>{
-            try{
-                main_data.com_cotacoes.func.fillCot()
-                main_data.com_view_cot.func.fillItens()
-            }catch{
-                console.error('Janela COTAÇÕES fechada pelo usuário!')
-            }
-            closeModal('com_edit_prod')
-        })
+    pageFunc.pageStart = ()=>{
+        pageScreen.querySelector('#lgdItem').innerHTML = pageData.descricao
+        pageScreen.querySelector('#edtQtd').value = pageData.qtd
+        pageScreen.querySelector('#edtPreco').value = parseFloat(pageData.preco).toFixed(2)
     }
 
-
     pageScreen.querySelector('#btnSaveItem').addEventListener('click',()=>{
-        const qtd = pageScreen.querySelector('#edtQtd').value
-        const preco = pageScreen.querySelector('#edtPreco').value
-        pageFunc.saveItem(qtd,preco)
+
+        try{            
+            if(main_data.hasOwnProperty(pageData.org)){
+                pageData.qtd = pageScreen.querySelector('#edtQtd').value
+                pageData.preco = pageScreen.querySelector('#edtPreco').value
+                main_data[pageData.org].func.edtItem(data)
+            }
+            closeModal('com_edit_prod')
+       }catch{null}
     })
 
     pageScreen.querySelector('#btnDelItem').addEventListener('click',()=>{
 
         if (confirm('Deseja realmente deletar este ítem?')) {
-            pageFunc.saveItem(0,0)
+            try{            
+                if(main_data.hasOwnProperty(pageData.org)){
+                    pageData.qtd = 0
+                    pageData.preco = 0
+                    main_data[pageData.org].func.edtItem(data)
+                }
+                closeModal('com_edit_prod')
+            }catch{null}
         }
 
     })
 
+    pageFunc.pageStart()
 
 </script>

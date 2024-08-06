@@ -298,7 +298,7 @@ function print_finan(obj){
     let total = 0
     for(let i=1; i< obj.rows.length;i++){
         const data = obj.rows[i].data
-        tbl_body.push([data.id,data.tipo,data.origem,data.ref.maxWidth(15).toUpperCase(),data.emp.maxWidth(15).toUpperCase(),dataBR(data.data_pg),data.pgto,viewMoneyBR(parseFloat(data.preco).toFixed(2))])
+        tbl_body.push([data.id,data.tipo,data.origem,data.ref.substr(0,15).toUpperCase(),data.emp.substr(0,15).toUpperCase(),dataBR(data.data_pg),data.pgto,viewMoneyBR(parseFloat(data.preco).toFixed(2))])
         total += data.tipo =='ENTRADA' ? parseFloat(data.preco) : -parseFloat(data.preco) 
 
     }
@@ -350,7 +350,7 @@ function print_prod(obj){
     let total = 0
     for(let i=1; i< obj.rows.length;i++){
         const data = obj.rows[i].data                
-        tbl_body.push([data.cod,data.descricao.maxWidth(25).toUpperCase(),data.tipo,data.nome.maxWidth(15).toUpperCase(),data.cod_bar,data.estoque,data.unidade])
+        tbl_body.push([data.cod,data.descricao.substr(0,25).toUpperCase(),data.tipo,data.nome.substr(0,15).toUpperCase(),data.cod_bar,data.estoque,data.unidade])
     }
 
     doc = new jsPDF();
@@ -510,7 +510,7 @@ function print_cotacao(ped,tipo='cot'){
 function print_pedcomp(){
    
     const show_val = document.querySelector('#ckbValor').checked
-    const data = main_data.viewComp.data
+    const data = main_data.com_view_comp.data
 
 
     jsPDF.autoTableSetDefaults({
@@ -574,12 +574,11 @@ function print_pedcomp(){
     let total = 0
     let head
     for(let i=0; i< data.itens.length;i++){
-//        const data = itens.rows[i].data
         if(show_val){
-            tbl_body.push([data.itens[i].cod_cli,data.itens[i].descricao.maxWidth(40).toUpperCase(),data.itens[i].unidade,data.itens[i].qtd,viewMoneyBR(parseFloat(data.itens[i].preco).toFixed(2)),viewMoneyBR(data.itens[i].total)])
+            tbl_body.push([data.itens[i].cod_cli,data.itens[i].descricao.substr(0,40).toUpperCase(),data.itens[i].unidade,data.itens[i].qtd,viewMoneyBR(parseFloat(data.itens[i].preco).toFixed(2)),viewMoneyBR(data.itens[i].total)])
             head= [["Cod","Descrição",'Und.','Qtd.',"Preço Unit.",'Sub Total.']]
         }else{
-            tbl_body.push([data.itens[i].cod_cli,data.itens[i].descricao.maxWidth(50).toUpperCase(),data.itens[i].unidade,data.itens[i].qtd])
+            tbl_body.push([data.itens[i].cod_cli,data.itens[i].descricao.substr(0,40).toUpperCase(),data.itens[i].unidade,data.itens[i].qtd])
             head= [["Cod","Descrição",'Und.','Qtd.']]
         }
         total += parseFloat(data.itens[i].total)

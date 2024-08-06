@@ -86,7 +86,7 @@
         "COM-7" => 'CALL sp_set_compra(@access,@hash,x00,"x01",x02,"x03","x04","x05","x06");', // ID, NF, ID_EMP, DATA_ENT, RESP, STATUS, OBS
         "COM-8" => 'CALL sp_view_item_compra(@access,@hash,x00);', //ID_COMPRA
         "COT-9" => 'CALL sp_set_item_compra(@access,@hash,x00,x01,x02,"x03","x04");', // id,id_prod,id_comp,qtd,valor
-        "COT-10"=> 'CALL sp_del_comp(@access,@hash,x00);', // ID_PED
+        "COT-10"=> 'CALL sp_del_compra(@access,@hash,x00);', // ID_PED
 
         /* FINANCEIRO */
 

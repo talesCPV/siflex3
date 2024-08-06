@@ -1,6 +1,12 @@
 /*  DATABASE  */
 function queryDB(params,cod){
-    const access = main_data.dashboard == undefined ? -1 : main_data.dashboard.data.access
+    let access = -1
+    try{
+        access = main_data.dashboard.data.access
+    }catch{
+        access = -1
+    }
+
     const hash = localStorage.getItem('hash') == undefined ? 0 : localStorage.getItem('hash')
     const data = new URLSearchParams()
         data.append("access", access)

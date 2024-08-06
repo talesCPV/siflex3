@@ -48,7 +48,7 @@ function openMenu(){
     })
 
     function pushMenu(menu, obj){
-        for( let i=0; i<obj.length; i++){
+        for( let i=0; i<obj.length; i++){      
             main_data.dashboard.data.access = obj[i].access 
             const li = document.createElement('li')
             li.className = 'side-item'

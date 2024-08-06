@@ -1379,13 +1379,14 @@ BEGIN
                     WHERE id=Iid;                
                 END IF;
 			END IF;
-        END IF;
-	END
+        END IF;	
+	END $$
+DELIMITER ;
     
- DROP PROCEDURE sp_del_comp;    
+ DROP PROCEDURE sp_del_compra;    
  
 DELIMITER $$
-	CREATE PROCEDURE sp_del_comp(
+	CREATE PROCEDURE sp_del_compra(
 		IN Iallow varchar(80),
 		IN Ihash varchar(64),
 		IN IidCompra int(11)
