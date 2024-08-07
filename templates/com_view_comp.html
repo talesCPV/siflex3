@@ -166,35 +166,18 @@
     })
 
     pageScreen.querySelector('#btnFecha').addEventListener('click',()=>{
+ 
         if(pageData.status == 'ABERTO'){
-            if (confirm('Deseja realmente encerrar esta NF?')) { 
+            if (confirm('Deseja dar entrada nesta NF?')) {
                 const params = new Object;
-                    params.id = pageData.id 
-                    params.hash = localStorage.getItem('hash')
-                    params.status = 'FECHADO'                    
-                const myPromisse = queryDB(params,48);
+                    params.id_compra = pageData.id
+                const myPromisse = queryDB(params,'COT-11');
                 myPromisse.then((resolve)=>{
-                    const myPromisse_update = queryDB(params,49)
-                    myPromisse_update.then((resolve)=>{
-                        pageData.status = 'FECHADO'
-                        main_data.viewComp.open()
-                        pageScreen.querySelector('#btnBusca').click()
-                    })
+                    main_data.com_compras.func.fillCompras()
+                    pageScreen.querySelector('#btnFecha').innerHTML = 'Upload NF'
                 })
-            }                                
-        }else{
-            const params = new Object;
-                    params.id = pageData.id
-                    params.path =  '../nf/compra/'+pageData.id_emp+'_'+pageData.id+'.pdf'
+            }                               
 
-            const obj = new Object
-                obj.id = pageData.id
-                obj.path = '../../nf/compra/'
-                obj.filename = pageData.id_emp+'_'+pageData.id
-                obj.ext = '.pdf'
-                obj.params = params
-                obj.query = 44
-            openHTML('uploadFile.html','pop-up','Upload de NF',obj,[20,150])
         }        
     })
 
@@ -205,56 +188,6 @@
             openHTML('com_edit_prod.html','pop-up','Alteração do Ítem',data,500)
         }
     })
-/*
-    pageScreen.querySelector('#tblItens').addEventListener('click',(e)=>{
-        if(pageData.status == 'ABERTO'){
-            const data = e.target.parentNode.data
-            console.log(data)
-           
-            data.edt = function(data){
-                const params = new Object;
-                    params.id = data.id 
-                    params.id_prod = data.id_prod
-                    params.id_ent = data.id_ent
-                    params.qtd = data.qtd
-                    params.preco = data.preco
-                const myPromisse = queryDB(params,'COT-9');
-                myPromisse.then((resolve)=>{
-                    if(resolve.trim() != ""){
-                        pageFunc.fillItens()
-                        closeModal('edtProd')
-                    }  
-                })
-            }
-            data.del = function(id){
-                const params = new Object;
-                    params.id = id
-                    params.hash = localStorage.getItem('hash')
-                const myPromisse = queryDB(params,47);
-                myPromisse.then((resolve)=>{
-                    if(resolve.trim() != ""){
-                        main_data.viewComp.fillItens()
-                        closeModal('edtProd')
-                    }  
-                })                
-            }    
-                                    
-            openHTML('com_edit_prod.html','pop-up','Alteração de Ítem',data)
-        }
-    })
-*/
-    function cot_pdf(tipo='cot'){
-        const params = new Object;
-            params.field = 'id'
-            params.signal = '='
-            params.value = pageData.id_emp            
-        
-            const myPromisse = queryDB(params,24);
-
-            myPromisse.then((resolve)=>{            
-                print_cotacao(pageData,pageScreen.querySelector('#tblItens'),JSON.parse(resolve)[0],tipo)       
-            })
-    }
 
     pageScreen.querySelector('#btnVerNF').addEventListener('click',()=>{
         window.open('../'+pageData.path, '_blank');
@@ -262,8 +195,6 @@
 
     pageScreen.querySelector('#btnPed').addEventListener('click',()=>{
         pageData.label = 'PEDIDO DE COMPRA - ' + pageData.nf.toUpperCase()
-//        console.log(pageData)
-//        alert()
         print_pedcomp()
     })
 

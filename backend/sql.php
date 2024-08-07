@@ -87,6 +87,7 @@
         "COM-8" => 'CALL sp_view_item_compra(@access,@hash,x00);', //ID_COMPRA
         "COT-9" => 'CALL sp_set_item_compra(@access,@hash,x00,x01,x02,"x03","x04");', // id,id_prod,id_comp,qtd,valor
         "COT-10"=> 'CALL sp_del_compra(@access,@hash,x00);', // ID_PED
+        "COT-11"=> 'CALL sp_fecha_compra(@access,@hash,x00);', // ID_PED
 
         /* FINANCEIRO */
 

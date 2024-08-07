@@ -1383,8 +1383,7 @@ BEGIN
 	END $$
 DELIMITER ;
     
- DROP PROCEDURE sp_del_compra;    
- 
+ DROP PROCEDURE sp_del_compra;
 DELIMITER $$
 	CREATE PROCEDURE sp_del_compra(
 		IN Iallow varchar(80),
@@ -1397,6 +1396,28 @@ DELIMITER $$
 			IF((SELECT status FROM tb_entrada WHERE id=IidCompra) = "ABERTO")THEN
 				DELETE FROM tb_item_compra WHERE id_ent=IidCompra;
 				DELETE FROM tb_entrada WHERE id=IidCompra;
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;
+
+ DROP PROCEDURE sp_fecha_compra;
+DELIMITER $$
+	CREATE PROCEDURE sp_fecha_compra(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN IidCompra int(11)
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			IF((SELECT status FROM tb_entrada WHERE id=IidCompra) = "ABERTO")THEN
+				UPDATE tb_entrada SET status = "FECHADO" WHERE id=IidCompra;
+                
+				UPDATE tb_produto as prod INNER JOIN tb_item_compra as item 
+				SET prod.estoque = (prod.estoque + item.qtd), prod.preco_comp = item.preco 
+				WHERE prod.id=item.id_prod 
+				AND item.id_ent = IidCompra;
             END IF;
         END IF;
 	END $$
