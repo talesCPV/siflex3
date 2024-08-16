@@ -180,6 +180,11 @@ class NFs{
     }
 }
 
+NFs.prototype.formatComa = function(val){
+    val = ['NaN','undefined','null'].includes(val) ? '0,00' : val
+    return val.replace('.',',')
+}
+
 NFs.prototype.import = function(obj){
     nfImport(obj,this)
     this.formatFields()
@@ -187,17 +192,17 @@ NFs.prototype.import = function(obj){
 
 NFs.prototype.formatFields  = function(){
     this[10].AlqIssSN_IP    = this['CONF'].AlqIssSN
-    this[20].VlNFS          = this[20].VlNFS.toString().replace('.',',')
-    this[20].VlDed          = this[20].VlDed.toString().replace('.',',')
-    this[20].VlBasCalc      = this[20].VlBasCalc.replace('.',',')
+    this[20].VlNFS          = this.formatComa(this[20].VlNFS.toString())
+    this[20].VlDed          = this.formatComa(this[20].VlDed.toString())
+    this[20].VlBasCalc      = this.formatComa(this[20].VlBasCalc)
     this[20].AlqIss         = this['CONF'].AlqIssSN
-    this[20].VlIss          = this[20].VlIss.replace('.',',')
-    this[20].VlIssRet       = this[20].VlIssRet.replace('.',',')
-    this[90].ValorNFS       = this[90].ValorNFS.replace('.',',')
-    this[90].ValorISS       = this[90].ValorISS.replace('.',',')
-    this[90].ValorDed       = this[90].ValorDed.replace('.',',')
-    this[90].ValorIssRetTom = this[90].ValorIssRetTom.replace('.',',')
-    this[90].ValTrib        = this[90].ValTrib.replace('.',',')
+    this[20].VlIss          = this.formatComa(this[20].VlIss)
+    this[20].VlIssRet       = this.formatComa(this[20].VlIssRet)
+    this[90].ValorNFS       = this.formatComa(this[90].ValorNFS)
+    this[90].ValorISS       = this.formatComa(this[90].ValorISS)
+    this[90].ValorDed       = this.formatComa(this[90].ValorDed)
+    this[90].ValorIssRetTom = this.formatComa(this[90].ValorIssRetTom)
+    this[90].ValTrib        = this.formatComa(this[90].ValTrib)
 }
 
 NFs.prototype.saveRules = function(){
@@ -207,7 +212,7 @@ NFs.prototype.saveRules = function(){
         if(this.hasOwnProperty(grupos[i])){
             for (const key in this.rules[grupos[i]]) {
                 if(this[grupos[i]].hasOwnProperty(key)){
-                    this.rules[grupos[i]][key].def = this[grupos[i]][key]
+                    this.rules[grupos[i]][key].def = this[grupos[i]][key] == 'NaN' ? 0 : this[grupos[i]][key]
                 }
             }
         }
