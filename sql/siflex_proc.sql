@@ -798,11 +798,22 @@ DELIMITER $$
 	BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
-			INSERT INTO tb_produto (id,id_emp,descricao,estoque,estq_min,und,ncm,cod_int,cod_bar,cod_forn,consumo,custo,markup,local)
-				VALUES (Iid,Iid_emp,Idescricao,Iestoque,Iestq_min,Iund,Incm,Icod_int,Icod_bar,Icod_forn,Iconsumo,Icusto,Imarkup,Ilocal)
-				ON DUPLICATE KEY UPDATE
-				id_emp=Iid_emp,descricao=Idescricao,estoque=Iestoque,estq_min=Iestq_min,und=Iund,ncm=Incm,cod_int=Icod_int,
-                cod_bar=Icod_bar,cod_forn=Icod_forn,consumo=Iconsumo,custo=Icusto,markup=Imarkup,local=Ilocal;
+        
+			IF(Iid = 0)THEN
+				SET @cod = (SELECT IF(Icod_int="",MAX(cod)+1,Icod_int)FROM tb_produto);
+				INSERT INTO tb_produto (id,id_emp,descricao,estoque,etq_min,unidade,ncm,cod,cod_bar,cod_cli,consumo,preco_comp,margem,local)
+				VALUES (DEFAULT,Iid_emp,Idescricao,Iestoque,Iestq_min,Iund,Incm,@cod,Icod_bar,Icod_forn,Iconsumo,Icusto,Imarkup,Ilocal);           
+            ELSE
+				IF(Idescricao="")THEN
+					DELETE FROM tb_prod_reserva WHERE id_prod = Iid;
+					DELETE FROM tb_produto WHERE id=Iid;  
+                ELSE
+					UPDATE tb_produto SET 
+						id_emp=Iid_emp,descricao=Idescricao,estoque=Iestoque,etq_min=Iestq_min,unidade=Iund,ncm=Incm,cod=Icod_int,
+						cod_bar=Icod_bar,cod_cli=Icod_forn,consumo=Iconsumo,preco_comp=Icusto,margem=Imarkup,local=Ilocal
+					WHERE id=Iid;                
+                END IF;            
+            END IF;
         END IF;
 	END $$
 DELIMITER ;

@@ -228,4 +228,5 @@ SELECT date, WEEKOFYEAR(date) AS semana, DAYOFWEEK(date) AS dia_semana FROM
         JOIN `tb_empresa` `EMP` ON ((`SERV`.`id_emp` = `EMP`.`id`)));
         
 SELECT * FROM vw_serv_exec;
+SELECT * FROM vw_prod;
  

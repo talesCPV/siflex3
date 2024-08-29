@@ -137,6 +137,8 @@
                 opt.innerHTML = json[i].fantasia
                 if(!newProd){
                     opt.selected =  json[i].id == pageData.id_emp ? 1 : 0
+                }else{
+                    opt.selected =  json[i].id == '37' ? 1 : 0
                 }
                 cmb.appendChild(opt)
             }            
