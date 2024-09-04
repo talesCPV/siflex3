@@ -133,6 +133,9 @@
         background-color: var(--top-bar);
         color: var(--top-bar-font);
         border-radius: 50%;
+        padding: 10px;
+        font-size: 0.9em;
+        text-align: center;        
     }
 
     .icone:active{
