@@ -54,8 +54,8 @@
                 <label for="ckbData">Início/Final</label>
                 <input type="checkbox" id="ckbData" checked>
             </div>
-            <input type="date" id="edtIni">
-            <input type="date" id="edtFin">
+            <input type="date" id="edtIni" onkeypress="return getEnter(event, 'btnBusca')">
+            <input type="date" id="edtFin" onkeypress="return getEnter(event, 'btnBusca')">
         </div>            
     </fieldset>
 

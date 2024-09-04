@@ -50,3 +50,10 @@
 26/07/2024 20:09 tales@flexibus.com.br :  Imagem Alterada -> Produto: PINO REI
 26/07/2024 20:21 tales@flexibus.com.br :  Imagem Alterada -> Produto: PINO REI
 26/07/2024 20:21 tales@flexibus.com.br : Produto Editado PINO REI -> PINO REI
+26/07/2024 15:28 tales@flexibus.com.br :  Imagem Alterada -> Produto: ESTICADOR ABERTO CABO DE ACO  (COM PORCAS DE TRAVA)                
+29/07/2024 10:46 tales@flexibus.com.br : Empresa Editada undefined -> CONCESSIONARIA DO AEROPORTO INTERNACIONAL CONFINS
+30/07/2024 13:22  : Novo Registro de Hora: IGOR HENRIQUE Entrada: 26/07/2024 as 05:00, Saida: 26/07/2024 as 20:00
+30/07/2024 13:22  : Novo Registro de Hora: JERONIMO IGNACIO RAMOS Entrada: 26/07/2024 as 05:00, Saida: 26/07/2024 as 20:00
+30/07/2024 13:22  : Novo Registro de Hora: WELLINGTON HENRIQUE A SIQUEIRA Entrada: 26/07/2024 as 05:00, Saida: 26/07/2024 as 20:00
+30/07/2024 13:26  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-07-26, N. Carro:2101, VALOR: R$6.800.00
+31/07/2024 10:25  : Produto Cadastrado  -> MAO DE OBRA FLEXIBUS SANFONADOS

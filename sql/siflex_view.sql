@@ -153,7 +153,7 @@ SELECT * FROM vw_cot_preco;
         (`vw_cot_preco` `COT`
         LEFT JOIN `tb_empresa` `EMP` ON ((`COT`.`id_emp` = `EMP`.`id`)));
 
-SELECT * FROM vw_cotacoes; 
+SELECT * FROM vw_cotacoes ORDER BY data_ped DESC; 
 
 DROP VIEW vw_ped_icms;
  CREATE VIEW vw_ped_icms AS

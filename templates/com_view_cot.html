@@ -114,13 +114,13 @@
 
     pageFunc.buscaProd = (data)=>{
         data.qtd = prompt(`Digite a Quantidade: (em estoque: ${data.estoque} ${data.unidade})`)
-
+console.log(data)
         const params = new Object;
             params.id = 'DEFAULT'
             params.id_prod = data.id
             params.id_ped = pageData.id
             params.qtd = data.qtd
-            params.valor = data.preco_comp
+            params.valor = parseFloat(data.preco_comp) * (parseFloat(data.margem)/100 + 1)
             params.und = data.unidade
         const myPromisse = queryDB(params,'COT-3');
         myPromisse.then((resolve)=>{

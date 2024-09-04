@@ -55,8 +55,20 @@
     const pageFunc = main_data.com_new_cot.func
     const pageScreen = document.querySelector('#card-com_new_cot')
 
-    pageFunc.buscaEmp = (emp)=>{
+    pageFunc.buscaEmp = (emp)=>{   
         pageData.id_emp = emp.id
+        pageData.BAIRRO = emp.bairro
+        pageData.CEP = emp.cep
+        pageData.CIDADE = emp.cidade
+        pageData.CNPJ = emp.cnpj
+        pageData.EMPRESA = emp.nome
+        pageData.END = emp.end
+        pageData.IE = emp.ie
+        pageData.NUM = emp.num
+        pageData.TEL = emp.tel
+        pageData.UF = emp.estado
+        pageData.FANTASIA = emp.fantasia.toUpperCase()
+
         pageScreen.querySelector('#edtCliente').value = emp.fantasia.toUpperCase()
     }
 
@@ -117,7 +129,18 @@
             const myPromisse = queryDB(params,'COT-1');
             myPromisse.then((resolve)=>{
                const json = JSON.parse(resolve)[0]
-                json.EMPRESA = pageScreen.querySelector('#edtCliente').value
+                json.EMPRESA = pageData.FANTASIA
+                json.id_emp = pageData.id_emp
+                json.BAIRRO = pageData.BAIRRO
+                json.CEP = pageData.CEP
+                json.CIDADE = pageData.CIDADE
+                json.CNPJ = pageData.CNPJ
+                json.EMPRESA = pageData.EMPRESA
+                json.END = pageData.END
+                json.IE = pageData.IE
+                json.NUM = pageData.NUM
+                json.TEL = pageData.TEL
+                json.UF = pageData.UF    
                 closeModal('com_view_cot')   
                 openHTML('com_view_cot.html','pop-up','Cotação',json)
                 closeModal('com_new_cot')
