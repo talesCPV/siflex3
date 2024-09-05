@@ -118,9 +118,9 @@ DROP VIEW vw_cot_preco;
 	FROM tb_pedido AS PED
 	LEFT JOIN tb_item_ped AS ITN
 	ON ITN.id_ped = PED.id
-	GROUP BY PED.id;
+	GROUP BY PED.id ORDER BY data_ped DESC;
 
-SELECT * FROM vw_cot_preco; 
+SELECT * FROM vw_cot_preco ORDER BY data_ped DESC; 
 
 -- DROP VIEW vw_cotacoes;
 -- CREATE VIEW vw_cotacoes AS

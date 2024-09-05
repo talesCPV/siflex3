@@ -1,0 +1,74 @@
+<template>
+    <style>
+
+        .w70{
+            width: 70%;
+        }
+     
+    </style>
+
+    <fieldset class="fds-busca epi">
+        <legend>Busca</legend>
+        <div class="inline">
+            <label for="edtBusca">por:</label>
+            <select id="cmbBusca">
+                <option value="cod_int" signal="IN">Código</option>
+                <option value="nome" signal="LIKE" selected>Nome</option>
+                <option value="cod_bar" signal="LIKE" >Código de Barras</option>
+                <option value="estoque" signal="<=" val="estq_min">Estoque Baixo</option>
+            </select>
+            <input type="text" id="edtBusca" onkeypress="return getEnter(event, 'btnBusca-epi')">
+            <button id="btnBusca-epi" class="btn-round" ><span class="mdi mdi-magnify"></span></button>
+            <button id="btnNovo" class="btn-round"><span class="mdi mdi-plus-thick"></span></button>            
+
+        </div>
+
+        <table id="tblEpi"></table>
+    </fieldset>  
+
+</template>
+<script>
+
+    const pageData = main_data.seg_epi.data
+    const pageFunc = main_data.seg_epi.func
+    const pageScreen = document.querySelector('#card-seg_epi')
+
+    pageFunc.fillEpi = ()=>{      
+        const tbl = pageScreen.querySelector('#tblEpi')
+        tbl.innerHTML = ''
+        const query = getVal('epi')
+        const params = new Object;
+            params.field = query[0]
+            params.signal = query[1]
+            params.value = query[2]
+        const myPromisse = queryDB(params,'SEG-0');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
+            tbl.head('Nome|w70,Und.,Estq.,CA')
+            for(let i=0; i<json.length;i++){
+                tbl.plot(json[i],'nome,und,estq,num_ca','Upp,Upp,str,str')
+            }         
+        });
+    }
+
+    pageScreen.querySelector('#btnBusca-epi').addEventListener('click',()=>{
+        pageFunc.fillEpi()
+    })
+
+    pageScreen.querySelector('#btnNovo').addEventListener('click',()=>{
+        openHTML('seg_view_epi.html','pop-up','Cadastro de EPIs')
+    })
+
+    pageScreen.querySelector('#tblEpi').addEventListener('click',(e)=>{       
+        data = e.target.parentNode.data
+        if(main_data.hasOwnProperty('seg_view_epi')){
+            closeModal('seg_view_epi')
+        }
+
+        data != undefined ? openHTML('seg_view_epi.html','pop-up',`Edição de EPI - ${data.nome.toUpperCase()}`,data) : null
+
+    })
+
+ 
+</script>

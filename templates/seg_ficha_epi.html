@@ -1,0 +1,86 @@
+<template>
+    <style>
+        .panel{
+            display: flex;
+            flex-direction: column;
+            max-width: 300px;
+            padding-left: 10px;
+        }
+
+        .panel select{
+            margin-left: 0;
+        }
+
+     
+    </style>
+
+    <div class="inline">
+        <label for="cmbFunc">Funcionário</label>
+        <select id="cmbFunc"></select>
+    </div>  
+
+    <div class="panel">
+        <label for="cmbEpi">EPIs</label>
+        <select id="cmbEpi" size="10"></select>
+    </div>
+
+</template>
+<script>
+
+    const pageData = main_data.seg_ficha_epi.data
+    const pageFunc = main_data.seg_ficha_epi.func
+    const pageScreen = document.querySelector('#card-seg_ficha_epi')
+
+    pageFunc.pageStart = ()=>{
+        fillFunc()
+        fillEpi()
+    }
+
+    function fillFunc(){
+        const params = new Object;
+            params.field = 'nome'
+            params.signal = 'LIKE'
+            params.value = "'%%'"
+            params.ativo = 1
+        const myPromisse = queryDB(params,'FUN-0');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            pageData.func = json
+            const cmb = pageScreen.querySelector('#cmbFunc')
+            cmb.innerHTML=''
+            for(let i=0; i<json.length; i++){
+                const opt = document.createElement('option')
+                opt.value = json[i].id
+                opt.innerHTML = json[i].nome
+                opt.data = json[i]
+                cmb.appendChild(opt)
+            }            
+        })
+    }
+
+    function fillEpi(){
+        const params = new Object;
+            params.field = 'nome'
+            params.signal = 'LIKE'
+            params.value = "'%%'"
+            params.ativo = 1
+        const myPromisse = queryDB(params,'SEG-0');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            pageData.func = json
+            const cmb = pageScreen.querySelector('#cmbEpi')
+            cmb.innerHTML=''
+            for(let i=0; i<json.length; i++){
+                const opt = document.createElement('option')
+                opt.value = json[i].id
+                opt.innerHTML = json[i].nome
+                opt.data = json[i]
+                cmb.appendChild(opt)
+            }            
+        })
+    }
+
+
+    pageFunc.pageStart()
+
+</script>

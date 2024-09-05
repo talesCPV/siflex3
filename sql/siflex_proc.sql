@@ -1434,3 +1434,88 @@ DELIMITER $$
         END IF;
 	END $$
 DELIMITER ;
+
+/* EPI */
+
+ DROP PROCEDURE sp_viewEPI;
+DELIMITER $$
+	CREATE PROCEDURE sp_viewEPI(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Ifield varchar(30),
+        IN Isignal varchar(4),
+		IN Ivalue varchar(50)
+    )
+	BEGIN    
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SET @quer =CONCAT('SELECT * FROM tb_epi WHERE ',Ifield,' ',Isignal,' ',Ivalue,' ORDER BY ',Ifield,';');
+			PREPARE stmt1 FROM @quer;
+			EXECUTE stmt1;
+		ELSE 
+			SELECT 0 AS id, "" AS email, 0 AS id_func, 0 AS access;
+        END IF;
+	END $$
+DELIMITER ;
+
+ DROP PROCEDURE IF EXISTS sp_setEPI;
+DELIMITER $$
+	CREATE PROCEDURE sp_setEPI(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Iid int(11),
+		IN Inome varchar(80),
+		IN Imarca varchar(50),
+		IN Iestq double,
+		IN Iestq_min double,
+		IN Iund varchar(10),
+		IN Icod_bar varchar(15),
+		IN Inum_ca varchar(20),
+		IN Ilocal varchar(20)
+    )
+	BEGIN    
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			IF(Inome="")THEN
+				DELETE FROM tb_epi WHERE id=Iid ;
+            ELSE			
+				IF(Iid=0)THEN
+					INSERT INTO tb_epi (nome,marca,estq,estq_min,und,cod_bar,num_ca,local)
+                    VALUES(Inome,Imarca,Iestq,Iestq_min,Iund,Icod_bar,Inum_ca,Ilocal);            
+                ELSE
+					UPDATE tb_epi 
+                    SET nome=Inome,marca=Imarca,estq=Iestq,estq_min=Iestq_min,und=Iund,cod_bar=Icod_bar,num_ca=Inum_ca,local=Ilocal
+                    WHERE id=Iid;
+                END IF;
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;
+
+ DROP PROCEDURE sp_set_epi_func;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_epi_func(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Iid_func int(11),
+        IN Iid_epi int(11),
+        IN Iqtd double,
+        IN Idata datetime
+    )
+BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			IF(Iqtd = 0)THEN
+				DELETE FROM tb_func_epi WHERE id=Iid;
+            ELSE
+				IF(Iid=0)THEN
+                INSERT INTO tb_func_epi (id_func, id_epi, qtd, data)
+					VALUES (Iid_func,Iid_epi,Iqtd,Idata);
+                ELSE
+					UPDATE tb_func_epi
+					SET qtd=Iqtd, data=Idata
+                    WHERE id=Iid;                
+                END IF;
+			END IF;
+        END IF;	
+	END $$

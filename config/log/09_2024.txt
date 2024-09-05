@@ -24,3 +24,23 @@
 05/09/2024 20:10 tales@flexibus.com.br : Permissao alterada, Modulo: Seguranca, Acesso:[[0,1]])
 05/09/2024 20:11 tales@flexibus.com.br : Menu Incluido (EPIs)
 05/09/2024 20:12 tales@flexibus.com.br : Menu Alterado (EPIs, seg_epi.html, pop-up, Cadastro de EPIs)
+05/09/2024 21:02 tales@flexibus.com.br : EPI Cadastrado  -> Oculos de Seguranca
+05/09/2024 21:04 tales@flexibus.com.br : EPI Cadastrado  -> oculos
+05/09/2024 21:05 tales@flexibus.com.br : EPI Cadastrado  -> oculos
+05/09/2024 21:05 tales@flexibus.com.br : EPI Cadastrado  -> oculos
+05/09/2024 21:15 tales@flexibus.com.br : EPI Editado undefined -> undefined
+05/09/2024 21:16 tales@flexibus.com.br : EPI Editado undefined -> undefined
+05/09/2024 21:16 tales@flexibus.com.br : EPI Cadastrado  -> undefined
+05/09/2024 21:17 tales@flexibus.com.br : Permissao alterada, Modulo: Sistema, Acesso:[[0]])
+05/09/2024 21:17 tales@flexibus.com.br : Permissao alterada, Modulo: Ferramentas, Acesso:[[0,1,2]])
+05/09/2024 21:17 tales@flexibus.com.br : Permissao alterada, Modulo: Cadastros, Acesso:[[0,1]])
+05/09/2024 21:17 tales@flexibus.com.br : Permissao alterada, Modulo: Parametros, Acesso:[[0,1,2]])
+05/09/2024 21:17 tales@flexibus.com.br : Permissao alterada, Modulo: Operacional, Acesso:[[0,1]])
+05/09/2024 21:17 tales@flexibus.com.br : Permissao alterada, Modulo: RH, Acesso:[[0,1,2]])
+05/09/2024 21:17 tales@flexibus.com.br : Permissao alterada, Modulo: Comercial, Acesso:[[0,1]])
+05/09/2024 21:17 tales@flexibus.com.br : Permissao alterada, Modulo: Seguranca, Acesso:[[0,1]])
+05/09/2024 21:17 tales@flexibus.com.br : Permissao alterada, Modulo: Fiscal, Acesso:[[0,1]])
+05/09/2024 21:19 tales@flexibus.com.br :  Imagem Alterada -> EPI: undefined
+05/09/2024 21:22 tales@flexibus.com.br :  Imagem Alterada -> EPI: undefined
+05/09/2024 21:25 tales@flexibus.com.br : Menu Incluido (Ficha EPI)
+05/09/2024 21:27 tales@flexibus.com.br : Menu Alterado (Ficha EPI, seg_ficha_epi.html, pop-up, Ficha de EPI)

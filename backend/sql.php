@@ -97,6 +97,11 @@
         "FIN-3" => 'CALL sp_view_pedido(@access,@hash,"x00","x01","x02","x03","x04");',
         "FIN-4" => 'CALL sp_view_item_ped(@access,@hash,x00);', // ID_PED
 
+        /* SEGURANÇA */
+
+        "SEG-0" => 'CALL sp_viewEPI(@access,@hash,"x00","x01","x02");', // FIELD,SIGNAL, VALUE
+        "SEG-1" => 'CALL sp_setEPI(@access,@hash,x00,"x01","x02","x03","x04","x05","x06","x07","x08");', // ID,descricao,marca,estq,estq_min,und,cod_bar,num_ca,local
+        "SEG-2" => 'CALL sp_set_epi_func(@access,@hash,x00,x01,"x02","x03");', //id_func, id_epi, qtd, data
     );
 
 ?>

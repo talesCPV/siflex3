@@ -188,16 +188,25 @@ CREATE TABLE tb_pcp_2 (
 DROP TABLE tb_epi;
 CREATE TABLE tb_epi(
     id int(11) NOT NULL AUTO_INCREMENT,
-    descricao varchar(80) NOT NULL,
+    nome varchar(80) NOT NULL,
     marca varchar(50) NOT NULL,
     estq double DEFAULT 0,
     estq_min double DEFAULT 0,
     und varchar(10) DEFAULT "UND",
-    ncm varchar(8) DEFAULT NULL,
-	cod_int int(11) DEFAULT NULL,
     cod_bar varchar(15) DEFAULT NULL,
     num_ca varchar(20) DEFAULT "",
-    local varchar(20),
-    UNIQUE KEY (descricao),
+    local varchar(20) DEFAULT NULL,
+    UNIQUE KEY (nome),
     PRIMARY KEY (id)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+DROP TABLE tb_func_epi;
+CREATE TABLE tb_func_epi(
+    id_func int(11) NOT NULL,
+    id_epi int(11) NOT NULL,
+    qtd int DEFAULT 1,
+    data datetime DEFAULT current_timestamp,
+    FOREIGN KEY (id_func) REFERENCES tb_funcionario(id),
+    FOREIGN KEY (id_epi) REFERENCES tb_epi(id),
+    PRIMARY KEY (id_func,id_epi,data)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
