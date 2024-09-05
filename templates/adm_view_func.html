@@ -81,7 +81,9 @@
                     </select>
                 </div>
                 <div class="inline">
-                    <label for="edtAdm">Admissão</label>
+                    <label for="edtReg">Registro</label>
+                    <input type="text" id="edtReg" maxlength="5" class="only-view" disabled>                    
+                    <label for="edtAdm">Admissão</label>                    
                     <input type="date" id="edtAdm" class="only-view" disabled>          
                     <label for="edtDem">Desligamento</label>
                     <input type="date" id="edtDem" class="only-view" disabled>
@@ -177,13 +179,14 @@
     function startPage(){
         if(newFunc){
             openFields(1)
-            pageScreen.querySelector('#btnDel').disabled = 1
+            pageScreen.querySelector('#btnDel').disabled = 1 
             pageScreen.querySelector('#btnEdit').disabled = 1
             pageScreen.querySelector('#up_file').disabled = 1
         }else{
             pageScreen.querySelector('#edtNome').value = pageData.nome
             pageScreen.querySelector('#edtNasc').value = pageData.data_nasc
             pageScreen.querySelector('#edtRG').value = getRG(pageData.rg)
+            pageScreen.querySelector('#edtReg').value = pageData.reg
             pageScreen.querySelector('#edtCPF').value = getCPF(pageData.cpf)
             pageScreen.querySelector('#edtPIS').value = pageData.pis
             pageScreen.querySelector('#edtEnd').value = pageData.endereco
@@ -230,6 +233,7 @@
             params.cel = pageScreen.querySelector('#edtCel').value.trim()
             params.ativo = pageScreen.querySelector('#cmbAtivo').value
             params.obs = pageScreen.querySelector('#edtObs').value.trim()
+            params.reg = pageScreen.querySelector('#edtReg').value.trim()
          
         const myPromisse = queryDB(params,'FUN-1');
         myPromisse.then((resolve)=>{

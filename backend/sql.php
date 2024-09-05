@@ -23,7 +23,7 @@
 
         /* FUNCIONÁRIOS */
         "FUN-0"  => 'CALL sp_view_func(@access,@hash,"x00","x01","x02",x03);', // FIELD,SIGNAL, VALUE, ATIVO
-        "FUN-1"  => 'CALL sp_set_func(@access,@hash,x00,"x01","x02","x03","x04","x05","x06","x07","x08","x09","x10","x11","x12","x13","x14","x15","x16","x17",x18,"x19");', // id,nome,nasc,rg,cpf,pis,end,num,cidade,bairro,uf,cep,data_adm,data_dem,id_cargo,id_setor,tel,cel,ativo,obs
+        "FUN-1"  => 'CALL sp_set_func(@access,@hash,x00,"x01","x02","x03","x04","x05","x06","x07","x08","x09","x10","x11","x12","x13","x14","x15","x16","x17",x18,"x19","x20");', // id,nome,nasc,rg,cpf,pis,end,num,cidade,bairro,uf,cep,data_adm,data_dem,id_cargo,id_setor,tel,cel,ativo,obs,reg
         "FUN-2"  => 'CALL sp_del_func(@access,@hash,x00);', // ID
         "FUN-3"  => 'CALL sp_view_vale(@access,@hash,x00);', // ID_FUNC
         "FUN-4"  => 'CALL sp_set_vale(@access,@hash,x00,x01,"x02",x03,"x04","x05");', // ID,ID_FUNC,VALOR,QUITADO,OBS,DATA

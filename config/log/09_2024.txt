@@ -12,3 +12,15 @@
 02/09/2024 09:31  : Novo Registro de Hora: WELLINGTON HENRIQUE A SIQUEIRA Entrada: 31/08/2024 as 04:00, Saida: 31/08/2024 as 23:00
 02/09/2024 14:49  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-20, N. Carro:GANGWAY, VALOR: R$65.916.25
 04/09/2024 13:42  : Produto Editado PISTAO ARTICULACAO LADO DIREITO -> PISTAO ARTICULACAO
+05/09/2024 20:07 tales@flexibus.com.br : Funcionario Editado JERONIMO IGNACIO RAMOS -> JERONIMO IGNACIO RAMOS
+05/09/2024 20:10 tales@flexibus.com.br : Permissao alterada, Modulo: Sistema, Acesso:[[0]])
+05/09/2024 20:10 tales@flexibus.com.br : Permissao alterada, Modulo: Ferramentas, Acesso:[[0,1,2]])
+05/09/2024 20:10 tales@flexibus.com.br : Permissao alterada, Modulo: Parametros, Acesso:[[0,1,2]])
+05/09/2024 20:10 tales@flexibus.com.br : Permissao alterada, Modulo: Operacional, Acesso:[[0,1]])
+05/09/2024 20:10 tales@flexibus.com.br : Permissao alterada, Modulo: Cadastros, Acesso:[[0,1]])
+05/09/2024 20:10 tales@flexibus.com.br : Permissao alterada, Modulo: Comercial, Acesso:[[0,1]])
+05/09/2024 20:10 tales@flexibus.com.br : Permissao alterada, Modulo: RH, Acesso:[[0,1,2]])
+05/09/2024 20:10 tales@flexibus.com.br : Permissao alterada, Modulo: Fiscal, Acesso:[[0,1]])
+05/09/2024 20:10 tales@flexibus.com.br : Permissao alterada, Modulo: Seguranca, Acesso:[[0,1]])
+05/09/2024 20:11 tales@flexibus.com.br : Menu Incluido (EPIs)
+05/09/2024 20:12 tales@flexibus.com.br : Menu Alterado (EPIs, seg_epi.html, pop-up, Cadastro de EPIs)

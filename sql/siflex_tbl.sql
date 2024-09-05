@@ -44,10 +44,13 @@ CREATE TABLE tb_funcionario (
     cel varchar(15) DEFAULT NULL,
     ativo boolean DEFAULT 1,
 	obs varchar(200) DEFAULT NULL,
+    reg VARCHAR(5) DEFAULT "0",
     PRIMARY KEY (id),
     FOREIGN KEY (id_setor) REFERENCES tb_setores(id),
     FOREIGN KEY (id_cargo) REFERENCES tb_cargos(id)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8; 
+ 
+-- ALTER TABLE tb_funcionario ADD COLUMN reg VARCHAR(5) DEFAULT "0";
  
 --  DROP TABLE tb_relogio_ponto;
 CREATE TABLE tb_relogio_ponto (
@@ -180,4 +183,21 @@ CREATE TABLE tb_pcp_2 (
   valor varchar(300) DEFAULT NULL,
   FOREIGN KEY (id_setor) REFERENCES tb_setor(id),
   PRIMARY KEY (data_serv,id_setor)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+DROP TABLE tb_epi;
+CREATE TABLE tb_epi(
+    id int(11) NOT NULL AUTO_INCREMENT,
+    descricao varchar(80) NOT NULL,
+    marca varchar(50) NOT NULL,
+    estq double DEFAULT 0,
+    estq_min double DEFAULT 0,
+    und varchar(10) DEFAULT "UND",
+    ncm varchar(8) DEFAULT NULL,
+	cod_int int(11) DEFAULT NULL,
+    cod_bar varchar(15) DEFAULT NULL,
+    num_ca varchar(20) DEFAULT "",
+    local varchar(20),
+    UNIQUE KEY (descricao),
+    PRIMARY KEY (id)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
