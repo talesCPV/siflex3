@@ -44,3 +44,4 @@
 05/09/2024 21:22 tales@flexibus.com.br :  Imagem Alterada -> EPI: undefined
 05/09/2024 21:25 tales@flexibus.com.br : Menu Incluido (Ficha EPI)
 05/09/2024 21:27 tales@flexibus.com.br : Menu Alterado (Ficha EPI, seg_ficha_epi.html, pop-up, Ficha de EPI)
+06/09/2024 20:57 tales@flexibus.com.br : Funcionario Editado ADEMIR MOREIRA -> ADEMIR MOREIRA

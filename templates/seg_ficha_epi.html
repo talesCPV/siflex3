@@ -127,6 +127,12 @@
         const sel1 = pageScreen.querySelector(`#${add ? 'cmbEpi' : 'cmbEpiFunc'}`)
         const sel2 = pageScreen.querySelector(`#${add ? 'cmbEpiFunc' : 'cmbEpi'}`)
         if(sel1.selectedIndex >= 0){
+            if(add){
+                sel1.options[sel1.selectedIndex].data.qtd = prompt('Quantidade',1)
+                sel1.options[sel1.selectedIndex].innerHTML = sel1.options[sel1.selectedIndex].data.qtd.padStart(2,0) +' - '+sel1.options[sel1.selectedIndex].data.nome
+            }else{
+                sel1.options[sel1.selectedIndex].innerHTML = sel1.options[sel1.selectedIndex].data.nome
+            }
             sel2.appendChild(sel1.options[sel1.selectedIndex])
             sel1.options.remove(sel1.selectedIndex)
 

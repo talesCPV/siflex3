@@ -1116,7 +1116,7 @@ function fichaEPI(obj){
         addLine()
         doc.setFontSize(8)
         doc.setFont(undefined, 'bold')
-        doc.text('Equipamento de Proteção Individual',110,txt.y)
+        doc.text('Equipamento de Proteção Individual',115,txt.y-2)
         addLine(2)
 
         doc.text('DECLARAÇÂO:',10,txt.y)
@@ -1124,19 +1124,66 @@ function fichaEPI(obj){
         doc.setFont(undefined, 'normal')
         doc.text('Declaro que recebi da empresa FLEXIBUS SANFONADOS LTDA, os equipamentos de proteção individual (EPI) que constam nessa ficha, estando ciente',10,txt.y)
         addLine()
-        doc.text('de seu uso obrigatório e adequado a natureza do risco conforme treinamento recebido (NR-6 DA PORTARIA N3214/78). A guarda e conservação do',10,txt.y)
+        doc.text('de seu uso obrigatório e adequado a natureza do risco conforme treinamento recebido (NR-6 DA PORTARIA Nº 3214/78). A guarda e conservação do',10,txt.y)
         addLine()
         doc.text('mesmo são de minha inteira responsabilidade, autorizando o desconto do seu valor em meus salários em caso de perda, extravio ou danificação e',10,txt.y)
         addLine()
         doc.text('comprometo-me a devolvêlos no ato do desligamento da empresa.',10,txt.y)
+        addLine()
+        
+        line(txt.y)
+        addLine()
+        doc.text('Nome:   '+obj.func.nome,10,txt.y)
+        doc.text('Cargo:   '+obj.func.cargo,100,txt.y)
+        doc.text('Setor:   '+obj.func.setor,160,txt.y)
+        addLine()
+        
+//        line(txt.y)
+//        addLine()
+        doc.text('CPF:   '+getCPF(obj.func.cpf),10,txt.y)
+        doc.text('RG/UF:   '+getRG(obj.func.rg)+'/'+obj.func.estado,50,txt.y)
+        doc.text('Data Adm.:   '+obj.func.data_adm.date(),100,txt.y)
+        doc.text('Data Dem.:   '+ (obj.func.data_dem == '0000-00-00' ? '' : obj.func.data_dem.date()),160,txt.y)
+        addLine()
+        line(txt.y)
+        addLine()
+        doc.setFont(undefined, 'bold')
+        doc.text('QTD',10,txt.y)
+        doc.text('UND',20,txt.y)
+        doc.text('DESCRIÇÂO DO EPI',30,txt.y)
+        doc.text('Nº CA',100,txt.y)
+        doc.text('DATA',130,txt.y)
+        doc.text('VISTO',160,txt.y)
+        addLine()
+        doc.setFont(undefined, 'normal')
+        line(txt.y)
+        addLine()
 
+        for(let i=0; i<obj.epi.length; i++){
+            doc.text(obj.epi[i].qtd,10,txt.y)
+            doc.text(obj.epi[i].und,20,txt.y)
+            doc.text(obj.epi[i].nome,30,txt.y)
+            doc.text(obj.epi[i].num_ca,100,txt.y)
+            doc.text(obj.data.date(),130,txt.y)
+//            doc.text(obj.epi[i].,160,txt.y)
+            addLine()
+        }
+        txt.y = y+120
+        doc.setFont(undefined, 'bold')
+        const mes = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro']
 
+        doc.text(`Caçapava, ${today.getDate().toString().padStart(2,0)} de ${mes[today.getMonth()]} de ${today.getFullYear()}`,10,txt.y)
+        addLine()
+        center_text('-------------------------------------------------')
+        center_text('Assinatura do Colaborador')
 
     }
 
     addFicha(15)
 
-    addFicha(150)
+    line(150)
+
+    addFicha(160)
 
 //    line(txt.y)
 
