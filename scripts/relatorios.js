@@ -1082,3 +1082,92 @@ function termo(texto){
     openPDF(doc,'termo.pdf')
 
 }
+
+function fichaEPI(obj){
+
+    console.log(obj)
+
+
+    jsPDF.autoTableSetDefaults({
+        headStyles: { fillColor: [37, 68, 65] },
+    })
+
+    doc = new jsPDF();
+    
+    clearTxt(37,10,[210,297])
+    frame()
+//    logo([14,15,45,10])
+
+    function addFicha(y){
+        logo([14,y,45,10])
+        txt.y = y+2
+        doc.setFontSize(10)
+        doc.setFont(undefined, 'bold')
+/*
+        doc.text('Av. Dr. Rosalvo de Almeida Telles, 2070  Cacapava-SP - CEP 12.283-020 - CNPJ 00.519.547/0001-06',65,txt.y)
+        addLine()
+        doc.text('www.flexibus.com.br | comercial@flexibus.com.br | (12) 3653-2230',85,txt.y)
+*/
+        doc.text('FICHA INDIVIDUAL DE CONTROLE',110,txt.y)
+        addLine()
+        doc.setFontSize(15)
+        doc.setFont(undefined, 'bold')
+        doc.text('EPI',135,txt.y)
+        addLine()
+        doc.setFontSize(8)
+        doc.setFont(undefined, 'bold')
+        doc.text('Equipamento de Proteção Individual',110,txt.y)
+        addLine(2)
+
+        doc.text('DECLARAÇÂO:',10,txt.y)
+        addLine()
+        doc.setFont(undefined, 'normal')
+        doc.text('Declaro que recebi da empresa FLEXIBUS SANFONADOS LTDA, os equipamentos de proteção individual (EPI) que constam nessa ficha, estando ciente',10,txt.y)
+        addLine()
+        doc.text('de seu uso obrigatório e adequado a natureza do risco conforme treinamento recebido (NR-6 DA PORTARIA N3214/78). A guarda e conservação do',10,txt.y)
+        addLine()
+        doc.text('mesmo são de minha inteira responsabilidade, autorizando o desconto do seu valor em meus salários em caso de perda, extravio ou danificação e',10,txt.y)
+        addLine()
+        doc.text('comprometo-me a devolvêlos no ato do desligamento da empresa.',10,txt.y)
+
+
+
+    }
+
+    addFicha(15)
+
+    addFicha(150)
+
+//    line(txt.y)
+
+/*
+    txt.y = 280
+
+
+
+    txt.y = 50
+    doc.setFontSize(texto.font)
+    doc.setTextColor(texto.color);
+    doc.setFont(undefined, 'bold')
+
+    center_text(texto.titulo)
+
+    txt.y = 50 + parseInt(texto.font)
+//    doc.setFontSize(texto.font)
+//    doc.setTextColor(texto.color);
+    doc.setFont(undefined, 'normal')
+    box('   '+texto.text,10,txt.y, doc.internal.pageSize.getWidth()-20)
+
+    if(texto.ass != ''){
+        const w = doc.getTextDimensions(texto.ass).w +4
+        addLine()
+        txt.x = doc.internal.pageSize.getWidth()/2 - w/2
+        doc.line(txt.x - 3,txt.y-txt.lineHeigth,txt.x+w+2,txt.y-txt.lineHeigth)
+        addLine
+        center_text(texto.ass)
+//        doc.text(texto.ass,txt.x,txt.y)
+    }
+*/
+    openPDF(doc,'ficha_epi.pdf')
+
+}
