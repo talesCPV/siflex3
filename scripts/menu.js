@@ -92,6 +92,9 @@ function openMenu(){
                 const ckb = document.createElement('input')
                 ckb.type = 'checkbox';
                 ckb.id = `drop-${drop}`
+                ckb.addEventListener('change',()=>{
+                    document.querySelector('#sidebar').classList.add('open-sidebar')
+                })
                 drop++
                 li.appendChild(ckb)
 

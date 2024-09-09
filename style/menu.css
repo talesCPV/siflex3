@@ -251,6 +251,7 @@ ul>li>label>span, #logout_btn {
         right: -60px;
         border-radius: 0 50% 50% 0;
         background-color: var(--top-bar);
+        color: var(--top-bar-font);
         margin-top: 0;
         height: 50px;
         width: 50px;
