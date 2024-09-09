@@ -55,10 +55,11 @@
             <div class="side-pic">
                 <div class="inline">
                     <label for="edtNome">Nome *</label>
-                    <input type="text" id="edtNome" maxlength="30" class="only-view" disabled>
+                    <input type="text" id="edtNome" maxlength="80" class="only-view" disabled>
                 </div>
                 <div class="inline">
-                    <label for="edtNasc">Nascimento</label>
+                    <label for="edtNick">Apelido</label>
+                    <input type="text" id="edtNick" maxlength="20" class="only-view" disabled>                    <label for="edtNasc">Nascimento</label>
                     <input type="date" id="edtNasc" class="only-view" disabled>
                     <label for="edtPIS">PIS</label>
                     <input type="text" id="edtPIS" maxlength="16" onkeyup="return valPIS(this)" class="only-view" disabled>        
@@ -184,6 +185,7 @@
             pageScreen.querySelector('#up_file').disabled = 1
         }else{
             pageScreen.querySelector('#edtNome').value = pageData.nome
+            pageScreen.querySelector('#edtNick').value = pageData.nick
             pageScreen.querySelector('#edtNasc').value = pageData.data_nasc
             pageScreen.querySelector('#edtRG').value = getRG(pageData.rg)
             pageScreen.querySelector('#edtReg').value = pageData.reg
@@ -234,6 +236,7 @@
             params.ativo = pageScreen.querySelector('#cmbAtivo').value
             params.obs = pageScreen.querySelector('#edtObs').value.trim()
             params.reg = pageScreen.querySelector('#edtReg').value.trim()
+            params.nick = pageScreen.querySelector('#edtNick').value.trim().toUpperCase()
          
         const myPromisse = queryDB(params,'FUN-1');
         myPromisse.then((resolve)=>{

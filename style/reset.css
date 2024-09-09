@@ -5,12 +5,12 @@
 
 
     :root{
-        --top-bar : #8CC03FF1;
+        --top-bar : #8ff0a4f1;
         --top-bar-font : #000000FF;
-        --top-bar-hover : #5f832bF1;
+        --top-bar-hover : #33d17af1;
         --top-font-hover : #000000FF;
     
-        --win-back : #f0fbe5F1;
+        --win-back : #f0fbe5f1;
         --win-font : #202c2aFF;
     }
 
@@ -76,6 +76,7 @@
     fieldset{
         border-radius: 10px;
         margin: 10px;
+        border: solid 1px #c4c2c2;
     }
 
     legend{
@@ -122,7 +123,7 @@
     }
 
     .inline input, select, textarea{
-        width: 97%;
+        width: 94%;
     }
 
     .inline input[type=checkbox]{
@@ -226,7 +227,7 @@
         }
 
         #main-screen{
-            display: flex;
+            display: flex !important;
             gap: 10px;
             width: 100%;
             flex-wrap: wrap;

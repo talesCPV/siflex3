@@ -147,7 +147,7 @@
         head_1.innerHTML = '<th colspan="2"></th>'
         head_2.innerHTML = '<th colspan="2">DATA</th>'
         for(let i=0; i<pageData.funcionarios.length; i++){
-            head_1.innerHTML += `<th colspan="2" class="func-${pageData.funcionarios[i].id}">${pageData.funcionarios[i].nome.split(' ')[0]}</th>`
+            head_1.innerHTML += `<th colspan="2" class="func-${pageData.funcionarios[i].id}">${pageData.funcionarios[i].nick}</th>`
             head_2.innerHTML += '<th>Ent.</th><th>Sai.</th>'
         }
         tbl.appendChild(head_1)

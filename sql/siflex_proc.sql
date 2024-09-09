@@ -572,7 +572,7 @@ DELIMITER $$
 DELIMITER ;
 
 /* FUNCIONÁRIO */
--- id,nome,nasc,rg,cpf,pis,end,num,cidade,bairro,uf,cep,data_adm,data_dem,id_cargo,id_setor,tel,cel,ativo,obs,reg
+-- id,nome,nasc,rg,cpf,pis,end,num,cidade,bairro,uf,cep,data_adm,data_dem,id_cargo,id_setor,tel,cel,ativo,obs,reg,nick
  DROP PROCEDURE sp_set_func;
 DELIMITER $$
 	CREATE PROCEDURE sp_set_func(
@@ -598,17 +598,18 @@ DELIMITER $$
 		IN Icel varchar(15),
 		IN Iativo boolean,
 		IN Iobs varchar(200),
-        IN Ireg varchar(5)
+        IN Ireg varchar(5),
+		IN Inick varchar(20)
     )
 	BEGIN    
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
 			SET @status = (SELECT IF(Iativo,'ATIVO','DEMIT'));
-			INSERT INTO tb_funcionario (id,nome,data_nasc,rg,cpf,pis,endereco,num,cidade,bairro,estado,cep,data_adm,id_cargo,id_setor,tel,cel,obs,status,reg) 
-				VALUES (Iid,Inome,Inasc,Irg,Icpf,Ipis,Iend,Inum,Icidade,Ibairro,Iuf,Icep,Idata_adm,Iid_cargo,Iid_setor,Itel,Icel,Iobs,@status,Ireg)
+			INSERT INTO tb_funcionario (id,nome,data_nasc,rg,cpf,pis,endereco,num,cidade,bairro,estado,cep,data_adm,id_cargo,id_setor,tel,cel,obs,status,reg,nick) 
+				VALUES (Iid,Inome,Inasc,Irg,Icpf,Ipis,Iend,Inum,Icidade,Ibairro,Iuf,Icep,Idata_adm,Iid_cargo,Iid_setor,Itel,Icel,Iobs,@status,Ireg,Inick)
 				ON DUPLICATE KEY UPDATE
 				nome=Inome,data_nasc=Inasc,rg=Irg,cpf=Icpf,pis=Ipis,endereco=Iend,num=Inum,cidade=Icidade,bairro=Ibairro,estado=Iuf,cep=Icep,data_adm=Idata_adm,
-				data_dem=Idata_dem,id_cargo=Iid_cargo,id_setor=Iid_setor,tel=Itel,cel=Icel,status=@status,obs=Iobs, reg=Ireg;
+				data_dem=Idata_dem,id_cargo=Iid_cargo,id_setor=Iid_setor,tel=Itel,cel=Icel,status=@status,obs=Iobs, reg=Ireg, nick=Inick;
         END IF;
 	END $$
 DELIMITER ;

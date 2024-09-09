@@ -25,7 +25,7 @@ CREATE TABLE tb_usr_perm_perfil (
  DROP TABLE tb_funcionario;
 CREATE TABLE tb_funcionario (
     id int(11) NOT NULL AUTO_INCREMENT,
-    nome varchar(30) DEFAULT NULL,
+    nome VARCHAR(80) NOT NULL DEFAULT "",
     nasc date DEFAULT NULL,
     rg varchar(15) DEFAULT NULL,
     cpf varchar(15) DEFAULT NULL,
@@ -45,12 +45,14 @@ CREATE TABLE tb_funcionario (
     ativo boolean DEFAULT 1,
 	obs varchar(200) DEFAULT NULL,
     reg VARCHAR(5) DEFAULT "0",
+    nick VARCHAR(20) DEFAULT "",
     PRIMARY KEY (id),
     FOREIGN KEY (id_setor) REFERENCES tb_setores(id),
     FOREIGN KEY (id_cargo) REFERENCES tb_cargos(id)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8; 
  
--- ALTER TABLE tb_funcionario ADD COLUMN reg VARCHAR(5) DEFAULT "0";
+ -- ALTER TABLE tb_funcionario ADD COLUMN nick VARCHAR(20) DEFAULT "";
+ ALTER TABLE tb_funcionario MODIFY COLUMN nome VARCHAR(80) NOT NULL DEFAULT "";
  
 --  DROP TABLE tb_relogio_ponto;
 CREATE TABLE tb_relogio_ponto (

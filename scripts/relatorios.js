@@ -1128,7 +1128,7 @@ function fichaEPI(obj){
         addLine()
         doc.text('mesmo são de minha inteira responsabilidade, autorizando o desconto do seu valor em meus salários em caso de perda, extravio ou danificação e',10,txt.y)
         addLine()
-        doc.text('comprometo-me a devolvêlos no ato do desligamento da empresa.',10,txt.y)
+        doc.text('comprometo-me a devolve-los no ato do desligamento da empresa.',10,txt.y)
         addLine()
         
         line(txt.y)
