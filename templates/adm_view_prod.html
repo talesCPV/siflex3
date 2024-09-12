@@ -62,8 +62,8 @@
                     <input type="text" class="only-view" id="edtDesc" maxlength="80" disabled>
                 </div>
                 <div class="inline">
-                    <label for="edtCodFW">Código</label>
-                    <input type="text" class="only-view" id="edtCodFW" maxlength="20" disabled>
+                    <label for="edtCod">Código</label>
+                    <input type="text"  id="edtCod" maxlength="20" disabled>
                     <label for="edtCodForn">Código Forn.</label>
                     <input type="text" class="only-view" id="edtCodForn" maxlength="20" disabled>
                 </div>
@@ -160,7 +160,7 @@
                 opt.value = json[i].sigla
                 opt.innerHTML = json[i].nome
                 if(!newProd){
-                    opt.selected =  json[i].sigla == pageData.und ? 1 : 0
+                    opt.selected =  json[i].sigla == pageData.unidade ? 1 : 0
                 }
                 cmb.appendChild(opt)
             }            
@@ -177,7 +177,7 @@
             pageScreen.querySelector('#up_file').disabled = 1
         }else{
             pageScreen.querySelector('#edtDesc').value = pageData.descricao
-            pageScreen.querySelector('#edtCodFW').value = pageData.cod
+            pageScreen.querySelector('#edtCod').value = pageData.cod
             pageScreen.querySelector('#edtCodForn').value = pageData.cod_cli
             pageScreen.querySelector('#edtCodBar').value = pageData.cod_bar
             pageScreen.querySelector('#cmdUnd').value = pageData.unidade
@@ -214,7 +214,7 @@
             params.estq_min = pageScreen.querySelector('#edtEtqMin').value.trim()
             params.und = pageScreen.querySelector('#cmdUnd').value
             params.ncm = pageScreen.querySelector('#edtNCM').value.trim()
-            params.cod_int = pageScreen.querySelector('#edtCodFW').value.trim()
+            params.cod_int = pageScreen.querySelector('#edtCod').value.trim()
             params.cod_bar = pageScreen.querySelector('#edtCodBar').value.trim()
             params.cod_forn = pageScreen.querySelector('#edtCodForn').value.trim()
             params.consumo = pageScreen.querySelector('#cmbCons').value
