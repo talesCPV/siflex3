@@ -1520,8 +1520,24 @@ BEGIN
 			END IF;
         END IF;	
 	END $$
+DELIMITER ;
 
 /* PROCESSO */
+
+ DROP PROCEDURE sp_view_proc;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_proc(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Inome varchar(30)
+    )
+	BEGIN    
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SELECT * FROM tb_processo WHERE nome LIKE CONCAT('%',Inome COLLATE utf8_general_ci,'%') ORDER BY nome;
+        END IF;
+	END $$
+DELIMITER ;
 
  DROP PROCEDURE sp_set_proc;
 DELIMITER $$
@@ -1535,7 +1551,7 @@ DELIMITER $$
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
 			IF(Inome="")THEN
-				DELETE FROM tb_item_processo WHERE id_processo=Iid;
+				DELETE FROM tb_etapa_proc WHERE id_processo=Iid;
                 DELETE FROM tb_processo WHERE id=Iid ;
             ELSE			
 				IF(Iid=0)THEN
@@ -1543,6 +1559,48 @@ DELIMITER $$
                     VALUES(Inome);            
                 ELSE
 					UPDATE tb_processo SET nome=Inome WHERE id=Iid;
+                END IF;
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;
+
+ DROP PROCEDURE sp_view_etapa_proc;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_etapa_proc(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Iid_proc int(11)
+    )
+	BEGIN    
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SELECT * FROM tb_etapa_proc WHERE id_processo = Iid_proc ORDER BY id;
+        END IF;
+	END $$
+DELIMITER ;
+
+ DROP PROCEDURE sp_set_etapa_proc;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_etapa_proc(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Iid int(11),
+        IN Iid_proc int(11),
+        IN Iid_setor int(11),
+        IN Idesc varchar(255)
+    )
+	BEGIN    
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			IF(Idesc="")THEN
+				DELETE FROM tb_etapa_proc WHERE id=Iid;
+            ELSE			
+				IF(Iid=0)THEN
+					INSERT INTO tb_etapa_proc (id_processo,id_setor,descricao)
+                    VALUES(Iid_proc,Iid_setor,Idesc);            
+                ELSE
+					UPDATE tb_etapa_proc SET id_setor=Iid_setor, descricao=Idesc WHERE id=Iid;
                 END IF;
             END IF;
         END IF;

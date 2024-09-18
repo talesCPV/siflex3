@@ -104,8 +104,10 @@
         "SEG-2" => 'CALL sp_set_epi_func(@access,@hash,x00,x01,"x02","x03");', //id_func, id_epi, qtd, data
 
         /* PROCESSO */
-        "PRC-0" => 'CALL sp_viewProc(@access,@hash,"x00","x01","x02");', // FIELD,SIGNAL, VALUE
+        "PRC-0" => 'CALL sp_view_proc(@access,@hash,"x00");', // FIELD,SIGNAL, VALUE
         "PRC-1" => 'CALL sp_set_proc(@access,@hash,x00,"x01");', // ID,NOME
+        "PRC-2" => 'CALL sp_view_etapa_proc(@access,@hash,x00);', // FIELD,SIGNAL,ID_PROCESSO
+        "PRC-3" => 'CALL sp_set_etapa_proc(@access,@hash,x00,x01,x02,"x03");', // ID,ID_PROCESSO,ID_SETOR,DESCRIÇÃO
 
     );
 

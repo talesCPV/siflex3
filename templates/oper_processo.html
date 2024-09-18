@@ -25,36 +25,34 @@
     const pageFunc = main_data.oper_processo.func
     const pageScreen = document.querySelector('#card-oper_processo')
 
+    pageFunc.startPage = ()=>{
+        pageFunc.fillProc()
+    }
+
     pageFunc.fillProc = ()=>{      
         const tbl = pageScreen.querySelector('#tblProc')
         tbl.innerHTML = ''
         const params = new Object;
-            params.field = ''
-            params.signal = ''
-            params.value = ''
-        const myPromisse = queryDB(params,'SEG-0')
+            params.nome = pageScreen.querySelector('#edtBusca').value
+        const myPromisse = queryDB(params,'PRC-0')
         myPromisse.then((resolve)=>{
             const json = JSON.parse(resolve)
             tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
-            tbl.head('Nome|w70,Und.,Estq.,CA')
+            tbl.head('Nome')
             for(let i=0; i<json.length; i++){
-                tbl.plot(json[i],'nome,und,estq,num_ca','Upp,Upp,str,str')
+                tbl.plot(json[i],'nome','Upp')
             }         
         })
     }
 
     pageFunc.setProc = (id=0, del=0)=>{
-        const params = new Object;
+        const params = new Object
             params.id = id
             params.nome = del ?  '' : prompt('Nome do Processo:')
          
         const myPromisse = queryDB(params,'PRC-1');
         myPromisse.then((resolve)=>{
-            try{
-                main_data.adm_funcionarios.func.fillFunc()
-            }catch{
-                console.error('Tela fechada pelo usuário!')
-            }            
+           
             setLog(`Processo ${id? del? 'DELETADO' : 'Editado':'Cadastrado'} ${pageData.nome}`)
             alert('Cadastrado efetuado!')
 //            closeModal('adm_view_func')
@@ -71,13 +69,9 @@
 
     pageScreen.querySelector('#tblProc').addEventListener('click',(e)=>{       
         data = e.target.parentNode.data
-        if(main_data.hasOwnProperty('seg_view_epi')){
-            closeModal('seg_view_epi')
-        }
-
-        data != undefined ? openHTML('seg_view_epi.html','pop-up',`Edição de EPI - ${data.nome.toUpperCase()}`,data) : null
-
+        data != undefined ? openHTML('oper_view_proc.html','pop-up',`Processo Detalhado - ${data.nome.toUpperCase()}`,data) : null
     })
 
+    pageFunc.startPage()
  
 </script>

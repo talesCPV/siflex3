@@ -50,3 +50,21 @@
 09/09/2024 15:10 tales@flexibus.com.br : Funcionario Editado JOAO LUZ -> JOAO LUZ
 18/09/2024 16:12 tales@flexibus.com.br : Menu Incluido (Processos)
 18/09/2024 16:15 tales@flexibus.com.br : Menu Alterado (Processos, oper_processo.html, pop-up, Processos)
+18/09/2024 21:53 tales@flexibus.com.br : Etapa de Processo Cadastrado teste
+18/09/2024 21:53 tales@flexibus.com.br : Etapa de Processo Cadastrado testem
+18/09/2024 21:54 tales@flexibus.com.br : Etapa de Processo Cadastrado Limpeza
+18/09/2024 21:55 tales@flexibus.com.br : Etapa de Processo Cadastrado limpeza
+18/09/2024 21:56 tales@flexibus.com.br : Etapa de Processo Cadastrado limpeza teste
+18/09/2024 21:57 tales@flexibus.com.br : Etapa de Processo Cadastrado Recostura Completa
+18/09/2024 21:59 tales@flexibus.com.br : Etapa de Processo Cadastrado 
+18/09/2024 22:01 tales@flexibus.com.br : Etapa de Processo Cadastrado 
+18/09/2024 22:01 tales@flexibus.com.br : Etapa de Processo Cadastrado Limpeza da parte inf
+18/09/2024 22:02 tales@flexibus.com.br : Etapa de Processo Cadastrado Desmontagem da parte
+18/09/2024 22:04 tales@flexibus.com.br : Processo Cadastrado undefined
+18/09/2024 22:05 tales@flexibus.com.br : Etapa de Processo Cadastrado Inspecao completa da
+18/09/2024 22:06 tales@flexibus.com.br : Processo Cadastrado undefined
+18/09/2024 22:06 tales@flexibus.com.br : Etapa de Processo Cadastrado Desmontagem Parcial
+18/09/2024 22:06 tales@flexibus.com.br : Etapa de Processo Cadastrado Riscar e cortar...
+18/09/2024 22:06 tales@flexibus.com.br : Etapa de Processo Cadastrado Desmontagem Parcial 
+18/09/2024 22:07 tales@flexibus.com.br : Etapa de Processo Cadastrado clsakdlkjs
+18/09/2024 22:07 tales@flexibus.com.br : Etapa de Processo Cadastrado 

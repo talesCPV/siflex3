@@ -1,0 +1,44 @@
+<template>
+    <style>
+
+     
+    </style>
+
+    <div class="inline">
+        <label for="edtTexto" id="lblTexto"></label>
+        <textarea id="edtTexto" rows="10"></textarea>        
+    </div>
+    <div class="line">
+        <button id="btnOk">OK</button>
+    </div>
+
+</template>
+<script>
+
+    const pageData = main_data.tool_texto.data
+    const pageFunc = main_data.tool_texto.func
+    const pageScreen = document.querySelector('#card-tool_texto')
+
+    pageFunc.startPage = ()=>{
+        pageScreen.querySelector('#lblTexto').innerHTML = pageData.hasOwnProperty('label') ? pageData.label : 'Texto'
+        pageScreen.querySelector('#edtTexto').value     = pageData.hasOwnProperty('texto') ? pageData.texto : ''
+        pageScreen.querySelector('#edtTexto').maxLength = pageData.hasOwnProperty('size')  ? pageData.size : 9999
+        pageScreen.querySelector('#btnOk').value        = pageData.hasOwnProperty('btn')   ? pageData.btn   : ''
+    }
+
+    pageScreen.querySelector('#btnOk').addEventListener('click',()=>{
+
+        try{            
+            if(main_data.hasOwnProperty(pageData.org)){
+                data = e.target.parentNode.data
+                data != undefined ?  main_data[pageData.org].func.getText(data) : null               
+            }
+            closeModal('busca_emp')
+       }catch{}
+       closeModal('tool_texto')
+
+    })
+
+    pageFunc.startPage()
+
+</script>

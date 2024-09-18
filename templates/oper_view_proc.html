@@ -1,0 +1,185 @@
+
+<template>
+    <style>
+
+        #divEtapas{
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        fieldset:has(#divEtapas:empty) {
+            display: none;
+        }
+
+        .row-edit{
+            background: #fff0f0;
+        }
+
+        .row-saved{
+            background: #f3fff0;
+        }
+
+        .row-proc{
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .sel-proc{
+            max-width: 200px;
+        }
+
+    </style>
+    
+    <fieldset id="fdsPed">
+        <legend>Processo</legend>
+        <table id="tblPed">
+            <tr><th>Nome</th></tr>
+            <tr><td id="tdProc"></tr>
+        </table>
+    </fieldset>
+    <fieldset >
+        <legend>Etapas</legend>
+        <div id="divEtapas"></div>
+    </fieldset>
+    <div class="line">
+        <button id="btnAdd" disabled><span class="mdi mdi-plus-thick"></span> Nova Etapa</button> 
+    </div>
+
+</template>
+<script>
+
+    const pageData = main_data.oper_view_proc.data
+    const pageFunc = main_data.oper_view_proc.func
+    const pageScreen = document.querySelector('#card-oper_view_proc')
+
+    pageFunc.startPage = ()=>{
+        pageFunc.fillSetor()
+        pageScreen.querySelector('#tdProc').innerHTML = pageData.nome
+    }
+
+    pageFunc.fillSetor = ()=>{
+        const params = new Object;
+            params.field = 'nome'
+            params.signal = 'LIKE'
+            params.value = "'%%'"
+        const myPromisse = queryDB(params,'ADM-1');
+        myPromisse.then((resolve)=>{
+            pageData.setor = JSON.parse(resolve)
+            pageScreen.querySelector('#btnAdd').disabled = 0
+            pageFunc.fillEtapas()
+        })
+    }
+
+    pageFunc.fillEtapas = ()=>{
+        const params = new Object;
+            params.id_proc = pageData.id
+        const myPromisse = queryDB(params,'PRC-2');
+        myPromisse.then((resolve)=>{
+            pageData.etapas = JSON.parse(resolve)
+            pageScreen.querySelector('#divEtapas').innerHTML = ''
+            for(let i=0; i<pageData.etapas.length; i++){
+                addRow(pageData.etapas[i].id,pageData.etapas[i].descricao,pageData.etapas[i].id_setor)
+            }
+
+          
+        })
+    }
+
+    pageFunc.setEtapa = (obj)=>{
+        const params = new Object
+            params.id = obj.id_etapa
+            params.id_proc = pageData.id
+            params.id_setor = obj.querySelector('.sel-proc').value
+            params.desc = obj.querySelector('.text-proc').value.trim()
+            
+        const myPromisse = queryDB(params,'PRC-3');
+        myPromisse.then((resolve)=>{
+            pageFunc.fillEtapas()
+            setLog(`Etapa de Processo ${obj.id? obj.desc==''? 'DELETADO' : 'Editado':'Cadastrado'} ${obj.querySelector('.text-proc').value.substr(0,20)}`)
+//            alert('Cadastrado efetuado!')
+        })
+           
+    }
+
+    function addRow(id,txt='',setor=''){
+        const row = document.createElement('div')
+        row.className = 'inline row-proc'
+        row.classList.add(id?'row-saved':'row-edit')
+        row.id_etapa = id
+
+        const col_1 = document.createElement('div')
+        col_1.className = 'column'
+
+        const label_1 = document.createElement('label')
+        label_1.innerHTML = 'Setor'
+        col_1.appendChild(label_1)
+
+        const sel = document.createElement('select')
+        sel.className = 'sel-proc'
+        sel.value = setor
+        sel.addEventListener('change',()=>{
+            row.classList.remove('row-saved')
+            row.classList.add('row-edit')
+        })
+        for(let i=0; i<pageData.setor.length; i++){
+            const opt = document.createElement('option')
+            opt.value = pageData.setor[i].id
+            opt.innerHTML = pageData.setor[i].nome
+            opt.selected = setor == pageData.setor[i].id
+            sel.appendChild(opt)
+        }
+
+        col_1.appendChild(sel)
+        row.appendChild(col_1)
+
+        const col_2 = document.createElement('div')
+        col_2.className = 'column'
+
+        const text = document.createElement('textarea')
+        text.rows = 3
+        text.className = 'text-proc'
+        text.value = txt
+        text.maxLength = 255
+        text.addEventListener('input',()=>{
+            row.classList.remove('row-saved')
+            row.classList.add('row-edit')
+        })
+        row.appendChild(text)
+
+        const btn_del = document.createElement('button')
+        btn_del.className = 'btn-round'
+        btn_del.innerHTML = '<span class="mdi mdi-eraser"></span>'
+        btn_del.addEventListener('click',()=>{
+            if(confirm('Remover esta Etapa?')){
+                text.value = ''
+                pageFunc.setEtapa(row)
+            }
+        })
+        col_2.appendChild(btn_del)
+
+        const btn_save = document.createElement('button')
+        btn_save.className = 'btn-round'
+        btn_save.innerHTML = '<span class="mdi mdi-content-save"></span>'
+        btn_save.addEventListener('click',()=>{
+            pageFunc.setEtapa(row)
+        })
+        col_2.appendChild(btn_save)
+
+        row.appendChild(col_2)
+
+
+        pageScreen.querySelector('#divEtapas').appendChild(row)
+
+    }
+
+
+    pageScreen.querySelector('#btnAdd').addEventListener('click',()=>{
+        addRow(0)
+//        openHTML('tool_texto.html','pop-up','Estapa Detalhada',{'org':'oper_view_proc','label':'Etapa','size':255})
+    })
+
+    pageFunc.startPage()
+
+
+</script>

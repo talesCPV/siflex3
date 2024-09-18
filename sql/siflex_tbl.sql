@@ -223,10 +223,13 @@ CREATE TABLE tb_processo (
     PRIMARY KEY (id)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
--- DROP TABLE tb_item_processo;
-CREATE TABLE tb_item_processo (
-    id int(11) NOT NULL,
+ DROP TABLE tb_etapa_proc;
+CREATE TABLE tb_etapa_proc (
+    id int(11) NOT NULL AUTO_INCREMENT,
     id_processo int(11) NOT NULL,
+    id_setor int(11),
     descricao varchar(255) NOT NULL,
-    PRIMARY KEY (id,id_processo)
+    FOREIGN KEY (id_processo) REFERENCES tb_processo(id),
+    FOREIGN KEY (id_setor) REFERENCES tb_setor(id),
+    PRIMARY KEY (id)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
