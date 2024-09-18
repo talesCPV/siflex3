@@ -48,3 +48,5 @@
 09/09/2024 15:06 tales@flexibus.com.br : Funcionario Editado J.BAZILIO -> J.BAZILIO
 09/09/2024 15:10 tales@flexibus.com.br : Funcionario Editado J.BAZILIO -> JOAO BAZILIO
 09/09/2024 15:10 tales@flexibus.com.br : Funcionario Editado JOAO LUZ -> JOAO LUZ
+18/09/2024 16:12 tales@flexibus.com.br : Menu Incluido (Processos)
+18/09/2024 16:15 tales@flexibus.com.br : Menu Alterado (Processos, oper_processo.html, pop-up, Processos)

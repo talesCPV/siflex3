@@ -212,3 +212,21 @@ CREATE TABLE tb_func_epi(
     FOREIGN KEY (id_epi) REFERENCES tb_epi(id),
     PRIMARY KEY (id_func,id_epi,data)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+/* Processo */
+
+-- DROP TABLE tb_processo;
+CREATE TABLE tb_processo (
+    id int(11) NOT NULL AUTO_INCREMENT,
+    nome varchar(30) NOT NULL,
+    UNIQUE (nome),
+    PRIMARY KEY (id)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+-- DROP TABLE tb_item_processo;
+CREATE TABLE tb_item_processo (
+    id int(11) NOT NULL,
+    id_processo int(11) NOT NULL,
+    descricao varchar(255) NOT NULL,
+    PRIMARY KEY (id,id_processo)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;

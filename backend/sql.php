@@ -102,6 +102,11 @@
         "SEG-0" => 'CALL sp_viewEPI(@access,@hash,"x00","x01","x02");', // FIELD,SIGNAL, VALUE
         "SEG-1" => 'CALL sp_setEPI(@access,@hash,x00,"x01","x02","x03","x04","x05","x06","x07","x08");', // ID,descricao,marca,estq,estq_min,und,cod_bar,num_ca,local
         "SEG-2" => 'CALL sp_set_epi_func(@access,@hash,x00,x01,"x02","x03");', //id_func, id_epi, qtd, data
+
+        /* PROCESSO */
+        "PRC-0" => 'CALL sp_viewProc(@access,@hash,"x00","x01","x02");', // FIELD,SIGNAL, VALUE
+        "PRC-1" => 'CALL sp_set_proc(@access,@hash,x00,"x01");', // ID,NOME
+
     );
 
 ?>

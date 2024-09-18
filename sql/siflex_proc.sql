@@ -1520,3 +1520,31 @@ BEGIN
 			END IF;
         END IF;	
 	END $$
+
+/* PROCESSO */
+
+ DROP PROCEDURE sp_set_proc;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_proc(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Iid int(11),
+        IN Inome varchar(30)
+    )
+	BEGIN    
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			IF(Inome="")THEN
+				DELETE FROM tb_item_processo WHERE id_processo=Iid;
+                DELETE FROM tb_processo WHERE id=Iid ;
+            ELSE			
+				IF(Iid=0)THEN
+					INSERT INTO tb_processo (nome)
+                    VALUES(Inome);            
+                ELSE
+					UPDATE tb_processo SET nome=Inome WHERE id=Iid;
+                END IF;
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;
