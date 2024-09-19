@@ -1606,3 +1606,56 @@ DELIMITER $$
         END IF;
 	END $$
 DELIMITER ;
+
+/* OS */
+
+	DROP PROCEDURE sp_view_os;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_os(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Iproc varchar(30),
+        IN Idt_ini date,
+        IN Idt_fin date
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SELECT * FROM vw_os 
+            WHERE processo LIKE CONCAT('%',Iproc COLLATE utf8_general_ci,'%') 
+            AND dt_entrega >= Idt_ini 
+            AND dt_entrega <= Idt_fin
+            ORDER BY dt_entrega;
+        END IF;
+	END $$
+	DELIMITER ;
+
+
+ DROP PROCEDURE sp_set_os;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_os(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Iid int(11),
+        IN Iid_proc int(11),
+        IN Iid_emp int(11),
+        IN Idt_entrega date,
+        IN Iobs varchar(255)
+    )
+	BEGIN    
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			IF(Iid_proc=0)THEN
+				DELETE FROM tb_apontamento WHERE id_os=Iid;
+				DELETE FROM tb_os WHERE id=Iid;
+            ELSE			
+				IF(Iid=0)THEN
+					INSERT INTO tb_os (id_proc,id_emp,dt_entrega,obs)
+                    VALUES(Iid_proc,Iid_emp,Idt_entrega,Iobs);            
+                ELSE
+					UPDATE tb_os SET id_emp=Iid_emp, dt_entrega=Idt_entrega, obs=Iobs WHERE id=Iid;
+                END IF;
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;

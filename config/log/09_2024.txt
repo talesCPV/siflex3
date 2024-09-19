@@ -68,3 +68,38 @@
 18/09/2024 22:06 tales@flexibus.com.br : Etapa de Processo Cadastrado Desmontagem Parcial 
 18/09/2024 22:07 tales@flexibus.com.br : Etapa de Processo Cadastrado clsakdlkjs
 18/09/2024 22:07 tales@flexibus.com.br : Etapa de Processo Cadastrado 
+19/09/2024 14:03 tales@flexibus.com.br : Etapa de Processo Cadastrado Desmontagem Parcial
+19/09/2024 14:11 tales@flexibus.com.br : Processo Editado undefined
+19/09/2024 14:13 tales@flexibus.com.br : Processo Editado undefined
+19/09/2024 14:14 tales@flexibus.com.br : Processo Editado undefined
+19/09/2024 14:15 tales@flexibus.com.br : Processo Cadastrado undefined
+19/09/2024 14:16 tales@flexibus.com.br : Processo Editado undefined
+19/09/2024 14:17 tales@flexibus.com.br : Processo Cadastrado undefined
+19/09/2024 14:18 tales@flexibus.com.br : Processo Cadastrado undefined
+19/09/2024 14:18 tales@flexibus.com.br : Etapa de Processo Cadastrado teste
+19/09/2024 14:18 tales@flexibus.com.br : Etapa de Processo Cadastrado 
+19/09/2024 14:25 tales@flexibus.com.br : Processo Editado undefined
+19/09/2024 14:25 tales@flexibus.com.br : Processo Cadastrado undefined
+19/09/2024 14:36 tales@flexibus.com.br : Processo EDITADO undefined
+19/09/2024 14:37 tales@flexibus.com.br : Processo EDITADO undefined
+19/09/2024 14:37 tales@flexibus.com.br : Processo EDITADO undefined
+19/09/2024 14:38 tales@flexibus.com.br : Etapa de Processo Cadastrado Desmontagem da parte
+19/09/2024 14:38 tales@flexibus.com.br : Etapa de Processo Cadastrado Desmontagem da parte
+19/09/2024 14:38 tales@flexibus.com.br : Etapa de Processo Cadastrado Limpeza
+19/09/2024 14:39 tales@flexibus.com.br : Etapa de Processo Cadastrado Corte da altura da L
+19/09/2024 14:40 tales@flexibus.com.br : Etapa de Processo Cadastrado Montagem dos alumini
+19/09/2024 14:40 tales@flexibus.com.br : Processo EDITADO undefined
+19/09/2024 14:40 tales@flexibus.com.br : Processo EDITADO undefined
+19/09/2024 14:41 tales@flexibus.com.br : Menu Incluido (Ordem de Servico)
+19/09/2024 14:44 tales@flexibus.com.br : Menu Alterado (Ordem de Servico, oper_os.html, pop-up, Ordem de Servico)
+19/09/2024 14:54 tales@flexibus.com.br : Etapa de Processo Cadastrado teste 1
+19/09/2024 14:54 tales@flexibus.com.br : Etapa de Processo Cadastrado Teste 2
+19/09/2024 14:54 tales@flexibus.com.br : Etapa de Processo Cadastrado Teste 3
+19/09/2024 15:52 tales@flexibus.com.br : OS CADASTRADA 
+19/09/2024 15:53 tales@flexibus.com.br : OS CADASTRADA 
+19/09/2024 15:55 tales@flexibus.com.br : OS CADASTRADA 
+19/09/2024 15:55 tales@flexibus.com.br : Processo EDITADO undefined
+19/09/2024 16:35 tales@flexibus.com.br : OS EDITADA 
+19/09/2024 16:36 tales@flexibus.com.br : OS DELETADA 
+19/09/2024 16:38 tales@flexibus.com.br : OS CADASTRADA 
+19/09/2024 16:38 tales@flexibus.com.br : OS EDITADA 

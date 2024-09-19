@@ -1218,3 +1218,8 @@ function fichaEPI(obj){
     openPDF(doc,'ficha_epi.pdf')
 
 }
+
+
+function printOS(id){
+    console.log(id)
+}

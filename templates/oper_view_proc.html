@@ -173,10 +173,15 @@
 
     }
 
-
     pageScreen.querySelector('#btnAdd').addEventListener('click',()=>{
         addRow(0)
-//        openHTML('tool_texto.html','pop-up','Estapa Detalhada',{'org':'oper_view_proc','label':'Etapa','size':255})
+    })
+
+    pageScreen.querySelector('#tblPed').addEventListener('click',(e)=>{       
+        const nome = main_data.oper_processo.func.setProc(pageData.id,0,pageData.nome)
+        if(nome != null){
+            pageScreen.querySelector('#tdProc').innerHTML = nome
+        }
     })
 
     pageFunc.startPage()

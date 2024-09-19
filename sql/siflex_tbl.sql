@@ -233,3 +233,29 @@ CREATE TABLE tb_etapa_proc (
     FOREIGN KEY (id_setor) REFERENCES tb_setor(id),
     PRIMARY KEY (id)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+ DROP TABLE tb_os;
+CREATE TABLE tb_os (
+    id int(11) NOT NULL AUTO_INCREMENT,
+    id_proc int(11) NOT NULL,
+    id_emp int(11) NOT NULL,
+    data TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    dt_entrega date DEFAULT NULL,
+    obs varchar(255) DEFAULT NULL,
+    FOREIGN KEY (id_proc) REFERENCES tb_processo(id),
+    FOREIGN KEY (id_emp) REFERENCES tb_empresa(id),
+    PRIMARY KEY (id)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+ DROP TABLE tb_apontamento;
+CREATE TABLE tb_apontamento (
+    id_os int(11) NOT NULL,
+    id_etapa int(11) NOT NULL,
+    id_func int(11) NOT NULL,
+    exec BOOLEAN DEFAULT 1,
+    obs varchar(255) DEFAULT NULL,
+    FOREIGN KEY (id_os) REFERENCES tb_os(id),
+    FOREIGN KEY (id_etapa) REFERENCES tb_etapa_proc(id),
+    FOREIGN KEY (id_func) REFERENCES tb_funcionario(id),
+    PRIMARY KEY (id_os,id_etapa)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;

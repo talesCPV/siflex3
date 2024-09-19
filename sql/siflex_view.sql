@@ -230,3 +230,20 @@ SELECT date, WEEKOFYEAR(date) AS semana, DAYOFWEEK(date) AS dia_semana FROM
 SELECT * FROM vw_serv_exec;
 SELECT * FROM vw_prod;
  
+ 
+--  DROP VIEW IF EXISTS vw_os;
+ CREATE VIEW vw_os AS
+ SELECT OS.*, PRO.nome AS processo, EMP.fantasia AS cliente
+ FROM tb_os AS OS
+ INNER JOIN tb_processo AS PRO
+ INNER JOIN tb_empresa AS EMP
+ ON OS.id_proc = PRO.id
+ AND OS.id_emp = EMP.id;
+ 
+ SELECT * FROM vw_os;
+ 
+ SELECT OS.*, ETP.descricao, ETP.id AS id_etapa
+ FROM vw_os AS OS
+ INNER JOIN tb_etapa_proc AS ETP
+ ON ETP.id_processo = OS.id_proc
+ ORDER BY ETP.id;

@@ -41,22 +41,22 @@
             tbl.head('Nome')
             for(let i=0; i<json.length; i++){
                 tbl.plot(json[i],'nome','Upp')
-            }         
+            }
         })
     }
 
-    pageFunc.setProc = (id=0, del=0)=>{
+    pageFunc.setProc = (id=0, del=0,desc='')=>{
         const params = new Object
-            params.id = id
-            params.nome = del ?  '' : prompt('Nome do Processo:')
-         
-        const myPromisse = queryDB(params,'PRC-1');
-        myPromisse.then((resolve)=>{
-           
-            setLog(`Processo ${id? del? 'DELETADO' : 'Editado':'Cadastrado'} ${pageData.nome}`)
-            alert('Cadastrado efetuado!')
-//            closeModal('adm_view_func')
-        })
+            params.id = id              
+            params.nome = del ?  '' : prompt('Nome do Processo:',desc)
+        if(params.nome != null){
+            const myPromisse = queryDB(params,'PRC-1')
+            myPromisse.then((resolve)=>{
+                setLog(`Processo ${id? del? 'DELETADO' : 'EDITADO' : 'CADASTRADO'} ${pageData.nome}`)
+                pageFunc.fillProc()
+            })
+        }
+        return params.nome
     }
 
     pageScreen.querySelector('#btnBusca').addEventListener('click',()=>{
