@@ -1239,17 +1239,17 @@ function printOS(os){
     doc.setFontSize(10)
     txt.y = 40
     doc.text('Cliente:',19,txt.y)
+    doc.text('Emissão:',145,txt.y)
     doc.setFont(undefined, 'normal')
     doc.text(os.cliente,35,txt.y)
+    doc.text(os.data.date(),170,txt.y)
     addLine()
 
     doc.setFont(undefined, 'bold')
-    doc.text('Emissão:',19,txt.y)
-    doc.text('Data de Entrega:',140,txt.y)
-    doc.setFont(undefined, 'normal')
-    doc.text(os.data.date(),35,txt.y)
+    doc.text('Entrega:',145,txt.y)
+//    doc.setFont(undefined, 'normal')
     doc.text(os.dt_entrega.date(),170,txt.y)
-    addLine()
+//    addLine()
     doc.setFont(undefined, 'bold')
     doc.text('Serviço:',19,txt.y)
     doc.text(os.processo,35,txt.y)
@@ -1258,8 +1258,8 @@ function printOS(os){
     doc.setFont(undefined, 'normal')
     box(os.obs,30,txt.y,170)
 
-    line(70)
-    txt.y = 75
+    line(65)
+    txt.y = 70
 
     const params = new Object
     params.id_proc = os.id_proc
