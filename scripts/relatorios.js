@@ -1085,9 +1085,6 @@ function termo(texto){
 
 function fichaEPI(obj){
 
-    console.log(obj)
-
-
     jsPDF.autoTableSetDefaults({
         headStyles: { fillColor: [37, 68, 65] },
     })
@@ -1220,6 +1217,84 @@ function fichaEPI(obj){
 }
 
 
-function printOS(id){
-    console.log(id)
+function printOS(os){
+
+    doc = new jsPDF();
+    clearTxt(37,10,[210,297])
+    frame()
+    logo([155,12,45,10])
+
+    doc.line(50,5,50,30)
+    doc.line(150,5,150,30)
+
+    txt.y = 22
+
+    doc.setFontSize(35)
+    doc.setFont(undefined, 'bold')
+    doc.text('OS',19,txt.y)
+    doc.text(os.id.padStart(5,0),82,txt.y)
+
+    line(30)
+
+    doc.setFontSize(10)
+    txt.y = 40
+    doc.text('Cliente:',19,txt.y)
+    doc.setFont(undefined, 'normal')
+    doc.text(os.cliente,35,txt.y)
+    addLine()
+
+    doc.setFont(undefined, 'bold')
+    doc.text('Emissão:',19,txt.y)
+    doc.text('Data de Entrega:',140,txt.y)
+    doc.setFont(undefined, 'normal')
+    doc.text(os.data.date(),35,txt.y)
+    doc.text(os.dt_entrega.date(),170,txt.y)
+    addLine()
+    doc.setFont(undefined, 'bold')
+    doc.text('Serviço:',19,txt.y)
+    doc.text(os.processo,35,txt.y)
+    addLine()
+    doc.text('Obs:',19,txt.y)
+    doc.setFont(undefined, 'normal')
+    box(os.obs,30,txt.y,170)
+
+    line(70)
+    txt.y = 75
+
+    const params = new Object
+    params.id_proc = os.id_proc
+    const myPromisse = queryDB(params,'PRC-4')
+    myPromisse.then((resolve)=>{
+        const json = JSON.parse(resolve)
+
+        for(let i=0; i<json.length; i++){
+
+            const ceiling = txt.y.toString()
+
+            doc.setFont(undefined, 'bold')
+            doc.setFontSize(8)
+            center_text(json[i].setor,[5,40])
+            txt.y -= 5
+            doc.setFont(undefined, 'normal')
+            doc.setFontSize(10)
+            box(json[i].descricao,50,txt.y,100)
+
+            const img = document.querySelector('#barcode')
+            img.style.display = 'none'
+
+            JsBarcode("#barcode", os.id.padStart(5,0)+json[i].id_processo.padStart(5,0)+json[i].id_setor.padStart(3,0)+json[i].id.padStart(9,0) , {format: "itf"});
+            doc.addImage(img.src, 'JPEG', 150, Number(ceiling)-2, 50, 16);
+            txt.y += 5
+
+            line(txt.y + 5)
+            doc.line(40,Number(ceiling)-5,40,txt.y+5)
+            txt.y+=10
+
+        }
+
+        openPDF(doc,'os.pdf')
+    })
+
+
+
 }

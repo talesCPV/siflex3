@@ -103,3 +103,27 @@
 19/09/2024 16:36 tales@flexibus.com.br : OS DELETADA 
 19/09/2024 16:38 tales@flexibus.com.br : OS CADASTRADA 
 19/09/2024 16:38 tales@flexibus.com.br : OS EDITADA 
+19/09/2024 20:23 tales@flexibus.com.br : OS EDITADA 
+19/09/2024 20:56 tales@flexibus.com.br : Etapa de Processo Cadastrado E um facto estabelec
+19/09/2024 20:56 tales@flexibus.com.br : Etapa de Processo Cadastrado E um facto estabelec
+19/09/2024 20:56 tales@flexibus.com.br : Etapa de Processo Cadastrado Desmontagem da parte
+19/09/2024 20:57 tales@flexibus.com.br : Etapa de Processo Cadastrado Desmontagem da parte
+19/09/2024 20:57 tales@flexibus.com.br : Etapa de Processo Cadastrado Desmontagem da parte
+19/09/2024 21:36 tales@flexibus.com.br : Permissao alterada, Modulo: Sistema, Acesso:[[0]])
+19/09/2024 21:36 tales@flexibus.com.br : Permissao alterada, Modulo: Ferramentas, Acesso:[[0,1,2]])
+19/09/2024 21:36 tales@flexibus.com.br : Permissao alterada, Modulo: Cadastros, Acesso:[[0,1]])
+19/09/2024 21:36 tales@flexibus.com.br : Permissao alterada, Modulo: Operacional, Acesso:[[0,1]])
+19/09/2024 21:36 tales@flexibus.com.br : Permissao alterada, Modulo: RH, Acesso:[[0,1,2]])
+19/09/2024 21:36 tales@flexibus.com.br : Permissao alterada, Modulo: Comercial, Acesso:[[0,1]])
+19/09/2024 21:36 tales@flexibus.com.br : Permissao alterada, Modulo: Fiscal, Acesso:[[0,1]])
+19/09/2024 21:36 tales@flexibus.com.br : Permissao alterada, Modulo: Seguranca, Acesso:[[0,1]])
+19/09/2024 21:36 tales@flexibus.com.br : Permissao alterada, Modulo: Parametros, Acesso:[[0,1,2]])
+19/09/2024 21:36 tales@flexibus.com.br : Permissao alterada, Modulo: Sistema, Acesso:[[0]])
+19/09/2024 21:36 tales@flexibus.com.br : Permissao alterada, Modulo: Ferramentas, Acesso:[[0,1,2]])
+19/09/2024 21:36 tales@flexibus.com.br : Permissao alterada, Modulo: Cadastros, Acesso:[[0,1]])
+19/09/2024 21:36 tales@flexibus.com.br : Permissao alterada, Modulo: Parametros, Acesso:[[0,1,2]])
+19/09/2024 21:36 tales@flexibus.com.br : Permissao alterada, Modulo: Operacional, Acesso:[[0,1]])
+19/09/2024 21:36 tales@flexibus.com.br : Permissao alterada, Modulo: RH, Acesso:[[0,1,2]])
+19/09/2024 21:36 tales@flexibus.com.br : Permissao alterada, Modulo: Comercial, Acesso:[[0,1]])
+19/09/2024 21:36 tales@flexibus.com.br : Permissao alterada, Modulo: Seguranca, Acesso:[[0,1]])
+19/09/2024 21:36 tales@flexibus.com.br : Permissao alterada, Modulo: Fiscal, Acesso:[[0,1]])

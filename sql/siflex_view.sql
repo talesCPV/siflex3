@@ -242,8 +242,12 @@ SELECT * FROM vw_prod;
  
  SELECT * FROM vw_os;
  
- SELECT OS.*, ETP.descricao, ETP.id AS id_etapa
- FROM vw_os AS OS
- INNER JOIN tb_etapa_proc AS ETP
- ON ETP.id_processo = OS.id_proc
- ORDER BY ETP.id;
+ --  DROP VIEW IF EXISTS vw_etapa_proc;
+ CREATE VIEW vw_etapa_proc AS
+ SELECT ETP.*, STR.nome AS setor
+ FROM tb_etapa_proc AS ETP
+ INNER JOIN  tb_setores AS STR
+ ON ETP.id_setor = STR.id
+ ORDER BY ETP.id_processo,ETP.id;
+ 
+ SELECT * FROM vw_etapa_proc;

@@ -70,9 +70,8 @@
 
         <div class="inline">
             <label for="edtObs">Obs.</label>
-            <textarea id="edtObs" rows="5"></textarea>
+            <textarea id="edtObs" rows="5" maxlength="255"></textarea>
         </div>
-
 
         <div class="line">
             <button id="btnDel" class="only-view" disabled>Deletar</button>
@@ -81,6 +80,8 @@
             <button id="btnPrint" class="only-view" disabled>Imprimir</button>
         </div>
     </fieldset>
+
+    <img id="barcode"></img>
 
 </template>
 <script>
@@ -195,7 +196,7 @@
     })
 
     pageScreen.querySelector('#btnPrint').addEventListener('click',()=>{
-        printOS(pageData.id)
+        printOS(pageData)
     })
     
     startPage()    

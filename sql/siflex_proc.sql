@@ -1659,3 +1659,20 @@ DELIMITER $$
         END IF;
 	END $$
 DELIMITER ;
+
+	DROP PROCEDURE sp_proc_detail;
+DELIMITER $$
+	CREATE PROCEDURE sp_proc_detail(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Iid_proc int(11)
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SELECT * FROM vw_etapa_proc 
+            WHERE id_processo = Iid_proc
+            ORDER BY id;
+        END IF;
+	END $$
+	DELIMITER ;
