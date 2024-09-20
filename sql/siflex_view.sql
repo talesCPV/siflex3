@@ -251,3 +251,18 @@ SELECT * FROM vw_prod;
  ORDER BY ETP.id_processo,ETP.id;
  
  SELECT * FROM vw_etapa_proc;
+ 
+--  DROP VIEW IF EXISTS vw_etapa_exec;
+-- CREATE VIEW vw_etapa_exec AS
+ SELECT APT.*, COALESCE(APT.exec,0) AS ok
+ FROM tb_os AS OS
+ LEFT JOIN tb_apontamento AS APT
+ ON APT.id_os = OS.id;
+ 
+ SELECT ETP.* 
+ FROM tb_os AS OS
+ INNER JOIN vw_etapa_proc AS ETP
+ ON OS.id_proc = ETP.id_processo
+ WHERE OS.id=2
+ ORDER BY ETP.id;
+ 

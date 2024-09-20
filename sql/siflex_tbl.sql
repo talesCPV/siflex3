@@ -262,3 +262,5 @@ CREATE TABLE tb_apontamento (
     FOREIGN KEY (id_func) REFERENCES tb_funcionario(id),
     PRIMARY KEY (id_os,id_etapa)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+INSERT INTO tb_apontamento (id_os,id_etapa,id_func) VALUES (2,9,1);
