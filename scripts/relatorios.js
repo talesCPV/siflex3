@@ -1282,8 +1282,10 @@ function printOS(os){
             const img = document.querySelector('#barcode')
             img.style.display = 'none'
 
-            JsBarcode("#barcode", os.id.padStart(5,0)+json[i].id_processo.padStart(5,0)+json[i].id_setor.padStart(3,0)+json[i].id.padStart(9,0) , {format: "itf"});
-            doc.addImage(img.src, 'JPEG', 150, Number(ceiling)-2, 50, 16);
+            const cod = os.id.padStart(4,0)+json[i].id.padStart(5,0)
+
+            JsBarcode("#barcode", cod );
+            doc.addImage(img.src, 'JPEG', 150, Number(ceiling)-2, 54, 16);
             txt.y += 5
 
             line(txt.y + 5)

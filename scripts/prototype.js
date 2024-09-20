@@ -223,7 +223,10 @@ HTMLTableElement.prototype.plot = function(obj, fields,type='',file=false, mark=
                     break;
                 case 'let':                            
                     html = arr[0]
-                    break;                      
+                    break;     
+                case 'chk':                            
+                    html = obj[arr[0]]== '1' ? '<span class="mdi mdi-check-bold"></span>' : '<span class="mdi mdi-close-thick"></span>'
+                    break;                                       
                 default:
                   html = obj[arr[0]] != null ? obj[arr[0]] :''
             }            

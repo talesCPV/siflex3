@@ -1625,7 +1625,7 @@ DELIMITER $$
             WHERE processo LIKE CONCAT('%',Iproc COLLATE utf8_general_ci,'%') 
             AND dt_entrega >= Idt_ini 
             AND dt_entrega <= Idt_fin
-            ORDER BY dt_entrega;
+            ORDER BY dt_entrega, aberta;
         END IF;
 	END $$
 	DELIMITER ;

@@ -70,9 +70,9 @@
         myPromisse.then((resolve)=>{
             const json = JSON.parse(resolve)
             tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
-            tbl.head('Serviço, Cliente, Entrega')
+            tbl.head('Serviço, Cliente, Entrega,<span class="mdi mdi-check-bold"></span>')
             for(let i=0; i<json.length; i++){
-                tbl.plot(json[i],'processo,cliente,dt_entrega','Upp,Upp,dat')
+                tbl.plot(json[i],'processo,cliente,dt_entrega,aberta','Upp,Upp,dat,ico 1=mdi-close-thick 0=mdi-check-bold ')
             }
 
         })

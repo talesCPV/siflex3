@@ -1,0 +1,63 @@
+<template>
+    <style>
+
+     
+    </style>
+
+    <fieldset>
+        <legend>Ordem de Serviço</legend>
+        <div class="inline">
+            <label for="edtOS">Num. OS</label>
+            <input type="text" id="edtOS" onkeypress="return getEnter(event, 'btnBusca')">
+            <button id="btnBusca" class="btn-round"><span class="mdi mdi-magnify"></span></button>
+        </div>
+        
+    </fieldset>
+
+    <table id="tblOS"></table>
+
+
+</template>
+<script>
+
+    const pageData = main_data.apt_lancar.data
+    const pageFunc = main_data.apt_lancar.func
+    const pageScreen = document.querySelector('#card-apt_lancar')
+
+    function fillOS(N){
+//  os.id.padStart(5,0)+json[i].id_processo.padStart(5,0)+json[i].id_setor.padStart(3,0)+json[i].id.padStart(9,0)
+
+        const cod = getNum(N)
+        console.log(cod.length)
+        if(cod.length == 9){
+            const os = Number(cod.substring(0,4))
+            const etapa = Number(cod.substring(4,9))
+            console.log(os,etapa)
+
+
+            
+
+
+
+        }else{
+            console.log('Ñ')
+        }
+
+
+
+
+
+
+    }
+
+
+    pageScreen.querySelector('#btnBusca').addEventListener('click',()=>{
+        const cod = pageScreen.querySelector('#edtOS')
+        fillOS(cod.value)
+        cod.value = ''
+        cod.focus()
+    })
+
+
+
+</script>

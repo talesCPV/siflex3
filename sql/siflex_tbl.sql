@@ -242,10 +242,13 @@ CREATE TABLE tb_os (
     data TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     dt_entrega date DEFAULT NULL,
     obs varchar(255) DEFAULT NULL,
+    aberta BOOLEAN DEFAULT 1,
     FOREIGN KEY (id_proc) REFERENCES tb_processo(id),
     FOREIGN KEY (id_emp) REFERENCES tb_empresa(id),
     PRIMARY KEY (id)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+-- ALTER TABLE tb_os ADD COLUMN aberta BOOLEAN DEFAULT 1;
 
  DROP TABLE tb_apontamento;
 CREATE TABLE tb_apontamento (
