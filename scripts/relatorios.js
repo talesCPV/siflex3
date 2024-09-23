@@ -1232,7 +1232,7 @@ function printOS(os){
     doc.setFontSize(35)
     doc.setFont(undefined, 'bold')
     doc.text('OS',19,txt.y)
-    doc.text(os.id.padStart(5,0),82,txt.y)
+    doc.text(os.id.padStart(4,0),85,txt.y)
 
     line(30)
 

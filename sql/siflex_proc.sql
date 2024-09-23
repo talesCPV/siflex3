@@ -1726,6 +1726,7 @@ DELIMITER $$
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
 			INSERT INTO tb_apontamento (id_os,id_etapa,id_func) VALUES (Iid_os,Iid_etapa,Iid_func);
+			UPDATE tb_os SET aberta = IF((SELECT COUNT(*) FROM vw_apontamento WHERE id_os=2 AND ok=0)>0,1,0) WHERE id=Iid_os;
             CALL sp_view_apt(Iallow,Ihash,Iid_os);
         END IF;
 	END $$

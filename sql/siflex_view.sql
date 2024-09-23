@@ -265,12 +265,15 @@ SELECT * FROM vw_prod;
 -- DROP VIEW IF EXISTS vw_apontamento;
 -- CREATE VIEW vw_apontamento AS
  SELECT OS.*, APT.id_func, COALESCE(APT.exec,0) AS ok, COALESCE(APT.obs,"") AS obs,
- (@row_number+1) AS row_num  
+ (@row_number := @row_number + 1) AS row_num  
 
  FROM vw_os_proc AS OS
  LEFT JOIN tb_apontamento AS APT
- ON APT.id_os = OS.id_os
- AND APT.id_etapa = OS.id_etapa
+ ON APT.id_os = OS.id_os  
+ AND APT.id_etapa = OS.id_etapa,
+ (SELECT @row_number := 0) AS r
  ORDER BY OS.id_etapa;
  
  SELECT * FROM vw_apontamento;
+ 
+ SELECT COUNT(*) FROM vw_apontamento WHERE id_os=2 AND ok=0;
