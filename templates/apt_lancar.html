@@ -7,7 +7,7 @@
     <fieldset>
         <legend>Ordem de Serviço</legend>
         <div class="inline">
-            <label for="edtOS">Num. OS</label>
+            <label for="edtOS">Num. OS </label>
             <input type="text" id="edtOS" onkeypress="return getEnter(event, 'btnBusca')">
             <button id="btnBusca" class="btn-round"><span class="mdi mdi-magnify"></span></button>
         </div>
@@ -15,6 +15,7 @@
     </fieldset>
 
     <table id="tblOS"></table>
+    <table id="tblProc"></table>
 
 
 </template>
@@ -24,24 +25,63 @@
     const pageFunc = main_data.apt_lancar.func
     const pageScreen = document.querySelector('#card-apt_lancar')
 
+    function pageStart(){
+        pageScreen.querySelector('#edtOS').focus()
+    }
+
     function fillOS(N){
-//  os.id.padStart(5,0)+json[i].id_processo.padStart(5,0)+json[i].id_setor.padStart(3,0)+json[i].id.padStart(9,0)
-
         const cod = getNum(N)
-        console.log(cod.length)
-        if(cod.length == 9){
-            const os = Number(cod.substring(0,4))
-            const etapa = Number(cod.substring(4,9))
-            console.log(os,etapa)
+        const os = cod.length == 9 ? Number(cod.substring(0,4)) : Number(cod)
+        const etapa = cod.length == 9 ? Number(cod.substring(4,9)) : 0
 
+        function fillProc(obj){
+            let message = ''
+            const tbl = pageScreen.querySelector('#tblProc')
+            tbl.style.display = obj.length > 0 ? 'inline-table' : 'none'
+            tbl.head('Op., Setor, Descrição,<span class="mdi mdi-check-bold"></span>')
+            for(let i=0; i<obj.length; i++){
+                tbl.plot(obj[i],'ordem,setor,descricao,ok','Upp,Upp,Upp,ico 0=mdi-close-thick 1=mdi-check-bold ')
+                if(Number(etapa) == obj[i].id_etapa && obj[i].ok == '0'){
+                    message = `Digite seu cod. para lançar o processo ${obj[i].ordem}, setor ${obj[i].setor}:` 
+                }
+            }
+            return message
+        }
+
+        const params = new Object
+            params.id_os = os
+            params.id_etapa = etapa
+            params.id_func = 0
+        const myPromisse = queryDB(params,'OS-2')
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const tbl = pageScreen.querySelector('#tblOS')
+            tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
+            tbl.head('Cliente,Serviço, Entrega,<span class="mdi mdi-check-bold"></span>')
+            for(let i=0; i<json.length; i++){
+                tbl.plot(json[i],'cliente,processo,dt_entrega,aberta','Upp,Upp,dat,ico 0=mdi-check-bold 1=mdi-close-thick')
+            } 
+            queryDB(params,'OS-3')
+            .then((resolve)=>{
+                const json = JSON.parse(resolve)
+                const message = fillProc(json)
+
+                if(message.length > 0 && etapa > 0){
+                    const id_func = prompt(message)
+                    if(id_func != null){
+                        params.id_func = id_func
+                        queryDB(params,'OS-4')
+                        .then((resolve)=>{
+                            const json = JSON.parse(resolve)
+                            fillProc(json)
+                        })
+                    }
+                }
+            })
+        })
 
             
 
-
-
-        }else{
-            console.log('Ñ')
-        }
 
 
 
@@ -58,6 +98,6 @@
         cod.focus()
     })
 
-
+    pageStart()
 
 </script>

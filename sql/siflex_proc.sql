@@ -1493,7 +1493,7 @@ DELIMITER $$
 	END $$
 DELIMITER ;
 
- DROP PROCEDURE sp_set_epi_func;
+ DROP PROCEDURE IF EXISTS sp_set_epi_func;
 DELIMITER $$
 	CREATE PROCEDURE sp_set_epi_func(
 		IN Iallow varchar(80),
@@ -1524,7 +1524,7 @@ DELIMITER ;
 
 /* PROCESSO */
 
- DROP PROCEDURE sp_view_proc;
+ DROP PROCEDURE IF EXISTS sp_view_proc;
 DELIMITER $$
 	CREATE PROCEDURE sp_view_proc(
 		IN Iallow varchar(80),
@@ -1539,7 +1539,7 @@ DELIMITER $$
 	END $$
 DELIMITER ;
 
- DROP PROCEDURE sp_set_proc;
+ DROP PROCEDURE IF EXISTS sp_set_proc;
 DELIMITER $$
 	CREATE PROCEDURE sp_set_proc(
 		IN Iallow varchar(80),
@@ -1565,7 +1565,7 @@ DELIMITER $$
 	END $$
 DELIMITER ;
 
- DROP PROCEDURE sp_view_etapa_proc;
+ DROP PROCEDURE IF EXISTS sp_view_etapa_proc;
 DELIMITER $$
 	CREATE PROCEDURE sp_view_etapa_proc(
 		IN Iallow varchar(80),
@@ -1580,7 +1580,7 @@ DELIMITER $$
 	END $$
 DELIMITER ;
 
- DROP PROCEDURE sp_set_etapa_proc;
+ DROP PROCEDURE IF EXISTS sp_set_etapa_proc;
 DELIMITER $$
 	CREATE PROCEDURE sp_set_etapa_proc(
 		IN Iallow varchar(80),
@@ -1609,9 +1609,25 @@ DELIMITER ;
 
 /* OS */
 
-	DROP PROCEDURE sp_view_os;
+	DROP PROCEDURE IF EXISTS sp_view_os;
 DELIMITER $$
 	CREATE PROCEDURE sp_view_os(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Iid_os int(11)
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SELECT * FROM vw_os 
+            WHERE id = Iid_os;
+        END IF;
+	END $$
+	DELIMITER ;
+
+	DROP PROCEDURE IF EXISTS sp_view_os_proc;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_os_proc(
 		IN Iallow varchar(80),
 		IN Ihash varchar(64),
 		IN Iproc varchar(30),
@@ -1631,7 +1647,7 @@ DELIMITER $$
 	DELIMITER ;
 
 
- DROP PROCEDURE sp_set_os;
+ DROP PROCEDURE IF EXISTS sp_set_os;
 DELIMITER $$
 	CREATE PROCEDURE sp_set_os(
 		IN Iallow varchar(80),
@@ -1660,7 +1676,7 @@ DELIMITER $$
 	END $$
 DELIMITER ;
 
-	DROP PROCEDURE sp_proc_detail;
+	DROP PROCEDURE IF EXISTS sp_proc_detail;
 DELIMITER $$
 	CREATE PROCEDURE sp_proc_detail(
 		IN Iallow varchar(80),
@@ -1670,9 +1686,47 @@ DELIMITER $$
 	BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
-			SELECT * FROM vw_etapa_proc 
+			SELECT * FROM vw_etapa_setor 
             WHERE id_processo = Iid_proc
             ORDER BY id;
         END IF;
 	END $$
 	DELIMITER ;
+    
+    
+ 	DROP PROCEDURE IF EXISTS sp_view_apt;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_apt(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Iid_os int(11)
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SELECT APT.*, (@row_number := @row_number + 1) AS ordem
+            FROM vw_apontamento AS APT,
+			(SELECT @row_number := 0) AS r
+            WHERE id_os = Iid_os
+            ORDER BY id_etapa;
+        END IF;
+	END $$
+	DELIMITER ;    
+    
+-- DROP PROCEDURE IF EXISTS sp_set_apt;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_apt(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Iid_os int(11),
+        IN Iid_etapa int(11),
+        IN Iid_func int(11)
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			INSERT INTO tb_apontamento (id_os,id_etapa,id_func) VALUES (Iid_os,Iid_etapa,Iid_func);
+            CALL sp_view_apt(Iallow,Ihash,Iid_os);
+        END IF;
+	END $$
+	DELIMITER ;   

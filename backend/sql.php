@@ -111,8 +111,13 @@
         "PRC-4" => 'CALL sp_proc_detail(@access,@hash,x00);', // ID_PROC
 
         /* ORDEM DE SERVIÇO */
-        "OS-0" => 'CALL sp_view_os(@access,@hash,"x00","x01","x02");', // PROCESSO,DT_INI,DT_FIN
+        "OS-0" => 'CALL sp_view_os_proc(@access,@hash,"x00","x01","x02");', // PROCESSO,DT_INI,DT_FIN
         "OS-1" => 'CALL sp_set_os(@access,@hash,x00,x01,x02,"x03","x04");', // ID,ID_PROC,ID_EMP,DT_ENTREGA,OBS
+        "OS-2" => 'CALL sp_view_os(@access,@hash,x00);', // ID_OS
+        "OS-3" => 'CALL sp_view_apt(@access,@hash,x00);', // ID_OS
+        "OS-4" => 'CALL sp_set_apt(@access,@hash,x00,x01,x02);', // ID_OS, ID_ETAPA, ID_FUNC
+
+
     );
 
 ?>

@@ -242,27 +242,35 @@ SELECT * FROM vw_prod;
  
  SELECT * FROM vw_os;
  
- --  DROP VIEW IF EXISTS vw_etapa_proc;
- CREATE VIEW vw_etapa_proc AS
+   DROP VIEW IF EXISTS vw_etapa_setor;
+ CREATE VIEW vw_etapa_setor AS
  SELECT ETP.*, STR.nome AS setor
  FROM tb_etapa_proc AS ETP
  INNER JOIN  tb_setores AS STR
  ON ETP.id_setor = STR.id
  ORDER BY ETP.id_processo,ETP.id;
  
- SELECT * FROM vw_etapa_proc;
+ SELECT * FROM vw_etapa_setor;
  
---  DROP VIEW IF EXISTS vw_etapa_exec;
--- CREATE VIEW vw_etapa_exec AS
- SELECT APT.*, COALESCE(APT.exec,0) AS ok
+--  DROP VIEW IF EXISTS vw_os_proc;
+ CREATE VIEW vw_os_proc AS
+ SELECT OS.id AS id_os, PROC.id_processo, PROC.id AS id_etapa, PROC.id_setor, PROC.descricao, PROC.setor 
  FROM tb_os AS OS
+ INNER JOIN vw_etapa_setor AS PROC
+ ON OS.id_proc = PROC.id_processo
+ ORDER BY PROC.id;
+ 
+  SELECT * FROM vw_os_proc;
+ 
+-- DROP VIEW IF EXISTS vw_apontamento;
+-- CREATE VIEW vw_apontamento AS
+ SELECT OS.*, APT.id_func, COALESCE(APT.exec,0) AS ok, COALESCE(APT.obs,"") AS obs,
+ (@row_number+1) AS row_num  
+
+ FROM vw_os_proc AS OS
  LEFT JOIN tb_apontamento AS APT
- ON APT.id_os = OS.id;
+ ON APT.id_os = OS.id_os
+ AND APT.id_etapa = OS.id_etapa
+ ORDER BY OS.id_etapa;
  
- SELECT ETP.* 
- FROM tb_os AS OS
- INNER JOIN vw_etapa_proc AS ETP
- ON OS.id_proc = ETP.id_processo
- WHERE OS.id=2
- ORDER BY ETP.id;
- 
+ SELECT * FROM vw_apontamento;
