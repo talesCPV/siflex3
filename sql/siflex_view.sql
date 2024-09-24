@@ -231,19 +231,27 @@ SELECT * FROM vw_serv_exec;
 SELECT * FROM vw_prod;
  
  
--- 	DROP VIEW IF EXISTS vw_os;
--- 	CREATE VIEW vw_os AS
-  SELECT OS.*, PRO.nome AS processo, EMP.fantasia AS cliente,
+ 	DROP VIEW IF EXISTS vw_os;
+ 	CREATE VIEW vw_os AS
+   SELECT OS.*, PRO.nome AS processo, EMP.fantasia AS cliente,
 	(SELECT CONCAT(ROUND((SELECT COUNT(*) FROM tb_apontamento WHERE id_os=OS.id)/
-	(SELECT COUNT(*) FROM vw_apontamento WHERE id_os=OS.id) * 100,0),"%"))AS ok
- FROM tb_os AS OS
- INNER JOIN tb_processo AS PRO
- INNER JOIN tb_empresa AS EMP
- ON OS.id_proc = PRO.id
- AND OS.id_emp = EMP.id;
+	(SELECT COUNT(*) FROM vw_apontamento WHERE id_os=OS.id) * 100,0),"%"))AS ok,
+    COALESCE((SELECT setor FROM vw_apontamento WHERE id_os=OS.id AND ok=0 LIMIT 1),"CONCLUIDA") AS setor
+	 FROM tb_os AS OS
+	 INNER JOIN tb_processo AS PRO
+	 INNER JOIN tb_empresa AS EMP
+	 ON OS.id_proc = PRO.id
+	 AND OS.id_emp = EMP.id;
  
  SELECT * FROM vw_os;
+ /**/
  
+
+ 
+ SELECT CONCAT(id_etapa,"|",id_setor,"|",setor)  AS setor
+ FROM vw_apontamento WHERE id_os=3 AND ok=0 LIMIT 1;
+ 
+ /**/
    DROP VIEW IF EXISTS vw_etapa_setor;
  CREATE VIEW vw_etapa_setor AS
  SELECT ETP.*, STR.nome AS setor

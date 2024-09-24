@@ -64,8 +64,9 @@
     }
 
     tr:hover td{
-        background-color: #2e2929;
-        color: rgb(223, 216, 208);
+        background-color: #919191;
+        color: rgb(255, 255, 255);
+        
     }
 
     tr:nth-child(even) {

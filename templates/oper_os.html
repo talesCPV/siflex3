@@ -17,6 +17,10 @@
             background-color: rgb(250, 199, 199) !important;
         }
 
+        .center-text{
+            text-align: center;
+        }
+
         #lblTotal{
             font-weight: bolder;
             font-size: 1.4em;
@@ -33,6 +37,32 @@
 
         #btnNova{
             width: 97%;
+        }
+
+        @media (max-width: 768px) {
+/*            
+            .fds-busca label {
+                display: flex;
+                justify-content: flex-start;
+            }
+*/                
+            .center-itens .line-ckb{
+                width: 5%;
+            }
+            .center-itens input[type=date]{
+                width: 80%;
+            }
+
+            #edtBusca{
+                margin-left: 35px;
+                width: 40%;
+            }
+
+            #lblConc{
+                display: flex;
+                justify-content: right;
+            }
+
         }
 
 
@@ -59,6 +89,10 @@
                     <input type="checkbox" id="ckbData_fin">
                 </div>                
                 <input type="date" id="edtFin">
+                <div class="line-ckb">
+                    <label id="lblConc" for="ckbConc">Concluídas </label>
+                    <input type="checkbox" id="ckbConc">
+                </div>
             </div>            
         </fieldset>
 
@@ -75,7 +109,7 @@
 
 
     pageFunc.pageStart = ()=>{
-        pageScreen.querySelector('#edtIni').value =  today.getFormatDate()
+        pageScreen.querySelector('#edtIni').value =  today.overday(-7)
         pageScreen.querySelector('#edtFin').value =  today.overday(30)
     }
 
@@ -90,15 +124,17 @@
             params.dt_fin = ckb_fin ? pageScreen.querySelector('#edtFin').value : '9999-12-31'
         const myPromisse = queryDB(params,'OS-0')
         myPromisse.then((resolve)=>{
-            const json = JSON.parse(resolve)
+            const json = JSON.parse(resolve)  
             tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
-            tbl.head('Serviço, Cliente, Entrega,<span class="mdi mdi-check-bold"></span>')
+            tbl.head('OS|center-text,Serviço, Cliente, Entrega,Setor,<span class="mdi mdi-check-bold"></span>')
             for(let i=0; i<json.length; i++){
-                tbl.plot(json[i],'processo,cliente,dt_entrega,ok','Upp,Upp,dat,Upp')
+                if(pageScreen.querySelector('#ckbConc').checked || json[i].setor != 'CONCLUIDA' ){
+                    tbl.plot(json[i],'id,processo,cliente,dt_entrega,setor,ok','padStart(4.0),Upp,Upp,dat,Upp,Upp')
+                }
                 const row = tbl.rows[tbl.rows.length-1]
                 const entrega = new Date(json[i].dt_entrega+' 00:00:00')
                 const days = Math.ceil((entrega-today)/86400000)
-                row.classList.add(days > 7 ? 'normal' : days <=0 ? 'critical' : 'atention')
+                row.classList.add(json[i].setor == 'CONCLUIDA' || days > 7 ? 'normal' : days <=0 ? 'critical' : 'atention')
             }
 
         })

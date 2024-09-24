@@ -29,7 +29,7 @@
         pageScreen.querySelector('#edtOS').focus()
     }
 
-    function fillOS(N){
+    pageFunc.fillOS = (N)=>{
         const cod = getNum(N)
         const os = cod.length == 9 ? Number(cod.substring(0,4)) : Number(cod)
         const etapa = cod.length == 9 ? Number(cod.substring(4,9)) : 0
@@ -59,7 +59,7 @@
             tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
             tbl.head('Cliente,Serviço, Entrega,<span class="mdi mdi-check-bold"></span>')
             for(let i=0; i<json.length; i++){
-                tbl.plot(json[i],'cliente,processo,dt_entrega,aberta','Upp,Upp,dat,ico 0=mdi-check-bold 1=mdi-close-thick')
+                tbl.plot(json[i],'cliente,processo,dt_entrega,ok','Upp,Upp,dat,Upp')
             } 
             queryDB(params,'OS-3')
             .then((resolve)=>{
@@ -73,7 +73,8 @@
                         queryDB(params,'OS-4')
                         .then((resolve)=>{
                             const json = JSON.parse(resolve)
-                            fillProc(json)
+//                            fillProc(json)
+                            pageFunc.fillOS(os.toString())
                         })
                     }
                 }
@@ -83,7 +84,7 @@
 
     pageScreen.querySelector('#btnBusca').addEventListener('click',()=>{
         const cod = pageScreen.querySelector('#edtOS')
-        fillOS(cod.value)
+        pageFunc.fillOS(cod.value)
         cod.value = ''
         cod.focus()
     })
