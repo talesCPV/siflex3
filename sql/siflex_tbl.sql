@@ -257,6 +257,7 @@ CREATE TABLE tb_apontamento (
     id_func int(11) NOT NULL,
     exec BOOLEAN DEFAULT 1,
     obs varchar(255) DEFAULT NULL,
+    data TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_os) REFERENCES tb_os(id),
     FOREIGN KEY (id_etapa) REFERENCES tb_etapa_proc(id),
     FOREIGN KEY (id_func) REFERENCES tb_funcionario(id),
