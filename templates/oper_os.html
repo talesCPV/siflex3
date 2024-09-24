@@ -1,6 +1,22 @@
 
 <template>
     <style>
+
+        #tblOS tr:nth-child(2n){
+            background-color: unset;
+            filter: brightness(97%);
+        }
+
+        .normal{
+            background-color: rgb(199, 250, 207) !important;
+        }
+        .atention{
+            background-color: rgb(245, 245, 162) !important;
+        }
+        .critical{
+            background-color: rgb(250, 199, 199) !important;
+        }
+
         #lblTotal{
             font-weight: bolder;
             font-size: 1.4em;
@@ -33,11 +49,15 @@
             </div>
             <div class="inline center-itens">
                 <div class="line-ckb">
-                    <label for="ckbData">Início/Final</label>
+                    <label for="ckbData">Entrega </label>
                     <input type="checkbox" id="ckbData" checked>
                 </div>
 
                 <input type="date" id="edtIni">
+                <div class="line-ckb">
+                    <label for="ckbData_fin"></label>
+                    <input type="checkbox" id="ckbData_fin">
+                </div>                
                 <input type="date" id="edtFin">
             </div>            
         </fieldset>
@@ -59,20 +79,26 @@
         pageScreen.querySelector('#edtFin').value =  today.overday(30)
     }
 
-    pageFunc.fillOS = ()=>{      
+    pageFunc.fillOS = ()=>{     
+        const ckb_ini = pageScreen.querySelector('#ckbData').checked
+        const ckb_fin = pageScreen.querySelector('#ckbData_fin').checked
         const tbl = pageScreen.querySelector('#tblOS')
         tbl.innerHTML = ''
         const params = new Object;
             params.proc = pageScreen.querySelector('#edtBusca').value
-            params.dt_ini = pageScreen.querySelector('#edtIni').value
-            params.dt_fin = pageScreen.querySelector('#edtFin').value
+            params.dt_ini = ckb_ini ? pageScreen.querySelector('#edtIni').value : '0000-00-00'
+            params.dt_fin = ckb_fin ? pageScreen.querySelector('#edtFin').value : '9999-12-31'
         const myPromisse = queryDB(params,'OS-0')
         myPromisse.then((resolve)=>{
             const json = JSON.parse(resolve)
             tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
             tbl.head('Serviço, Cliente, Entrega,<span class="mdi mdi-check-bold"></span>')
             for(let i=0; i<json.length; i++){
-                tbl.plot(json[i],'processo,cliente,dt_entrega,aberta','Upp,Upp,dat,ico 1=mdi-close-thick 0=mdi-check-bold ')
+                tbl.plot(json[i],'processo,cliente,dt_entrega,ok','Upp,Upp,dat,Upp')
+                const row = tbl.rows[tbl.rows.length-1]
+                const entrega = new Date(json[i].dt_entrega+' 00:00:00')
+                const days = Math.ceil((entrega-today)/86400000)
+                row.classList.add(days > 7 ? 'normal' : days <=0 ? 'critical' : 'atention')
             }
 
         })
@@ -88,7 +114,7 @@
 
     pageScreen.querySelector('#tblOS').addEventListener('click',(e)=>{       
         data = e.target.parentNode.data
-        data != undefined ? openHTML('oper_view_os.html','pop-up',`Ordem de Serviço - ${data.id}`,data) : null
+        data != undefined ? openHTML('oper_view_os.html','pop-up',`Ordem de Serviço - ${data.id.padStart(4,0)}`,data) : null
     })
 
     pageFunc.pageStart()

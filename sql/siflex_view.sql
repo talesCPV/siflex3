@@ -231,9 +231,11 @@ SELECT * FROM vw_serv_exec;
 SELECT * FROM vw_prod;
  
  
---  DROP VIEW IF EXISTS vw_os;
- CREATE VIEW vw_os AS
- SELECT OS.*, PRO.nome AS processo, EMP.fantasia AS cliente
+-- 	DROP VIEW IF EXISTS vw_os;
+-- 	CREATE VIEW vw_os AS
+  SELECT OS.*, PRO.nome AS processo, EMP.fantasia AS cliente,
+	(SELECT CONCAT(ROUND((SELECT COUNT(*) FROM tb_apontamento WHERE id_os=OS.id)/
+	(SELECT COUNT(*) FROM vw_apontamento WHERE id_os=OS.id) * 100,0),"%"))AS ok
  FROM tb_os AS OS
  INNER JOIN tb_processo AS PRO
  INNER JOIN tb_empresa AS EMP

@@ -161,3 +161,18 @@
 23/09/2024 21:21 tales@flexibus.com.br : Permissao alterada, Modulo: Fiscal, Acesso:[[0,1]])
 23/09/2024 21:21 tales@flexibus.com.br : Permissao alterada, Modulo: Seguranca, Acesso:[[0,1]])
 23/09/2024 21:21 tales@flexibus.com.br : Permissao alterada, Modulo: Ordem de Servico, Acesso:[[0,1]])
+24/09/2024 14:21 tales@flexibus.com.br : Processo CADASTRADO undefined
+24/09/2024 14:22 tales@flexibus.com.br : Inclusao de novo Setor (SUPERVISAO)
+24/09/2024 14:24 tales@flexibus.com.br : Etapa de Processo Cadastrado Recebimento, confere
+24/09/2024 14:26 tales@flexibus.com.br : Etapa de Processo Cadastrado Desmontagem dos flan
+24/09/2024 14:26 tales@flexibus.com.br : Etapa de Processo Cadastrado Limpeza das pecas
+24/09/2024 14:27 tales@flexibus.com.br : Etapa de Processo Cadastrado Recostura completa d
+24/09/2024 14:28 tales@flexibus.com.br : Etapa de Processo Cadastrado Montagem das barras 
+24/09/2024 14:30 tales@flexibus.com.br : Etapa de Processo Cadastrado Limpeza e calafetaca
+24/09/2024 14:30 tales@flexibus.com.br : Etapa de Processo Cadastrado Limpeza e calafetaca
+24/09/2024 14:32 tales@flexibus.com.br : OS CADASTRADA 
+24/09/2024 14:47 tales@flexibus.com.br : OS EDITADA 
+24/09/2024 15:08 tales@flexibus.com.br : OS EDITADA 
+24/09/2024 15:08 tales@flexibus.com.br : OS EDITADA 
+24/09/2024 15:13 tales@flexibus.com.br : OS EDITADA 
+24/09/2024 16:39 tales@flexibus.com.br : OS EDITADA 
