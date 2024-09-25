@@ -1595,6 +1595,7 @@ DELIMITER $$
 		IF(@allow)THEN
 			IF(Idesc="")THEN
 				DELETE FROM tb_etapa_proc WHERE id=Iid;
+                DELETE FROM tb_apontamento WHERE id_etapa=Iid;
             ELSE			
 				IF(Iid=0)THEN
 					INSERT INTO tb_etapa_proc (id_processo,id_setor,descricao)
