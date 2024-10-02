@@ -184,15 +184,8 @@
         btn_up.className = 'btn-round'
         btn_up.innerHTML = '<span class="mdi mdi-arrow-up-bold-circle"></span>'
         btn_up.addEventListener('click',(e)=>{
-//            console.log(obj)
             pageFunc.upEtapa(obj.id)
-/*            
-            const etapas = e.target.parentNode.parentNode.parentNode.parentNode.querySelectorAll('.row-proc')
-            for(let i=0; i<etapas.length; i++){
-                console.log(etapas[i].data.id,obj.id)
-pageFunc.upEtapa()
-            }
-*/                
+        
         })
         col_2.appendChild(btn_up)
 
