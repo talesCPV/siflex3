@@ -1,0 +1,4 @@
+02/10/2024 16:48 tales@flexibus.com.br : Etapa de Processo Cadastrado Calafetacao
+02/10/2024 16:49 tales@flexibus.com.br : Delecao de Setor (CALAFETACAO)
+02/10/2024 16:49 tales@flexibus.com.br : Delecao de Setor (PINTURA)
+02/10/2024 16:50 tales@flexibus.com.br : Funcionario Editado BRUNO JOSE MATHIAS -> BRUNO JOSE MATHIAS

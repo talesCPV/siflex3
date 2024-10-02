@@ -1726,9 +1726,17 @@ DELIMITER $$
 	BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
-			INSERT INTO tb_apontamento (id_os,id_etapa,id_func) VALUES (Iid_os,Iid_etapa,Iid_func);
-			UPDATE tb_os SET aberta = IF((SELECT COUNT(*) FROM vw_apontamento WHERE id_os=2 AND ok=0)>0,1,0) WHERE id=Iid_os;
-            CALL sp_view_apt(Iallow,Ihash,Iid_os);
+			SET @id_setor_func = (SELECT id_setor FROM tb_funcionario WHERE id = Iid_func);
+			SET @id_setor_os = (SELECT id_setor FROM vw_apontamento WHERE id_os=Iid_os AND id_etapa=Iid_etapa);
+			IF(@id_setor_func=@id_setor_os OR @id_setor_func IN(5,7))THEN
+    			INSERT INTO tb_apontamento (id_os,id_etapa,id_func) VALUES (Iid_os,Iid_etapa,Iid_func);
+				UPDATE tb_os SET aberta = IF((SELECT COUNT(*) FROM vw_apontamento WHERE id_os=2 AND ok=0)>0,1,0) WHERE id=Iid_os;
+				CALL sp_view_apt(Iallow,Ihash,Iid_os);        
+			ELSE
+				SELECT 0 AS id_os;
+            END IF;
         END IF;
 	END $$
 	DELIMITER ;   
+
+
