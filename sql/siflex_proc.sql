@@ -1608,6 +1608,29 @@ DELIMITER $$
 	END $$
 DELIMITER ;
 
+ DROP PROCEDURE IF EXISTS sp_up_etapa_proc;
+DELIMITER $$
+	CREATE PROCEDURE sp_up_etapa_proc(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Iid int(11)
+    )
+	BEGIN    
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SET @id_processo = (SELECT id_processo FROM tb_etapa_proc WHERE id=Iid);
+            SET @id_acima = (SELECT COALESCE(MAX(id),0) FROM tb_etapa_proc WHERE id_processo=@id_processo AND id<Iid);
+			IF(@id_acima>0)THEN
+				UPDATE tb_etapa_proc SET id=99999 WHERE id=@id_acima;
+                UPDATE tb_etapa_proc SET id=@id_acima WHERE id=Iid;
+                UPDATE tb_etapa_proc SET id=Iid WHERE id=99999;
+            END IF;
+		END IF;
+	END $$
+DELIMITER ;
+
+SELECT * FROM tb_etapa_proc WHERE id_processo=6;
+
 /* OS */
 
 	DROP PROCEDURE IF EXISTS sp_view_os;

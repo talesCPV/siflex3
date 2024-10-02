@@ -109,6 +109,7 @@
         "PRC-2" => 'CALL sp_view_etapa_proc(@access,@hash,x00);', // FIELD,SIGNAL,ID_PROCESSO
         "PRC-3" => 'CALL sp_set_etapa_proc(@access,@hash,x00,x01,x02,"x03");', // ID,ID_PROCESSO,ID_SETOR,DESCRIÇÃO
         "PRC-4" => 'CALL sp_proc_detail(@access,@hash,x00);', // ID_PROC
+        "PRC-5" => 'CALL sp_up_etapa_proc(@access,@hash,x00);', // ID_ETAPA
 
         /* ORDEM DE SERVIÇO */
         "OS-0" => 'CALL sp_view_os_proc(@access,@hash,"x00","x01","x02");', // PROCESSO,DT_INI,DT_FIN

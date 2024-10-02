@@ -79,7 +79,9 @@
             pageData.etapas = JSON.parse(resolve)
             pageScreen.querySelector('#divEtapas').innerHTML = ''
             for(let i=0; i<pageData.etapas.length; i++){
-                addRow(pageData.etapas[i].id,pageData.etapas[i].descricao,pageData.etapas[i].id_setor)
+//                addRow(pageData.etapas[i].id,pageData.etapas[i].descricao,pageData.etapas[i].id_setor)
+                addRow(pageData.etapas[i])
+
             }
 
           
@@ -102,11 +104,23 @@
            
     }
 
-    function addRow(id,txt='',setor=''){
+    pageFunc.upEtapa = (id_etapa)=>{
+        const params = new Object
+            params.id = id_etapa
+            
+        const myPromisse = queryDB(params,'PRC-5');
+        myPromisse.then((resolve)=>{
+            pageFunc.fillEtapas()
+        })
+           
+    }
+
+    function addRow(obj){        
         const row = document.createElement('div')
         row.className = 'inline row-proc'
-        row.classList.add(id?'row-saved':'row-edit')
-        row.id_etapa = id
+        row.classList.add(obj.id?'row-saved':'row-edit')
+        row.id_etapa = obj.id
+        row.data = obj
 
         const col_1 = document.createElement('div')
         col_1.className = 'column'
@@ -117,7 +131,7 @@
 
         const sel = document.createElement('select')
         sel.className = 'sel-proc'
-        sel.value = setor
+        sel.value = obj.id_setor
         sel.addEventListener('change',()=>{
             row.classList.remove('row-saved')
             row.classList.add('row-edit')
@@ -126,7 +140,7 @@
             const opt = document.createElement('option')
             opt.value = pageData.setor[i].id
             opt.innerHTML = pageData.setor[i].nome
-            opt.selected = setor == pageData.setor[i].id
+            opt.selected = obj.id_setor == pageData.setor[i].id
             sel.appendChild(opt)
         }
 
@@ -139,7 +153,7 @@
         const text = document.createElement('textarea')
         text.rows = 3
         text.className = 'text-proc'
-        text.value = txt
+        text.value = obj.descricao
         text.maxLength = 255
         text.addEventListener('input',()=>{
             row.classList.remove('row-saved')
@@ -166,7 +180,27 @@
         })
         col_2.appendChild(btn_save)
 
+        const btn_up = document.createElement('button')
+        btn_up.className = 'btn-round'
+        btn_up.innerHTML = '<span class="mdi mdi-arrow-up-bold-circle"></span>'
+        btn_up.addEventListener('click',(e)=>{
+//            console.log(obj)
+            pageFunc.upEtapa(obj.id)
+/*            
+            const etapas = e.target.parentNode.parentNode.parentNode.parentNode.querySelectorAll('.row-proc')
+            for(let i=0; i<etapas.length; i++){
+                console.log(etapas[i].data.id,obj.id)
+pageFunc.upEtapa()
+            }
+*/                
+        })
+        col_2.appendChild(btn_up)
+
+
+
         row.appendChild(col_2)
+
+        
 
 
         pageScreen.querySelector('#divEtapas').appendChild(row)
@@ -174,7 +208,7 @@
     }
 
     pageScreen.querySelector('#btnAdd').addEventListener('click',()=>{
-        addRow(0)
+        addRow({'id':0, 'id_setor':'', 'descricao':''})
     })
 
     pageScreen.querySelector('#tblPed').addEventListener('click',(e)=>{       
