@@ -1638,13 +1638,13 @@ DELIMITER $$
 	CREATE PROCEDURE sp_view_os(
 		IN Iallow varchar(80),
 		IN Ihash varchar(64),
-		IN Iid_os int(11)
+		IN Iscanner varchar(9)
     )
 	BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
-			SELECT * FROM vw_os 
-            WHERE id = Iid_os;
+			SET @id_os = (SELECT SUBSTRING(Iscanner, 1, 4));
+ 			SELECT * FROM vw_os WHERE id = @id_os;
         END IF;
 	END $$
 	DELIMITER ;
@@ -1721,45 +1721,44 @@ DELIMITER $$
  	DROP PROCEDURE IF EXISTS sp_view_apt;
 DELIMITER $$
 	CREATE PROCEDURE sp_view_apt(
-		IN Iallow varchar(80),
-		IN Ihash varchar(64),
-		IN Iid_os int(11)
+		IN Iscanner varchar(9)
     )
 	BEGIN
-		CALL sp_allow(Iallow,Ihash);
-		IF(@allow)THEN
-			SELECT APT.*, (@row_number := @row_number + 1) AS ordem
-            FROM vw_apontamento AS APT,
-			(SELECT @row_number := 0) AS r
-            WHERE id_os = Iid_os
-            ORDER BY id_etapa;
-        END IF;
+		SET @id_os = (SELECT SUBSTRING(Iscanner, 1, 4));
+		SELECT APT.*, (@row_number := @row_number + 1) AS ordem
+		FROM vw_apontamento AS APT,
+		(SELECT @row_number := 0) AS r
+		WHERE id_os = @id_os
+		ORDER BY id_etapa;
 	END $$
 	DELIMITER ;    
     
--- DROP PROCEDURE IF EXISTS sp_set_apt;
+ DROP PROCEDURE IF EXISTS sp_set_apt;
 DELIMITER $$
 	CREATE PROCEDURE sp_set_apt(
 		IN Iallow varchar(80),
 		IN Ihash varchar(64),
-		IN Iid_os int(11),
-        IN Iid_etapa int(11),
+		IN Iscanner varchar(9),
         IN Iid_func int(11)
     )
 	BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
+			SET @id_os = (SELECT SUBSTRING(Iscanner, 1, 4));
+ 			SET @id_etapa = (SELECT SUBSTRING(Iscanner, 5, 9));        
 			SET @id_setor_func = (SELECT id_setor FROM tb_funcionario WHERE id = Iid_func);
-			SET @id_setor_os = (SELECT id_setor FROM vw_apontamento WHERE id_os=Iid_os AND id_etapa=Iid_etapa);
+			SET @id_setor_os = (SELECT id_setor FROM vw_apontamento WHERE id_os=@id_os AND id_etapa=@id_etapa);
 			IF(@id_setor_func=@id_setor_os OR @id_setor_func IN(5,7))THEN
-    			INSERT INTO tb_apontamento (id_os,id_etapa,id_func) VALUES (Iid_os,Iid_etapa,Iid_func);
-				UPDATE tb_os SET aberta = IF((SELECT COUNT(*) FROM vw_apontamento WHERE id_os=2 AND ok=0)>0,1,0) WHERE id=Iid_os;
-				CALL sp_view_apt(Iallow,Ihash,Iid_os);        
-			ELSE
-				SELECT 0 AS id_os;
+    			INSERT INTO tb_apontamento (id_os,id_etapa,id_func) VALUES (@id_os,@id_etapa,Iid_func)
+                ON DUPLICATE KEY UPDATE id_func=Iid_func;
+                IF((SELECT COUNT(*) FROM vw_apontamento WHERE id_os=@id_os AND ok=0)>0)THEN
+					UPDATE tb_os SET aberta = 0 WHERE id=@id_os;
+                END IF;
             END IF;
+            CALL sp_view_apt(Iscanner);
         END IF;
 	END $$
 	DELIMITER ;   
 
+SELECT COUNT(*) FROM vw_apontamento WHERE id_os=8 AND ok=0;
 
