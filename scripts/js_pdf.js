@@ -69,6 +69,12 @@ function logo(pos = [14,7,36,25]){
     doc.addImage(imgData, 'png', pos[0], pos[1], pos[2], pos[3]);
 }
 
+function plotImg(url,x,y,w){
+    var foto = new Image()
+    foto.src = url
+    doc.addImage(foto, 'png', x,y,w,0);
+}
+
 function addLine(N=1, botton=0, top=46){
     txt.y += txt.lineHeigth * N
     if(txt.y >= doc.internal.pageSize.getHeight() - botton){

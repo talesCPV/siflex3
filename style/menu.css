@@ -81,7 +81,7 @@ ul>li>label>span, #logout_btn {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    overflow-y: scroll !important;
+/*    overflow-y: scroll !important;*/
     max-height: calc(100vh - 140px);
 }
 
@@ -219,7 +219,7 @@ ul>li>label>span, #logout_btn {
 
 .side-item input:checked ~ ul{
     max-height: 500px;
-    overflow-y: scroll;
+/*    overflow-y: scroll;*/
     padding-left: 10px;
 }
 

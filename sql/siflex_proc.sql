@@ -1621,9 +1621,9 @@ DELIMITER $$
 			SET @id_processo = (SELECT id_processo FROM tb_etapa_proc WHERE id=Iid);
             SET @id_acima = (SELECT COALESCE(MAX(id),0) FROM tb_etapa_proc WHERE id_processo=@id_processo AND id<Iid);
 			IF(@id_acima>0)THEN
-				UPDATE tb_etapa_proc SET id=99999 WHERE id=@id_acima;
+				UPDATE tb_etapa_proc SET id=0 WHERE id=@id_acima;
                 UPDATE tb_etapa_proc SET id=@id_acima WHERE id=Iid;
-                UPDATE tb_etapa_proc SET id=Iid WHERE id=99999;
+                UPDATE tb_etapa_proc SET id=Iid WHERE id=0;
             END IF;
 		END IF;
 	END $$
@@ -1745,7 +1745,7 @@ DELIMITER $$
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
 			SET @id_os = (SELECT SUBSTRING(Iscanner, 1, 4));
- 			SET @id_etapa = (SELECT SUBSTRING(Iscanner, 5, 9));        
+ 			SET @id_etapa = (SELECT SUBSTRING(Iscanner, 6, 12));        
 			SET @id_setor_func = (SELECT id_setor FROM tb_funcionario WHERE id = Iid_func);
 			SET @id_setor_os = (SELECT id_setor FROM vw_apontamento WHERE id_os=@id_os AND id_etapa=@id_etapa);
 			IF(@id_setor_func=@id_setor_os OR @id_setor_func IN(5,7))THEN

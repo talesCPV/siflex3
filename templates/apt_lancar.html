@@ -32,7 +32,6 @@
     pageFunc.fillOS = (N)=>{
         const os = N.length == 9 ? Number(N.substring(0,4)) : Number(N)
         const etapa = N.length == 9 ? Number(N.substring(4,9)) : 0
-
         function fillProc(obj){
             let message = ''
             const tbl = pageScreen.querySelector('#tblProc')
@@ -60,7 +59,7 @@
             } 
             queryDB(params,'OS-3')
             .then((resolve)=>{
-                const json = JSON.parse(resolve)
+                const json = JSON.parse(resolve)             
                 const message = fillProc(json)
                 if(message.length > 0 && etapa > 0){
                     const id_func = prompt(message)

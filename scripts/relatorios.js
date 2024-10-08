@@ -1291,12 +1291,42 @@ function printOS(os){
             line(txt.y + 5)
             doc.line(40,Number(ceiling)-5,40,txt.y+5)
             txt.y+=10
-
         }
-
         openPDF(doc,'os.pdf')
     })
+}
 
 
+function cracha(func){
 
+    console.log(func)
+
+    doc = new jsPDF();
+    clearTxt(37,10,[210,297])
+    frame()
+
+    function plotCC(x,y){
+
+        doc.roundedRect(x, y, x+50, y+90, 5, 5, 'S')
+        logo([x+12,y+10,45,10])
+        plotImg(func.img,x+20,y+25,30)
+        doc.setFont(undefined, 'bold')
+        doc.setFontSize(15)
+        txt.y = 100
+        center_text(func.nick,[20,y+70])
+        addLine()
+        doc.setFontSize(10)
+        center_text(func.cargo,[20,y+70])
+
+        const img = document.querySelector('#barcode')
+        img.style.display = 'none'
+
+        JsBarcode("#barcode", func.id.padStart(5,0) );
+        doc.addImage(img.src, 'JPEG', x+10, y+92, 50, 16);
+
+    }
+
+    plotCC(20,20)
+
+    openPDF(doc,'cracha.pdf')
 }

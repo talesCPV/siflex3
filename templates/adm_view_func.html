@@ -59,7 +59,8 @@
                 </div>
                 <div class="inline">
                     <label for="edtNick">Apelido</label>
-                    <input type="text" id="edtNick" maxlength="20" class="only-view" disabled>                    <label for="edtNasc">Nascimento</label>
+                    <input type="text" id="edtNick" maxlength="20" class="only-view" disabled>
+                    <label for="edtNasc">Nascimento</label>
                     <input type="date" id="edtNasc" class="only-view" disabled>
                     <label for="edtPIS">PIS</label>
                     <input type="text" id="edtPIS" maxlength="16" onkeyup="return valPIS(this)" class="only-view" disabled>        
@@ -157,10 +158,11 @@
         <div class="line">
             <button id="btnVale">Vale</button>
             <button id="btnRecibo">Recibo</button>
+            <button id="btnCracha" class="only-view" disabled>Crachá</button>
         </div>
       </fieldset>    
 
-
+      <img id="barcode" class="hide"></img>
 
 </template>
 <script>
@@ -182,6 +184,7 @@
             openFields(1)
             pageScreen.querySelector('#btnDel').disabled = 1 
             pageScreen.querySelector('#btnEdit').disabled = 1
+            pageScreen.querySelector('#btnCracha').disabled = 1             
             pageScreen.querySelector('#up_file').disabled = 1
         }else{
             pageScreen.querySelector('#edtNome').value = pageData.nome
@@ -204,11 +207,13 @@
             pageScreen.querySelector('#cmbAtivo').value = pageData.status=='ATIVO' ? 1 : 0
             pageScreen.querySelector('#edtObs').value = pageData.obs
             pageScreen.querySelector('#btnEdit').disabled = 0
+            pageScreen.querySelector('#btnCracha').disabled = 0
 
             const back = backFunc({'filename':`../assets/func/${pageData.id}/foto.jpg`},1)
             back.then((resp)=>{
-                const imgExist = JSON.parse(resp)    
-                loadImg(imgExist ? `assets/func/${pageData.id}/foto.jpg` : 'assets/func/noimage.png')
+                const imgExist = JSON.parse(resp)
+                pageData.img = imgExist ? `assets/func/${pageData.id}/foto.jpg` : 'assets/func/noimage.png'
+                loadImg(pageData.img)
             })
         }
     }
@@ -325,7 +330,7 @@
 
     pageScreen.querySelector('#up_file').addEventListener('change',()=>{        
         showFile()
-        const up = uploadImage('up_file',`assets/func/${pageData.id}/`,'foto')
+        const up = uploadImage('up_file',`assets/func/${pageData.id}/`,'foto.jpg')
 /*
         up.then((resp)=>{
         })
@@ -338,6 +343,10 @@
 
     pageScreen.querySelector('#btnDel').addEventListener('click',()=>{
         pageFunc.delFun()
+    })
+
+    pageScreen.querySelector('#btnCracha').addEventListener('click',()=>{
+        cracha(pageData)
     })
 
     pageScreen.querySelector('#btnEdit').addEventListener('click',()=>{
