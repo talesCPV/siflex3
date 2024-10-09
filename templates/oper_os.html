@@ -68,11 +68,16 @@
 
     </style>
 
-        <fieldset class="fds-busca compra">
+        <fieldset class="fds-busca os">
             <legend>Filtro:</legend>
     
             <div class="inline">
-                <label for="edtBusca">Serviço</label>
+                <select id="cmbBusca">
+                    <option value="id" signal="IN">OS</option>
+                    <option value="cliente" signal="LIKE">Cliente</option>
+                    <option value="processo" signal="LIKE">Processo</option>
+                    <option value="setor" signal="LIKE" selected>Setor</option>
+                </select>
                 <input type="text" id="edtBusca" placeholder="Digite sua Busca" onkeypress="return getEnter(event, 'btnBusca')">
                 <button id="btnBusca" class="btn-round"><span class="mdi mdi-magnify"></span></button>
                 <button id="btnNovo" class="btn-round"><span class="mdi mdi-plus-thick"></span></button>
@@ -118,13 +123,16 @@
         const ckb_fin = pageScreen.querySelector('#ckbData_fin').checked
         const tbl = pageScreen.querySelector('#tblOS')
         tbl.innerHTML = ''
+        const query = getVal('os')
         const params = new Object;
-            params.proc = pageScreen.querySelector('#edtBusca').value
+            params.field = query[0]
+            params.signal = query[1]
+            params.value = query[2]
             params.dt_ini = ckb_ini ? pageScreen.querySelector('#edtIni').value : '0000-00-00'
             params.dt_fin = ckb_fin ? pageScreen.querySelector('#edtFin').value : '9999-12-31'
         const myPromisse = queryDB(params,'OS-0')
         myPromisse.then((resolve)=>{
-            const json = JSON.parse(resolve)  
+            const json = JSON.parse(resolve)
             tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
             tbl.head('OS|center-text,Serviço, Cliente, Entrega,Setor,<span class="mdi mdi-check-bold"></span>')
             for(let i=0; i<json.length; i++){

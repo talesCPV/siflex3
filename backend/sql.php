@@ -112,7 +112,7 @@
         "PRC-5" => 'CALL sp_up_etapa_proc(@access,@hash,x00);', // ID_ETAPA
 
         /* ORDEM DE SERVIÇO */
-        "OS-0" => 'CALL sp_view_os_proc(@access,@hash,"x00","x01","x02");', // PROCESSO,DT_INI,DT_FIN
+        "OS-0" => 'CALL sp_view_os_proc(@access,@hash,"x00","x01","x02","x03","x04");', //  FIELD,SIGNAL, VALUE,DT_INI,DT_FIN
         "OS-1" => 'CALL sp_set_os(@access,@hash,x00,x01,x02,"x03","x04");', // ID,ID_PROC,ID_EMP,DT_ENTREGA,OBS
         "OS-2" => 'CALL sp_view_os(@access,@hash,"x00");', // SCANNER
         "OS-3" => 'CALL sp_view_apt("x00");', // SCANNER

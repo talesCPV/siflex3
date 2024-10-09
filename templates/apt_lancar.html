@@ -53,9 +53,9 @@
             const json = JSON.parse(resolve)
             const tbl = pageScreen.querySelector('#tblOS')
             tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
-            tbl.head('Cliente,Serviço, Entrega,<span class="mdi mdi-check-bold"></span>')
+            tbl.head('OS,Cliente,Serviço, Entrega,<span class="mdi mdi-check-bold"></span>')
             for(let i=0; i<json.length; i++){
-                tbl.plot(json[i],'cliente,processo,dt_entrega,ok','Upp,Upp,dat,Upp')
+                tbl.plot(json[i],'id,cliente,processo,dt_entrega,ok','padStart(4.0),Upp,Upp,dat,Upp')
             } 
             queryDB(params,'OS-3')
             .then((resolve)=>{

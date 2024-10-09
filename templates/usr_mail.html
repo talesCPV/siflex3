@@ -11,6 +11,11 @@
 
         /* */
 
+        .f-rigth{
+            float: right;
+            margin-right: 20px;            
+        }
+
         .frm-mail{
             display: flex;
             flex-direction: row;
@@ -69,6 +74,12 @@
             .left-panel, .rigth-panel{
                 width: 100%;
             }
+
+
+            .f-rigth{
+                float: unset;
+                margin-right: unset;
+            }
         }
 
     </style>
@@ -122,18 +133,23 @@
                             <label for="cmbUser">Destinatário</label>
                             <select id="cmbUser"></select>
                         </div>
-                        <textarea id="edtMail" cols="30" rows="10" maxlength="512"></textarea>
-                        <button id="btnEnviar">Enviar</button>
+                        <textarea id="edtMail" cols="30" rows="10" maxlength="1000" autofocus></textarea>
+                        <div class="line">
+                            <button class="f-rigth" id="btnEnviar">Enviar</button>
+                        </div>
                     </div>
                     <div class="tab-content">
                         <h3>Caixa de Entrada</h3>
                         <select id="cmbEntrada" class="cmbMail" size="10"></select>
-                        <textarea id="edtViewEntrada" cols="30" rows="10" maxlength="512" readonly></textarea>
+                        <textarea id="edtViewEntrada" cols="30" rows="10" readonly></textarea>
+                        <div class="line">
+                            <button class="f-rigth" id="btnAnser" disabled>Responder</button>
+                        </div>
                     </div>
                     <div class="tab-content">
                         <h3>Mensagens Enviadas</h3>
                         <select id="cmbSaida" class="cmbMail" size="10"></select>
-                        <textarea id="edtViewSaida" cols="30" rows="10" maxlength="512" readonly></textarea>
+                        <textarea id="edtViewSaida" cols="30" rows="10" readonly></textarea>
                     </div>
     
                 </div>
@@ -157,14 +173,16 @@
         const txt = send ? pageScreen.querySelector('#edtViewEntrada') : pageScreen.querySelector('#edtViewSaida')
         if(cmb.selectedIndex >= 0){
             const data = cmb.options[cmb.selectedIndex].data
-            txt.value = data.txt
-
-            if(data.nao_lida == '1' && send){
+            txt.value = data.message
+            if(send){
+                pageScreen.querySelector('#btnAnser').disabled = 0
+            }
+            if(data.looked == '0' && send){
 
                 const params = new Object;
                     params.data = data.data
-                    params.id_from = data.de
-                    params.id_to = data.para
+                    params.id_from = data.id_from
+                    params.id_to = data.id_to
 
                 const myPromisse = queryDB(params,'MAIL-4');
                 myPromisse.then((resolve)=>{
@@ -181,15 +199,14 @@
         const myPromisse = queryDB(params,'MAIL-1');
         myPromisse.then((resolve)=>{
             const json = JSON.parse(resolve)
-
             const mail = send ? pageScreen.querySelector('#cmbEntrada') : pageScreen.querySelector('#cmbSaida')
             mail.innerHTML = ''
 
-            for(let i=0; i<json.length; i++){        
+            for(let i=0; i<json.length; i++){
                 const opt = document.createElement('option')
                 opt.data = json[i]       
-                opt.style["font-weight"] = json[i].nao_lida=='0' ? 'lighter' : 'bold'
-                opt.innerHTML = json[i].data.date()+' '+json[i].data.time()+' '+(send ? json[i].mail_from : json[i].mail_to) + ' - ' + json[i].txt.substring(0,60)
+                opt.style["font-weight"] = json[i].looked=='1' ? 'lighter' : 'bold'
+                opt.innerHTML = json[i].data.time()+' '+json[i].data.time()+' '+(send ? json[i].mail_from : json[i].mail_to) + ' - ' + json[i].message.substring(0,60)
                 mail.appendChild(opt)
             }
             send ? checkUserMail() : null
@@ -254,14 +271,15 @@
                 const data = cmb.options[cmb.selectedIndex].data
                 const params = new Object;
                     params.data = data.data
-                    params.id_from = data.de
-                    params.id_to = data.para
+                    params.id_from = data.id_from
+                    params.id_to = data.id_to
 
                 const myPromisse = queryDB(params,'MAIL-3');
                 myPromisse.then((resolve)=>{
                     pageFunc.refreshMail()
                     pageScreen.querySelector('#edtViewEntrada').value = ''
                     pageScreen.querySelector('#edtViewSaida').value = ''
+                    pageScreen.querySelector('#btnAnser').disabled = 1
                 })
             }
         }
@@ -287,6 +305,19 @@
 
     pageScreen.querySelector('#cmbSaida').addEventListener('dblclick',()=>{
         pageFunc.delMail(pageScreen.querySelector('#cmbSaida'))
+    })
+
+    pageScreen.querySelector('#btnAnser').addEventListener('click',()=>{
+        const sel = pageScreen.querySelector('#cmbEntrada')
+        const to = sel.options[sel.selectedIndex].innerHTML.split(' ')[2]
+        const user = pageScreen.querySelector('#cmbUser').options
+
+        for(let i=0; i<user.length; i++){
+            user[i].selected = user[i].innerHTML == to ? 1 : 0
+        }
+
+        pageScreen.querySelector('#edtMail').focus()
+        pageScreen.querySelector('#tab-1').checked = 1
     })
 
     pageFunc.fillUsers()

@@ -21,6 +21,8 @@
         }
 
         .row-proc{
+            display: flex;
+            align-items: flex-start;
             padding: 10px;
             border-radius: 10px;
         }
@@ -149,6 +151,7 @@
 
         const col_2 = document.createElement('div')
         col_2.className = 'column'
+        col_2.style.width = '100%'
 
         const text = document.createElement('textarea')
         text.rows = 3
@@ -159,7 +162,11 @@
             row.classList.remove('row-saved')
             row.classList.add('row-edit')
         })
-        row.appendChild(text)
+        col_2.appendChild(text)
+
+        const line_1 = document.createElement('div')
+        line_1.className = 'line'
+
 
         const btn_del = document.createElement('button')
         btn_del.className = 'btn-round'
@@ -170,7 +177,7 @@
                 pageFunc.setEtapa(row)
             }
         })
-        col_2.appendChild(btn_del)
+        line_1.appendChild(btn_del)
 
         const btn_save = document.createElement('button')
         btn_save.className = 'btn-round'
@@ -178,7 +185,12 @@
         btn_save.addEventListener('click',()=>{
             pageFunc.setEtapa(row)
         })
-        col_2.appendChild(btn_save)
+        line_1.appendChild(btn_save)
+        col_2.appendChild(line_1)
+        row.appendChild(col_2)
+
+        const col_3 = document.createElement('div')
+        col_3.className = 'column'
 
         const btn_up = document.createElement('button')
         btn_up.className = 'btn-round'
@@ -187,11 +199,11 @@
             pageFunc.upEtapa(obj.id)
         
         })
-        col_2.appendChild(btn_up)
+        col_3.appendChild(btn_up)
 
 
 
-        row.appendChild(col_2)
+        row.appendChild(col_3)
 
         
 

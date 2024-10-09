@@ -137,6 +137,7 @@ function openMenu(){
                             shortcut.janela = obj[i].janela
                             shortcut.label = obj[i].label
                             shortcut.width = obj[i].width
+                            shortcut.access = obj[i].access
                             shortcut.x = 100
                             shortcut.y = 100
                             json.push(shortcut)
@@ -206,6 +207,7 @@ function addShortcut(){
                     }
 
                     /* icon click */
+
                     if(!move && e.button == 0){
                         main_data.dashboard.data.access = json[i].access 
                         openHTML(json[i].link,json[i].janela,json[i].label,{},json[i].width)

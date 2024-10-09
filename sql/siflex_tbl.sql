@@ -109,12 +109,12 @@ CREATE TABLE tb_calendario (
     PRIMARY KEY (id_user,data_agd)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
- DROP TABLE tb_mail;
+ DROP TABLE IF EXISTS tb_mail;
 CREATE TABLE tb_mail (
-	data TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, 
+	data TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     id_from int(11) NOT NULL,
     id_to int(11) NOT NULL,
-    message varchar(512),
+    message varchar(1000),
     looked boolean DEFAULT 0,
     FOREIGN KEY (id_from) REFERENCES tb_usuario(id),
     FOREIGN KEY (id_to) REFERENCES tb_usuario(id),

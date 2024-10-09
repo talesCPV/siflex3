@@ -1,6 +1,6 @@
 /* FUNCTIONS */
 
- DROP PROCEDURE sp_getHash;
+-- DROP PROCEDURE sp_getHash;
 DELIMITER $$
 	CREATE PROCEDURE sp_getHash(
 		IN Iemail varchar(80),
@@ -11,7 +11,7 @@ DELIMITER $$
 	END $$
 DELIMITER ;
 
- DROP PROCEDURE sp_allow;
+-- DROP PROCEDURE sp_allow;
 DELIMITER $$
 	CREATE PROCEDURE sp_allow(
 		IN Iallow varchar(80),
@@ -27,7 +27,7 @@ DELIMITER ;
 
 /* LOGIN */
 
- DROP PROCEDURE sp_login;
+-- DROP PROCEDURE sp_login;
 DELIMITER $$
 	CREATE PROCEDURE sp_login(
 		IN Iemail varchar(80),
@@ -113,15 +113,15 @@ DELIMITER $$
 	END $$
 DELIMITER ;
 
- DROP PROCEDURE sp_check_usr_mail;
+ DROP PROCEDURE IF EXISTS sp_check_usr_mail;
 DELIMITER $$
 	CREATE PROCEDURE sp_check_usr_mail(
 		IN Ihash varchar(64)
     )
-	BEGIN        
+	BEGIN
 		SET @id_call = (SELECT IFNULL(id,0) FROM tb_user WHERE hash COLLATE utf8_general_ci = Ihash COLLATE utf8_general_ci LIMIT 1);
-		IF(@id_call>0)THEN
-			SELECT COUNT(*) AS new_mail FROM tb_mail WHERE para = @id_call AND nao_lida=1;
+		IF(@id_call>0)THEN        
+			SELECT COUNT(*) AS new_mail FROM tb_mail WHERE id_to = @id_call AND looked=0;
 		ELSE
 			SELECT 0 AS new_mail ;
         END IF;
@@ -214,7 +214,7 @@ DELIMITER ;
 
 /* MAIL */
 
- DROP PROCEDURE sp_set_mail;
+ DROP PROCEDURE IF EXISTS sp_set_mail;
 DELIMITER $$
 	CREATE PROCEDURE sp_set_mail(	
 		IN Ihash varchar(64),
@@ -224,12 +224,12 @@ DELIMITER $$
 	BEGIN    
 		SET @id_call = (SELECT IFNULL(id,0) FROM tb_user WHERE hash COLLATE utf8_general_ci = Ihash COLLATE utf8_general_ci LIMIT 1);
         IF(@id_call >0)THEN
-			INSERT INTO tb_mail (de,para,txt) VALUES (@id_call,Iid_to,Imessage);
+			INSERT INTO tb_mail (id_from,id_to,message) VALUES (@id_call,Iid_to,Imessage);
         END IF;
 	END $$
 DELIMITER ;
 
- DROP PROCEDURE sp_view_mail;
+ DROP PROCEDURE IF EXISTS sp_view_mail;
 DELIMITER $$
 	CREATE PROCEDURE sp_view_mail(	
 		IN Ihash varchar(64),
@@ -242,18 +242,18 @@ DELIMITER $$
 				SELECT MAIL.*, USR.email AS mail_from
 					FROM tb_mail AS MAIL 
 					INNER JOIN tb_user AS USR
-					ON MAIL.de = USR.id AND para = @id_call;            
+					ON MAIL.id_from = USR.id AND MAIL.id_to = @id_call;            
             ELSE
 				SELECT MAIL.*, USR.email AS mail_to
 					FROM tb_mail AS MAIL 
 					INNER JOIN tb_user AS USR
-					ON MAIL.para = USR.id AND de = @id_call;            
+					ON MAIL.id_to = USR.id AND MAIL.id_from = @id_call;            
             END IF;
         END IF;
 	END $$
 DELIMITER ;
 
- DROP PROCEDURE sp_del_mail;
+ DROP PROCEDURE IF EXISTS sp_del_mail;
 DELIMITER $$
 	CREATE PROCEDURE sp_del_mail(	
 		IN Ihash varchar(64),
@@ -264,12 +264,12 @@ DELIMITER $$
 	BEGIN        
 		SET @id_call = (SELECT IFNULL(id,0) FROM tb_user WHERE hash COLLATE utf8_general_ci = Ihash COLLATE utf8_general_ci LIMIT 1);
 		IF(@id_call = Iid_to OR @id_call = Iid_from)THEN
-			DELETE FROM tb_mail WHERE data = Idata AND de = Iid_from AND para = Iid_to;
+			DELETE FROM tb_mail WHERE data = Idata AND id_from = Iid_from AND id_to = Iid_to;
         END IF;
 	END $$
 DELIMITER ;
 
- DROP PROCEDURE sp_mark_mail;
+ DROP PROCEDURE IF EXISTS sp_mark_mail;
 DELIMITER $$
 	CREATE PROCEDURE sp_mark_mail(	
 		IN Ihash varchar(64),
@@ -280,7 +280,7 @@ DELIMITER $$
 	BEGIN        
 		SET @id_call = (SELECT IFNULL(id,0) FROM tb_user WHERE hash COLLATE utf8_general_ci = Ihash COLLATE utf8_general_ci LIMIT 1);
 		IF(@id_call = Iid_to OR @id_call = Iid_from)THEN
-			UPDATE tb_mail SET nao_lida=0 WHERE data = Idata AND de = Iid_from AND para = Iid_to;
+			UPDATE tb_mail SET looked=1 WHERE data = Idata AND id_from = Iid_from AND id_to = Iid_to;
         END IF;
 	END $$
 DELIMITER ;
@@ -1654,18 +1654,21 @@ DELIMITER $$
 	CREATE PROCEDURE sp_view_os_proc(
 		IN Iallow varchar(80),
 		IN Ihash varchar(64),
-		IN Iproc varchar(30),
+		IN Ifield varchar(30),
+        IN Isignal varchar(4),
+		IN Ivalue varchar(50),
         IN Idt_ini date,
         IN Idt_fin date
     )
 	BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
-			SELECT * FROM vw_os 
-            WHERE processo LIKE CONCAT('%',Iproc COLLATE utf8_general_ci,'%') 
-            AND dt_entrega >= Idt_ini 
-            AND dt_entrega <= Idt_fin
-            ORDER BY dt_entrega, aberta;
+			SET @quer =CONCAT('SELECT * FROM vw_os WHERE ',Ifield,' ',Isignal,' ',Ivalue,'
+			 AND dt_entrega >= "',Idt_ini, 
+            '" AND dt_entrega <= "',Idt_fin,
+            '" ORDER BY dt_entrega, id;');   
+   			PREPARE stmt1 FROM @quer;
+ 			EXECUTE stmt1;
         END IF;
 	END $$
 	DELIMITER ;
