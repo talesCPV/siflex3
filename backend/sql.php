@@ -29,6 +29,7 @@
         "FUN-4"  => 'CALL sp_set_vale(@access,@hash,x00,x01,"x02",x03,"x04","x05");', // ID,ID_FUNC,VALOR,QUITADO,OBS,DATA
         "FUN-5"  => 'CALL sp_view_vale_pgto(@access,@hash,x00);', // ID_FUNC
         "FUN-6"  => 'CALL sp_set_vale_pgto(@access,@hash,x00,"x01","x02","x03");', // ID, VALOR, DATA, OBS
+        "FUN-7"  => 'CALL sp_set_func_setor(@access,@hash,x00,x01);', // ID_FUNC, ID_SETOR
 
         /* EMPRESAS */
         "EMP-0"  => 'CALL sp_view_emp(@access,@hash,"x00","x01","x02");', // FIELD,SIGNAL, VALUE

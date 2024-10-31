@@ -73,9 +73,11 @@
                 </div>
                 <div class="inline">
                     <label for="cmbCargo">Cargo</label>
-                    <select id="cmbCargo" class="only-view" disabled></select>      
+                    <select id="cmbCargo" class="only-view" disabled></select>
+<!--
                     <label for="cmbSetor">Setor</label>
-                    <select id="cmbSetor" class="only-view" disabled></select>      
+                    <select id="cmbSetor" class="only-view" disabled></select>
+-->
                     <label for="cmbAtivo">Status</label>
                     <select id="cmbAtivo" class="only-view" disabled>
                         <option value="1" selected>Ativo</option>
@@ -146,6 +148,23 @@
             <label for="edtCel">Cel</label>
             <input type="text" id="edtCel" maxlength="15" onkeyup="return phone(this)" class="only-view" disabled>   
         </div>
+        <div class="inline panel">
+            <label>Setores</label>
+            <fieldset>
+                <legend>Não Habilitados</legend>
+                <select id="cmbSetor_nhab" size="10" class="only-view" disabled></select>
+            </fieldset>
+            <div class="middle">
+                <button id="btnAllow" class="btn-round only-view" disabled>>></button>
+                <button id="btnForbid" class="btn-round only-view" disabled><<</button>
+            </div>
+            <fieldset>
+                <legend>Habilitados</legend>
+                <select id="cmbSetor_hab" size="10" class="only-view" disabled></select>
+            </fieldset>
+    
+        </div>
+
         <div class="inline">
             <label for="edtObs">Obs.</label>
             <textarea id="edtObs" cols="30" rows="10" class="only-view" disabled></textarea>
@@ -171,6 +190,8 @@
     const pageFunc = main_data.adm_view_func.func
     const pageScreen = document.querySelector('#card-adm_view_func')
     const newFunc = Object.keys(pageData).length == 0
+    const allow = pageScreen.querySelector('#cmbSetor_hab')
+    const forbid = pageScreen.querySelector('#cmbSetor_nhab')
 
     function openFields(open=1){
         const view = pageScreen.querySelectorAll('.only-view')
@@ -186,6 +207,10 @@
             pageScreen.querySelector('#btnEdit').disabled = 1
             pageScreen.querySelector('#btnCracha').disabled = 1             
             pageScreen.querySelector('#up_file').disabled = 1
+            pageScreen.querySelector('#btnAllow').disabled = 1
+            pageScreen.querySelector('#btnForbid').disabled = 1
+            allow.disabled = 1
+            forbid.disabled = 1
         }else{
             pageScreen.querySelector('#edtNome').value = pageData.nome
             pageScreen.querySelector('#edtNick').value = pageData.nick
@@ -256,6 +281,14 @@
         })
     }
 
+    pageFunc.setSetor = (id_setor)=>{
+        const params = new Object;
+            params.id_func = pageData.id
+            params.id_setor = id_setor
+         
+        return queryDB(params,'FUN-7')
+    }
+
     pageFunc.delFun = ()=>{
         if(confirm('Deseja realmente deletar este registro?')){
             const params = new Object;
@@ -309,23 +342,27 @@
         const myPromisse = queryDB(params,'ADM-1');
         myPromisse.then((resolve)=>{
             const json = JSON.parse(resolve)
-            const cmb = pageScreen.querySelector('#cmbSetor')
-            cmb.innerHTML=''
-            let achou = 0
+            allow.innerHTML=''
+            forbid.innerHTML=''
+
             for(let i=0; i<json.length; i++){
                 const opt = document.createElement('option')
                 opt.value = json[i].id
                 opt.innerHTML = json[i].nome
-                if(!newFunc){
-                    opt.selected =  json[i].id == pageData.id_setor ? 1 : 0
-                    achou = opt.selected || achou ? 1 : 0
+
+                if(typeof pageData.setores == 'string'){
+                    const setores = pageData.setores.split(',')
+                    if(setores.includes(json[i].id)){
+                        allow.appendChild(opt)
+                    }else{
+                        forbid.appendChild(opt)
+                    }
+                }else{
+                    forbid.appendChild(opt)
                 }
-                cmb.appendChild(opt)
             }
-            if(!achou){
-                cmb.selectedIndex = 0
-            }
-        });
+
+        })
     }
 
     pageScreen.querySelector('#up_file').addEventListener('change',()=>{        
@@ -367,6 +404,22 @@
         pageData.data = new Date()
         pageData.horas = {'vale' : prompt('Digite o valor:')}
         holerite(pageData,'VALE')
+    })
+
+    pageScreen.querySelector('#btnAllow').addEventListener('click',()=>{
+        const index = forbid.selectedIndex   
+        pageFunc.setSetor(forbid.options[index].value).then(()=>{
+            index>-1 ? allow.appendChild(forbid.options[index]) : null
+            main_data.adm_funcionarios.func.fillFunc()
+        })         
+    })
+
+    pageScreen.querySelector('#btnForbid').addEventListener('click',()=>{
+        const index = allow.selectedIndex
+        pageFunc.setSetor(allow.options[index].value).then(()=>{
+            index>-1 ? forbid.appendChild(allow.options[index]) : null
+            main_data.adm_funcionarios.func.fillFunc()
+        })        
     })
 
     pageFunc.fillCargo()

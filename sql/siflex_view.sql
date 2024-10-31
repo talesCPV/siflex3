@@ -74,7 +74,16 @@ DROP VIEW vw_func;
 	AND FUNC.id = SETOR.id_func
     ORDER BY FUNC.nome;
         
+	SELECT FUNC.*, COALESCE(CAR.cargo,"") AS cargo, IF(CAR.tipo='HORA',1,0) AS horista,
+    IF(FUNC.status="ATIVO",1,0) AS ativo, COALESCE(CAR.cbo,"") AS cbo,
+    (SELECT GROUP_CONCAT(id_setor SEPARATOR ",") FROM tb_func_setor WHERE id_func=FUNC.id) AS setores
+    FROM tb_funcionario AS FUNC    
+	INNER JOIN tb_cargos AS CAR
+	ON FUNC.id_cargo = CAR.id
+    ORDER BY FUNC.nome;        
+        
 SELECT * FROM vw_func;
+SELECT * FROM tb_func_setor;
 
 DROP VIEW vw_ferias;
 -- CREATE VIEW vw_ferias AS

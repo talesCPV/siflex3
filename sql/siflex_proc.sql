@@ -654,6 +654,27 @@ DELIMITER $$
 	END $$
 DELIMITER ;
 
+ DROP PROCEDURE sp_set_func_setor;
+DELIMITER $$ 
+	CREATE PROCEDURE sp_set_func_setor(	
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Iid_func int(11),
+		IN Iid_setor int(11)
+    )
+	BEGIN    
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SET @has = (SELECT COUNT(*) FROM tb_func_setor WHERE id_func=Iid_func AND id_setor=Iid_setor);
+			IF(@has)THEN
+				DELETE FROM tb_func_setor WHERE id_func=Iid_func AND id_setor=Iid_setor;
+            ELSE
+				INSERT INTO tb_func_setor (id_func,id_setor) VALUES (Iid_func,Iid_setor);	
+            END IF;
+		END IF;
+	END $$
+DELIMITER ;
+
  DROP PROCEDURE sp_set_func_ponto;
 DELIMITER $$ 
 	CREATE PROCEDURE sp_set_func_ponto(	
@@ -1749,9 +1770,9 @@ DELIMITER $$
 		IF(@allow)THEN
 			SET @id_os = (SELECT SUBSTRING(Iscanner, 1, 4));
  			SET @id_etapa = (SELECT SUBSTRING(Iscanner, 6, 12));        
-			SET @id_setor_func = (SELECT id_setor FROM tb_funcionario WHERE id = Iid_func);
+-- 			SET @id_setor_func = (SELECT id_setor FROM tb_func_setor WHERE id_func = Iid_func);
 			SET @id_setor_os = (SELECT id_setor FROM vw_apontamento WHERE id_os=@id_os AND id_etapa=@id_etapa);
-			IF(@id_setor_func=@id_setor_os OR @id_setor_func IN(5,7))THEN
+			IF(@id_setor_os  IN (SELECT id_setor FROM tb_func_setor WHERE id_func = Iid_func))THEN
     			INSERT INTO tb_apontamento (id_os,id_etapa,id_func) VALUES (@id_os,@id_etapa,Iid_func)
                 ON DUPLICATE KEY UPDATE id_func=Iid_func;
                 IF((SELECT COUNT(*) FROM vw_apontamento WHERE id_os=@id_os AND ok=0)>0)THEN

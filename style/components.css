@@ -84,6 +84,31 @@
         display: none;
     }
 
+/* PAINEIS */
+
+    .panel{
+        display: flex;
+        flex-direction: row;
+        min-height: 300px;
+        width: 100%;
+    }
+
+    .panel fieldset{
+        width: 100%;
+        padding: 10px;
+    }
+
+    .middle{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .panel select{
+        margin: 0;
+        padding: 10px;
+    }
+
 /*  ABAS (TAB) */
 
     .tab-bar{
@@ -316,5 +341,16 @@
 /*        width: calc(100% - 140px);*/
     }
 
+    .panel{
+        flex-direction: column;
+    }
+
+    .panel .middle{
+        flex-direction: row;
+    }
+
+    .panel .middle button{
+        transform: rotate(90deg);
+    }
 
 }

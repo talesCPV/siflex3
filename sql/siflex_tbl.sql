@@ -51,6 +51,15 @@ CREATE TABLE tb_funcionario (
     FOREIGN KEY (id_cargo) REFERENCES tb_cargos(id)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8; 
  
+  DROP TABLE tb_func_setor;
+CREATE TABLE tb_func_setor (
+    id_func int(11) NOT NULL,
+    id_setor int(11) NOT NULL,
+    PRIMARY KEY (id_func,id_setor),
+    FOREIGN KEY (id_setor) REFERENCES tb_setores(id),
+    FOREIGN KEY (id_func) REFERENCES tb_funcionario(id)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8; 
+ 
  -- ALTER TABLE tb_funcionario ADD COLUMN nick VARCHAR(20) DEFAULT "";
  ALTER TABLE tb_funcionario MODIFY COLUMN nome VARCHAR(80) NOT NULL DEFAULT "";
  
