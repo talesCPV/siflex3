@@ -572,7 +572,7 @@ DELIMITER $$
 DELIMITER ;
 
 /* FUNCIONÁRIO */
--- id,nome,nasc,rg,cpf,pis,end,num,cidade,bairro,uf,cep,data_adm,data_dem,id_cargo,id_setor,tel,cel,ativo,obs,reg,nick
+-- id,nome,nasc,rg,cpf,pis,end,num,cidade,bairro,uf,cep,data_adm,data_dem,id_cargo,tel,cel,ativo,obs,reg,nick
  DROP PROCEDURE sp_set_func;
 DELIMITER $$
 	CREATE PROCEDURE sp_set_func(
@@ -593,7 +593,7 @@ DELIMITER $$
 		IN Idata_adm datetime,
 		IN Idata_dem datetime,
 		IN Iid_cargo int(11),
-		IN Iid_setor int(11),
+-- 		IN Iid_setor int(11),
 		IN Itel varchar(15),
 		IN Icel varchar(15),
 		IN Iativo boolean,
@@ -605,11 +605,11 @@ DELIMITER $$
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
 			SET @status = (SELECT IF(Iativo,'ATIVO','DEMIT'));
-			INSERT INTO tb_funcionario (id,nome,data_nasc,rg,cpf,pis,endereco,num,cidade,bairro,estado,cep,data_adm,id_cargo,id_setor,tel,cel,obs,status,reg,nick) 
-				VALUES (Iid,Inome,Inasc,Irg,Icpf,Ipis,Iend,Inum,Icidade,Ibairro,Iuf,Icep,Idata_adm,Iid_cargo,Iid_setor,Itel,Icel,Iobs,@status,Ireg,Inick)
+			INSERT INTO tb_funcionario (id,nome,data_nasc,rg,cpf,pis,endereco,num,cidade,bairro,estado,cep,data_adm,id_cargo,tel,cel,obs,status,reg,nick) 
+				VALUES (Iid,Inome,Inasc,Irg,Icpf,Ipis,Iend,Inum,Icidade,Ibairro,Iuf,Icep,Idata_adm,Iid_cargo,Itel,Icel,Iobs,@status,Ireg,Inick)
 				ON DUPLICATE KEY UPDATE
 				nome=Inome,data_nasc=Inasc,rg=Irg,cpf=Icpf,pis=Ipis,endereco=Iend,num=Inum,cidade=Icidade,bairro=Ibairro,estado=Iuf,cep=Icep,data_adm=Idata_adm,
-				data_dem=Idata_dem,id_cargo=Iid_cargo,id_setor=Iid_setor,tel=Itel,cel=Icel,status=@status,obs=Iobs, reg=Ireg, nick=Inick;
+				data_dem=Idata_dem,id_cargo=Iid_cargo,tel=Itel,cel=Icel,status=@status,obs=Iobs, reg=Ireg, nick=Inick;
         END IF;
 	END $$
 DELIMITER ;
@@ -1784,5 +1784,8 @@ DELIMITER $$
 	END $$
 	DELIMITER ;   
 
-SELECT COUNT(*) FROM vw_apontamento WHERE id_os=8 AND ok=0;
+SELECT COUNT(*) FROM vw_apontamento WHERE id_os=14 AND ok=0;
 
+SELECT * FROM vw_apontamento WHERE id_os=14;
+
+DELETE FROM tb_apontamento WHERE id_os=14;

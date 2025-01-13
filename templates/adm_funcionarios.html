@@ -48,9 +48,9 @@
             const json = JSON.parse(resolve)
         
             tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
-            tbl.head('Cod.,Nome,Cargo,Setor')
+            tbl.head('Cod.,Nome,Cargo')
             for(let i=0; i<json.length;i++){
-                tbl.plot(json[i],'id,nome,cargo,setor','padStart(4.0),str,Upp,Upp')
+                tbl.plot(json[i],'id,nome,cargo','padStart(4.0),str,Upp')
             }         
         });
     }

@@ -245,9 +245,11 @@
 
     function startPage(){
         pageFunc.feriados()
-        const month = (today.getDate() <= 25 ? today.getMonth() : today.getMonth()+1)
-        pageScreen.querySelector('#edtIni').value = `${today.getFullYear()}-${month.toString().padStart(2, "0")}-26`
-        pageScreen.querySelector('#edtFin').value = `${today.getFullYear()}-${(month+1).toString().padStart(2, "0")}-25`
+
+    const ini = new Date(`${today.overday(-25).substr(0,4)}-${today.overday(-25).substr(5,2) }-26 00:00:00`)
+        pageScreen.querySelector('#edtIni').value = ini.getFormatDate()
+        ini.change(30)
+        pageScreen.querySelector('#edtFin').value = `${ini.getFullYear()}-${(ini.getMonth()+1).toString().padStart(2, "0")}-25`
     }
 
     function count_hour(dt_ini, dt_fin, vac=0, almoco=1){

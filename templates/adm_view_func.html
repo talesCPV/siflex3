@@ -243,7 +243,7 @@
         }
     }
 
-    pageFunc.setFun = ()=>{
+    pageFunc.setFun = ()=>{  
         const params = new Object;
             params.id = newFunc ? 0 : pageData.id
             params.nome = pageScreen.querySelector('#edtNome').value.trim()
@@ -260,14 +260,13 @@
             params.data_adm = pageScreen.querySelector('#edtAdm').value.trim()
             params.data_dem = pageScreen.querySelector('#edtDem').value.trim()
             params.id_cargo = pageScreen.querySelector('#cmbCargo').value.trim()
-            params.id_setor = pageScreen.querySelector('#cmbSetor').value.trim()
+//            params.id_setor = pageScreen.querySelector('#cmbSetor').value.trim()
             params.tel = pageScreen.querySelector('#edtFone').value.trim()
             params.cel = pageScreen.querySelector('#edtCel').value.trim()
             params.ativo = pageScreen.querySelector('#cmbAtivo').value
             params.obs = pageScreen.querySelector('#edtObs').value.trim()
             params.reg = pageScreen.querySelector('#edtReg').value.trim()
-            params.nick = pageScreen.querySelector('#edtNick').value.trim().toUpperCase()
-         
+            params.nick = pageScreen.querySelector('#edtNick').value.trim().toUpperCase()      
         const myPromisse = queryDB(params,'FUN-1');
         myPromisse.then((resolve)=>{
             try{
