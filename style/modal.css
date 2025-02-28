@@ -101,7 +101,7 @@
     }
 
     .fullscreen{
-      left: unset;
+      left: 0 !important;
     }
 
   }
