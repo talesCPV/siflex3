@@ -1827,6 +1827,7 @@ DELIMITER $$
 		IN Ilarg_sanf double,
 		IN Itopo_sanf double,
 		IN Ibase_sanf double,
+        IN Ilarg_corredor double,
 		IN Ilarg_chao double,
 		IN Idist_carro double,
         IN Iobs varchar(1024)
@@ -1834,10 +1835,10 @@ DELIMITER $$
 	BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
-			IF(Iid = 0)THEN				
-				INSERT INTO tb_sanf_onibus (nome,marca,modelo,ano,qtd_barras,qtd_dob_teto,qtd_dob_chao,alt,larg,alt_teto,alt_lateral,larg_teto,alt_sanf,larg_sanf,topo_sanf,base_sanf,larg_chao,dist_carro,obs)
+			IF(Iid = 0)THEN
+				INSERT INTO tb_sanf_onibus (nome,marca,modelo,ano,qtd_barras,qtd_dob_teto,qtd_dob_chao,alt,larg,alt_teto,alt_lateral,larg_teto,alt_sanf,larg_sanf,topo_sanf,base_sanf,larg_corredor,larg_chao,dist_carro,obs)
 				VALUES (Inome,Imarca,Imodelo,Iano,Iqtd_barras,Iqtd_dob_teto,Iqtd_dob_chao,Ialt,Ilarg,Ialt_teto,Ialt_lateral,Ilarg_teto,Ialt_sanf,
-                Ilarg_sanf,Itopo_sanf,Ibase_sanf,Ilarg_chao,Idist_carro,Iobs);
+                Ilarg_sanf,Itopo_sanf,Ibase_sanf,Ilarg_corredor,Ilarg_chao,Idist_carro,Iobs);
             ELSE
 				IF(Inome="")THEN
 					DELETE FROM tb_sanf_onibus WHERE id=Iid;  
@@ -1845,7 +1846,7 @@ DELIMITER $$
 					UPDATE tb_sanf_onibus SET 
 						nome=Inome,marca=Imarca,modelo=Imodelo,ano=Iano,qtd_barras=Iqtd_barras,qtd_dob_teto=Iqtd_dob_teto,qtd_dob_chao=Iqtd_dob_chao,
                         alt=Ialt,larg=Ilarg,alt_teto=Ialt_teto,alt_lateral=Ialt_lateral,larg_teto=Ilarg_teto,alt_sanf=Ialt_sanf,larg_sanf=Ilarg_sanf,
-                        topo_sanf=Itopo_sanf,base_sanf=Ibase_sanf,larg_chao=Ilarg_chao,dist_carro=Idist_carro,obs=Iobs
+                        topo_sanf=Itopo_sanf,base_sanf=Ibase_sanf,larg_corredor=Ilarg_corredor,larg_chao=Ilarg_chao,dist_carro=Idist_carro,obs=Iobs
 					WHERE id=Iid;                
                 END IF;            
             END IF;

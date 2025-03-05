@@ -20,6 +20,10 @@
             width: 50%;
         }
 
+        .lf img{
+            width: 100%;
+        }
+
         .rg{
             min-width: 50%;
         }
@@ -37,59 +41,103 @@
         <div id="main" class="tab">
             <div class="inline">
                 <label for="edtNome">Nome</label>
-                <input type="text" id="edtNome">
-            </div>
-            <div class="inline">
-                <label for="edtModelo">Modelo</label>
-                <input type="text" id="edtModelo">
+                <input type="text" id="edtNome" maxlength="120">
             </div>
             <div class="inline">                
                 <label for="edtMarca">Marca</label>
-                <input type="text" id="edtMarca">
+                <input type="text" id="edtMarca" maxlength="60">
                 <label for="edtAno">Ano</label>
-                <input type="text" id="edtAno">
+                <input type="text" id="edtAno" maxlength="4">
             </div>
+            <div class="inline">
+                <label for="edtModelo">Modelo</label>
+                <input type="text" id="edtModelo" maxlength="60">
+            </div>
+            <div class="inline">
+                <label for="edtQtdBarras">Qtd. Barras</label>
+                <input type="text" id="edtQtdBarras" inputmode="decimal" onkeyup="valInt(this)">
+                <label for="edtQtdDobTeto">Dobrinha Teto</label>
+                <input type="text" id="edtQtdDobTeto" inputmode="decimal" onkeyup="valInt(this)">
+                <label for="edtQtdDobChao">Dobrinha Chão</label>
+                <input type="text" id="edtQtdDobChao" inputmode="decimal" onkeyup="valInt(this)">
+            </div>            
+
         </div>
         <div id="sanfona" class="tab">
 
             <div class="baia">
 
                 <div class="lf">
-                    teste
+                    <img src="assets/sanf_geral.png" alt="">
                 </div>
                 <div class="rg">
                     <div class="inline">
                         <label for="edtAlt">Altura</label>
-                        <input type="text" id="edtAlt">
+                        <input type="text" id="edtAlt" inputmode="decimal" onkeyup="valFloat(this)">
                     </div>
                     <div class="inline">
                         <label for="edtLarg">Largura</label>
-                        <input type="text" id="edtLarg">
+                        <input type="text" id="edtLarg" inputmode="decimal" onkeyup="valFloat(this)">
                     </div>
                     <div class="inline">
                         <label for="edtlargTeto">Larg. Teto</label>
-                        <input type="text" id="edtlargTeto">
+                        <input type="text" id="edtlargTeto" inputmode="decimal" onkeyup="valFloat(this)">
                     </div>
                     <div class="inline">
                         <label for="edtAltLat">Alt. Lateral</label>
-                        <input type="text" id="edtAltLat">
+                        <input type="text" id="edtAltLat" inputmode="decimal" onkeyup="valFloat(this)">
                     </div>
-        
+                    <div class="inline">
+                        <label for="edtAltTeto">Alt. Teto</label>
+                        <input type="text" id="edtAltTeto" inputmode="decimal" onkeyup="valFloat(this)">
+                    </div>
                 </div>
-    
-
             </div>
-
         </div>
         <div id="sanfoninha" class="tab">
-            <div class="inline">
-                <label for="edtAltSanf">Alt. Sanfoninha</label>
-                <input type="text" id="edtAltSanf">
-                <label for="edtLargSanf">Larg. Sanfoninha</label>
-                <input type="text" id="edtLargSanf">
+            <div class="baia">
+
+                <div class="lf">
+                    <img src="assets/sanfoninha.png" alt="">
+                </div>
+                <div class="rg">
+                    <div class="inline">
+                        <label for="edtAltSanf">Alt. Sanfoninha</label>
+                        <input type="text" id="edtAltSanf" inputmode="decimal" onkeyup="valFloat(this)">
+                    </div>
+                    <div class="inline">                
+                        <label for="edtLargSanf">Larg. Sanfoninha</label>
+                        <input type="text" id="edtLargSanf" inputmode="decimal" onkeyup="valFloat(this)">
+                    </div>
+                    <div class="inline">                
+                        <label for="edtTopoSanf">Topo. Sanfoninha</label>
+                        <input type="text" id="edtTopoSanf" inputmode="decimal" onkeyup="valFloat(this)">
+                    </div>
+                    <div class="inline">                
+                        <label for="edtBaseSanf">Base Sanfoninha</label>
+                        <input type="text" id="edtBaseSanf" inputmode="decimal" onkeyup="valFloat(this)">
+                    </div>
+                    <div class="inline">                
+                        <label for="edtLargSanf">Larg. Sanfoninha</label>
+                        <input type="text" id="edtLargSanf" inputmode="decimal" onkeyup="valFloat(this)">
+                    </div>
+                    <div class="inline">                
+                        <label for="edtLargSanf">Larg. Sanfoninha</label>
+                        <input type="text" id="edtLargSanf" inputmode="decimal" onkeyup="valFloat(this)">
+                    </div>
+                </div>        
+            </div>                    
+        </div>
+        <div id="chao" class="tab">
+            <div class="inline">                
+                <label for="edtLargChao">Larg. Chão</label>
+                <input type="text" id="edtLargChao" inputmode="decimal" onkeyup="valFloat(this)">
+            </div>
+            <div class="inline">                
+                <label for="edtDistCarro">Dist. entre Carros</label>
+                <input type="text" id="edtDistCarro" inputmode="decimal" onkeyup="valFloat(this)">
             </div>
         </div>
-        <div id="chao" class="tab"></div>
 
     </div>
     <div class="line">

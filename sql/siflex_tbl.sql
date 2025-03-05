@@ -294,6 +294,7 @@ CREATE TABLE tb_sanf_onibus (
     larg_sanf double NOT NULL DEFAULT 0,
     topo_sanf double NOT NULL DEFAULT 0,
     base_sanf double NOT NULL DEFAULT 0,
+    larg_corredor double NOT NULL DEFAULT 0,
     larg_chao double NOT NULL DEFAULT 0,
     dist_carro double NOT NULL DEFAULT 0,
     obs varchar(1024) DEFAULT NULL,
