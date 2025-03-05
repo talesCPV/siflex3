@@ -1,0 +1,130 @@
+<template>    
+    <style>
+        .draw-screen{
+            width: 100%;
+            height: 100%;
+        }
+     
+        main{
+            padding: unset !important;
+            display: contents;
+        }
+
+        .baia{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        .lf{
+            width: 50%;
+        }
+
+        .rg{
+            min-width: 50%;
+        }
+
+    </style>
+
+    <div class="tab-bar">
+        <div class="tab-item" id="tab-main" onclick="pictab(this)"> Descrição</div>
+        <div class="tab-item" id="tab-sanfona" onclick="pictab(this)">Sanfona</div>
+        <div class="tab-item" id="tab-sanfoninha" onclick="pictab(this)">Sanfoninha</div>
+        <div class="tab-item" id="tab-chao" onclick="pictab(this)">Chão</div>            
+    </div>
+
+    <div class="tab-screen">
+        <div id="main" class="tab">
+            <div class="inline">
+                <label for="edtNome">Nome</label>
+                <input type="text" id="edtNome">
+            </div>
+            <div class="inline">
+                <label for="edtModelo">Modelo</label>
+                <input type="text" id="edtModelo">
+            </div>
+            <div class="inline">                
+                <label for="edtMarca">Marca</label>
+                <input type="text" id="edtMarca">
+                <label for="edtAno">Ano</label>
+                <input type="text" id="edtAno">
+            </div>
+        </div>
+        <div id="sanfona" class="tab">
+
+            <div class="baia">
+
+                <div class="lf">
+                    teste
+                </div>
+                <div class="rg">
+                    <div class="inline">
+                        <label for="edtAlt">Altura</label>
+                        <input type="text" id="edtAlt">
+                    </div>
+                    <div class="inline">
+                        <label for="edtLarg">Largura</label>
+                        <input type="text" id="edtLarg">
+                    </div>
+                    <div class="inline">
+                        <label for="edtlargTeto">Larg. Teto</label>
+                        <input type="text" id="edtlargTeto">
+                    </div>
+                    <div class="inline">
+                        <label for="edtAltLat">Alt. Lateral</label>
+                        <input type="text" id="edtAltLat">
+                    </div>
+        
+                </div>
+    
+
+            </div>
+
+        </div>
+        <div id="sanfoninha" class="tab">
+            <div class="inline">
+                <label for="edtAltSanf">Alt. Sanfoninha</label>
+                <input type="text" id="edtAltSanf">
+                <label for="edtLargSanf">Larg. Sanfoninha</label>
+                <input type="text" id="edtLargSanf">
+            </div>
+        </div>
+        <div id="chao" class="tab"></div>
+
+    </div>
+    <div class="line">
+        <button id="btnGerar">Gerar</button>
+    </div>
+    <div class="draw-screen">
+        <main></main>
+    </div>
+
+</template>
+<script>
+
+    const pageData = main_data.sanf_view.data
+    const pageFunc = main_data.sanf_view.func
+    const pageScreen = document.querySelector('#card-sanf_view')
+
+    function pageStart(){
+        pageScreen.classList.add('fullscreen')
+
+        console.log(pageScreen.offsetWidth)
+        pageScreen.querySelector('#tab-main').click()
+
+    }
+
+    var sk = function( sketch ) {
+        sketch.setup = function() {
+            const width = pageScreen.offsetWidth -30
+            sketch.createCanvas(width, 410)
+        }
+        sketch.draw = function(){
+            sketch.background(0)
+        }
+    }
+    var myp5 = new p5(sk)
+
+    pageStart()
+
+</script>

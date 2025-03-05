@@ -119,6 +119,10 @@
         "OS-3" => 'CALL sp_view_apt("x00");', // SCANNER
         "OS-4" => 'CALL sp_set_apt(@access,@hash,"x00",x01);', // SCANNER, ID_FUNC
 
+        /* SANFONA DE ÔNIBUS */
+        "SAN-0" => 'CALL sp_view_sanf_onibus(@access,@hash,"x00","x01","x02");', // FIELD,SIGNAL, VALUE
+        "SAN-1"=> 'CALL (@access,@hash,x00,"x01","x02","x03","x04",x05,x06,x07,"x08","x09","x10","x11","x12","x13","x14","x15","x16","x17","x18","x19");', // id,nome,marca,modelo,ano,qtd_barras,qtd_dob_teto,qtd_dob_chao,alt,larg,alt_teto,alt_lateral,larg_teto,alt_sanf,larg_sanf,topo_sanf,base_sanf,larg_chao,dist_carro,obs
+
 
     );
 

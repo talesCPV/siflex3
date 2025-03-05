@@ -64,16 +64,7 @@ DROP VIEW vw_serv_exec;
 SELECT * FROM vw_serv_exec;
 
 DROP VIEW vw_func;
- CREATE VIEW vw_func AS
-	SELECT FUNC.*,  SETOR.setor, COALESCE(CAR.cargo,"") AS cargo, IF(CAR.tipo='HORA',1,0) AS horista,
-    IF(FUNC.status="ATIVO",1,0) AS ativo, COALESCE(CAR.cbo,"") AS cbo
-    FROM tb_funcionario AS FUNC    
-	INNER JOIN tb_cargos AS CAR
-	INNER JOIN vw_setor AS SETOR
-	ON FUNC.id_cargo = CAR.id
-	AND FUNC.id = SETOR.id_func
-    ORDER BY FUNC.nome;
-        
+ CREATE VIEW vw_func AS        
 	SELECT FUNC.*, COALESCE(CAR.cargo,"") AS cargo, IF(CAR.tipo='HORA',1,0) AS horista,
     IF(FUNC.status="ATIVO",1,0) AS ativo, COALESCE(CAR.cbo,"") AS cbo,
     (SELECT GROUP_CONCAT(id_setor SEPARATOR ",") FROM tb_func_setor WHERE id_func=FUNC.id) AS setores

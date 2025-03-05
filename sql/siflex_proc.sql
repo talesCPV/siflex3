@@ -1784,8 +1784,71 @@ DELIMITER $$
 	END $$
 	DELIMITER ;   
 
-SELECT COUNT(*) FROM vw_apontamento WHERE id_os=14 AND ok=0;
+/* SANFONA DE ONIBUS */
 
-SELECT * FROM vw_apontamento WHERE id_os=14;
+	DROP PROCEDURE IF EXISTS sp_view_sanf_onibus;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_sanf_onibus(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Ifield varchar(30),
+        IN Isignal varchar(4),
+		IN Ivalue varchar(50)
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SET @quer =CONCAT('SELECT * FROM tb_sanf_onibus WHERE ',Ifield,' ',Isignal,' ',Ivalue,' ORDER BY ',Ifield,';');   
+   			PREPARE stmt1 FROM @quer;
+ 			EXECUTE stmt1;
+        END IF;
+	END $$
+	DELIMITER ;
 
-DELETE FROM tb_apontamento WHERE id_os=14;
+ DROP PROCEDURE sp_sanf_onibus;
+DELIMITER $$
+	CREATE PROCEDURE sp_sanf_onibus(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Iid int(11),
+		IN Inome varchar(120),
+		IN Imarca varchar(60),
+		IN Imodelo varchar(60),
+		IN Iano varchar(4),
+		IN Iqtd_barras int,
+		IN Iqtd_dob_teto int,
+		IN Iqtd_dob_chao int,
+		IN Ialt double,
+		IN Ilarg double,
+		IN Ialt_teto double,
+		IN Ialt_lateral double,
+		IN Ilarg_teto  double,
+		IN Ialt_sanf double,
+		IN Ilarg_sanf double,
+		IN Itopo_sanf double,
+		IN Ibase_sanf double,
+		IN Ilarg_chao double,
+		IN Idist_carro double,
+        IN Iobs varchar(1024)
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			IF(Iid = 0)THEN				
+				INSERT INTO tb_sanf_onibus (nome,marca,modelo,ano,qtd_barras,qtd_dob_teto,qtd_dob_chao,alt,larg,alt_teto,alt_lateral,larg_teto,alt_sanf,larg_sanf,topo_sanf,base_sanf,larg_chao,dist_carro,obs)
+				VALUES (Inome,Imarca,Imodelo,Iano,Iqtd_barras,Iqtd_dob_teto,Iqtd_dob_chao,Ialt,Ilarg,Ialt_teto,Ialt_lateral,Ilarg_teto,Ialt_sanf,
+                Ilarg_sanf,Itopo_sanf,Ibase_sanf,Ilarg_chao,Idist_carro,Iobs);
+            ELSE
+				IF(Inome="")THEN
+					DELETE FROM tb_sanf_onibus WHERE id=Iid;  
+                ELSE
+					UPDATE tb_sanf_onibus SET 
+						nome=Inome,marca=Imarca,modelo=Imodelo,ano=Iano,qtd_barras=Iqtd_barras,qtd_dob_teto=Iqtd_dob_teto,qtd_dob_chao=Iqtd_dob_chao,
+                        alt=Ialt,larg=Ilarg,alt_teto=Ialt_teto,alt_lateral=Ialt_lateral,larg_teto=Ilarg_teto,alt_sanf=Ialt_sanf,larg_sanf=Ilarg_sanf,
+                        topo_sanf=Itopo_sanf,base_sanf=Ibase_sanf,larg_chao=Ilarg_chao,dist_carro=Idist_carro,obs=Iobs
+					WHERE id=Iid;                
+                END IF;            
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;

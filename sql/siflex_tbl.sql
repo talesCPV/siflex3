@@ -274,3 +274,28 @@ CREATE TABLE tb_apontamento (
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 INSERT INTO tb_apontamento (id_os,id_etapa,id_func) VALUES (2,9,1);
+
+ DROP TABLE tb_sanf_onibus;
+CREATE TABLE tb_sanf_onibus (
+    id int(11) NOT NULL AUTO_INCREMENT,
+    nome varchar(120) NOT NULL,
+    marca varchar(60) NOT NULL,
+    modelo varchar(60) NOT NULL,
+    ano varchar(4) NOT NULL,
+    qtd_barras int NOT NULL DEFAULT 0,
+    qtd_dob_teto int NOT NULL DEFAULT 0,
+    qtd_dob_chao int NOT NULL DEFAULT 0,
+    alt double NOT NULL DEFAULT 0,
+    larg double NOT NULL DEFAULT 0,
+    alt_teto double NOT NULL DEFAULT 0,
+    alt_lateral double NOT NULL DEFAULT 0,
+    larg_teto  double NOT NULL DEFAULT 0,
+    alt_sanf double NOT NULL DEFAULT 0,
+    larg_sanf double NOT NULL DEFAULT 0,
+    topo_sanf double NOT NULL DEFAULT 0,
+    base_sanf double NOT NULL DEFAULT 0,
+    larg_chao double NOT NULL DEFAULT 0,
+    dist_carro double NOT NULL DEFAULT 0,
+    obs varchar(1024) DEFAULT NULL,
+    PRIMARY KEY (id)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
