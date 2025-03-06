@@ -1814,6 +1814,7 @@ DELIMITER $$
 		IN Inome varchar(120),
 		IN Imarca varchar(60),
 		IN Imodelo varchar(60),
+        IN Ichassi varchar(30),
 		IN Iano varchar(4),
 		IN Iqtd_barras int,
 		IN Iqtd_dob_teto int,
@@ -1824,6 +1825,7 @@ DELIMITER $$
 		IN Ialt_lateral double,
 		IN Ilarg_teto  double,
 		IN Ialt_sanf double,
+        IN Ialt_sanf_cost double,
 		IN Ilarg_sanf double,
 		IN Itopo_sanf double,
 		IN Ibase_sanf double,
@@ -1836,16 +1838,16 @@ DELIMITER $$
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
 			IF(Iid = 0)THEN
-				INSERT INTO tb_sanf_onibus (nome,marca,modelo,ano,qtd_barras,qtd_dob_teto,qtd_dob_chao,alt,larg,alt_teto,alt_lateral,larg_teto,alt_sanf,larg_sanf,topo_sanf,base_sanf,larg_corredor,larg_chao,dist_carro,obs)
-				VALUES (Inome,Imarca,Imodelo,Iano,Iqtd_barras,Iqtd_dob_teto,Iqtd_dob_chao,Ialt,Ilarg,Ialt_teto,Ialt_lateral,Ilarg_teto,Ialt_sanf,
+				INSERT INTO tb_sanf_onibus (nome,marca,modelo,chassi,ano,qtd_barras,qtd_dob_teto,qtd_dob_chao,alt,larg,alt_teto,alt_lateral,larg_teto,alt_sanf,alt_sanf_cost,larg_sanf,topo_sanf,base_sanf,larg_corredor,larg_chao,dist_carro,obs)
+				VALUES (Inome,Imarca,Imodelo,Ichassi,Iano,Iqtd_barras,Iqtd_dob_teto,Iqtd_dob_chao,Ialt,Ilarg,Ialt_teto,Ialt_lateral,Ilarg_teto,Ialt_sanf,Ialt_sanf_cost,
                 Ilarg_sanf,Itopo_sanf,Ibase_sanf,Ilarg_corredor,Ilarg_chao,Idist_carro,Iobs);
             ELSE
 				IF(Inome="")THEN
 					DELETE FROM tb_sanf_onibus WHERE id=Iid;  
                 ELSE
 					UPDATE tb_sanf_onibus SET 
-						nome=Inome,marca=Imarca,modelo=Imodelo,ano=Iano,qtd_barras=Iqtd_barras,qtd_dob_teto=Iqtd_dob_teto,qtd_dob_chao=Iqtd_dob_chao,
-                        alt=Ialt,larg=Ilarg,alt_teto=Ialt_teto,alt_lateral=Ialt_lateral,larg_teto=Ilarg_teto,alt_sanf=Ialt_sanf,larg_sanf=Ilarg_sanf,
+						nome=Inome,marca=Imarca,modelo=Imodelo,chassi=Ichassi,ano=Iano,qtd_barras=Iqtd_barras,qtd_dob_teto=Iqtd_dob_teto,qtd_dob_chao=Iqtd_dob_chao,
+                        alt=Ialt,larg=Ilarg,alt_teto=Ialt_teto,alt_lateral=Ialt_lateral,larg_teto=Ilarg_teto,alt_sanf=Ialt_sanf,alt_sanf_cost=Ialt_sanf_cost,larg_sanf=Ilarg_sanf,
                         topo_sanf=Itopo_sanf,base_sanf=Ibase_sanf,larg_corredor=Ilarg_corredor,larg_chao=Ilarg_chao,dist_carro=Idist_carro,obs=Iobs
 					WHERE id=Iid;                
                 END IF;            

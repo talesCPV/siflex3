@@ -60,11 +60,11 @@
 
     pageScreen.querySelector('#tblSanf').addEventListener('click',(e)=>{
         try{
-            if(main_data.hasOwnProperty('sanf_modelos')){
-                closeModal('sanf_modelos')
+            if(main_data.hasOwnProperty('sanf_view')){
+                closeModal('sanf_view')
             }
             data = e.target.parentNode.data
-            data != undefined ? openHTML('sanf_modelos.html','pop-up',`Edição de dados - ${data.nome.toUpperCase()}`,data) : null
+            data != undefined ? openHTML('sanf_view.html','pop-up',`Edição de dados - ${data.nome.toUpperCase()}`,data) : null
        }catch{}
     })
 
