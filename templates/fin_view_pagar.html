@@ -1,0 +1,146 @@
+
+<template>
+    <style>
+        .frm{
+            padding: 10px;
+        }
+
+        @media all and (max-width : 768px) {
+            .frm input, .frm select{
+                width: 98% !important;
+            }
+        }
+
+    </style>
+  
+    <fieldset class="frm" >
+        <legend>Empresa</legend>
+
+        <div class="inline">
+            <label for="cmbCli">Fornecedor</label>
+            <select id="cmbCli" class="only-view" disabled></select>
+        </div>
+        <div class="inline">
+            <label for="edtNome">Descrição *</label>
+            <input type="text" class="only-view" id="edtNome" maxlength="60" disabled>
+        </div>
+        <div class="inline">
+            <label for="edtVal">Valor</label>
+            <input type="text" class="only-view" id="edtVal" inputmode="decimal" onkeyup="valFloat(this)" disabled>
+            <label for="edtVenc">Vencimento</label>
+            <input type="date" class="only-view" id="edtVenc" disabled>
+        </div>
+        <div class="inline">
+            <label for="edtCod">Cód. Pgto</label>
+            <input type="text" class="only-view" id="edtCod" maxlength="512" disabled>
+        </div>
+
+        <div class="line">
+            <button id="btnDel" class="only-view" disabled>Deletar</button>
+            <button id="btnEdit">Editar</button>
+            <button id="btnSave" class="only-view" disabled>Salvar</button>
+            <button id="btnPgto">Pagar</button>
+        </div>
+    </fieldset>
+
+</template>
+<script>
+    
+    const pageData = main_data.fin_view_pagar.data
+    const pageFunc = main_data.fin_view_pagar.func
+    const pageScreen = document.querySelector('#card-fin_view_pagar')
+    const newPgto = Object.keys(pageData).length == 0
+
+    function startPage(){
+        pageFunc.fillEmp()
+        if(newPgto){
+            openFields(1)
+            pageScreen.querySelector('#btnDel').disabled = 1
+            pageScreen.querySelector('#btnEdit').disabled = 1
+            pageScreen.querySelector('#btnPgto').disabled = 1
+            pageScreen.querySelector('#edtVenc').value =  today.getFormatDate()
+        }else{
+            pageScreen.querySelector('#edtNome').value = pageData.nome
+            pageScreen.querySelector('#edtVal').value = pageData.valor
+            pageScreen.querySelector('#edtVenc').value = pageData.venc
+            pageScreen.querySelector('#edtCod').value = pageData.cod_pgto
+        }
+    }
+
+    function openFields(open=1){
+        const view = pageScreen.querySelectorAll('.only-view')
+        for(let i=0; i<view.length; i++){
+            view[i].disabled = !open
+        }
+    }
+
+    pageFunc.fillEmp = ()=>{      
+        const params = new Object;
+            params.field = 'nome'
+            params.signal = 'LIKE'
+            params.value = "'%%'"
+        const myPromisse = queryDB(params,'EMP-0')
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const cmb = pageScreen.querySelector('#cmbCli')
+            cmb.innerHTML = '<option value="0">Selecione uma Empresa se Necessário</option>'
+            for(let i=0; i<json.length;i++){
+                const opt = document.createElement('option')
+                opt.value = json[i].id
+                opt.innerHTML = json[i].fantasia
+                opt.selected = json[i].id == pageData.id_cli
+                cmb.appendChild(opt)
+            }         
+        })
+    }
+
+    pageFunc.setPgto = (del=0)=>{
+        const params = new Object;
+            params.id = newPgto ? 0 : pageData.id
+            params.id_cliente = pageScreen.querySelector('#cmbCli').value
+            params.nome = del ? '' : pageScreen.querySelector('#edtNome').value.trim()
+            params.venc = pageScreen.querySelector('#edtVenc').value
+            params.valor = pageScreen.querySelector('#edtVal').value
+            params.cod_pgto = pageScreen.querySelector('#edtCod').value.trim()
+          
+        const myPromisse = queryDB(params,'FIN-6');
+        myPromisse.then((resolve)=>{
+            setLog(`Contas A Pagar ${newPgto?'Cadastrada': del ? 'Deletada' : 'Editada'} ${del? pageData.nome : params.nome }, Valor ${params.valor}, Venc. dia ${params.venc}`)
+            try{
+                main_data.fin_pagar.func.fillPag()
+            }catch{
+                console.error('Tela fechada pelo usuário!')
+            }
+            alert('Cadastrado efetuado!')
+            closeModal('fin_view_pagar')
+        })
+    }
+
+    pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
+        pageFunc.setPgto()
+    })
+
+    pageScreen.querySelector('#btnDel').addEventListener('click',()=>{
+        if(confirm('Deseja realmente deletar esta Pagamento?')){
+            pageFunc.setPgto(1)
+        }
+    })
+
+    pageScreen.querySelector('#btnEdit').addEventListener('click',()=>{
+        if(pageScreen.querySelector('#btnSave').disabled){
+            if(confirm('Abrir registro para edição?')){
+                openFields(1)
+            }
+        }else{
+            openFields(0)
+        }
+    })
+
+    pageScreen.querySelector('#btnPgto').addEventListener('click',()=>{
+        openHTML('fin_check_pgto.html','pop-up','Pagamento ao Fornecedor',pageData)
+    })
+    
+
+    startPage()
+
+</script>

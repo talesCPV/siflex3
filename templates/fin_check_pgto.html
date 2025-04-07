@@ -1,0 +1,78 @@
+<template>
+    <style></style>
+  
+    <div class="inline">
+        <label for="edtData">Data</label>
+        <input type="date" id="edtData">
+        <label for="cmbTipo">Tipo de Pgto</label>
+        <select id="cmbTipo">
+            <option value="BOLETO">Boleto Bancário</option>
+            <option value="PIX">Pix</option>
+            <option value="TED/DOC">Tranferência (TED/DOC)</option>
+            <option value="DEPODITO">Depśito Bancário</option>
+        </select>
+    </div>
+
+    <div class="inline">
+        <label for="edtObs">Obs.</label>
+        <textarea id="edtObs" rows="5"></textarea>
+    </div>
+
+    <div class="line">
+        <label for="ckbPgto">Pago</label>
+        <input type="checkbox" id="ckbPgto" checked>
+    </div>
+
+    <div class="line">
+        <svg id="barcode"></svg>
+    </div>
+
+    <div class="line">
+        <div id="qrcode"></div>
+    </div>
+
+    <div class="line">
+        <button id="btnPgto">Pagar</button>
+    </div>
+
+
+</template>
+<script>
+
+    const pageData = main_data.fin_check_pgto.data
+    const pageFunc = main_data.fin_check_pgto.func
+    const pageScreen = document.querySelector('#card-fin_check_pgto')
+
+    function pageStart(){
+        pageScreen.querySelector('#cmbTipo').value = pageData.tipo
+        pageScreen.querySelector('#edtData').value = pageData.pgto_dia == null ? today.getFormatDate() : pageData.pgto_dia
+        pageScreen.querySelector('#edtObs').value =  pageData.obs
+        pageScreen.querySelector('#ckbPgto').checked = Number(pageData.pgto)
+        JsBarcode("#barcode", pageData.cod_pgto);
+    }
+// ID,pago,pago_dia,tipo,obs
+    pageScreen.querySelector('#btnPgto').addEventListener('click',()=>{
+        const params = new Object;
+            params.id = pageData.id
+            params.pago = pageScreen.querySelector('#ckbPgto').checked
+            params.pago_dia = pageScreen.querySelector('#edtData').value
+            params.tipo = pageScreen.querySelector('#cmbTipo').value
+            params.obs = pageScreen.querySelector('#edtObs').value.trim()
+        const myPromisse = queryDB(params,'FIN-7')
+        myPromisse.then((resolve)=>{
+            setLog(`Pagamento a ${pageData.fornecedor} ${params.pago?'': 'NÃO '}Efetuado, Valor R$${pageData.valor} dia ${params.pago_dia}`)
+            try{
+                main_data.fin_pagar.func.fillPag()
+            }catch{
+                console.error('Tela fechada pelo usuário!')
+            }
+            alert('Cadastrado efetuado!')
+            closeModal('fin_check_pgto')
+            closeModal('fin_view_pagar')
+        })
+
+    })
+
+    pageStart()
+
+</script>

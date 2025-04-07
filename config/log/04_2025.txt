@@ -1,0 +1,19 @@
+07/04/2025 13:39 tales@flexibus.com.br : Menu Incluido (Financeiro)
+07/04/2025 13:59 tales@flexibus.com.br : Menu Alterado (Financeiro, menu, pop-up, )
+07/04/2025 13:59 tales@flexibus.com.br : Menu Incluido (A Pagar)
+07/04/2025 14:00 tales@flexibus.com.br : Menu Alterado (A Pagar, menu, pop-up, Contas a Pagar)
+07/04/2025 14:01 tales@flexibus.com.br : Menu Alterado (A Pagar, fin_pagar.html, pop-up, Contas a Pagar)
+07/04/2025 15:36 tales@flexibus.com.br : Contas A Pagar Cadastrada teste, Valor 250, Venc. dia 2025-04-16
+07/04/2025 15:38 tales@flexibus.com.br : Contas A Pagar Cadastrada teste 2, Valor 100, Venc. dia 1977-03-19
+07/04/2025 15:42 tales@flexibus.com.br : Contas A Pagar Cadastrada teste 3, Valor 101, Venc. dia 2025-04-23
+07/04/2025 15:42 tales@flexibus.com.br : Contas A Pagar Deletada teste 2, Valor 1977, Venc. dia 
+07/04/2025 15:42 tales@flexibus.com.br : Contas A Pagar Editada teste, Valor 125.32, Venc. dia 2025-05-09
+07/04/2025 15:49 tales@flexibus.com.br : Contas A Pagar Editada teste 3, Valor 101, Venc. dia 2025-04-23
+07/04/2025 19:55 tales@flexibus.com.br : Contas A Pagar Cadastrada Diaria igor, Valor 25, Venc. dia 2025-04-07
+07/04/2025 19:55 tales@flexibus.com.br : Contas A Pagar Editada teste 2, Valor 1977, Venc. dia 
+07/04/2025 19:58 tales@flexibus.com.br : Contas A Pagar Editada teste 2, Valor 1977, Venc. dia 1977-03-19
+07/04/2025 19:58 tales@flexibus.com.br : Contas A Pagar Editada teste 2, Valor 256.32, Venc. dia 1977-03-19
+07/04/2025 20:39 tales@flexibus.com.br : Contas A Pagar Cadastrada teste, Valor 150, Venc. dia 2025-04-24
+07/04/2025 20:40 tales@flexibus.com.br : Contas A Pagar Cadastrada diaria igor, Valor 25, Venc. dia 2025-04-07
+07/04/2025 21:13 tales@flexibus.com.br : Pagamento a ABRAFIX PARAFUSO Efetuado, Valor R$150 dia 2025-04-07
+07/04/2025 21:14 tales@flexibus.com.br : Pagamento a ABRAFIX PARAFUSO Efetuado, Valor R$150 dia 2025-04-08

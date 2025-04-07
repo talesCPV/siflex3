@@ -287,3 +287,12 @@ SELECT * FROM vw_prod;
  SELECT * FROM vw_apontamento;
  
  SELECT COUNT(*) FROM vw_apontamento WHERE id_os=2 AND ok=0;
+ 
+-- DROP VIEW IF EXISTS vw_contas_a_pagar;
+-- CREATE VIEW vw_contas_a_pagar AS
+ SELECT CPG.*, IFNULL(EMP.fantasia,"FORNECEDOR SEM REGISTRO") AS fornecedor
+ FROM tb_contas_a_pagar AS CPG
+ LEFT JOIN tb_empresa AS EMP
+ ON CPG.id_cli = EMP.id;
+ 
+ SELECT * FROM vw_contas_a_pagar;

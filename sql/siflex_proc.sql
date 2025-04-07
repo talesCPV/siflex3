@@ -1855,3 +1855,78 @@ DELIMITER $$
         END IF;
 	END $$
 DELIMITER ;
+
+/* FINANCEIRO */
+
+	DROP PROCEDURE IF EXISTS sp_view_contas_a_pagar;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_contas_a_pagar(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Ifield varchar(30),
+        IN Isignal varchar(4),
+		IN Ivalue varchar(50),
+        IN Idt_ini date,
+        IN Idt_fin date
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SET @quer =CONCAT('SELECT * FROM vw_contas_a_pagar WHERE ',Ifield,' ',Isignal,' ',Ivalue,' AND venc BETWEEN "',Idt_ini,'" AND "',Idt_fin,'" ORDER BY ',Ifield,';');   
+			PREPARE stmt1 FROM @quer;
+			EXECUTE stmt1;
+        END IF;
+	END $$
+	DELIMITER ;
+    
+     DROP PROCEDURE sp_set_contas_a_pagar;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_contas_a_pagar(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Iid int(11),
+        IN Iid_cli int(11),
+		IN Inome varchar(60),
+		IN Ivenc date,
+		IN Ivalor double,
+		IN Icod_pgto varchar(512)
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			IF(Iid = 0)THEN
+				INSERT INTO tb_contas_a_pagar (id_cli,nome,venc,valor,cod_pgto)
+				VALUES (Iid_cli,Inome,Ivenc,Ivalor,Icod_pgto);
+            ELSE
+				IF(Inome="")THEN
+					DELETE FROM tb_contas_a_pagar WHERE id=Iid;  
+                ELSE
+					UPDATE tb_contas_a_pagar SET 
+						id_cli=Iid_cli, nome=Inome, venc=Ivenc, valor=Ivalor, cod_pgto=Icod_pgto
+					WHERE id=Iid;                
+                END IF;
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;
+
+     DROP PROCEDURE sp_check_pagamento;
+DELIMITER $$
+	CREATE PROCEDURE sp_check_pagamento(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Iid int(11),
+        IN Ipgto bool,
+		IN Ipgto_dia date,
+        IN Itipo varchar(8),
+        IN Iobs varchar(256)
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			UPDATE tb_contas_a_pagar SET
+				pgto=Ipgto, pgto_dia=Ipgto_dia, tipo=Itipo, obs=Iobs
+			WHERE id=Iid;
+        END IF;
+	END $$
+DELIMITER ;
