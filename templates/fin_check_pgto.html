@@ -115,7 +115,9 @@
         }else if(sel.value == 'PIX'){
             pageScreen.querySelector('#barcode').style.display = 'none'
             pageScreen.querySelector('#qrcode').style.display = 'block'
-            pageFunc.showQR(gerarPayloadPix(pageData.cod_pgto,pageData.valor,pageData.nome,'Cacapava'))
+            const myPix = new Pix(pageData.cod_pgto,pageData.valor,pageData.nome,'Cacapava')
+            pageFunc.showQR(myPix.payload())
+            console.log(myPix)
         }else{
             pageScreen.querySelector('#barcode').style.display = 'none'
             pageScreen.querySelector('#qrcode').style.display = 'none'
@@ -138,5 +140,8 @@ Cacapava
 00020126
 580014br.gov.bcb.pix0136bee05743-4291-4f3c-9259-595df1307ba1520400005303986540510.005802BR5914Alexandre Lima6019Presidente Prudente62180514Um-Id-Qualquer6304D475
 */
+
+
+
 
 </script>

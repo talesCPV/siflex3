@@ -279,3 +279,64 @@ HTMLTableElement.prototype.head = function(hd){
     }
     this.appendChild(tr)
 }
+
+/* CLASSES */
+
+class Pix{
+
+    constructor(chave,valor,nome='',cidade=''){
+        function addIndicator(nome,id,val){
+            function tamArr(arr){
+                let size = 0
+                for(let i=0; i<arr.length; i++){
+                    size += Number(arr[i].tam) + arr[i].id.length + arr[i].tam.length
+                }
+                return size
+            }
+            const ind = new Object
+            ind.nome = nome
+            ind.id = id.toString().padStart(2,0)
+            ind.tam = (typeof(val)=='string' ? val.length : tamArr(val)).toString().padStart(2,0)
+            ind.valor = val
+            return ind
+        }
+
+        this.indicators = []
+        this.indicators.push(addIndicator('Payload Format Indicator',0,'01'))
+
+        const merchant = []
+        merchant.push(addIndicator('GUI',0,'br.gov.bcb.pix'))
+        merchant.push(addIndicator('chave',1,chave))
+        this.indicators.push(addIndicator('Merchant Account Information',26,merchant))
+
+        this.indicators.push(addIndicator('Merchant Category Code',52,'0000'))
+        this.indicators.push(addIndicator('Transaction Currency',53,valor))
+        this.indicators.push(addIndicator('Country Code',58,'BR'))
+        this.indicators.push(addIndicator('Merchant Name',13,nome))
+        this.indicators.push(addIndicator('Merchant City',60,cidade))
+
+        const Additional = []
+        Additional.push(addIndicator('txid',5,'***'))        
+        this.indicators.push(addIndicator('Additional Data Field Template ',62,Additional))
+
+        this.indicators.push(addIndicator('CRC16',63,'1D3D'))
+    }
+
+}
+
+
+Pix.prototype.payload = function(){
+
+    function getPayload(arr){
+        let txt = ''
+        for( let i=0; i<arr.length; i++){
+            txt += arr[i].id + arr[i].tam + (typeof(arr[i].valor)=='string' ? arr[i].valor : getPayload(arr[i].valor))
+        }
+        return txt
+    }
+
+    return getPayload(this.indicators)
+}
+
+// 00020126580014br.gov.bcb.pix0136123e4567-e12b-12d1-a456-4266554400005204000053039865802BR1313Fulano de Tal6008BRASILIA62070503***63041D3D
+// 00020126580014br.gov.bcb.pix0136123e4567-e12b-12d1-a456-4266554400005204000053039865802BR5913Fulano de Tal6008BRASILIA62070503***63041D3D
