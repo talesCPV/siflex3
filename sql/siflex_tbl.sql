@@ -303,6 +303,8 @@ CREATE TABLE tb_sanf_onibus (
     PRIMARY KEY (id)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
+/* FINANCEIRO */
+
  DROP TABLE tb_contas_a_pagar;
 CREATE TABLE tb_contas_a_pagar (
     id int(11) NOT NULL AUTO_INCREMENT,
@@ -316,5 +318,15 @@ CREATE TABLE tb_contas_a_pagar (
     tipo varchar(8) DEFAULT "BOLETO",
     obs varchar(256) DEFAULT NULL,
     FOREIGN KEY (id_cli) REFERENCES tb_empresa(id),
+    PRIMARY KEY (id)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+ DROP TABLE tb_pix;
+CREATE TABLE tb_pix (
+    id int(11) NOT NULL AUTO_INCREMENT,
+    nome varchar(90) NOT NULL,
+    chave varchar(512) NOT NULL,
+    org_ref varchar(40) DEFAULT NULL,
+    id_ref int(11) DEFAULT NULL,
     PRIMARY KEY (id)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;

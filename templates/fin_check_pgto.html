@@ -48,7 +48,7 @@
         pageScreen.querySelector('#edtData').value = pageData.pgto_dia == null ? today.getFormatDate() : pageData.pgto_dia
         pageScreen.querySelector('#edtObs').value =  pageData.obs
         pageScreen.querySelector('#ckbPgto').checked = Number(pageData.pgto)
-        JsBarcode("#barcode", pageData.cod_pgto);
+        changePayMode()
     }
 // ID,pago,pago_dia,tipo,obs
     pageScreen.querySelector('#btnPgto').addEventListener('click',()=>{
@@ -73,6 +73,70 @@
 
     })
 
+    pageFunc.showQR = (cod)=>{
+        const qrcode = new QRCode("qrcode", {
+            text:cod,
+            width: 250,
+            height: 250,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H,
+            size : 300
+        })
+    }
+
+    function gerarPayloadPix(chave, valor, nome, cidade) {
+        // Validação simples para garantir que os campos obrigatórios sejam preenchidos
+        if (!chave || !valor || !nome || !cidade) {
+            throw new Error("Todos os campos são obrigatórios.");
+        }
+
+        // Formatação do valor (deve ter 2 casas decimais)
+        const valorFormatado = parseFloat(valor).toFixed(2);
+
+        // Montando o Payload do PIX
+        const payload = `00020126360014BR.GOV.BCB.PIX01${chave}52040000${valorFormatado}5802BR5913${nome}6009${cidade}6304`;
+
+        console.log(payload)
+
+        return payload;
+    }
+
+    pageScreen.querySelector('#cmbTipo').addEventListener('change',()=>{
+        changePayMode()
+    })
+
+    function changePayMode(){
+        const sel = pageScreen.querySelector('#cmbTipo')
+        if(sel.value == 'BOLETO'){
+            pageScreen.querySelector('#barcode').style.display = 'block'
+            pageScreen.querySelector('#qrcode').style.display = 'none'
+            JsBarcode("#barcode", pageData.cod_pgto);
+        }else if(sel.value == 'PIX'){
+            pageScreen.querySelector('#barcode').style.display = 'none'
+            pageScreen.querySelector('#qrcode').style.display = 'block'
+            pageFunc.showQR(gerarPayloadPix(pageData.cod_pgto,pageData.valor,pageData.nome,'Cacapava'))
+        }else{
+            pageScreen.querySelector('#barcode').style.display = 'none'
+            pageScreen.querySelector('#qrcode').style.display = 'none'
+        }
+    }
+
     pageStart()
+
+/*
+00020126360014BR.GOV.BCB.PIX01
+26687200879
+52040000
+100.00
+5802BR5913
+por PIx
+6009
+Cacapava
+6304
+
+00020126
+580014br.gov.bcb.pix0136bee05743-4291-4f3c-9259-595df1307ba1520400005303986540510.005802BR5914Alexandre Lima6019Presidente Prudente62180514Um-Id-Qualquer6304D475
+*/
 
 </script>

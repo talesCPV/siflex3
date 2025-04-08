@@ -33,6 +33,7 @@
         <div class="inline">
             <label for="edtCod">Cód. Pgto</label>
             <input type="text" class="only-view" id="edtCod" maxlength="512" disabled>
+            <button id="btnPix" class="btn-round only-view" disabled><span class="mdi mdi-magnify"></span></button>
         </div>
 
         <div class="line">
@@ -59,6 +60,7 @@
             pageScreen.querySelector('#btnEdit').disabled = 1
             pageScreen.querySelector('#btnPgto').disabled = 1
             pageScreen.querySelector('#edtVenc').value =  today.getFormatDate()
+            pageData.tipo = 'BOLETO'
         }else{
             pageScreen.querySelector('#edtNome').value = pageData.nome
             pageScreen.querySelector('#edtVal').value = pageData.valor
@@ -102,6 +104,7 @@
             params.venc = pageScreen.querySelector('#edtVenc').value
             params.valor = pageScreen.querySelector('#edtVal').value
             params.cod_pgto = pageScreen.querySelector('#edtCod').value.trim()
+            params.tipo = pageData.tipo
           
         const myPromisse = queryDB(params,'FIN-6');
         myPromisse.then((resolve)=>{
@@ -140,6 +143,15 @@
         openHTML('fin_check_pgto.html','pop-up','Pagamento ao Fornecedor',pageData)
     })
     
+    pageScreen.querySelector('#btnPix').addEventListener('click',()=>{
+        const data = new Object
+        data.callback = (resp)=>{
+            pageScreen.querySelector('#edtCod').value = resp.chave
+            pageData.tipo = 'PIX'
+        }
+        openHTML('fin_pix.html','pop-up','Selecione uma Chave Pix',data,800)
+    })
+
 
     startPage()
 

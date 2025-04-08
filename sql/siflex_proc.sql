@@ -1889,20 +1889,21 @@ DELIMITER $$
 		IN Inome varchar(60),
 		IN Ivenc date,
 		IN Ivalor double,
-		IN Icod_pgto varchar(512)
+		IN Icod_pgto varchar(512),
+        IN Itipo varchar(8)
     )
 	BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
 			IF(Iid = 0)THEN
-				INSERT INTO tb_contas_a_pagar (id_cli,nome,venc,valor,cod_pgto)
-				VALUES (Iid_cli,Inome,Ivenc,Ivalor,Icod_pgto);
+				INSERT INTO tb_contas_a_pagar (id_cli,nome,venc,valor,cod_pgto,tipo)
+				VALUES (Iid_cli,Inome,Ivenc,Ivalor,Icod_pgto,Itipo);
             ELSE
 				IF(Inome="")THEN
 					DELETE FROM tb_contas_a_pagar WHERE id=Iid;  
                 ELSE
 					UPDATE tb_contas_a_pagar SET 
-						id_cli=Iid_cli, nome=Inome, venc=Ivenc, valor=Ivalor, cod_pgto=Icod_pgto
+						id_cli=Iid_cli, nome=Inome, venc=Ivenc, valor=Ivalor, cod_pgto=Icod_pgto, tipo=Itipo
 					WHERE id=Iid;                
                 END IF;
             END IF;
@@ -1927,6 +1928,57 @@ DELIMITER $$
 			UPDATE tb_contas_a_pagar SET
 				pgto=Ipgto, pgto_dia=Ipgto_dia, tipo=Itipo, obs=Iobs
 			WHERE id=Iid;
+        END IF;
+	END $$
+DELIMITER ;
+
+	DROP PROCEDURE IF EXISTS sp_view_pix;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_pix(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Ifield varchar(30),
+        IN Isignal varchar(4),
+		IN Ivalue varchar(50)
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SET @quer =CONCAT('SELECT * FROM tb_pix WHERE ',Ifield,' ',Isignal,' ',Ivalue,' ORDER BY ',Ifield,';');   
+			PREPARE stmt1 FROM @quer;
+			EXECUTE stmt1;
+        END IF;
+	END $$
+	DELIMITER ;
+
+     DROP PROCEDURE sp_set_pix;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_pix(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Iid int(11),
+        IN Inome varchar(90),
+		IN Ichave varchar(512),
+		IN Iorg_ref varchar(40),
+		IN Iid_ref int(11)
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			IF(Iid = 0)THEN
+				SET @org = (SELECT IF(Iorg_ref=0 OR Iid_ref=0,NULL,Iorg_ref));
+				SET @ref = (SELECT IF(Iorg_ref=0 OR Iid_ref=0,NULL,Iid_ref));
+				INSERT INTO tb_pix (nome,chave,org_ref,id_ref)
+				VALUES (Inome,Ichave,@org,@ref);
+            ELSE
+				IF(Inome="")THEN
+					DELETE FROM tb_pix WHERE id=Iid;
+                ELSE
+					UPDATE tb_pix SET
+						nome=Inome,chave=Ichave
+					WHERE id=Iid;
+                END IF;
+            END IF;
         END IF;
 	END $$
 DELIMITER ;
