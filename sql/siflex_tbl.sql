@@ -310,6 +310,7 @@ CREATE TABLE tb_contas_a_pagar (
     id int(11) NOT NULL AUTO_INCREMENT,
     id_cli int(11) DEFAULT NULL,
     nome varchar(60) NOT NULL,
+    beneficiario varchar(128) DEFAULT NULL,
     venc date NOT NULL,
     valor double NOT NULL,
     cod_pgto varchar(512) NOT NULL,

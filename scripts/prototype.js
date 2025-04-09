@@ -305,25 +305,42 @@ class Pix{
         this.indicators.push(addIndicator('Payload Format Indicator',0,'01'))
 
         const merchant = []
-        merchant.push(addIndicator('GUI',0,'br.gov.bcb.pix'))
+        merchant.push(addIndicator('GUI',0,'BR.GOV.BCB.PIX'))
         merchant.push(addIndicator('chave',1,chave))
         this.indicators.push(addIndicator('Merchant Account Information',26,merchant))
 
         this.indicators.push(addIndicator('Merchant Category Code',52,'0000'))
-        this.indicators.push(addIndicator('Transaction Currency',53,valor))
+        this.indicators.push(addIndicator('Transaction Currency',53,'986'))
+        this.indicators.push(addIndicator('Transaction Amount ',54,Number(valor).toFixed(2)))
         this.indicators.push(addIndicator('Country Code',58,'BR'))
-        this.indicators.push(addIndicator('Merchant Name',13,nome))
+        this.indicators.push(addIndicator('Merchant Name',59,nome))
         this.indicators.push(addIndicator('Merchant City',60,cidade))
 
         const Additional = []
-        Additional.push(addIndicator('txid',5,'***'))        
+        Additional.push(addIndicator('txid',5,'Teste123'))        
         this.indicators.push(addIndicator('Additional Data Field Template ',62,Additional))
 
-        this.indicators.push(addIndicator('CRC16',63,'1D3D'))
+//        this.indicators.push(addIndicator('CRC16',63,'1D3D'))
     }
 
 }
 
+
+Pix.prototype.computeCRC = (str, invert = false)=>{
+    const bytes = new TextEncoder().encode(str);
+    const crcTable = [0, 4129, 8258, 12387, 16516, 20645, 24774, 28903, 33032, 37161, 41290, 45419, 49548, 53677, 57806, 61935, 4657, 528, 12915, 8786, 21173, 17044, 29431, 25302, 37689, 33560, 45947, 41818, 54205, 50076, 62463, 58334, 9314, 13379, 1056, 5121, 25830, 29895, 17572, 21637, 42346, 46411, 34088, 38153, 58862, 62927, 50604, 54669, 13907, 9842, 5649, 1584, 30423, 26358, 22165, 18100, 46939, 42874, 38681, 34616, 63455, 59390, 55197, 51132, 18628, 22757, 26758, 30887, 2112, 6241, 10242, 14371, 51660, 55789, 59790, 63919, 35144, 39273, 43274, 47403, 23285, 19156, 31415, 27286, 6769, 2640, 14899, 10770, 56317, 52188, 64447, 60318, 39801, 35672, 47931, 43802, 27814, 31879, 19684, 23749, 11298, 15363, 3168, 7233, 60846, 64911, 52716, 56781, 44330, 48395, 36200, 40265, 32407, 28342, 24277, 20212, 15891, 11826, 7761, 3696, 65439, 61374, 57309, 53244, 48923, 44858, 40793, 36728, 37256, 33193, 45514, 41451, 53516, 49453, 61774, 57711, 4224, 161, 12482, 8419, 20484, 16421, 28742, 24679, 33721, 37784, 41979, 46042, 49981, 54044, 58239, 62302, 689, 4752, 8947, 13010, 16949, 21012, 25207, 29270, 46570, 42443, 38312, 34185, 62830, 58703, 54572, 50445, 13538, 9411, 5280, 1153, 29798, 25671, 21540, 17413, 42971, 47098, 34713, 38840, 59231, 63358, 50973, 55100, 9939, 14066, 1681, 5808, 26199, 30326, 17941, 22068, 55628, 51565, 63758, 59695, 39368, 35305, 47498, 43435, 22596, 18533, 30726, 26663, 6336, 2273, 14466, 10403, 52093, 56156, 60223, 64286, 35833, 39896, 43963, 48026, 19061, 23124, 27191, 31254, 2801, 6864, 10931, 14994, 64814, 60687, 56684, 52557, 48554, 44427, 40424, 36297, 31782, 27655, 23652, 19525, 15522, 11395, 7392, 3265, 61215, 65342, 53085, 57212, 44955, 49082, 36825, 40952, 28183, 32310, 20053, 24180, 11923, 16050, 3793, 7920];
+    let crc = 65535;
+    for (let i = 0; i < bytes.length; i++) {
+      const c = bytes[i];
+      const j = (c ^ crc >> 8) & 255;
+      crc = crcTable[j] ^ crc << 8;
+    }
+    let answer = (crc ^ 0) & 65535;
+    let hex = answer.toString(16).toUpperCase()
+    if (invert)
+      return hex.slice(2) + hex.slice(0, 2);
+    return hex;
+}
 
 Pix.prototype.payload = function(){
 
@@ -335,8 +352,19 @@ Pix.prototype.payload = function(){
         return txt
     }
 
-    return getPayload(this.indicators)
+    const payload = getPayload(this.indicators) + '6304'
+
+    return  payload + this.computeCRC(payload)
 }
 
+
 // 00020126580014br.gov.bcb.pix0136123e4567-e12b-12d1-a456-4266554400005204000053039865802BR1313Fulano de Tal6008BRASILIA62070503***63041D3D
-// 00020126580014br.gov.bcb.pix0136123e4567-e12b-12d1-a456-4266554400005204000053039865802BR5913Fulano de Tal6008BRASILIA62070503***63041D3D
+// 00020126580014br.gov.bcb.pix0136 123e4567-e12b-12d1-a456-426655440000 52040000 5303 986            5802BR 5913Fulano de Tal6008BRASILIA62070503***63041D3D
+// 00020126580014br.gov.bcb.pix0136 bee05743-4291-4f3c-9259-595df1307ba1 52040000 5303 986 5405 10.00 5802BR 5914Alexandre Lima6019Presidente Prudente62180514Um-Id-Qualquer6304D475
+// 00020126580014br.gov.bcb.pix0136 123e4567-e12b-12d1-a456-426655440000 52040000 5303 986 5406986.00 5802BR1313Fulano de Tal6008BRASILIA62070503***63041D3D
+// 00020126360014BR.GOV.BCB.PIX0114<chave-pix>5204000053039865405<valor>5802BR5925<nome-receptor>6009<cidade-receptor>62070503<codigo-verificacao>
+// 00020126330014BR.GOV.BCB.PIX0111266872008795204000053039865406100.005802BR5923Tales Cembraneli Dantas6008Cacapava62120508Teste1236304DA94
+// 00020126330014br.gov.bcb.pix0111266872008795204000053039865406100.005802BR5923Tales Cembraneli Dantas6008CACAPAVA62120508Teste12363041D3D
+// 00020126330014BR.GOV.BCB.PIX0111266872008795204000053039865406100.005802BR5923TALES CEMBRANELI DANTAS6008CACAPAVA62120508Teste12363041D3D
+// 00020126330014BR.GOV.BCB.PIX0111266872008795204000053039865406100.005802BR5923Tales Cembraneli Dantas6008Cacapava62120508Teste1236304C13A
+// 00020126330014BR.GOV.BCB.PIX0111266872008795204000053039865406100.005802BR5923Tales Cembraneli Dantas6008CACAPAVA62120508Teste12363041D3D

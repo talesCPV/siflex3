@@ -1887,6 +1887,7 @@ DELIMITER $$
         IN Iid int(11),
         IN Iid_cli int(11),
 		IN Inome varchar(60),
+        IN Ibeneficiario varchar(128),
 		IN Ivenc date,
 		IN Ivalor double,
 		IN Icod_pgto varchar(512),
@@ -1896,14 +1897,14 @@ DELIMITER $$
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
 			IF(Iid = 0)THEN
-				INSERT INTO tb_contas_a_pagar (id_cli,nome,venc,valor,cod_pgto,tipo)
-				VALUES (Iid_cli,Inome,Ivenc,Ivalor,Icod_pgto,Itipo);
+				INSERT INTO tb_contas_a_pagar (id_cli,nome,beneficiario,venc,valor,cod_pgto,tipo)
+				VALUES (Iid_cli,Inome,Ibeneficiario,Ivenc,Ivalor,Icod_pgto,Itipo);
             ELSE
 				IF(Inome="")THEN
 					DELETE FROM tb_contas_a_pagar WHERE id=Iid;  
                 ELSE
 					UPDATE tb_contas_a_pagar SET 
-						id_cli=Iid_cli, nome=Inome, venc=Ivenc, valor=Ivalor, cod_pgto=Icod_pgto, tipo=Itipo
+						id_cli=Iid_cli, nome=Inome, beneficiario=Ibeneficiario, venc=Ivenc, valor=Ivalor, cod_pgto=Icod_pgto, tipo=Itipo
 					WHERE id=Iid;                
                 END IF;
             END IF;

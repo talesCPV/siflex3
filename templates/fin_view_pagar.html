@@ -12,13 +12,14 @@
         }
 
     </style>
-  
+
     <fieldset class="frm" >
-        <legend>Empresa</legend>
+        <legend>Descrição e valores</legend>
 
         <div class="inline">
-            <label for="cmbCli">Fornecedor</label>
-            <select id="cmbCli" class="only-view" disabled></select>
+            <label for="edtBenef">Beneficiario</label>
+            <input type="text" class="only-view" id="edtBenef" maxlength="128" disabled>
+            <button id="btnEmp" class="btn-round only-view" disabled><span class="mdi mdi-magnify"></span></button>
         </div>
         <div class="inline">
             <label for="edtNome">Descrição *</label>
@@ -53,16 +54,19 @@
     const newPgto = Object.keys(pageData).length == 0
 
     function startPage(){
-        pageFunc.fillEmp()
+//        pageFunc.fillEmp()
         if(newPgto){
             openFields(1)
+            pageScreen.querySelector('#edtBenef').id_cliente = 0
             pageScreen.querySelector('#btnDel').disabled = 1
             pageScreen.querySelector('#btnEdit').disabled = 1
             pageScreen.querySelector('#btnPgto').disabled = 1
             pageScreen.querySelector('#edtVenc').value =  today.getFormatDate()
             pageData.tipo = 'BOLETO'
         }else{
+            pageScreen.querySelector('#edtBenef').id_cliente = pageData.id_cli
             pageScreen.querySelector('#edtNome').value = pageData.nome
+            pageScreen.querySelector('#edtBenef').value = pageData.beneficiario
             pageScreen.querySelector('#edtVal').value = pageData.valor
             pageScreen.querySelector('#edtVenc').value = pageData.venc
             pageScreen.querySelector('#edtCod').value = pageData.cod_pgto
@@ -76,37 +80,26 @@
         }
     }
 
-    pageFunc.fillEmp = ()=>{      
-        const params = new Object;
-            params.field = 'nome'
-            params.signal = 'LIKE'
-            params.value = "'%%'"
-        const myPromisse = queryDB(params,'EMP-0')
-        myPromisse.then((resolve)=>{
-            const json = JSON.parse(resolve)
-            const cmb = pageScreen.querySelector('#cmbCli')
-            cmb.innerHTML = '<option value="0">Selecione uma Empresa se Necessário</option>'
-            for(let i=0; i<json.length;i++){
-                const opt = document.createElement('option')
-                opt.value = json[i].id
-                opt.innerHTML = json[i].fantasia
-                opt.selected = json[i].id == pageData.id_cli
-                cmb.appendChild(opt)
-            }         
-        })
+    pageFunc.buscaEmp = (json)=>{
+        const edt = pageScreen.querySelector('#edtBenef')
+        edt.data = json
+        edt.value = json.fantasia
+        edt.id_cliente = json.id
+        pageData.tipo = 'BOLETO'
     }
 
     pageFunc.setPgto = (del=0)=>{
         const params = new Object;
             params.id = newPgto ? 0 : pageData.id
-            params.id_cliente = pageScreen.querySelector('#cmbCli').value
+            params.id_cliente = pageScreen.querySelector('#edtBenef').id_cliente
             params.nome = del ? '' : pageScreen.querySelector('#edtNome').value.trim()
+            params.beneficiario = pageScreen.querySelector('#edtBenef').value.trim()
             params.venc = pageScreen.querySelector('#edtVenc').value
             params.valor = pageScreen.querySelector('#edtVal').value
             params.cod_pgto = pageScreen.querySelector('#edtCod').value.trim()
             params.tipo = pageData.tipo
-          
-        const myPromisse = queryDB(params,'FIN-6');
+
+            const myPromisse = queryDB(params,'FIN-6');
         myPromisse.then((resolve)=>{
             setLog(`Contas A Pagar ${newPgto?'Cadastrada': del ? 'Deletada' : 'Editada'} ${del? pageData.nome : params.nome }, Valor ${params.valor}, Venc. dia ${params.venc}`)
             try{
@@ -147,11 +140,20 @@
         const data = new Object
         data.callback = (resp)=>{
             pageScreen.querySelector('#edtCod').value = resp.chave
+            pageScreen.querySelector('#edtBenef').value = resp.nome
+            pageScreen.querySelector('#edtBenef').id_cliente = 0
             pageData.tipo = 'PIX'
         }
         openHTML('fin_pix.html','pop-up','Selecione uma Chave Pix',data,800)
     })
 
+
+
+    pageScreen.querySelector('#btnEmp').addEventListener('click',()=>{
+        const data = new Object
+        data.org = 'fin_view_pagar'
+        openHTML('busca_emp.html','pop-up','Selecione uma Empresa',data,800)
+    })
 
     startPage()
 

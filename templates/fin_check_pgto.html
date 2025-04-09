@@ -85,23 +85,6 @@
         })
     }
 
-    function gerarPayloadPix(chave, valor, nome, cidade) {
-        // Validação simples para garantir que os campos obrigatórios sejam preenchidos
-        if (!chave || !valor || !nome || !cidade) {
-            throw new Error("Todos os campos são obrigatórios.");
-        }
-
-        // Formatação do valor (deve ter 2 casas decimais)
-        const valorFormatado = parseFloat(valor).toFixed(2);
-
-        // Montando o Payload do PIX
-        const payload = `00020126360014BR.GOV.BCB.PIX01${chave}52040000${valorFormatado}5802BR5913${nome}6009${cidade}6304`;
-
-        console.log(payload)
-
-        return payload;
-    }
-
     pageScreen.querySelector('#cmbTipo').addEventListener('change',()=>{
         changePayMode()
     })
@@ -115,9 +98,9 @@
         }else if(sel.value == 'PIX'){
             pageScreen.querySelector('#barcode').style.display = 'none'
             pageScreen.querySelector('#qrcode').style.display = 'block'
-            const myPix = new Pix(pageData.cod_pgto,pageData.valor,pageData.nome,'Cacapava')
+            const myPix = new Pix(pageData.cod_pgto,pageData.valor,pageData.beneficiario,'CACAPAVA')
             pageFunc.showQR(myPix.payload())
-            console.log(myPix)
+            console.log(myPix.payload())
         }else{
             pageScreen.querySelector('#barcode').style.display = 'none'
             pageScreen.querySelector('#qrcode').style.display = 'none'
@@ -125,23 +108,5 @@
     }
 
     pageStart()
-
-/*
-00020126360014BR.GOV.BCB.PIX01
-26687200879
-52040000
-100.00
-5802BR5913
-por PIx
-6009
-Cacapava
-6304
-
-00020126
-580014br.gov.bcb.pix0136bee05743-4291-4f3c-9259-595df1307ba1520400005303986540510.005802BR5914Alexandre Lima6019Presidente Prudente62180514Um-Id-Qualquer6304D475
-*/
-
-
-
 
 </script>

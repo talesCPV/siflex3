@@ -39,3 +39,13 @@
 08/04/2025 14:44 tales@flexibus.com.br : Permissao alterada, Modulo: Financeiro, Acesso:[[0,1]])
 08/04/2025 14:58 tales@flexibus.com.br : Contas A Pagar Cadastrada kjsdhkjdsh, Valor 1500, Venc. dia 2025-04-17
 08/04/2025 15:15 tales@flexibus.com.br : Contas A Pagar Cadastrada por PIx, Valor 100, Venc. dia 2025-04-08
+09/04/2025 19:42 tales@flexibus.com.br : Contas A Pagar Cadastrada teste, Valor 100, Venc. dia 2025-04-09
+09/04/2025 21:04 tales@flexibus.com.br : Chave Pix Editada BRUNO JOSE MATHIAS, Chave 38760943807
+09/04/2025 21:04 tales@flexibus.com.br : Contas A Pagar Cadastrada Diaria, Valor 25, Venc. dia 2025-04-09
+09/04/2025 21:06 tales@flexibus.com.br : Contas A Pagar Cadastrada sdsd, Valor 150, Venc. dia 2025-04-17
+09/04/2025 21:08 tales@flexibus.com.br : Contas A Pagar Cadastrada Potenza, Valor 153.10, Venc. dia 2025-04-28
+09/04/2025 21:11 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$150 dia 2025-04-09
+09/04/2025 21:17 tales@flexibus.com.br : Contas A Pagar Deletada teste, Valor 100, Venc. dia 2025-04-09
+09/04/2025 21:17 tales@flexibus.com.br : Contas A Pagar Editada Diaria 2, Valor 25, Venc. dia 2025-04-09
+09/04/2025 21:18 tales@flexibus.com.br : Contas A Pagar Deletada Diaria 2, Valor 25, Venc. dia 2025-04-09
+09/04/2025 21:18 tales@flexibus.com.br : Contas A Pagar Deletada sdsd, Valor 150, Venc. dia 2025-04-17
