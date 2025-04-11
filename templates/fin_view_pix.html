@@ -32,6 +32,10 @@
             <input type="text" class="only-view" id="edtNome" maxlength="60" disabled>
         </div>
         <div class="inline">
+            <label for="edtCidade">Cidade *</label>
+            <input type="text" class="only-view" id="edtCidade" maxlength="60" disabled>
+        </div>        
+        <div class="inline">
             <label for="edtChave">Chave *</label>
             <input type="text" class="only-view" id="edtChave" maxlength="512" disabled>
         </div>
@@ -86,6 +90,7 @@
                 opt.value = json[i].id
                 opt.innerHTML = json[i].fantasia
                 opt.selected = json[i].id == pageData.id_ref
+                opt.data = json[i]
                 cmb.appendChild(opt)
             }         
         })
@@ -107,6 +112,7 @@
                 opt.value = json[i].id
                 opt.innerHTML = json[i].nome
                 opt.selected = json[i].id == pageData.id_ref
+                opt.data = json[i]
                 cmb.appendChild(opt)
             }               
         })
@@ -117,7 +123,8 @@
         const params = new Object;
             params.id = newPix ? 0 : pageData.id
             params.nome = del ? '' : pageScreen.querySelector('#edtNome').value.trim()
-            params.chave = pageScreen.querySelector('#edtChave').value
+            params.cidade = pageScreen.querySelector('#edtCidade').value.trim()
+            params.chave = pageScreen.querySelector('#edtChave').value.trim()
             params.org_ref = org_ref
             params.id_ref = org_ref == '0' ? 0 : pageScreen.querySelector('#cmbRef').value
           
@@ -135,7 +142,7 @@
     }
 
     pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
-        if(checkField(['edtNome','edtChave'])){
+        if(checkField(['edtNome','edtCidade','edtChave'])){
             pageFunc.setPix()
         }
     })
@@ -176,7 +183,10 @@
     
     pageScreen.querySelector('#cmbRef').addEventListener('change',()=>{
         const sel =  pageScreen.querySelector('#cmbRef')
+        const data = sel.options[sel.selectedIndex].data
         pageScreen.querySelector('#edtNome').value = sel.options[sel.selectedIndex].text
+        pageScreen.querySelector('#edtCidade').value = data.cidade.trim()
+
     })
 
     startPage()

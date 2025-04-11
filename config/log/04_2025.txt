@@ -49,3 +49,5 @@
 09/04/2025 21:17 tales@flexibus.com.br : Contas A Pagar Editada Diaria 2, Valor 25, Venc. dia 2025-04-09
 09/04/2025 21:18 tales@flexibus.com.br : Contas A Pagar Deletada Diaria 2, Valor 25, Venc. dia 2025-04-09
 09/04/2025 21:18 tales@flexibus.com.br : Contas A Pagar Deletada sdsd, Valor 150, Venc. dia 2025-04-17
+11/04/2025 16:27 tales@flexibus.com.br : Chave Pix Cadastrada TALES CEMBRANELI DANTAS, Chave 26687200879
+11/04/2025 16:58 tales@flexibus.com.br : Contas A Pagar Cadastrada teste, Valor 125.80, Venc. dia 2025-04-11

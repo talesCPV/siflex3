@@ -325,7 +325,8 @@ CREATE TABLE tb_contas_a_pagar (
  DROP TABLE tb_pix;
 CREATE TABLE tb_pix (
     id int(11) NOT NULL AUTO_INCREMENT,
-    nome varchar(90) NOT NULL,
+    nome varchar(50) NOT NULL,
+    cidade varchar(50) NOT NULL,
     chave varchar(512) NOT NULL,
     org_ref varchar(40) DEFAULT NULL,
     id_ref int(11) DEFAULT NULL,

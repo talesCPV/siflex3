@@ -1958,7 +1958,8 @@ DELIMITER $$
 		IN Iallow varchar(80),
 		IN Ihash varchar(64),
         IN Iid int(11),
-        IN Inome varchar(90),
+        IN Inome varchar(50),
+        IN Icidade varchar(50),
 		IN Ichave varchar(512),
 		IN Iorg_ref varchar(40),
 		IN Iid_ref int(11)
@@ -1969,14 +1970,14 @@ DELIMITER $$
 			IF(Iid = 0)THEN
 				SET @org = (SELECT IF(Iorg_ref=0 OR Iid_ref=0,NULL,Iorg_ref));
 				SET @ref = (SELECT IF(Iorg_ref=0 OR Iid_ref=0,NULL,Iid_ref));
-				INSERT INTO tb_pix (nome,chave,org_ref,id_ref)
-				VALUES (Inome,Ichave,@org,@ref);
+				INSERT INTO tb_pix (nome,cidade,chave,org_ref,id_ref)
+				VALUES (Inome,Icidade,Ichave,@org,@ref);
             ELSE
 				IF(Inome="")THEN
 					DELETE FROM tb_pix WHERE id=Iid;
                 ELSE
 					UPDATE tb_pix SET
-						nome=Inome,chave=Ichave
+						nome=Inome,chave=Ichave,cidade=Icidade
 					WHERE id=Iid;
                 END IF;
             END IF;

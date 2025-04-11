@@ -5,6 +5,14 @@
             padding: 10px;
         }
 
+        #btnGetKey{
+            width: -moz-available;
+            padding: 7px;
+        }
+
+        #btnGetKey span{
+            font-size: 1.4em;
+        }
         @media all and (max-width : 768px) {
             .frm input, .frm select{
                 width: 98% !important;
@@ -17,9 +25,17 @@
         <legend>Descrição e valores</legend>
 
         <div class="inline">
+            <label for="cmbTipoPg">Tipo Pgto</label>
+            <select id="cmbTipoPg"  class="only-view" disabled>
+                <option value="BOLETO" selected>Boleto Bancário</option>
+                <option value="PIX">Pix</option>                
+            </select>
+            <button id="btnGetKey" class="only-view" disabled><span class="mdi mdi-magnify"></span> Empresa</button>
+        </div>
+
+        <div class="inline">
             <label for="edtBenef">Beneficiario</label>
             <input type="text" class="only-view" id="edtBenef" maxlength="128" disabled>
-            <button id="btnEmp" class="btn-round only-view" disabled><span class="mdi mdi-magnify"></span></button>
         </div>
         <div class="inline">
             <label for="edtNome">Descrição *</label>
@@ -33,8 +49,8 @@
         </div>
         <div class="inline">
             <label for="edtCod">Cód. Pgto</label>
-            <input type="text" class="only-view" id="edtCod" maxlength="512" disabled>
-            <button id="btnPix" class="btn-round only-view" disabled><span class="mdi mdi-magnify"></span></button>
+            <input type="hidden" id="fncVenc">
+            <input type="text" class="only-view" id="edtCod" maxlength="512" onkeyup="valBoleto(this)" onkeypress="return getEnter(event,'fncVenc')" disabled>
         </div>
 
         <div class="line">
@@ -70,6 +86,8 @@
             pageScreen.querySelector('#edtVal').value = pageData.valor
             pageScreen.querySelector('#edtVenc').value = pageData.venc
             pageScreen.querySelector('#edtCod').value = pageData.cod_pgto
+            pageScreen.querySelector('#cmbTipoPg').value = pageData.tipo
+            changeTipo(pageScreen.querySelector('#cmbTipoPg').value)
         }
     }
 
@@ -78,6 +96,23 @@
         for(let i=0; i<view.length; i++){
             view[i].disabled = !open
         }
+    }
+
+    function vencimento(cod){
+        const venc = new Date('2025-02-22')        
+        const dias = Number(cod.substr(33,4))
+        venc.setDate(venc.getDate()+ (dias - 999))
+        return cod.length >= 37 ? venc.getFormatDate() : today.getFormatDate()
+    }
+
+    function valor(cod){
+        const val = Number(cod.substr(-10)).toString()
+        return val.substr(0,val.length-2) + '.' + val.substr(-2)
+    }
+
+    function changeTipo(tipo){
+        const btn =  pageScreen.querySelector('#btnGetKey')
+        btn.innerHTML = '<span class="mdi mdi-magnify"></span> ' + (tipo == 'BOLETO' ? 'Empresa' : 'Chave Pix')
     }
 
     pageFunc.buscaEmp = (json)=>{
@@ -97,7 +132,7 @@
             params.venc = pageScreen.querySelector('#edtVenc').value
             params.valor = pageScreen.querySelector('#edtVal').value
             params.cod_pgto = pageScreen.querySelector('#edtCod').value.trim()
-            params.tipo = pageData.tipo
+            params.tipo = pageScreen.querySelector('#cmbTipoPg').value
 
             const myPromisse = queryDB(params,'FIN-6');
         myPromisse.then((resolve)=>{
@@ -136,23 +171,34 @@
         openHTML('fin_check_pgto.html','pop-up','Pagamento ao Fornecedor',pageData)
     })
     
-    pageScreen.querySelector('#btnPix').addEventListener('click',()=>{
-        const data = new Object
-        data.callback = (resp)=>{
-            pageScreen.querySelector('#edtCod').value = resp.chave
-            pageScreen.querySelector('#edtBenef').value = resp.nome
-            pageScreen.querySelector('#edtBenef').id_cliente = 0
-            pageData.tipo = 'PIX'
+    pageScreen.querySelector('#fncVenc').addEventListener('click',()=>{
+        const cod =  pageScreen.querySelector('#edtCod').value
+        if(cod.length == 47){
+            pageScreen.querySelector('#edtVenc').value = vencimento(cod)
+            pageScreen.querySelector('#edtVal').value = valor(cod)
         }
-        openHTML('fin_pix.html','pop-up','Selecione uma Chave Pix',data,800)
     })
 
+    pageScreen.querySelector('#cmbTipoPg').addEventListener('change',()=>{
+        changeTipo(pageScreen.querySelector('#cmbTipoPg').value)
+    })
 
-
-    pageScreen.querySelector('#btnEmp').addEventListener('click',()=>{
-        const data = new Object
-        data.org = 'fin_view_pagar'
-        openHTML('busca_emp.html','pop-up','Selecione uma Empresa',data,800)
+    pageScreen.querySelector('#btnGetKey').addEventListener('click',()=>{
+        const tipo = pageScreen.querySelector('#cmbTipoPg').value
+        if(tipo == 'BOLETO'){
+            const data = new Object
+            data.org = 'fin_view_pagar'
+            openHTML('busca_emp.html','pop-up','Selecione uma Empresa',data,800)
+        }else{
+            const data = new Object
+            data.callback = (resp)=>{
+                pageScreen.querySelector('#edtCod').value = resp.chave
+                pageScreen.querySelector('#edtBenef').value = resp.nome
+                pageScreen.querySelector('#edtBenef').id_cliente = 0
+                pageData.tipo = 'PIX'
+            }
+            openHTML('fin_pix.html','pop-up','Selecione uma Chave Pix',data,800)
+        }
     })
 
     startPage()

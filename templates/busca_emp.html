@@ -36,6 +36,10 @@
     const pageFunc = main_data.busca_emp.func
     const pageScreen = document.querySelector('#card-busca_emp')
 
+    function pageStart(){
+        pageFunc.fillEmp()
+    }
+
     pageFunc.fillEmp = ()=>{      
         const tbl = document.getElementById('tblBuscaEmp')
         tbl.innerHTML = ''
@@ -69,5 +73,7 @@
        }catch{}
         
     })
+    
+    pageStart()
 
 </script>

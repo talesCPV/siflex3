@@ -50,7 +50,7 @@
         pageScreen.querySelector('#ckbPgto').checked = Number(pageData.pgto)
         changePayMode()
     }
-// ID,pago,pago_dia,tipo,obs
+
     pageScreen.querySelector('#btnPgto').addEventListener('click',()=>{
         const params = new Object;
             params.id = pageData.id
@@ -100,7 +100,7 @@
             pageScreen.querySelector('#qrcode').style.display = 'block'
             const myPix = new Pix(pageData.cod_pgto,pageData.valor,pageData.beneficiario,'CACAPAVA')
             pageFunc.showQR(myPix.payload())
-            console.log(myPix.payload())
+//            console.log(myPix.payload())
         }else{
             pageScreen.querySelector('#barcode').style.display = 'none'
             pageScreen.querySelector('#qrcode').style.display = 'none'

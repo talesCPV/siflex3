@@ -16,6 +16,20 @@ function getEnter(e, button = '',screen=''){
     }
 }
 
+function typeEnter(e, func){
+    var keynum;
+
+    if(window.event) { // IE                  
+      keynum = e.keyCode;
+    } else if(e.which){ // Netscape/Firefox/Opera                 
+      keynum = e.which;
+    }
+
+    if(keynum == 13){
+        func()
+    }
+}
+
 function checkField(fields){
     
     for(let i=0; i< fields.length; i++){
@@ -84,6 +98,9 @@ function valPlaca(edt){
     edt.value = getPlaca(edt.value)
 }
 
+function valBoleto(edt){
+    edt.value = getBoleto(edt.value)
+}
 
 
 function getFloat(text,dec=2){
@@ -296,6 +313,21 @@ function getPlaca(V){
     return out
 }
 
+function getBoleto(V){
+    V = getNum(V)
+    let out = ''
+    for(let i=0; i< V.length; i++){
+        if(i==5 || i==15|| i==26){
+            out+='.'
+            
+        }else if(i==10 || i==21 || i==32 || i==33){
+            out+=' '
+            
+        }
+        out+=V[i]            
+    }
+    return out
+}
 
 function dataBR(V){
     return V.substring(8,10)+'/'+V.substring(5,7)+'/'+V.substring(0,4)

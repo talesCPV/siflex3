@@ -101,7 +101,7 @@
         "FIN-6" => 'CALL sp_set_contas_a_pagar(@access,@hash,x00,x01,"x02","x03","x04","x05","x06","x07");', // id,id_cli,nome,beneficiario,venc,valor,codigo_pgto,tipo
         "FIN-7" => 'CALL sp_check_pagamento(@access,@hash,x00,x01,"x02","x03","x04");', // ID,pago,pago_dia,tipo,obs
         "FIN-8" => 'CALL sp_view_pix(@access,@hash,"x00","x01","x02");', // FIELD,SIGNAL, VALUE
-        "FIN-9" => 'CALL sp_set_pix(@access,@hash,x00,"x01","x02","x03",x04);', // id,nome,chave,org_ref,id_ref
+        "FIN-9" => 'CALL sp_set_pix(@access,@hash,x00,"x01","x02","x03","x04",x05);', // id,nome,cidade,chave,org_ref,id_ref
 
         /* SEGURANÇA */
 
