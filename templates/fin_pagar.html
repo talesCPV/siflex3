@@ -57,11 +57,11 @@
             params.dt_fin = !ckb ? '9999-12-31' : pageScreen.querySelector('#edtFin').value
         const myPromisse = queryDB(params,'FIN-5')
         myPromisse.then((resolve)=>{
-            const json = JSON.parse(resolve)
+            const json = JSON.parse(resolve)       
             tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
-            tbl.head('Desc., Venc.,Valor,Pgto')
+            tbl.head('Cedente,Ref., Venc.,Valor,Pgto')
             for(let i=0; i<json.length;i++){
-                tbl.plot(json[i],'nome,venc,valor,pgto','Upp,dat,R$.,cha 0=NÃO 1=SIM')
+                tbl.plot(json[i],'beneficiario,nome,venc,valor,pgto','Upp,Upp,dat,R$.,cha 0=NÃO 1=SIM')
             }         
         })
     }
