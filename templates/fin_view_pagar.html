@@ -172,7 +172,7 @@
     })
     
     pageScreen.querySelector('#fncVenc').addEventListener('click',()=>{
-        const cod =  pageScreen.querySelector('#edtCod').value
+        const cod =  getNum(pageScreen.querySelector('#edtCod').value)
         if(cod.length == 47){
             pageScreen.querySelector('#edtVenc').value = vencimento(cod)
             pageScreen.querySelector('#edtVal').value = valor(cod)

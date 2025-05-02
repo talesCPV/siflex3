@@ -1872,7 +1872,7 @@ DELIMITER $$
 	BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
-			SET @quer =CONCAT('SELECT * FROM vw_contas_a_pagar WHERE ',Ifield,' ',Isignal,' ',Ivalue,' AND venc BETWEEN "',Idt_ini,'" AND "',Idt_fin,'" ORDER BY ',Ifield,';');   
+			SET @quer =CONCAT('SELECT * FROM vw_contas_a_pagar WHERE ',Ifield,' ',Isignal,' ',Ivalue,' AND venc BETWEEN "',Idt_ini,'" AND "',Idt_fin,'" ORDER BY venc;');
 			PREPARE stmt1 FROM @quer;
 			EXECUTE stmt1;
         END IF;

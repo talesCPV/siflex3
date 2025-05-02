@@ -55,3 +55,13 @@
 11/04/2025 18:37 tales@flexibus.com.br : Contas A Pagar Deletada diaria 12/04/25, Valor 25, Venc. dia 2025-04-11
 11/04/2025 18:46 tales@flexibus.com.br : Contas A Pagar Cadastrada ISS 15/04, Valor 57.56, Venc. dia 2025-04-11
 11/04/2025 19:00 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$57.56 dia 2025-04-11
+28/04/2025 21:41 tales@flexibus.com.br : Chave Pix Editada WELLINGTON HENRIQUE A SIQUEIRA, Chave 48729881838
+28/04/2025 21:43 tales@flexibus.com.br : Chave Pix Editada JOAO BAZILIO, Chave 50819390801
+30/04/2025 14:44 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$171.75 dia 2025-04-30
+30/04/2025 14:45 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-04-30
+30/04/2025 14:46 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-04-30
+30/04/2025 14:47 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-04-30
+30/04/2025 14:48 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-04-30
+30/04/2025 14:49 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-04-30
+30/04/2025 14:50 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-04-30
+30/04/2025 14:50 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$520 dia 2025-04-30
