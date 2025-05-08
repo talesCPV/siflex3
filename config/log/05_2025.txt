@@ -1,0 +1,18 @@
+02/05/2025 20:31 tales@flexibus.com.br : Contas A Pagar Cadastrada teste, Valor 25, Venc. dia 2025-05-02
+05/05/2025 15:14 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$1680 dia 2025-05-05
+05/05/2025 15:14 tales@flexibus.com.br : Contas A Pagar Deletada teste, Valor 25, Venc. dia 2025-05-02
+05/05/2025 15:25 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$339.9 dia 2025-05-05
+05/05/2025 15:25 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$567.8 dia 2025-05-05
+05/05/2025 15:27 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25.42 dia 2025-05-05
+05/05/2025 15:28 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$80 dia 2025-05-05
+05/05/2025 15:29 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$299.71 dia 2025-05-05
+05/05/2025 15:30 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$2274.84 dia 2025-05-05
+05/05/2025 15:32 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$1191.3 dia 2025-05-05
+05/05/2025 15:33 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$95.8 dia 2025-05-05
+05/05/2025 15:37 tales@flexibus.com.br : Contas A Pagar Editada MES ABRIL, Valor 339.9, Venc. dia 2025-05-05
+06/05/2025 20:05 tales@flexibus.com.br : Chave Pix Cadastrada Joao Coco, Chave 12974071180
+06/05/2025 20:05 tales@flexibus.com.br : Contas A Pagar Editada FRETE GALPAO ROCA (TRELICAS), Valor 1000, Venc. dia 2025-05-06
+06/05/2025 20:10 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$1000 dia 2025-05-06
+08/05/2025 15:55 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$1038.45 dia 2025-05-08
+08/05/2025 20:58 tales@flexibus.com.br : Menu Incluido (Dados Complementares)
+08/05/2025 20:59 tales@flexibus.com.br : Menu Alterado (Dados Complementares, sys_data.html, pop-up, Dados Complementares)

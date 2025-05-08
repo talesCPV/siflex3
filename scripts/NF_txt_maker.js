@@ -124,6 +124,7 @@ NFe.prototype.geraTXT = function(){
 
     function addItens(itens){
         let lines = ''
+console.log(itens)        
         for(let i=0; i<itens.length; i++){
             for (const item_key in itens[i]) {
                 lines += makeLine(itens[i],item_key)

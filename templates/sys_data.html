@@ -1,0 +1,77 @@
+<template>
+    <style></style>
+  
+
+    <fieldset>
+        <legend>Dados</legend>
+        <table id="tblDados"></table>
+    </fieldset>
+
+    <div class="line">
+        <button id="btnAdd">Adicionar</button>
+    </div>
+
+
+</template>
+<script>
+
+    const pageData = main_data.sys_data.data
+    const pageFunc = main_data.sys_data.func
+    const pageScreen = document.querySelector('#card-sys_data')
+    pageData.data = []
+
+
+    function pageStart(){
+       loadData()
+       
+    }
+
+    function loadData(){
+        const data = new URLSearchParams()
+        data.append("path",'/../config/data.json' )
+
+        const myRequest = new Request("backend/loadFile.php",{
+            method : "POST",
+            body : data
+        })
+        
+        const MyPromisse = new Promise((resolve,reject) =>{
+        fetch(myRequest)
+        .then(function (response){
+            if (response.status === 200) { 
+                response.text()
+                .then((txt)=>{
+                    pageData.data = JSON.parse(txt) == null ? [] : JSON.parse(txt)
+                    fillData()
+                })
+            } else { 
+                reject(new Error("Houve algum erro na comunicação com o servidor"));
+            } 
+        })
+    })
+
+    }
+
+    pageScreen.querySelector('#btnAdd').addEventListener('click',()=>{
+        const field = prompt('Digite o nome do Campo:')
+        if(field!= null){
+            const value = prompt('Digite o valor do Campo:')
+            pageData.data.push(`{"${field}":"${value}"}`)
+           saveFile(JSON.stringify(pageData.data),'/../config/data.json')
+           fillData()
+        }
+    })
+
+    function fillData(){
+        const tbl = pageScreen.querySelector('#tblDados')
+        tbl.head('Campo,Valor')
+        for(let i=0; i<pageData.data.length; i++){
+            const dt = JSON.parse(pageData.data[i])
+            tbl.plot(pageData.data[i],`${Object.keys(dt)},${dt[Object.keys(dt)]}`,'let,let')
+        }
+    }
+
+
+    pageStart()
+
+</script>

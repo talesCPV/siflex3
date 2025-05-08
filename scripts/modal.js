@@ -198,7 +198,8 @@ function menuContext(tbl,e){
         backModal.style.backgroundColor = 'unset'
         backModal.addEventListener('click',()=>{
             document.querySelector('#context').remove()
-            mod_main.style.display = (document.querySelectorAll('.modal-content').length < 1) ? "none" : 'block'
+//            mod_main.style.display = (document.querySelectorAll('.modal-content').length < 1) ? "none" : 'block'
+            mod_main.style.display = "none" 
         })
 
     const mod_card = document.createElement('div')
@@ -220,6 +221,7 @@ function menuContext(tbl,e){
             td.innerHTML = tbl[i].label
             td.addEventListener('click',()=>{
                 tbl[i].link()
+                mod_main.style.display  = 'none'
             })
             tr.appendChild(td)            
             mod_content.appendChild(tr)

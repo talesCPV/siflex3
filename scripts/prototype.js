@@ -285,6 +285,10 @@ HTMLTableElement.prototype.head = function(hd){
 class Pix{
 
     constructor(chave,valor,nome='',cidade=''){
+
+        chave  = (chave.includes('@') && chave.includes('.com'))  ? chave  : getNum(chave)
+        nome = nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\w\s]|_/g, '').replace(/\s+/g, ' ').trim()
+
         function addIndicator(nome,id,val){
             function tamArr(arr){
                 let size = 0

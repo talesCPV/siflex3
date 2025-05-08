@@ -14,7 +14,11 @@
           fclose($fp);
 //echo $resp;          
           $out = json_decode($resp);
-      }            
+      }else{
+        $fp = fopen($path, "a");
+        fwrite($fp,json_encode($out));
+        fclose($fp);
+      }
 
   }
         
