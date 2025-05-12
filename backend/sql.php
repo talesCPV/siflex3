@@ -58,8 +58,8 @@
         "SYS-1"  => 'CALL sp_view_usr_perm_perf(@access,@hash,"x00","x01","x02");', // FIELD,SIGNAL, VALUE
 
         /* RELOGIO DE PONTO */
-        "REL-0"  => 'CALL sp_view_relogio_ponto(@access,@hash,"x00","x01","x02");', // DATA INICIO, DATA FINAL,FUNC
-        "REL-1"  => 'CALL sp_set_relogio_ponto(@access,@hash,"x00","x01",x02);', // Entrada, Saída, Id_func
+        "REL-0"  => 'CALL sp_view_relogio_ponto(@access,@hash,"x00","x01","x02",x03);', // DATA INICIO, DATA FINAL,FUNC,hide
+        "REL-1"  => 'CALL sp_set_relogio_ponto(@access,@hash,"x00","x01",x02,x03);', // Entrada, Saída, Id_func, hide
         "REL-2"  => 'CALL sp_del_relogio_ponto(@access,@hash,"x00",x01);', // Entrada, Id_func
 
         /* ANÁLISE DE FROTA */

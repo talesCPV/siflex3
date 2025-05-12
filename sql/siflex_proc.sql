@@ -1205,7 +1205,8 @@ DELIMITER $$
 		IN Ihash varchar(64),
         IN Iinicio date,
         IN Ifinal date,
-        IN Ifunc varchar(50)
+        IN Ifunc varchar(50),
+        IN Ihide bool
     )
 	BEGIN
 		CALL sp_allow(Iallow,Ihash);
@@ -1215,7 +1216,8 @@ DELIMITER $$
 				INNER JOIN tb_funcionario AS FUNC
 				ON HE.id_func = FUNC.id
 				AND entrada BETWEEN "',Iinicio,'" AND "',Ifinal,'"
-				AND id_func IN(',Ifunc,');');
+				AND id_func IN(',Ifunc,')
+                AND HE.hide = ',Ihide,';');
                 
 -- 			SELECT @quer;
  			PREPARE stmt1 FROM @quer;
@@ -1245,6 +1247,27 @@ BEGIN
         END IF;
 	END $$
 	DELIMITER ;
+
+ DROP PROCEDURE sp_set_relogio_ponto;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_relogio_ponto(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Ient datetime,
+        IN Isai datetime,
+        IN Iid_func int(11),
+        IN Ihide bool
+    )
+BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SET @id = (SELECT IF(COUNT(*) = 0,"DEFAULT",id) AS id FROM tb_hora_extra WHERE DATE(entrada) = DATE(Ient) AND id_func = Iid_func);
+			INSERT INTO tb_hora_extra (id,id_func,entrada,saida,hide) VALUES (@id,Iid_func,Ient,Isai,Ihide)
+			ON DUPLICATE KEY UPDATE entrada=Ient, saida=Isai, hide=Ihide;
+        END IF;
+	END $$
+	DELIMITER ;
+
 
  DROP PROCEDURE sp_view_icms;
 DELIMITER $$

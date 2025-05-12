@@ -24,6 +24,11 @@
             color: #c8dce4;
         }
 
+        .hour-hide{
+            background-color: #6be054 ;
+            color: #252525;
+        }
+
         .falta{
             background-color: #e06454 ;
             color: #c8dce4;
@@ -57,6 +62,7 @@
                 <option value="setor" signal="LIKE">Setor</option>
                 <option value="horista" signal="=" val="1" selected>Horista</option>
                 <option value="horista" signal="=" val="0">Mensalista</option>
+                <option value="hide" signal="=" val="1">Hide</option>
             </select>
            
             <input type="text" id="edtBusca" onkeypress="return getEnter(event, 'btnBusca')">
@@ -96,10 +102,11 @@
 
     pageFunc.fillFunc = ()=>{
         const query = getVal('relogio')
+        const hide = query[0] == 'hide'
         const params = new Object;
-            params.field = query[0]
-            params.signal = query[1]
-            params.value = query[2]
+            params.field = hide ?  '1' : query[0]
+            params.signal = hide ?  '=' : query[1]
+            params.value = hide ?  '1' : query[2]
             params.ativo = pageScreen.querySelector('#ckbAtv').checked ? 1 : 0                      
         const myPromisse = queryDB(params,'FUN-0');
         myPromisse.then((resolve)=>{
@@ -111,18 +118,19 @@
                 func_id += (i!=0 ? ',' : '') + json[i].id
             }   
 
-            pageFunc.fillRelogio(func_id)
+            pageFunc.fillRelogio(func_id,hide ? 1 : 0)
         });
     }
 
-    pageFunc.fillRelogio = (func)=>{      
+    pageFunc.fillRelogio = (func,hide)=>{
         const params = new Object;
             params.inicio = pageScreen.querySelector('#edtIni').value
             params.final = pageScreen.querySelector('#edtFin').value
-            params.func = func         
+            params.func = func
+            params.hide = hide
         const myPromisse = queryDB(params,'REL-0')
         myPromisse.then((resolve)=>{
-            const json = JSON.parse(resolve)        
+            const json = JSON.parse(resolve)                 
             for(let i=0; i<pageData.funcionarios.length; i++){
                 pageData.funcionarios[i].horas = json.filter(obj => obj.id_func == pageData.funcionarios[i].id)
 //                pageData.funcionarios[i].resumo = {'H_Tot':0,'H_Trab':0, 'H_Norm':0,'H_Falta':0,'H_Ext':0,'H_ADN':0,'H_ADN_EXT':0}
@@ -171,7 +179,7 @@
                 td.dt_sai = td_ini.getFormatDate()
                 td.classList = classname
                 td.innerHTML = classname=='ent' ? tr.classList.contains('weekend') || td_ini>=today ? '00:00' : '07:00' : tr.classList.contains('weekend') || td_ini>=today ? '00:00' :  td_ini.getWeekDay() == 'Sex' ? '16:00' : '17:00'
-                td.addEventListener('click',(e)=>{
+                td.addEventListener('click',(e)=>{               
                     const obj = new Object                    
                     obj.data = e.target.parentNode.dt
                     obj.id_func = e.target.id_func
@@ -191,7 +199,6 @@
             }
 
             for(let j=0; j<pageData.funcionarios.length; j++){
-
                 tr.appendChild(add_td(pageData.funcionarios[j],'ent'))
                 tr.appendChild(add_td(pageData.funcionarios[j],'sai'))
             }
@@ -235,8 +242,8 @@
                 cell_sai.dt_sai = he.dt_sai
                 cell_ent.data = he
 
-                cell_ent.classList.add(he.calc.Faltas > 0 ? 'falta' : 'hora-extra')
-                cell_sai.classList.add(he.calc.Faltas > 0 ? 'falta' : 'hora-extra')
+                cell_ent.classList.add(Number(he.hide) ? 'hour-hide' : he.calc.Faltas > 0 ? 'falta' : 'hora-extra')
+                cell_sai.classList.add(Number(he.hide) ? 'hour-hide' : he.calc.Faltas > 0 ? 'falta' : 'hora-extra')
               
             }
             tbl_resumo.plot(pageData.funcionarios[i].resumo,'Nome,HN,HE,ADN,HE_ADN,Faltas,HT','Upp,hor,hor,hor,hor,hor,hor')

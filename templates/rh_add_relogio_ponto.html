@@ -20,6 +20,10 @@
             <input class="add-he" type="date" id="dtSai" >
         </div>
         <div class="line">
+            <label for="ckbHide">Hide</label>
+            <input type="checkbox" id="ckbHide">
+        </div>
+        <div class="line">
             <button id="btnSave">Salvar</button>
             <button id="btnDel">Limpar</button>
         </div>
@@ -33,6 +37,7 @@
     const pageFunc = main_data.rh_add_relogio_ponto.func
     const pageScreen = document.querySelector('#card-rh_add_relogio_ponto')
 
+    pageScreen.querySelector('#ckbHide').checked = pageData.ent.classList.contains('hour-hide')
     pageScreen.querySelector('#hrEnt').value =  pageData.ent.innerHTML
     pageScreen.querySelector('#dtEnt').value =  pageData.ent.dt_ent
     pageScreen.querySelector('#hrSai').value =  pageData.sai.innerHTML
@@ -43,6 +48,7 @@
             params.entrada = pageScreen.querySelector('#dtEnt').value+' '+pageScreen.querySelector('#hrEnt').value+':00'
             params.saida = pageScreen.querySelector('#dtSai').value+' '+pageScreen.querySelector('#hrSai').value+':00'
             params.id_func = pageData.id_func
+            params.hide = pageScreen.querySelector('#ckbHide').checked
         const myPromisse = queryDB(params,'REL-1')
         myPromisse.then((resolve)=>{         
             setLog(`Novo Registro de Hora: ${pageScreen.querySelector('.modal-title').querySelector('p').innerHTML.split(' - ')[0]} Entrada: ${pageScreen.querySelector('#dtEnt').value.date()} as ${pageScreen.querySelector('#hrEnt').value}, Saída: ${pageScreen.querySelector('#dtSai').value.date()} as ${pageScreen.querySelector('#hrSai').value}`)

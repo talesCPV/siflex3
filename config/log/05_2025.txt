@@ -16,3 +16,10 @@
 08/05/2025 15:55 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$1038.45 dia 2025-05-08
 08/05/2025 20:58 tales@flexibus.com.br : Menu Incluido (Dados Complementares)
 08/05/2025 20:59 tales@flexibus.com.br : Menu Alterado (Dados Complementares, sys_data.html, pop-up, Dados Complementares)
+12/05/2025 15:44 tales@flexibus.com.br : Novo Registro de Hora: JOAO BAZILIO Entrada: 14/05/2025 as 00:00, Saida: 14/05/2025 as 00:00
+12/05/2025 15:45 tales@flexibus.com.br : Novo Registro de Hora: JOAO BAZILIO Entrada: 14/05/2025 as 07:00, Saida: 14/05/2025 as 19:00
+12/05/2025 15:45 tales@flexibus.com.br : Novo Registro de Hora: JOAO BAZILIO Entrada: 14/05/2025 as 07:00, Saida: 14/05/2025 as 19:00
+12/05/2025 15:50 tales@flexibus.com.br : Novo Registro de Hora: JOAO BAZILIO Entrada: 14/05/2025 as 07:00, Saida: 14/05/2025 as 19:00
+12/05/2025 20:35 tales@flexibus.com.br : Novo Registro de Hora: JOAO BAZILIO Entrada: 15/05/2025 as 05:00, Saida: 15/05/2025 as 19:30
+12/05/2025 20:35 tales@flexibus.com.br : Registro de Hora Deletado: JOAO BAZILIO Entrada: 14/05/2025 as 07:00, Saida: 14/05/2025 as 19:00
+12/05/2025 20:36 tales@flexibus.com.br : Registro de Hora Deletado: JOAO BAZILIO Entrada: 15/05/2025 as 05:00, Saida: 15/05/2025 as 19:30
