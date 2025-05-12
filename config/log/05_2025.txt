@@ -23,3 +23,21 @@
 12/05/2025 20:35 tales@flexibus.com.br : Novo Registro de Hora: JOAO BAZILIO Entrada: 15/05/2025 as 05:00, Saida: 15/05/2025 as 19:30
 12/05/2025 20:35 tales@flexibus.com.br : Registro de Hora Deletado: JOAO BAZILIO Entrada: 14/05/2025 as 07:00, Saida: 14/05/2025 as 19:00
 12/05/2025 20:36 tales@flexibus.com.br : Registro de Hora Deletado: JOAO BAZILIO Entrada: 15/05/2025 as 05:00, Saida: 15/05/2025 as 19:30
+12/05/2025 21:02 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$21969.04 dia 2025-05-12
+12/05/2025 21:04 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-05-12
+12/05/2025 21:05 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-05-12
+12/05/2025 21:06 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-05-12
+12/05/2025 21:06 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-05-12
+12/05/2025 21:07 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$2050.5 dia 2025-05-12
+12/05/2025 21:08 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$61.25 dia 2025-05-12
+12/05/2025 21:36 tales@flexibus.com.br : Chave Pix Editada KAUA HENRIQUE DA SILVA DELFINO, Chave +5512996508245
+12/05/2025 21:39 tales@flexibus.com.br : Contas A Pagar Cadastrada teste, Valor 25, Venc. dia 2025-05-12
+12/05/2025 21:46 tales@flexibus.com.br : Chave Pix Editada Diane Thais, Chave +5512992196870
+12/05/2025 21:46 tales@flexibus.com.br : Chave Pix Editada Joao Coco, Chave +5512974071180
+12/05/2025 21:47 tales@flexibus.com.br : Chave Pix Editada JOAO PEDRO VARGAS DOS SANTOS, Chave +5512991920042
+12/05/2025 21:50 tales@flexibus.com.br : Chave Pix Editada Jose Ronaldo, Chave +5512997454991
+12/05/2025 21:50 tales@flexibus.com.br : Chave Pix Editada LEANDRO (PIX FILHA THIFANY DE OLIVEIRA), Chave +5512997196113
+12/05/2025 21:51 tales@flexibus.com.br : Chave Pix Editada LUCIMAR DIAS CALIXTO DA SILVA, Chave +5512997831838
+12/05/2025 21:51 tales@flexibus.com.br : Chave Pix Editada LUIS FERNANDO ACARAIM BEULK, Chave +5512981726598
+12/05/2025 21:51 tales@flexibus.com.br : Chave Pix Editada Monteiro (Serralheiro), Chave +5512996475670
+12/05/2025 21:52 tales@flexibus.com.br : Contas A Pagar Deletada teste, Valor 25, Venc. dia 2025-05-12

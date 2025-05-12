@@ -68,6 +68,8 @@
         const cod = getNum(code)
         if(cod.length == 47){
             out  = cod.substr(0,4)+cod.substr(32,15)+cod.substr(4,1)+cod.substr(5,4)+cod.substr(10,10)+cod.substr(21,10)
+        }else if(cod.length == 48){
+            out  = cod.substr(0,11)+cod.substr(12,11)+cod.substr(24,11)+cod.substr(36,11)
         }
         return out
     }

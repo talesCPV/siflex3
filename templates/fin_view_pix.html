@@ -62,8 +62,9 @@
             pageScreen.querySelector('#btnEdit').disabled = 1
         }else{
             pageScreen.querySelector('#edtNome').value = pageData.nome
+            pageScreen.querySelector('#edtCidade').value = pageData.cidade
             pageScreen.querySelector('#edtChave').value = pageData.chave
-            pageScreen.querySelector('#ref').value = pageData.org_ref
+            pageScreen.querySelector('#ref').value = pageData.org_ref == null ? '0' : pageData.org_ref
             pageScreen.querySelector('#cmbRef').value = pageData.id_ref
         }
     }
@@ -166,12 +167,13 @@
     pageScreen.querySelector('#ref').addEventListener('change',()=>{
         const ref = pageScreen.querySelector('#ref').value
         const cmb = pageScreen.querySelector('#cmbRef')
-        pageScreen.querySelector('#edtNome').value = ''
         if(ref == 'tb_empresa'){
+            pageScreen.querySelector('#edtNome').value = ''
             pageFunc.fillEmp()
             pageScreen.querySelector('#lblRef').innerHTML = 'Empresa'
             cmb. disabled = 0
         }else if(ref == 'tb_funcionario'){
+            pageScreen.querySelector('#edtNome').value = ''
             cmb. disabled = 0
             pageScreen.querySelector('#lblRef').innerHTML = 'Funcionário'
             pageFunc.fillFunc()
