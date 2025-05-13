@@ -41,3 +41,8 @@
 12/05/2025 21:51 tales@flexibus.com.br : Chave Pix Editada LUIS FERNANDO ACARAIM BEULK, Chave +5512981726598
 12/05/2025 21:51 tales@flexibus.com.br : Chave Pix Editada Monteiro (Serralheiro), Chave +5512996475670
 12/05/2025 21:52 tales@flexibus.com.br : Contas A Pagar Deletada teste, Valor 25, Venc. dia 2025-05-12
+13/05/2025 15:44 tales@flexibus.com.br : Novo Registro de Hora: ADEMIR MOREIRA Entrada: 15/05/2025 as 07:00, Saida: 15/05/2025 as 17:00
+13/05/2025 15:46 tales@flexibus.com.br : Novo Registro de Hora: ADEMIR MOREIRA Entrada: 16/05/2025 as 07:00, Saida: 16/05/2025 as 17:00
+13/05/2025 15:46 tales@flexibus.com.br : Novo Registro de Hora: ADEMIR MOREIRA Entrada: 16/05/2025 as 07:00, Saida: 16/05/2025 as 17:00
+13/05/2025 15:46 tales@flexibus.com.br : Registro de Hora Deletado: ADEMIR MOREIRA Entrada: 15/05/2025 as 07:00, Saida: 15/05/2025 as 17:00
+13/05/2025 15:46 tales@flexibus.com.br : Registro de Hora Deletado: ADEMIR MOREIRA Entrada: 16/05/2025 as 07:00, Saida: 16/05/2025 as 17:00

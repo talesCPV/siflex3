@@ -20,7 +20,7 @@
             <input class="add-he" type="date" id="dtSai" >
         </div>
         <div class="line">
-            <label for="ckbHide">Hide</label>
+            <label for="ckbHide">Local</label>
             <input type="checkbox" id="ckbHide">
         </div>
         <div class="line">
@@ -48,7 +48,7 @@
             params.entrada = pageScreen.querySelector('#dtEnt').value+' '+pageScreen.querySelector('#hrEnt').value+':00'
             params.saida = pageScreen.querySelector('#dtSai').value+' '+pageScreen.querySelector('#hrSai').value+':00'
             params.id_func = pageData.id_func
-            params.hide = pageScreen.querySelector('#ckbHide').checked
+            params.hide = pageScreen.querySelector('#ckbHide').checked ? 1 : 0
         const myPromisse = queryDB(params,'REL-1')
         myPromisse.then((resolve)=>{         
             setLog(`Novo Registro de Hora: ${pageScreen.querySelector('.modal-title').querySelector('p').innerHTML.split(' - ')[0]} Entrada: ${pageScreen.querySelector('#dtEnt').value.date()} as ${pageScreen.querySelector('#hrEnt').value}, Saída: ${pageScreen.querySelector('#dtSai').value.date()} as ${pageScreen.querySelector('#hrSai').value}`)
