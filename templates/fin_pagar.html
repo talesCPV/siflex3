@@ -60,9 +60,12 @@
             const json = JSON.parse(resolve)       
             tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
             tbl.head('Cedente,Ref., Venc.,Valor,Pgto')
+            let tot = 0
             for(let i=0; i<json.length;i++){
+                tot += Number(json[i].valor)
                 tbl.plot(json[i],'beneficiario,nome,venc,valor,pgto','Upp,Upp,dat,R$.,cha 0=NÃO 1=SIM')
-            }         
+            }
+            tbl.plot({'tot':tot},',,Total,tot,','let,let,let,R$.,let')
         })
     }
 

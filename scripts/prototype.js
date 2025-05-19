@@ -284,7 +284,7 @@ HTMLTableElement.prototype.head = function(hd){
 
 class Pix{
 
-    constructor(chave,valor,nome='',cidade=''){
+    constructor(chave,valor,nome='',cidade='',codpgto='Flexibus'){
 
         chave  = (chave.includes('@') && chave.includes('.com')) ? chave  : chave[0]=='+' ? '+' + getNum(chave) : getNum(chave)
         nome = nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\w\s]|_/g, '').replace(/\s+/g, ' ').trim().substring(0,25)
@@ -321,7 +321,7 @@ class Pix{
         this.indicators.push(addIndicator('Merchant City',60,cidade))
 
         const Additional = []
-        Additional.push(addIndicator('txid',5,'Teste123'))        
+        Additional.push(addIndicator('txid',5,codpgto))        
         this.indicators.push(addIndicator('Additional Data Field Template ',62,Additional))
 
 //        this.indicators.push(addIndicator('CRC16',63,'1D3D'))
