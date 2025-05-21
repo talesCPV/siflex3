@@ -363,22 +363,96 @@ Pix.prototype.payload = function(){
 }
 
 
-// 00020126330014BR.GOV.BCB.PIX0111266872008795204000053039865406100.005802BR5923TALES CEMBRANELI DANTAS6008CACAPAVA62120508Teste12363041D3D
-// 00020126330014BR.GOV.BCB.PIX0111266872008795204000053039865406100.005802BR5923Tales Cembraneli Dantas6008Cacapava62120508Teste1236304C13A
-// 00020126330014BR.GOV.BCB.PIX0111266872008795204000053039865406100.005802BR5923Tales Cembraneli Dantas6008CACAPAVA62120508Teste123630433D8
+class Boleto{
 
-/*  PAYLOAD KAUÃ FUNCIONAL
-    00020126360014BR.GOV.BCB.PIX0114+5512996508245520400005303986540525.005802BR5925HENRIQUE DA SILVA DELFINO6008CACAPAVA62120508Teste12363043A8B
-    00020126360014BR.GOV.BCB.PIX0114+5512996508245520400005303986540525.005802BR5925KAUA HENRIQUE DA SILVA DE6008CACAPAVA62120508Teste12363042846 
+    constructor(){
+        this.loadData()
 
-    PAYLOAD KAUÃ QUEBRADO
-    00020126330014BR.GOV.BCB.PIX011112996508245520400005303986540525.005802BR5930KAUA HENRIQUE DA SILVA DELFINO6008CACAPAVA62120508Teste1236304892A
-    00020126360014BR.GOV.BCB.PIX0114+5512996508245520400005303986540525.005802BR5925KAUA HENRIQUE DA SILVA DE6008CACAPAVA62120508Teste12363042846
 
-    IGOR gerado pelo site
-    00020126330014BR.GOV.BCB.PIX011110063040611520400005303986540525.005802BR5913IGOR HENRIQUE6008CACAPAVA62120508Teste123630432F9
+    }
 
-    IGOR gerado pelo sistema
-    00020126330014BR.GOV.BCB.PIX011110063040611520400005303986540525.005802BR5913IGOR HENRIQUE6008CACAPAVA62120508Teste123630432F9
+}
 
-    */
+Boleto.prototype.loadData = function(){
+    const data = new URLSearchParams()
+    data.append("path",'/../config/data.json' )
+
+    const myRequest = new Request("backend/loadFile.php",{
+        method : "POST",
+        body : data
+    })
+
+    const boleto = this
+
+    const MyPromisse = new Promise((resolve,reject) =>{
+        fetch(myRequest)
+        .then(function (response){
+            if (response.status === 200) { 
+                response.text()
+                .then((txt)=>{
+                    const data = JSON.parse(txt)
+// head arq
+                    boleto.cod_banco = data.bol_cod_banco
+                    boleto.cod_remessa = data.bol_cod_remessa
+                    boleto.cod_transm = data.bol_cod_transm
+                    boleto.inscricao = data.bol_inscricao
+                    boleto.lote_serv = data.bol_lote_serv
+                    boleto.nome_banco = data.bol_nome_banco
+                    boleto.razao_social = data.bol_razao_social
+                    boleto.tipo_inscr = data.bol_tipo_inscr
+                    boleto.tipo_reg = data.bol_tipo_reg
+                    boleto.num_seq_arq = data.bol_num_seq_arq
+                    boleto.num_layout = data.bol_num_layout
+// lote rem
+                    boleto.num_lote_rem = data.bol_num_lote_rem
+                    boleto.tipo_oper = data.bol_tipo_oper
+                    boleto.tipo_serv = data.bol_tipo_serv
+
+
+
+                    console.log(boleto.head_lote_remessa())
+                })
+            } else { 
+                reject(new Error("Houve algum erro na comunicação com o servidor"));
+            } 
+        })
+    })
+}
+
+Boleto.prototype.head_arq  = function(){
+    const today = new Date
+    let out = ''
+    out += Number(this.cod_banco).toString().padStart(3,0).substring(0,3)
+    out += Number(this.lote_serv).toString().padStart(4,0).substring(0,4)
+    out += Number(this.tipo_reg).toString().padEnd(1,0)[0]
+    out += ''.padStart(8,' ')
+    out += Number(this.tipo_inscr).toString().padEnd(1,2)[0]
+    out += Number(this.inscricao).toString().padStart(15,0).substring(0,15)
+    out += Number(this.cod_transm).toString().padStart(15,0).substring(0,15)
+    out += ''.padStart(25,' ')
+    out += this.razao_social.padEnd(30,' ').substring(0,30)
+    out += this.nome_banco.padEnd(30,' ').substring(0,30)
+    out += ''.padStart(10,' ')
+    out += Number(this.cod_remessa).toString().padEnd(1,1)[0]
+    out += today.getDate().toString() + (today.getMonth()+1).toString().padStart(2,0) + today.getFullYear().toString()
+    out += ''.padStart(6,' ')
+    out += Number(this.num_seq_arq).toString().padStart(6,0).substring(0,6)
+    out += Number(this.num_layout).toString().padStart(3,0).substring(0,6)
+    out += ''.padStart(74,' ')
+    return out
+
+}
+
+Boleto.prototype.head_lote_remessa  = function(){
+    const today = new Date
+    let out = ''
+    out += Number(this.cod_banco).toString().padStart(3,0).substring(0,3)
+    out += Number(this.num_lote_rem).toString().padStart(4,0).substring(0,4)
+    out += Number(this.tipo_reg).toString().padEnd(1,0)[0]
+    out += this.tipo_oper.padEnd(1,'R')[0]
+    out += Number(this.tipo_serv).toString().padStart(2,0).substring(0,2)
+    out += ''.padStart(2,' ')
+
+    return out
+
+}

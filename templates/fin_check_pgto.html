@@ -55,7 +55,7 @@
 
     function pageStart(){
         pageScreen.querySelector('#cmbTipo').value = pageData.tipo
-        pageScreen.querySelector('#edtData').value = pageData.pgto_dia == null ? today.getFormatDate() : pageData.pgto_dia
+        pageScreen.querySelector('#edtData').value = pageData.pgto_dia == null ? pageData.venc == null ? today.getFormatDate() : pageData.venc  : pageData.pgto_dia
         pageScreen.querySelector('#edtObs').value =  pageData.obs
         pageScreen.querySelector('#edtCliente').value =  pageData.beneficiario
         pageScreen.querySelector('#edtValor').value =  pageData.valor

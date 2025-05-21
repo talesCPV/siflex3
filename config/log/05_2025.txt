@@ -47,3 +47,5 @@
 13/05/2025 15:46 tales@flexibus.com.br : Registro de Hora Deletado: ADEMIR MOREIRA Entrada: 15/05/2025 as 07:00, Saida: 15/05/2025 as 17:00
 13/05/2025 15:46 tales@flexibus.com.br : Registro de Hora Deletado: ADEMIR MOREIRA Entrada: 16/05/2025 as 07:00, Saida: 16/05/2025 as 17:00
 14/05/2025 16:24 tales@flexibus.com.br : Contas A Pagar Cadastrada teste, Valor 25, Venc. dia 2025-05-14
+21/05/2025 15:47 tales@flexibus.com.br : Menu Incluido (Arquivo Remessa)
+21/05/2025 15:48 tales@flexibus.com.br : Menu Alterado (Arquivo Remessa, fin_remessa.html, pop-up, Arquivos de Remessa)

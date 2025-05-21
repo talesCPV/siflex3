@@ -34,11 +34,15 @@
         <div class="inline">
             <label for="edtCidade">Cidade *</label>
             <input type="text" class="only-view" id="edtCidade" maxlength="60" disabled>
-        </div>        
+        </div> 
         <div class="inline">
-            <label for="edtChave">Chave *</label>
-            <input type="text" class="only-view" id="edtChave" maxlength="512" disabled>
+            <label for="edtChave" style="height: 98px;">Chave *</label>
+            <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                <input type="text" class="only-view" id="edtChave" maxlength="512" style="width: 98%;" disabled>
+                <label for="">(Telefone, colorcar +55 na frente do DDD)</label>
+            </div>
         </div>
+
 
         <div class="line">
             <button id="btnDel" class="only-view" disabled>Deletar</button>
