@@ -365,7 +365,8 @@ Pix.prototype.payload = function(){
 
 class Boleto{
 
-    constructor(){
+    constructor(cliente){
+        this.beneficiario = cliente
         this.loadData()
 
 
@@ -391,26 +392,16 @@ Boleto.prototype.loadData = function(){
                 response.text()
                 .then((txt)=>{
                     const data = JSON.parse(txt)
-// head arq
-                    boleto.cod_banco = data.bol_cod_banco
-                    boleto.cod_remessa = data.bol_cod_remessa
-                    boleto.cod_transm = data.bol_cod_transm
-                    boleto.inscricao = data.bol_inscricao
-                    boleto.lote_serv = data.bol_lote_serv
-                    boleto.nome_banco = data.bol_nome_banco
-                    boleto.razao_social = data.bol_razao_social
-                    boleto.tipo_inscr = data.bol_tipo_inscr
-                    boleto.tipo_reg = data.bol_tipo_reg
-                    boleto.num_seq_arq = data.bol_num_seq_arq
-                    boleto.num_layout = data.bol_num_layout
-// lote rem
-                    boleto.num_lote_rem = data.bol_num_lote_rem
-                    boleto.tipo_oper = data.bol_tipo_oper
-                    boleto.tipo_serv = data.bol_tipo_serv
-
-
-
-                    console.log(boleto.head_lote_remessa())
+                    const keys = Object.keys(data)
+                    for(let i=0; i<keys.length; i++){
+                        if(keys[i].substring(0,4)=='bol_'){
+                            const field = keys[i].substring(4,9999)
+                            boleto[field] = data[keys[i]]
+                        }
+                    }
+                                   
+                    console.log(boleto.segmento_p())
+                    
                 })
             } else { 
                 reject(new Error("Houve algum erro na comunicação com o servidor"));
@@ -434,13 +425,12 @@ Boleto.prototype.head_arq  = function(){
     out += this.nome_banco.padEnd(30,' ').substring(0,30)
     out += ''.padStart(10,' ')
     out += Number(this.cod_remessa).toString().padEnd(1,1)[0]
-    out += today.getDate().toString() + (today.getMonth()+1).toString().padStart(2,0) + today.getFullYear().toString()
+    out += today.getDate().toString().padStart(2,0) + (today.getMonth()+1).toString().padStart(2,0) + today.getFullYear().toString()
     out += ''.padStart(6,' ')
     out += Number(this.num_seq_arq).toString().padStart(6,0).substring(0,6)
     out += Number(this.num_layout).toString().padStart(3,0).substring(0,6)
     out += ''.padStart(74,' ')
     return out
-
 }
 
 Boleto.prototype.head_lote_remessa  = function(){
@@ -449,10 +439,44 @@ Boleto.prototype.head_lote_remessa  = function(){
     out += Number(this.cod_banco).toString().padStart(3,0).substring(0,3)
     out += Number(this.num_lote_rem).toString().padStart(4,0).substring(0,4)
     out += Number(this.tipo_reg).toString().padEnd(1,0)[0]
-    out += this.tipo_oper.padEnd(1,'R')[0]
+    out += 'R'
     out += Number(this.tipo_serv).toString().padStart(2,0).substring(0,2)
     out += ''.padStart(2,' ')
-
+    out += Number(this.num_ver_lay_lote).toString().padStart(3,0).substring(0,3)
+    out += ''.padStart(1,' ')
+    out += Number(this.tipo_inscr).toString().padEnd(1,2)[0]
+    out += Number(this.inscricao).toString().padStart(15,0).substring(0,15)
+    out += ''.padStart(20,' ')
+    out += Number(this.cod_transm).toString().padStart(15,0).substring(0,15)
+    out += ''.padStart(5,' ')
+    out += this.beneficiario.padEnd(30,' ').substring(0,30)
+    out += this.mensagem_1.padEnd(40,' ').substring(0,40)
+    out += this.mensagem_2.padEnd(40,' ').substring(0,40)
+    out += Number(this.num_remessa_ret).toString().padStart(8,0).substring(0,8)
+    out += today.getDate().toString().padStart(2,0) + (today.getMonth()+1).toString().padStart(2,0) + today.getFullYear().toString()
+    out += ''.padStart(41,' ')
     return out
+}
 
+Boleto.prototype.segmento_p  = function(){
+    const today = new Date
+    let out = ''
+    out += Number(this.cod_banco).toString().padStart(3,0).substring(0,3)
+    out += Number(this.num_lote_rem).toString().padStart(4,0).substring(0,4)
+    out += Number(this.tipo_reg).toString().padEnd(1,0)[0]
+    out += Number(this.num_seq_lote).toString().padStart(5,0).substring(0,5)
+    out += 'P'
+    out += ''.padStart(1,' ')
+    out += Number(this.cod_mov_remessa).toString().padStart(2,0).substring(0,2)
+    out += Number(this.cod_ag_destinatario).toString().padStart(4,0).substring(0,4)
+    out += Number(this.dig_ag_destinatario).toString().padStart(1,0).substring(0,1)
+    out += Number(this.num_cc).toString().padStart(9,0).substring(0,9)
+    out += Number(this.dig_ver_cc).toString().padStart(1,0).substring(0,1)
+    out += Number(this.conta_cob_dest_FIDC).toString().padStart(9,0).substring(0,9)
+    out += Number(this.dig_conta_cob_dest_FIDC).toString().padStart(1,0).substring(0,1)
+    out += ''.padStart(2,' ')
+
+    
+    
+    return out
 }
