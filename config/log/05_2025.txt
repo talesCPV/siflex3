@@ -49,3 +49,24 @@
 14/05/2025 16:24 tales@flexibus.com.br : Contas A Pagar Cadastrada teste, Valor 25, Venc. dia 2025-05-14
 21/05/2025 15:47 tales@flexibus.com.br : Menu Incluido (Arquivo Remessa)
 21/05/2025 15:48 tales@flexibus.com.br : Menu Alterado (Arquivo Remessa, fin_remessa.html, pop-up, Arquivos de Remessa)
+23/05/2025 14:44 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$183.8 dia 2025-05-23
+23/05/2025 14:45 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$208 dia 2025-05-23
+23/05/2025 14:46 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$215.28 dia 2025-05-23
+23/05/2025 14:48 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$630 dia 2025-05-23
+23/05/2025 14:49 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$589 dia 2025-05-23
+23/05/2025 14:50 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$580 dia 2025-05-23
+23/05/2025 14:51 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$580 dia 2025-05-23
+23/05/2025 14:51 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$520 dia 2025-05-23
+23/05/2025 14:53 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$500 dia 2025-05-23
+23/05/2025 14:53 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$50 dia 2025-05-23
+23/05/2025 14:54 tales@flexibus.com.br : Contas A Pagar Cadastrada Semana 19 a 23/05, Valor 850, Venc. dia 2025-05-23
+23/05/2025 14:55 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$50 dia 2025-05-23
+23/05/2025 14:56 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-05-23
+23/05/2025 14:56 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-05-23
+23/05/2025 14:57 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-05-23
+23/05/2025 14:58 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$90 dia 2025-05-23
+23/05/2025 14:58 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$850 dia 2025-05-23
+23/05/2025 15:00 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$44.9 dia 2025-05-28
+29/05/2025 15:05 tales@flexibus.com.br :  Imagem Alterada -> Perfil Usuario: tales@flexibus.com.br
+29/05/2025 15:33 tales@flexibus.com.br : PDF NF-Compra 706 ADICIONADA 
+29/05/2025 15:33 tales@flexibus.com.br : PDF NF-Compra 706 ADICIONADA 

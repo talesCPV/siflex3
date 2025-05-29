@@ -31,6 +31,7 @@
             <button id="btnDel" disabled>Deletar</button>
             <button id="btnFecha" disabled>Encerrar</button>
             <button id="btnVerNF">Ver NF</button>
+            <input  name="up_file" id="up_file" type="file" accept=".pdf" class="hide">
         </div>
     </fieldset>
     <fieldset>
@@ -81,9 +82,16 @@
             pageScreen.querySelector('#btnPed').disabled = true
             pageScreen.querySelector('#btnCot').disabled = true
             pageScreen.querySelector('#ckbValor').disabled = true
-            if(pageData.path !=  null){
-                pageScreen.querySelector('#btnVerNF').style.display = 'block'
-            }
+
+            fetch(`../NF_Compra/compra_${pageData.id}.pdf`, { method: 'HEAD' }) // Apenas verifica a existência, sem baixar o conteúdo
+            .then(response => {
+                if (response.ok) {
+                    pageScreen.querySelector('#btnVerNF').style.display = 'block'                 
+                } else {
+                    pageScreen.querySelector('#btnVerNF').style.display = 'none'                    
+                }
+            })
+
         }
     }
 
@@ -178,7 +186,9 @@
                 })
             }                               
 
-        }        
+        } else if(pageData.status == 'FECHADO'){
+            pageScreen.querySelector('#up_file').click()
+        }
     })
 
     pageScreen.querySelector('#tblItens').addEventListener('click',(e)=>{
@@ -190,7 +200,7 @@
     })
 
     pageScreen.querySelector('#btnVerNF').addEventListener('click',()=>{
-        window.open('../'+pageData.path, '_blank');
+        window.open(`../NF_Compra/compra_${pageData.id}.pdf`, '_blank')
     })
 
     pageScreen.querySelector('#btnPed').addEventListener('click',()=>{
@@ -202,5 +212,16 @@
         pageData.label = 'SOLICITAÇÃO DE COTAÇÃO'
         print_pedcomp()
     })
+
+    pageScreen.querySelector('#up_file').addEventListener('change',()=>{
+
+        const up = uploadFile(pageScreen.querySelector('#up_file').files[0],`../NF_Compra/`,`compra_${pageData.id}.pdf`)
+        up.then((resp)=>{
+            setLog(`PDF NF-Compra ${pageData.id} ADICIONADA `)
+            pageScreen.querySelector('#btnVerNF').style.display = 'block'
+        })
+
+    })
+
 
 </script>

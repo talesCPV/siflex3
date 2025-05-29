@@ -365,8 +365,11 @@ Pix.prototype.payload = function(){
 
 class Boleto{
 
-    constructor(cliente){
-        this.beneficiario = cliente
+    constructor(beneficiario,num_doc,venc,valor){
+        this.beneficiario = beneficiario
+        this.num_doc = num_doc
+        this.venc = venc
+        this.valor = getNum(valor)
         this.loadData()
 
 
@@ -475,8 +478,20 @@ Boleto.prototype.segmento_p  = function(){
     out += Number(this.conta_cob_dest_FIDC).toString().padStart(9,0).substring(0,9)
     out += Number(this.dig_conta_cob_dest_FIDC).toString().padStart(1,0).substring(0,1)
     out += ''.padStart(2,' ')
+    out += Number(this.nosso_numero).toString().padStart(13,0).substring(0,13)
+    out += this.tipo_cobranca.padEnd(1,' ').substring(0,1)
+    out += Number(this.forma_cadastro).toString().padStart(1,0).substring(0,1)
+    out += Number(this.tipo_doc).toString().padStart(1,1).substring(0,1)
+    out += ''.padStart(1,' ')
+    out += ''.padStart(1,' ')
+    out += this.num_doc.padEnd(15,' ').substring(0,15)
+    out += this.venc.padEnd(15,' ').substring(0,15)
+    out += this.valor.padEnd(15,' ').substring(0,15)
+    out += this.ag_cobranca_FIDC.padEnd(4,' ').substring(0,4)
+    out += this.dig_ag_cobranca_FIDC.padEnd(1,' ').substring(0,1)
+    out += ''.padStart(1,' ')
 
-    
+
     
     return out
 }
