@@ -83,7 +83,7 @@
             pageScreen.querySelector('#btnCot').disabled = true
             pageScreen.querySelector('#ckbValor').disabled = true
 
-            fetch(`../NF_Compra/compra_${pageData.id}.pdf`, { method: 'HEAD' }) // Apenas verifica a existência, sem baixar o conteúdo
+            fetch(`../NF/compra/${pageData.id_emp}_${pageData.id}.pdf`, { method: 'HEAD' }) // Apenas verifica a existência, sem baixar o conteúdo
             .then(response => {
                 if (response.ok) {
                     pageScreen.querySelector('#btnVerNF').style.display = 'block'                 
@@ -200,7 +200,7 @@
     })
 
     pageScreen.querySelector('#btnVerNF').addEventListener('click',()=>{
-        window.open(`../NF_Compra/compra_${pageData.id}.pdf`, '_blank')
+        window.open(`../NF/compra/${pageData.id_emp}_${pageData.id}.pdf`, '_blank')
     })
 
     pageScreen.querySelector('#btnPed').addEventListener('click',()=>{
@@ -215,7 +215,7 @@
 
     pageScreen.querySelector('#up_file').addEventListener('change',()=>{
 
-        const up = uploadFile(pageScreen.querySelector('#up_file').files[0],`../NF_Compra/`,`compra_${pageData.id}.pdf`)
+        const up = uploadFile(pageScreen.querySelector('#up_file').files[0],`../NF/compra/`,`${pageData.id_emp}_${pageData.id}.pdf`)
         up.then((resp)=>{
             setLog(`PDF NF-Compra ${pageData.id} ADICIONADA `)
             pageScreen.querySelector('#btnVerNF').style.display = 'block'

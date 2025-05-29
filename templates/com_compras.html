@@ -30,11 +30,11 @@
                     <optgroup label="Geral">
                         <option value="true"       signal="=" val="true"   >Todos      </option>                        
                         <option value="id"     signal="IN" >Código   </option>
-                        <option value="fantasia" signal="=">Fornecedor    </option>
-                        <option value="TRIM(ENT.nf)"     signal="IN" >Num. NF  </option>
+                        <option value="fantasia" signal="LIKE">Fornecedor    </option>
+                        <option value="nf"     signal="LIKE" >Num. NF  </option>
                         <option value="prod"   signal="LIKE">Nome do Produto</option>
                         <option value="id_prod"       signal="LIKE"   >Cód. do Produto</option>
-                        <option value="id_emp"  signal="LIKE">Cód. do Fornecedor</option>
+                        <option value="emp_id"  signal="LIKE">Cód. do Fornecedor</option>
                         <option value="status" signal="=" val="'ABERTO'" >Aberta</option>
                         <option value="status" signal="=" val="'FECHADO'" >Fechado</option>
                     </optgroup>
