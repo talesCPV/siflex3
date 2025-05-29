@@ -139,7 +139,7 @@
             let tot = 0
             tbl.head('Cod.|mobHide,Descrição,Und.|mobHide,Qtd.,Preço Unit.,Sub Total')            
             for(let i=0; i<pageData.itens.length;i++){
-                tbl.plot(pageData.itens[i],'id|mobHide,descricao,unidade|mobHide,qtd,preco,total','str,Upp,Upp,str,R$.,R$.')
+                tbl.plot(pageData.itens[i],'id_prod|mobHide,descricao,unidade|mobHide,qtd,preco,total','str,Upp,Upp,str,R$.,R$.')
                 tot += parseFloat(pageData.itens[i].total)
             }
             pageScreen.querySelector('#tdTot').innerHTML = viewMoneyBR(tot.toFixed(2))

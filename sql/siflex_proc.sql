@@ -1344,7 +1344,15 @@ DELIMITER $$
 	BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
-
+			SET @quer = 'SELECT * FROM ';
+            SET @quer =CONCAT('SELECT * FROM vw_compras
+								WHERE ',Ifield,' ',Isignal,' ',Ivalue,' 
+								AND data_ent >= "',Idt_ini,'" 
+								AND data_ent <="',Idt_fin,'"
+								ORDER BY data_ent DESC;');
+                                
+SELECT @quer;                                
+/*
 			SET @quer =CONCAT('SELECT ENT.*, EMP.fantasia, EMP.id AS emp_id, EMP.endereco,
 								EMP.num, EMP.cidade, EMP.estado, EMP.bairro
 								FROM tb_entrada AS ENT
@@ -1354,8 +1362,9 @@ DELIMITER $$
 								AND data_ent BETWEEN "',Idt_ini,'" 
 								AND "',Idt_fin,'"
 								ORDER BY ENT.data_ent DESC;');
-			PREPARE stmt1 FROM @quer;
-			EXECUTE stmt1;
+*/                                
+-- 			PREPARE stmt1 FROM @quer;
+-- 			EXECUTE stmt1;
 		ELSE
 			SELECT 0 AS id, "" AS nome;
         END IF;

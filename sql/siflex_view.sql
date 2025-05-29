@@ -296,3 +296,17 @@ SELECT * FROM vw_prod;
  ON CPG.id_cli = EMP.id;
  
  SELECT * FROM vw_contas_a_pagar;
+ 
+ 
+-- DROP VIEW IF EXISTS vw_compras;
+-- CREATE VIEW vw_compras AS
+	SELECT ENT.*, EMP.fantasia, EMP.id AS emp_id, EMP.endereco,
+		EMP.num, EMP.cidade, EMP.estado, EMP.bairro,
+		(SELECT GROUP_CONCAT(id_prod SEPARATOR ",") FROM tb_item_compra WHERE id_ent=ENT.id) AS id_prod,
+		(SELECT GROUP_CONCAT(TRIM(PROD.descricao) SEPARATOR ",") FROM tb_produto AS PROD INNER JOIN tb_item_compra AS ITEM ON ITEM.id_prod=PROD.id WHERE ITEM.id_ent=ENT.id) AS prod
+		FROM tb_entrada AS ENT
+		INNER JOIN tb_empresa AS EMP 
+		ON ENT.id_emp = EMP.id
+		ORDER BY ENT.data_ent DESC;
+ 
+ 

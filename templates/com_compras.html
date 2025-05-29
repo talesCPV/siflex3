@@ -29,14 +29,14 @@
                 <select id="cmbBusca">
                     <optgroup label="Geral">
                         <option value="true"       signal="=" val="true"   >Todos      </option>                        
-                        <option value="ENT.id"     signal="IN" >Código   </option>
-                        <option value="EMP.fantasia" signal="=">Fornecedor    </option>
+                        <option value="id"     signal="IN" >Código   </option>
+                        <option value="fantasia" signal="=">Fornecedor    </option>
                         <option value="TRIM(ENT.nf)"     signal="IN" >Num. NF  </option>
-                        <option value="p.status"   signal="=">Nome do Produto</option>
-                        <option value="p.id"       signal="IN"   >Cód. do Produto</option>
-                        <option value="EMP.id"  signal="LIKE">Cód. do Fornecedor</option>
-                        <option value="ENT.status" signal="=" val="ABERTO" >Aberta</option>
-                        <option value="ENT.status" signal="=" val="FECHADO" >Fechado</option>
+                        <option value="prod"   signal="LIKE">Nome do Produto</option>
+                        <option value="id_prod"       signal="LIKE"   >Cód. do Produto</option>
+                        <option value="id_emp"  signal="LIKE">Cód. do Fornecedor</option>
+                        <option value="status" signal="=" val="'ABERTO'" >Aberta</option>
+                        <option value="status" signal="=" val="'FECHADO'" >Fechado</option>
                     </optgroup>
                 </select>
                 <input type="text" id="edtBusca" placeholder="Digite sua Busca" onkeypress="return getEnter(event, 'btnBusca')">
@@ -74,25 +74,26 @@
     }
 
     pageFunc.fillCompras = ()=>{
+        const ckb = pageScreen.querySelector('#ckbData').checked
         const query = getVal('compra')
         const params = new Object;
             params.field = query[0]
             params.signal = query[1]
             params.value = query[2]
-            params.dt_ini = pageScreen.querySelector('#edtIni').value
-            params.dt_fin = pageScreen.querySelector('#edtFin').value      
+            params.dt_ini =  ckb ? pageScreen.querySelector('#edtIni').value : '0000-01-01'
+            params.dt_fin = ckb ? pageScreen.querySelector('#edtFin').value : '9999-12-31'
 
         const myPromisse = queryDB(params,'COM-6');
 
         myPromisse.then((resolve)=>{
             if(resolve.trim() != ""){
-                const json = JSON.parse(resolve);
+                const json = JSON.parse(resolve)
                 const tbl = pageScreen.querySelector('#tblComp')          
                 tbl.innerHTML=''
                 pageScreen.querySelector('#lblTotal').style.display = json.length > 0 ? 'block' : 'none'
-                json.length > 0 ? tbl.head('Cod.|mobHide,Data|mobHide,Ped/NF.,Fornecedor.,Status|mobHide') : 0
+                json.length > 0 ? tbl.head('Cod.|mobHide,Data|mobHide,Ped/NF.,Fornecedor.,Status|mobHide,Total') : 0
                 for(let i=0; i<json.length;i++){                                       
-                    tbl.plot(json[i],'id|mobHide,data_ent|mobHide,nf,fantasia,status|mobHide','int,date,Upp,Upp,Upp',true)                    
+                    tbl.plot(json[i],'id|mobHide,data_ent|mobHide,nf,fantasia,status|mobHide,total','int,date,Upp,Upp,Upp,R$.',true)                    
                 }                
             }        
         })
