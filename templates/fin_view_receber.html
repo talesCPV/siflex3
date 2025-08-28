@@ -80,9 +80,10 @@
             pageScreen.querySelector('#btnDel').disabled = 1
             pageScreen.querySelector('#btnEdit').disabled = 1
             pageScreen.querySelector('#edtVenc').value =  today.getFormatDate()
+            pageScreen.querySelector('#edtCliente').id_cliente = 0
             pageData.tipo = 'BOLETO'
         }else{
-            pageScreen.querySelector('#edtCliente').id_cliente = pageData.id_cli
+            pageScreen.querySelector('#edtCliente').id_cliente = pageData.id_cli == null ? 0 : pageData.id_cli
             pageScreen.querySelector('#edtNome').value = pageData.nome
             pageScreen.querySelector('#edtCliente').value = pageData.cliente
             pageScreen.querySelector('#edtNF').value = pageData.nf

@@ -1983,15 +1983,16 @@ DELIMITER $$
 	BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
+			SET @id_cli = (SELECT IF(Iid_cli=0,NULL,Iid_cli));
 			IF(Iid = 0)THEN
 				INSERT INTO tb_a_receber (id_cli,nome,venc,valor,tipo,nf,obs,pgto)
-				VALUES (Iid_cli,Inome,Ivenc,Ivalor,Itipo,Inf,Iobs,Ipgto);
+				VALUES (@id_cli,Inome,Ivenc,Ivalor,Itipo,Inf,Iobs,Ipgto);
             ELSE
 				IF(Inome="")THEN
 					DELETE FROM tb_a_receber WHERE id=Iid;  
                 ELSE
 					UPDATE tb_a_receber SET 
-						id_cli=Iid_cli, nome=Inome, venc=Ivenc, valor=Ivalor, tipo=Itipo, nf=Inf, obs=Iobs, pgto=Ipgto
+						id_cli=@id_cli, nome=Inome, venc=Ivenc, valor=Ivalor, tipo=Itipo, nf=Inf, obs=Iobs, pgto=Ipgto
 					WHERE id=Iid;                
                 END IF;
             END IF;
