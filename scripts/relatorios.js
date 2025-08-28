@@ -1132,7 +1132,8 @@ function fichaEPI(obj){
         addLine()
         doc.text('Nome:   '+obj.func.nome,10,txt.y)
         doc.text('Cargo:   '+obj.func.cargo,100,txt.y)
-        doc.text('Setor:   '+obj.func.setor,160,txt.y)
+//        addLine()        
+        doc.text('Setor:   '+obj.func.setores,160,txt.y)
         addLine()
         
 //        line(txt.y)

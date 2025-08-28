@@ -79,7 +79,7 @@
             params.ativo = 1
         const myPromisse = queryDB(params,'FUN-0');
         myPromisse.then((resolve)=>{
-            const json = JSON.parse(resolve)
+            const json = JSON.parse(resolve)      
             pageData.func = json
             const cmb = pageScreen.querySelector('#cmbFunc')
             cmb.innerHTML=''

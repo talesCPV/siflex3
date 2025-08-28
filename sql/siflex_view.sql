@@ -64,10 +64,11 @@ DROP VIEW vw_serv_exec;
 SELECT * FROM vw_serv_exec;
 
 DROP VIEW vw_func;
- CREATE VIEW vw_func AS        
+ CREATE VIEW vw_func AS
 	SELECT FUNC.*, COALESCE(CAR.cargo,"") AS cargo, IF(CAR.tipo='HORA',1,0) AS horista,
     IF(FUNC.status="ATIVO",1,0) AS ativo, COALESCE(CAR.cbo,"") AS cbo,
-    (SELECT GROUP_CONCAT(id_setor SEPARATOR ",") FROM tb_func_setor WHERE id_func=FUNC.id) AS setores
+    (SELECT GROUP_CONCAT(id_setor SEPARATOR ",") FROM tb_func_setor WHERE id_func=FUNC.id) AS id_setores,
+    (SELECT GROUP_CONCAT(SETOR.nome SEPARATOR ",") FROM tb_func_setor AS FUNSET INNER JOIN tb_setores AS SETOR ON SETOR.id=FUNSET.id_setor WHERE FUNSET.id_func=FUNC.id) AS setores
     FROM tb_funcionario AS FUNC    
 	INNER JOIN tb_cargos AS CAR
 	ON FUNC.id_cargo = CAR.id
@@ -75,6 +76,7 @@ DROP VIEW vw_func;
         
 SELECT * FROM vw_func;
 SELECT * FROM tb_func_setor;
+SELECT * FROM tb_setores;
 
 DROP VIEW vw_ferias;
 -- CREATE VIEW vw_ferias AS
@@ -298,15 +300,27 @@ SELECT * FROM vw_prod;
  SELECT * FROM vw_contas_a_pagar;
  
  
+ -- DROP VIEW IF EXISTS vw_a_receber;
+ CREATE VIEW vw_a_receber AS
+ SELECT ARB.*, IFNULL(EMP.fantasia,"FORNECEDOR SEM REGISTRO") AS cliente
+	 FROM tb_a_receber AS ARB
+	 LEFT JOIN tb_empresa AS EMP
+	 ON ARB.id_cli = EMP.id;
+ 
+ SELECT * FROM vw_a_receber;
+ 
+ 
 -- DROP VIEW IF EXISTS vw_compras;
--- CREATE VIEW vw_compras AS
+ CREATE VIEW vw_compras AS
 	SELECT ENT.*, EMP.fantasia, EMP.id AS emp_id, EMP.endereco,
 		EMP.num, EMP.cidade, EMP.estado, EMP.bairro,
 		(SELECT GROUP_CONCAT(id_prod SEPARATOR ",") FROM tb_item_compra WHERE id_ent=ENT.id) AS id_prod,
-		(SELECT GROUP_CONCAT(TRIM(PROD.descricao) SEPARATOR ",") FROM tb_produto AS PROD INNER JOIN tb_item_compra AS ITEM ON ITEM.id_prod=PROD.id WHERE ITEM.id_ent=ENT.id) AS prod
+		(SELECT GROUP_CONCAT(TRIM(PROD.descricao) SEPARATOR ",") FROM tb_produto AS PROD INNER JOIN tb_item_compra AS ITEM ON ITEM.id_prod=PROD.id WHERE ITEM.id_ent=ENT.id) AS prod,
+        (SELECT ROUND(SUM(qtd*preco),2) FROM tb_item_compra WHERE id_ent=ENT.id) AS total
 		FROM tb_entrada AS ENT
 		INNER JOIN tb_empresa AS EMP 
 		ON ENT.id_emp = EMP.id
 		ORDER BY ENT.data_ent DESC;
  
+ SELECT * FROM vw_compras;
  

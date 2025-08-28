@@ -322,6 +322,24 @@ CREATE TABLE tb_contas_a_pagar (
     PRIMARY KEY (id)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
+ DROP TABLE tb_receber;
+CREATE TABLE tb_a_receber (
+    id int(11) NOT NULL AUTO_INCREMENT,
+    id_cli int(11) DEFAULT NULL,
+    nome varchar(60) NOT NULL,
+    beneficiario varchar(128) DEFAULT "FLEXIBUS SANFONADOS",
+    venc date NOT NULL,
+    valor double NOT NULL,
+    cod_pgto varchar(512) DEFAULT NULL,
+    pgto bool NOT NULL DEFAULT 0,
+    pgto_dia date DEFAULT NULL,
+    tipo varchar(8) DEFAULT "BOLETO",
+    nf varchar(10) DEFAULT NULL,
+    obs varchar(256) DEFAULT NULL,
+    FOREIGN KEY (id_cli) REFERENCES tb_empresa(id),
+    PRIMARY KEY (id)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
  DROP TABLE tb_pix;
 CREATE TABLE tb_pix (
     id int(11) NOT NULL AUTO_INCREMENT,

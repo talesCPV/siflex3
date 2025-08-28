@@ -1351,7 +1351,7 @@ DELIMITER $$
 								AND data_ent <="',Idt_fin,'"
 								ORDER BY data_ent DESC;');
                                 
-SELECT @quer;                                
+                          
 /*
 			SET @quer =CONCAT('SELECT ENT.*, EMP.fantasia, EMP.id AS emp_id, EMP.endereco,
 								EMP.num, EMP.cidade, EMP.estado, EMP.bairro
@@ -1363,8 +1363,8 @@ SELECT @quer;
 								AND "',Idt_fin,'"
 								ORDER BY ENT.data_ent DESC;');
 */                                
--- 			PREPARE stmt1 FROM @quer;
--- 			EXECUTE stmt1;
+ 			PREPARE stmt1 FROM @quer;
+ 			EXECUTE stmt1;
 		ELSE
 			SELECT 0 AS id, "" AS nome;
         END IF;
@@ -1937,6 +1937,61 @@ DELIMITER $$
                 ELSE
 					UPDATE tb_contas_a_pagar SET 
 						id_cli=Iid_cli, nome=Inome, beneficiario=Ibeneficiario, venc=Ivenc, valor=Ivalor, cod_pgto=Icod_pgto, tipo=Itipo
+					WHERE id=Iid;                
+                END IF;
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;
+
+	DROP PROCEDURE IF EXISTS sp_view_a_receber;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_a_receber(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Ifield varchar(30),
+        IN Isignal varchar(4),
+		IN Ivalue varchar(50),
+        IN Idt_ini date,
+        IN Idt_fin date
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SET @quer =CONCAT('SELECT * FROM vw_a_receber WHERE ',Ifield,' ',Isignal,' ',Ivalue,' AND venc BETWEEN "',Idt_ini,'" AND "',Idt_fin,'" ORDER BY venc;');
+			PREPARE stmt1 FROM @quer;
+			EXECUTE stmt1;
+        END IF;
+	END $$
+	DELIMITER ;
+
+     DROP PROCEDURE sp_set_a_receber;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_a_receber(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Iid int(11),
+        IN Iid_cli int(11),
+		IN Inome varchar(60),
+		IN Ivenc date,
+		IN Ivalor double,
+        IN Itipo varchar(8),
+        IN Inf varchar(10),
+        IN Iobs varchar(256),
+        IN Ipgto bool
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			IF(Iid = 0)THEN
+				INSERT INTO tb_a_receber (id_cli,nome,venc,valor,tipo,nf,obs,pgto)
+				VALUES (Iid_cli,Inome,Ivenc,Ivalor,Itipo,Inf,Iobs,Ipgto);
+            ELSE
+				IF(Inome="")THEN
+					DELETE FROM tb_a_receber WHERE id=Iid;  
+                ELSE
+					UPDATE tb_a_receber SET 
+						id_cli=Iid_cli, nome=Inome, venc=Ivenc, valor=Ivalor, tipo=Itipo, nf=Inf, obs=Iobs, pgto=Ipgto
 					WHERE id=Iid;                
                 END IF;
             END IF;
