@@ -1205,19 +1205,16 @@ DELIMITER $$
 		IN Ihash varchar(64),
         IN Iinicio date,
         IN Ifinal date,
-        IN Ifunc varchar(50),
+        IN Ifunc varchar(150),
         IN Ihide bool
     )
 	BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN	
-			SET @quer =CONCAT('SELECT HE.*,FUNC.nome
-				FROM tb_hora_extra AS HE
-				INNER JOIN tb_funcionario AS FUNC
-				ON HE.id_func = FUNC.id
-				AND entrada BETWEEN "',Iinicio,'" AND "',Ifinal,'"
+			SET @quer =CONCAT('SELECT * FROM vw_hora_extra
+				WHERE entrada >= "',Iinicio,'" AND   entrada <="',Ifinal,'"
 				AND id_func IN(',Ifunc,')
-                AND HE.hide = ',Ihide,';');
+                AND hide = ',Ihide,';');
                 
 -- 			SELECT @quer;
  			PREPARE stmt1 FROM @quer;

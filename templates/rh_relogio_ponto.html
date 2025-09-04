@@ -130,7 +130,9 @@
             params.hide = hide
         const myPromisse = queryDB(params,'REL-0')
         myPromisse.then((resolve)=>{
-            const json = JSON.parse(resolve)                 
+            const json = JSON.parse(resolve)    
+console.log(json)                         
+
             for(let i=0; i<pageData.funcionarios.length; i++){
                 pageData.funcionarios[i].horas = json.filter(obj => obj.id_func == pageData.funcionarios[i].id)
 //                pageData.funcionarios[i].resumo = {'H_Tot':0,'H_Trab':0, 'H_Norm':0,'H_Falta':0,'H_Ext':0,'H_ADN':0,'H_ADN_EXT':0}

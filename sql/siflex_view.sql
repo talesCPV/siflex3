@@ -324,3 +324,12 @@ SELECT * FROM vw_prod;
  
  SELECT * FROM vw_compras;
  
+  DROP VIEW IF EXISTS vw_hora_extra;
+ CREATE VIEW vw_hora_extra AS
+ SELECT HE.*,FUNC.nome
+	FROM tb_hora_extra AS HE
+	INNER JOIN tb_funcionario AS FUNC
+	ON HE.id_func = FUNC.id
+    ORDER BY nome,entrada;
+ 
+  SELECT * FROM vw_hora_extra;
