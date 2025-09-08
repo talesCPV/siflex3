@@ -1,0 +1,106 @@
+<template>
+    <style>
+
+        .visual{
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding-bottom: 30px;
+        }
+
+        .visual fieldset{
+            margin-top: 0;
+            min-width: 250px;
+        }
+
+        .visual-periodo{
+            flex-direction: column;
+        }
+
+
+    </style>
+
+
+    <div class="top">
+        <h4>Visualizações</h4>
+
+        <div class="visual">
+
+            <fieldset>
+                <legend>Movimentação</legend>
+                <div class="inline">
+                    <label for="ckbEntrada">Entradas</label>
+                    <input type="checkbox" id="ckbEntrada" checked>
+                </div>
+    
+                <div class="inline">
+                    <label for="ckbSaida">Saídas</label>
+                    <input type="checkbox" id="ckbSaida" checked>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Gráficos</legend>
+                <div class="inline">
+                    <label for="rbtTotal">Total no Peróodo</label>
+                    <input type="radio" name="graph" id="rbtTotal" checked>
+                </div>
+                <div class="inline">
+                    <label for="rbtDist">Dist. no Tempo</label>
+                    <input type="radio" name="graph" id="rbtDist">
+                </div>
+
+            </fieldset>
+            <fieldset class="">
+                <legend>Período</legend>
+                <div class="inline visual-periodo">
+                    <input type="date" id="edtIni" onkeypress="return getEnter(event, 'btnBusca')">
+                    <input type="date" id="edtFin" onkeypress="return getEnter(event, 'btnBusca')">
+                    <div class="inline">
+                        <label for="ckbData">no período:</label>
+                        <input type="checkbox" id="ckbData" checked>
+                    </div>
+                </div>
+            </fieldset>
+
+        </div>
+
+
+
+    </div>
+
+    <hr>    
+
+
+</template>
+<script>
+    const pageData = main_data.fin_analytics.data
+    const pageFunc = main_data.fin_analytics.func
+    const pageScreen = document.querySelector('#card-fin_analytics')
+
+    function pageStart(){
+        pageScreen.querySelector('#edtIni').value = today.iniMonth()
+        pageScreen.querySelector('#edtFin').value = today.finMonth()
+        pageFunc.fillData()
+    }
+
+    pageFunc.fillData = ()=>{
+        const ckb = pageScreen.querySelector('#ckbData').checked ? 1 : 0 
+        const params = new Object
+            params.entrada = pageScreen.querySelector('#ckbEntrada').checked ? 'ENTRADA' : 'NULL'
+            params.saida = pageScreen.querySelector('#ckbSaida').checked ? 'SAIDA' : 'NULL'
+            params.dt_ini = !ckb ? '0000-00-00' : pageScreen.querySelector('#edtIni').value
+            params.dt_fin = !ckb ? '9999-12-31' : pageScreen.querySelector('#edtFin').value
+        const myPromisse = queryDB(params,'FIN-12')
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)       
+            console.log(json)
+        })
+
+
+    }
+
+
+    pageStart()
+
+</script>

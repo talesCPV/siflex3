@@ -42,6 +42,19 @@
             <input type="text" class="only-view" id="edtNome" maxlength="60" disabled>
         </div>
         <div class="inline">
+            <label for="cmbCusto">Centro de Custo</label>
+            <select id="cmbCusto" class="only-view" disabled>
+                <option value="INSUMOS">Insumos</option>
+                <option value="MAO_DE_OBRA">Mão de Obra</option>
+                <option value="FIXO">Custo Fixo (água, luz, internet, etc)</option>
+                <option value="DIARIAS">Diárias</option>
+                <option value="FORNECEDORES">Fornecedores (Materia Prima, Ítens de Consumos, etc)</option>
+                <option value="MANUTENCAO">Manutenção</option>
+                <option value="IMPOSTOS">Impostos</option>
+                <option value="OUTROS">Outros</option>
+            </select>
+        </div>        
+        <div class="inline">
             <label for="edtVal">Valor</label>
             <input type="text" class="only-view" id="edtVal" inputmode="decimal" onkeyup="valFloat(this)" disabled>
             <label for="edtVenc">Vencimento</label>
@@ -87,6 +100,7 @@
             pageScreen.querySelector('#edtVenc').value = pageData.venc
             pageScreen.querySelector('#edtCod').value = pageData.cod_pgto
             pageScreen.querySelector('#cmbTipoPg').value = pageData.tipo
+            pageScreen.querySelector('#cmbCusto').value = pageData.centro_custo
             changeTipo(pageScreen.querySelector('#cmbTipoPg').value)
         }
     }
@@ -133,6 +147,7 @@
             params.valor = pageScreen.querySelector('#edtVal').value
             params.cod_pgto = pageScreen.querySelector('#edtCod').value.trim()
             params.tipo = pageScreen.querySelector('#cmbTipoPg').value
+            params.custo = pageScreen.querySelector('#cmbCusto').value
 
             const myPromisse = queryDB(params,'FIN-6');
         myPromisse.then((resolve)=>{

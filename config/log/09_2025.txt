@@ -24,3 +24,26 @@
 04/09/2025 16:28 tales@flexibus.com.br : Novo Registro de Hora: TIAGO ALVES DE ARAUJO Entrada: 03/09/2025 as 07:00, Saida: 03/09/2025 as 17:00
 04/09/2025 16:43 tales@flexibus.com.br : Funcionario Editado FRANCISCO ELONIO SA SILVA MART -> FRANCISCO ELONIO SA SILVA MART
 04/09/2025 16:44 tales@flexibus.com.br : Funcionario Editado FRANCISCO ELONIO SA SILVA MART -> FRANCISCO ELONIO SA SILVA MART
+04/09/2025 20:36 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:37 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:37 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09 +  DIARIA 06/09, Valor 525, Venc. dia 2025-09-05
+04/09/2025 20:38 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:41 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:42 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO PARA LUCAS FREELANCE, Valor 360, Venc. dia 2025-09-05
+04/09/2025 20:43 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:43 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:45 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:47 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:48 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:48 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:49 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:50 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:51 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:52 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:54 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO PARA LUCAS FREELANCE, Valor 360, Venc. dia 2025-09-05
+04/09/2025 20:54 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09 +  DIARIA 06/09, Valor 525, Venc. dia 2025-09-05
+04/09/2025 20:54 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 760, Venc. dia 2025-09-05
+05/09/2025 20:34 tales@flexibus.com.br : Contas A Pagar Editada TECIDO, Valor 9709.87, Venc. dia 2025-09-03
+08/09/2025 15:20 tales@flexibus.com.br : Menu Incluido (Analytics)
+08/09/2025 15:22 tales@flexibus.com.br : Menu Alterado (Analytics, fin_analytics.html, pop-up, )
+08/09/2025 15:24 tales@flexibus.com.br : Menu Alterado (Analytics, fin_analytics.html, pop-up, Analise Financeiro)

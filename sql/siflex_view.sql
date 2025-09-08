@@ -291,7 +291,7 @@ SELECT * FROM vw_prod;
  SELECT COUNT(*) FROM vw_apontamento WHERE id_os=2 AND ok=0;
  
 -- DROP VIEW IF EXISTS vw_contas_a_pagar;
--- CREATE VIEW vw_contas_a_pagar AS
+ CREATE VIEW vw_contas_a_pagar AS
  SELECT CPG.*, IFNULL(EMP.fantasia,"FORNECEDOR SEM REGISTRO") AS fornecedor
  FROM tb_contas_a_pagar AS CPG
  LEFT JOIN tb_empresa AS EMP
@@ -333,3 +333,15 @@ SELECT * FROM vw_prod;
     ORDER BY nome,entrada;
  
   SELECT * FROM vw_hora_extra;
+  
+  
+DROP VIEW IF EXISTS vw_analytics;
+CREATE VIEW vw_analytics AS
+	SELECT id_cli,nome,beneficiario,venc,(valor * -1) AS valor,cod_pgto,pgto,pgto_dia,tipo, "SAÍDA" AS modalidade
+	FROM vw_contas_a_pagar
+	UNION ALL
+	SELECT id_cli,nome,beneficiario,venc,valor,cod_pgto,pgto,pgto_dia,tipo, "ENTRADA" AS modalidade
+	FROM vw_a_receber
+	ORDER BY venc;
+    
+SELECT * FROM vw_analytics;

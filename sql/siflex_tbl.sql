@@ -318,9 +318,12 @@ CREATE TABLE tb_contas_a_pagar (
     pgto_dia date DEFAULT NULL,
     tipo varchar(8) DEFAULT "BOLETO",
     obs varchar(256) DEFAULT NULL,
+    centro_custo varchar(20) DEFAULT "INSUMOS",
     FOREIGN KEY (id_cli) REFERENCES tb_empresa(id),
     PRIMARY KEY (id)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+ALTER TABLE tb_contas_a_pagar ADD COLUMN centro_custo varchar(20) DEFAULT "INSUMOS";
 
  DROP TABLE tb_receber;
 CREATE TABLE tb_a_receber (

@@ -1920,20 +1920,21 @@ DELIMITER $$
 		IN Ivenc date,
 		IN Ivalor double,
 		IN Icod_pgto varchar(512),
-        IN Itipo varchar(8)
+        IN Itipo varchar(8),
+        IN Icentro_custo varchar(20)
     )
 	BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
 			IF(Iid = 0)THEN
-				INSERT INTO tb_contas_a_pagar (id_cli,nome,beneficiario,venc,valor,cod_pgto,tipo)
-				VALUES (Iid_cli,Inome,Ibeneficiario,Ivenc,Ivalor,Icod_pgto,Itipo);
+				INSERT INTO tb_contas_a_pagar (id_cli,nome,beneficiario,venc,valor,cod_pgto,tipo,centro_custo)
+				VALUES (Iid_cli,Inome,Ibeneficiario,Ivenc,Ivalor,Icod_pgto,Itipo,Icentro_custo);
             ELSE
 				IF(Inome="")THEN
 					DELETE FROM tb_contas_a_pagar WHERE id=Iid;  
                 ELSE
 					UPDATE tb_contas_a_pagar SET 
-						id_cli=Iid_cli, nome=Inome, beneficiario=Ibeneficiario, venc=Ivenc, valor=Ivalor, cod_pgto=Icod_pgto, tipo=Itipo
+						id_cli=Iid_cli, nome=Inome, beneficiario=Ibeneficiario, venc=Ivenc, valor=Ivalor, cod_pgto=Icod_pgto, tipo=Itipo, centro_custo=Icentro_custo
 					WHERE id=Iid;                
                 END IF;
             END IF;
@@ -2069,3 +2070,32 @@ DELIMITER $$
         END IF;
 	END $$
 DELIMITER ;
+
+	DROP PROCEDURE IF EXISTS sp_view_analytics;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_analytics(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Ientrada varchar(7),
+		IN Isaida varchar(5),
+        IN Idt_ini date,
+        IN Idt_fin date
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SET @saldo = 0;
+            SELECT *,@saldo:=@saldo+ROUND(valor,2) saldo  
+				FROM vw_analytics 
+				WHERE (modalidade =Ientrada OR modalidade=Isaida)
+				AND venc>= Idt_ini
+				AND venc <=Idt_fin
+				ORDER BY venc;
+            
+            
+-- 			SET @quer =CONCAT('SELECT ANA.*,@saldo:=@saldo+ROUND(ANA.valor,2) saldo  FROM vw_analytics AS ANA WHERE (modalidade =',Ientrada,' OR modalidade) AND venc BETWEEN "',Idt_ini,'" AND "',Idt_fin,'" ORDER BY venc;');
+-- 			PREPARE stmt1 FROM @quer;
+-- 			EXECUTE stmt1;
+        END IF;
+	END $$
+	DELIMITER ;
