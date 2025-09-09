@@ -71,14 +71,16 @@
 
     <div class="tab-bar">
         <div class="tab-item" id="tab-tabela"   onclick="pictab(this)">Dados       </div>
-        <div class="tab-item" id="tab-total"    onclick="pictab(this)">Geral     </div>
+        <div class="tab-item" id="tab-custos"    onclick="pictab(this)">Custos     </div>
         <div class="tab-item" id="tab-comp"     onclick="pictab(this)">Ent/Saida     </div>            
     </div>
     <div class="tab-screen">        
         <div id="tabela" class="tab">
             <table id="tblDados"></table>
         </div>
-        <div id="total" class="tab"></div>
+        <div id="custos" class="tab">
+            <div id="piechart" style="width: 100%; height: 100%;"></div>
+        </div>
         <div id="comp" class="tab"></div>
     </div>
 
@@ -88,14 +90,15 @@
     const pageData = main_data.fin_analytics.data
     const pageFunc = main_data.fin_analytics.func
     const pageScreen = document.querySelector('#card-fin_analytics')
+    var chart 
+
 
     function pageStart(){
+        pageScreen.querySelector('#tab-tabela').click()
         
         loadExternalScript("https://www.gstatic.com/charts/loader.js",'google_chart').then((resolve, reject)=>{
-            console.log(resolve)
             pageFunc.fillData()
-        })
-        
+        })        
 
         pageScreen.querySelector('#edtIni').value = today.iniMonth()
         pageScreen.querySelector('#edtFin').value = today.finMonth()
@@ -112,13 +115,47 @@
         const myPromisse = queryDB(params,'FIN-12')
         myPromisse.then((resolve)=>{
             const json = JSON.parse(resolve)
+            pageData.dados = json
             const tbl = pageScreen.querySelector('#tblDados')
             tbl.head('Data,Ent/Sai,Credor,Devedor,Desc.,Valor,Saldo')
+            pageData.centro_custo = [['Centro de Custo', 'Valor']]
             for(let i=0; i<json.length; i++){
                 tbl.plot(json[i],'venc,modalidade,credor,devedor,nome,valor,saldo','dat,Upp,Upp,Upp,Upp,R$.,R$.')
+                if(json[i].modalidade == 'SAÍDA'){
+                    if(!pageData.centro_custo.some(A => A[0] === json[i].centro_custo) ){                   
+                        pageData.centro_custo.push([json[i].centro_custo,Number(json[i].valor) * -1])
+                    }else{
+                        pageData.centro_custo[json[i].centro_custo] += (Number(json[i].valor) * -1)
+                    }
+                }                
             }
-            console.log(json)
+            pageFunc.fillCustos()
         })
+        return myPromisse
+    }
+
+    pageFunc.fillCustos = ()=>{
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            console.log(pageData)
+//            for(let )
+
+            var data = google.visualization.arrayToDataTable(pageData.centro_custo);
+
+            var options = {
+                title: `Gráfico de Custos de ${pageScreen.querySelector('#edtIni').value.date()} a ${pageScreen.querySelector('#edtFin').value.date()}`
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'))
+
+            setTimeout(function() {
+                chart.draw(data, options)
+            }, 1000);
+
+        }
+
     }
 
     pageScreen.querySelector('#ckbEntrada').addEventListener('change',()=>{

@@ -31,6 +31,8 @@ function pictab(e){
         if(content[i].id == tab.split('-')[1]){
             content[i].style.display = "flex"
             content[i].style['flex-direction'] = "column"
+            content[i].style.width = "100%"
+            content[i].style.height = "100%"
             sel_tab.classList.add("check-tab")
         }else{
             content[i].style.display = "none"
