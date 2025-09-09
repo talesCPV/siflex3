@@ -336,12 +336,14 @@ SELECT * FROM vw_prod;
   
   
 DROP VIEW IF EXISTS vw_analytics;
-CREATE VIEW vw_analytics AS
-	SELECT id_cli,nome,beneficiario,venc,(valor * -1) AS valor,cod_pgto,pgto,pgto_dia,tipo, "SAÍDA" AS modalidade
+ CREATE VIEW vw_analytics AS
+	SELECT id_cli,nome,beneficiario AS credor,"FLEXIBUS SANFONADOS LTDA." AS devedor,venc,(valor * -1) AS valor,cod_pgto,pgto,pgto_dia,tipo, "SAÍDA" AS modalidade
 	FROM vw_contas_a_pagar
 	UNION ALL
-	SELECT id_cli,nome,beneficiario,venc,valor,cod_pgto,pgto,pgto_dia,tipo, "ENTRADA" AS modalidade
-	FROM vw_a_receber
+	SELECT RCB.id_cli,RCB.nome,RCB.beneficiario as credor,COALESCE(EMP.fantasia,"") AS devedor,RCB.venc,RCB.valor,RCB.cod_pgto,RCB.pgto,RCB.pgto_dia,RCB.tipo, "ENTRADA" AS modalidade
+	FROM vw_a_receber AS RCB
+    LEFT JOIN tb_empresa AS EMP
+    ON RCB.id_cli = EMP.id
 	ORDER BY venc;
     
 SELECT * FROM vw_analytics;

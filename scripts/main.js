@@ -160,3 +160,30 @@ function getVal(fds){
 
     return [field,signal,value]
 }
+
+/* LOAD EXTERNAL SCRIPTS IN RUN TIME */
+
+function loadExternalScript(src,scriptId) {
+    const myPromisse = new Promise((resolve, reject) => {
+        if (!document.getElementById(scriptId)) {
+            const script = document.createElement('script');
+            script.src = src;
+            script.id = scriptId
+            script.async = true;
+        
+            script.onload = () => {
+                resolve('Script loaded successfully!');
+            };
+        
+            script.onerror = () => {
+                reject(new Error(`Failed to load script: ${src}`));
+            };
+        
+            document.head.appendChild(script);
+        }else{
+            resolve('Script already loaded')
+        }
+    })
+
+    return myPromisse
+  }

@@ -20,7 +20,6 @@
 
     </style>
 
-
     <div class="top">
         <h4>Visualizações</h4>
 
@@ -37,9 +36,8 @@
                     <label for="ckbSaida">Saídas</label>
                     <input type="checkbox" id="ckbSaida" checked>
                 </div>
-            </fieldset>
-
-            <fieldset>
+                </fieldset>
+                <fieldset>
                 <legend>Gráficos</legend>
                 <div class="inline">
                     <label for="rbtTotal">Total no Peróodo</label>
@@ -65,11 +63,24 @@
 
         </div>
 
-
-
     </div>
 
     <hr>    
+
+    <h4>Análise</h4>
+
+    <div class="tab-bar">
+        <div class="tab-item" id="tab-tabela"   onclick="pictab(this)">Dados       </div>
+        <div class="tab-item" id="tab-total"    onclick="pictab(this)">Geral     </div>
+        <div class="tab-item" id="tab-comp"     onclick="pictab(this)">Ent/Saida     </div>            
+    </div>
+    <div class="tab-screen">        
+        <div id="tabela" class="tab">
+            <table id="tblDados"></table>
+        </div>
+        <div id="total" class="tab"></div>
+        <div id="comp" class="tab"></div>
+    </div>
 
 
 </template>
@@ -79,9 +90,16 @@
     const pageScreen = document.querySelector('#card-fin_analytics')
 
     function pageStart(){
+        
+        loadExternalScript("https://www.gstatic.com/charts/loader.js",'google_chart').then((resolve, reject)=>{
+            console.log(resolve)
+            pageFunc.fillData()
+        })
+        
+
         pageScreen.querySelector('#edtIni').value = today.iniMonth()
         pageScreen.querySelector('#edtFin').value = today.finMonth()
-        pageFunc.fillData()
+        
     }
 
     pageFunc.fillData = ()=>{
@@ -93,13 +111,31 @@
             params.dt_fin = !ckb ? '9999-12-31' : pageScreen.querySelector('#edtFin').value
         const myPromisse = queryDB(params,'FIN-12')
         myPromisse.then((resolve)=>{
-            const json = JSON.parse(resolve)       
+            const json = JSON.parse(resolve)
+            const tbl = pageScreen.querySelector('#tblDados')
+            tbl.head('Data,Ent/Sai,Credor,Devedor,Desc.,Valor,Saldo')
+            for(let i=0; i<json.length; i++){
+                tbl.plot(json[i],'venc,modalidade,credor,devedor,nome,valor,saldo','dat,Upp,Upp,Upp,Upp,R$.,R$.')
+            }
             console.log(json)
         })
-
-
     }
 
+    pageScreen.querySelector('#ckbEntrada').addEventListener('change',()=>{
+        pageFunc.fillData()        
+    })
+
+    pageScreen.querySelector('#ckbSaida').addEventListener('change',()=>{
+        pageFunc.fillData()        
+    })
+
+    pageScreen.querySelector('#edtIni').addEventListener('change',()=>{
+        pageFunc.fillData()        
+    })
+
+    pageScreen.querySelector('#edtFin').addEventListener('change',()=>{
+        pageFunc.fillData()        
+    })
 
     pageStart()
 
