@@ -81,7 +81,9 @@
         <div id="custos" class="tab">
             <div id="piechart" style="width: 100%; height: 100%;"></div>
         </div>
-        <div id="comp" class="tab"></div>
+        <div id="comp" class="tab">
+            <div id="columnchart" style="width: 100%; height: 100%;"></div>
+        </div>
     </div>
 
 
@@ -105,6 +107,29 @@
         
     }
 
+    function drawChart() {
+   
+            console.log(pageData)
+
+            var pie_chart = new google.visualization.PieChart(document.getElementById('piechart'))
+            var pie_data = google.visualization.arrayToDataTable(pageData.centro_custo);
+
+            var column_chart = new google.visualization.ColumnChart(document.getElementById('columnchart'))
+            var column_data = google.visualization.arrayToDataTable(pageData.centro_custo);
+
+
+            var options = {
+                title: 'Gráfico de Custos',
+                subtitle: `de ${pageScreen.querySelector('#edtIni').value.date()} a ${pageScreen.querySelector('#edtFin').value.date()}`,
+            }
+
+            setTimeout(function() {
+                pie_chart.draw(pie_data, options)
+                column_chart.draw(column_data, options)
+            }, 1000);
+
+        }
+
     pageFunc.fillData = ()=>{
         const ckb = pageScreen.querySelector('#ckbData').checked ? 1 : 0 
         const params = new Object
@@ -119,44 +144,79 @@
             const tbl = pageScreen.querySelector('#tblDados')
             tbl.head('Data,Ent/Sai,Credor,Devedor,Desc.,Valor,Saldo')
             pageData.centro_custo = [['Centro de Custo', 'Valor']]
+            pageData.entsai = [['Data','Entradas','Saídas']]
             for(let i=0; i<json.length; i++){
                 tbl.plot(json[i],'venc,modalidade,credor,devedor,nome,valor,saldo','dat,Upp,Upp,Upp,Upp,R$.,R$.')
                 if(json[i].modalidade == 'SAÍDA'){
                     if(!pageData.centro_custo.some(A => A[0] === json[i].centro_custo) ){                   
                         pageData.centro_custo.push([json[i].centro_custo,Number(json[i].valor) * -1])
                     }else{
-                        pageData.centro_custo[json[i].centro_custo] += (Number(json[i].valor) * -1)
+                        const indice = pageData.centro_custo.findIndex(function(arr_interno) {                        
+                            return arr_interno[0] === json[i].centro_custo
+                        })
+                        pageData.centro_custo[indice][1] += (Number(json[i].valor) * -1)
                     }
-                }                
+                }
+
+/*
+                if(daysBetween(params.dt_ini,params.dt_fin) > 60){
+                    const mes = meses[Number(json[i].venc.substr(5,2))]
+                    if(!pageData.entsai.some(A => A[0] === mes) ){  
+                        pageData.entsai.push([mes,0,0])
+                    }
+
+                    const indice = pageData.entsai.findIndex(function(arr_interno) {                        
+                        return arr_interno[0] === mes
+                    })
+
+                    if(json[i].modalidade == 'SAÍDA'){
+                        pageData.entsai[indice][2] += (Number(json[i].valor) * -1)
+                    }else{
+                        pageData.entsai[indice][1] += Number(json[i].valor)
+                    }
+
+                }
+
+*/
+                const day = new Date(json[i].venc)
+                let div = day.overday(-1 * day.getDay()).substr(8,2)+'/'+day.overday(-1 * day.getDay()).substr(5,2)
+
+
+                if(daysBetween(params.dt_ini,params.dt_fin) > 60){
+                    div = meses[Number(json[i].venc.substr(5,2))]
+                }
+                
+                if(!pageData.entsai.some(A => A[0] === div) ){  
+                    pageData.entsai.push([div,0,0])
+                }
+
+                const indice = pageData.entsai.findIndex(function(arr_interno) {                        
+                    return arr_interno[0] === div
+                })
+
+                if(json[i].modalidade == 'SAÍDA'){
+                    pageData.entsai[indice][2] += (Number(json[i].valor) * -1)
+                }else{
+                    pageData.entsai[indice][1] += Number(json[i].valor)
+                }
+
             }
-            pageFunc.fillCustos()
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
+
+//            pageFunc.fillCustos()
         })
         return myPromisse
     }
 
     pageFunc.fillCustos = ()=>{
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
-
-        function drawChart() {
-            console.log(pageData)
-//            for(let )
-
-            var data = google.visualization.arrayToDataTable(pageData.centro_custo);
-
-            var options = {
-                title: `Gráfico de Custos de ${pageScreen.querySelector('#edtIni').value.date()} a ${pageScreen.querySelector('#edtFin').value.date()}`
-            };
-
-            var chart = new google.visualization.PieChart(document.getElementById('piechart'))
-
-            setTimeout(function() {
-                chart.draw(data, options)
-            }, 1000);
-
-        }
-
+        drawChart()
     }
+
+    pageFunc.fillEntSai = ()=>{
+        
+    }
+
 
     pageScreen.querySelector('#ckbEntrada').addEventListener('change',()=>{
         pageFunc.fillData()        

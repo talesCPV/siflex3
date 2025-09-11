@@ -47,3 +47,10 @@
 08/09/2025 15:20 tales@flexibus.com.br : Menu Incluido (Analytics)
 08/09/2025 15:22 tales@flexibus.com.br : Menu Alterado (Analytics, fin_analytics.html, pop-up, )
 08/09/2025 15:24 tales@flexibus.com.br : Menu Alterado (Analytics, fin_analytics.html, pop-up, Analise Financeiro)
+09/09/2025 20:20 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$3988.94 dia 2025-09-08
+09/09/2025 20:21 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-09-08
+09/09/2025 20:22 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-09-08
+09/09/2025 20:23 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-09-08
+09/09/2025 20:23 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-09-08
+09/09/2025 20:24 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-09-08
+09/09/2025 20:25 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-09-08
