@@ -148,7 +148,7 @@
             params.cod_pgto = pageScreen.querySelector('#edtCod').value.trim()
             params.tipo = pageScreen.querySelector('#cmbTipoPg').value
             params.custo = pageScreen.querySelector('#cmbCusto').value
-
+            params.pgto = 0
             const myPromisse = queryDB(params,'FIN-6');
         myPromisse.then((resolve)=>{
             setLog(`Contas A Pagar ${newPgto?'Cadastrada': del ? 'Deletada' : 'Editada'} ${del? pageData.nome : params.nome }, Valor ${params.valor}, Venc. dia ${params.venc}`)

@@ -1921,14 +1921,15 @@ DELIMITER $$
 		IN Ivalor double,
 		IN Icod_pgto varchar(512),
         IN Itipo varchar(8),
-        IN Icentro_custo varchar(20)
+        IN Icentro_custo varchar(20),
+        IN Ipgto boolean
     )
 	BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
 			IF(Iid = 0)THEN
-				INSERT INTO tb_contas_a_pagar (id_cli,nome,beneficiario,venc,valor,cod_pgto,tipo,centro_custo)
-				VALUES (Iid_cli,Inome,Ibeneficiario,Ivenc,Ivalor,Icod_pgto,Itipo,Icentro_custo);
+				INSERT INTO tb_contas_a_pagar (id_cli,nome,beneficiario,venc,valor,cod_pgto,tipo,centro_custo,pgto)
+				VALUES (Iid_cli,Inome,Ibeneficiario,Ivenc,Ivalor,Icod_pgto,Itipo,Icentro_custo,Ipgto);
             ELSE
 				IF(Inome="")THEN
 					DELETE FROM tb_contas_a_pagar WHERE id=Iid;  

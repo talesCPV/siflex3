@@ -71,7 +71,7 @@
 
     <div class="tab-bar">
         <div class="tab-item" id="tab-tabela"   onclick="pictab(this)">Dados       </div>
-        <div class="tab-item" id="tab-custos"    onclick="pictab(this)">Custos     </div>
+        <div class="tab-item" id="tab-custos"   onclick="pictab(this)">Custos     </div>
         <div class="tab-item" id="tab-comp"     onclick="pictab(this)">Ent/Saida     </div>            
     </div>
     <div class="tab-screen">        
@@ -79,7 +79,7 @@
             <table id="tblDados"></table>
         </div>
         <div id="custos" class="tab">
-            <div id="piechart" style="width: 100%; height: 100%;"></div>
+            <div id="piechart" style="width: 100vw; height: 100vh;"></div>
         </div>
         <div id="comp" class="tab">
             <div id="columnchart" style="width: 100%; height: 100%;"></div>
@@ -115,7 +115,7 @@
             var pie_data = google.visualization.arrayToDataTable(pageData.centro_custo);
 
             var column_chart = new google.visualization.ColumnChart(document.getElementById('columnchart'))
-            var column_data = google.visualization.arrayToDataTable(pageData.centro_custo);
+            var column_data = google.visualization.arrayToDataTable(pageData.entsai);
 
 
             var options = {
@@ -158,26 +158,6 @@
                     }
                 }
 
-/*
-                if(daysBetween(params.dt_ini,params.dt_fin) > 60){
-                    const mes = meses[Number(json[i].venc.substr(5,2))]
-                    if(!pageData.entsai.some(A => A[0] === mes) ){  
-                        pageData.entsai.push([mes,0,0])
-                    }
-
-                    const indice = pageData.entsai.findIndex(function(arr_interno) {                        
-                        return arr_interno[0] === mes
-                    })
-
-                    if(json[i].modalidade == 'SAÍDA'){
-                        pageData.entsai[indice][2] += (Number(json[i].valor) * -1)
-                    }else{
-                        pageData.entsai[indice][1] += Number(json[i].valor)
-                    }
-
-                }
-
-*/
                 const day = new Date(json[i].venc)
                 let div = day.overday(-1 * day.getDay()).substr(8,2)+'/'+day.overday(-1 * day.getDay()).substr(5,2)
 
@@ -217,6 +197,11 @@
         
     }
 
+    
+    pageScreen.querySelector('#tab-custos').addEventListener('change',()=>{
+        alert(1)
+//        pageFunc.fillData()        
+    })
 
     pageScreen.querySelector('#ckbEntrada').addEventListener('change',()=>{
         pageFunc.fillData()        
