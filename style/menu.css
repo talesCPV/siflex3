@@ -81,7 +81,7 @@ ul>li>label>span, #logout_btn {
     display: flex;
     flex-direction: column;
     gap: 8px;
-/*    overflow-y: scroll !important;*/
+    overflow-y: scroll ;
     max-height: calc(100vh - 140px);
 }
 
