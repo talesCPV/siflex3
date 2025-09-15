@@ -71,14 +71,51 @@
             if(data[i].itens.length == 0){
                 summary.className = 'last'
             }
+
+            function subMenu(e){
+                const tbl = []
+
+                if(data[i].itens.length == 0){
+                    const perm = new Object
+                    perm.label = 'Permissões'
+                    perm.link = ()=>{          
+                        openHTML('sys_view_perm.html','pop-up',`Controle de Permissão - ${data[i].modulo}`,summary,800)
+                    }
+                    tbl.push(perm)
+                }
+
+                const conf = new Object
+                conf.label = 'Configurações'
+                conf.link = ()=>{               
+                    openHTML('sys_new_menu.html','pop-up',`Item de Menu - ${data[i].modulo}`,summary,600)
+                }            
+                tbl.push(conf)
+
+                const up = new Object
+                up.label = 'Subir no menu'
+                up.link = ()=>{
+                    if(i>0){
+                        data.splice(i-1,0,data[i])
+                        data.splice(i+1,1)
+                        pageFunc.setMenu(JSON.stringify(pageData.json))
+                        pageFunc.refreshMenu()
+                    }
+                }            
+                tbl.push(up)
+                menuContext(tbl,e)
+            }
+
+
             summary.addEventListener('click',(e)=>{                        
                 if(data[i].itens.length == 0){                            
-                    openHTML('sys_view_perm.html','pop-up',`Controle de Permissão - ${data[i].modulo}`,summary,800)
+//                    openHTML('sys_view_perm.html','pop-up',`Controle de Permissão - ${data[i].modulo}`,summary,800)
+                    subMenu(e)
                 }
             })
             summary.addEventListener('contextmenu',(e)=>{
                 e.preventDefault()
-                openHTML('sys_new_menu.html','pop-up',`Item de Menu - ${data[i].modulo}`,summary,600)
+                subMenu(e)
+//                openHTML('sys_new_menu.html','pop-up',`Item de Menu - ${data[i].modulo}`,summary,600)
             })
             details.appendChild(summary)
             details.appendChild(createTree(data[i].itens,index.concat(i)))
