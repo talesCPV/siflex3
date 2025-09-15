@@ -108,8 +108,7 @@
     }
 
     function drawChart() {
-   
-            console.log(pageData)
+
 
             var pie_chart = new google.visualization.PieChart(document.getElementById('piechart'))
             var pie_data = google.visualization.arrayToDataTable(pageData.centro_custo);
@@ -123,11 +122,9 @@
                 subtitle: `de ${pageScreen.querySelector('#edtIni').value.date()} a ${pageScreen.querySelector('#edtFin').value.date()}`,
             }
 
-            setTimeout(function() {
-                pie_chart.draw(pie_data, options)
-                column_chart.draw(column_data, options)
-            }, 1000);
-
+            pie_chart.draw(pie_data, options)
+            column_chart.draw(column_data, options)
+            
         }
 
     pageFunc.fillData = ()=>{
@@ -198,9 +195,12 @@
     }
 
     
-    pageScreen.querySelector('#tab-custos').addEventListener('change',()=>{
-        alert(1)
-//        pageFunc.fillData()        
+    pageScreen.querySelector('#tab-custos').addEventListener('click',()=>{
+        drawChart()
+    })
+
+    pageScreen.querySelector('#tab-comp').addEventListener('click',()=>{
+        drawChart()
     })
 
     pageScreen.querySelector('#ckbEntrada').addEventListener('change',()=>{

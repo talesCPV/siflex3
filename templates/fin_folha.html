@@ -9,13 +9,13 @@
         <div class="inline">
             <label for="edtBusca">por:</label>
             <select id="cmbBusca">
-                <option value="nome" signal="LIKE" selected>Descrição</option>
+                <option value="nome" signal="LIKE" selected>Todas</option>
                 <option value="tipo" val="'FOLHA'" signal="=" >Folha de Pgto.</option>
                 <option value="tipo" val="'ADTO'" signal="=" >Adiantamento</option>
                 <option value="tipo" val="'FERIAS'" signal="=" >Férias</option>
                 <option value="tipo" val="'PLR'" signal="=" >Participação nos Lucros e Resultados</option>
                 <option value="tipo" val="'BONUS'" signal="=" >Bônus</option>
-                <option value="tipo" val="'OUTROS'" signal="=" >Outros</option>
+                <option value="tipo" val="'PIX'" signal="=" >Outros</option>
             </select>
             <input type="text" id="edtBusca" onkeypress="return getEnter(event, 'btnBusca-pgto')">
             <button id="btnBusca-pgto" class="btn-round" ><span class="mdi mdi-magnify"></span></button>
@@ -55,12 +55,14 @@
         const params = new Object
             params.field = query[0]
             params.signal = query[1]
-            params.value = query[2]
+            params.value = `${query[2]}  AND centro_custo='MAO_DE_OBRA'`                 //query[2]
             params.dt_ini = !ckb ? '0000-00-00' : pageScreen.querySelector('#edtIni').value
             params.dt_fin = !ckb ? '9999-12-31' : pageScreen.querySelector('#edtFin').value
+     
         const myPromisse = queryDB(params,'FIN-5')
         myPromisse.then((resolve)=>{
             const json = JSON.parse(resolve)       
+console.log(json)            
             tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
             tbl.head('Cedente,Ref., Venc.,Valor,Pgto')
             let tot = 0
