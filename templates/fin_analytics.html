@@ -36,16 +36,16 @@
                     <label for="ckbSaida">Saídas</label>
                     <input type="checkbox" id="ckbSaida" checked>
                 </div>
-                </fieldset>
-                <fieldset>
-                <legend>Gráficos</legend>
+            </fieldset>
+            <fieldset>
+                <legend>Período</legend>
                 <div class="inline">
-                    <label for="rbtTotal">Total no Peróodo</label>
-                    <input type="radio" name="graph" id="rbtTotal" checked>
+                    <label for="rbtSemana">Semana</label>
+                    <input type="radio" name="graph" id="rbtSemana">
                 </div>
                 <div class="inline">
-                    <label for="rbtDist">Dist. no Tempo</label>
-                    <input type="radio" name="graph" id="rbtDist">
+                    <label for="rbtMes">Mês</label>
+                    <input type="radio" name="graph" id="rbtMes" checked>
                 </div>
 
             </fieldset>
@@ -118,6 +118,10 @@
 
 
             var options = {
+                vAxis: {
+                    minValue: 0
+                },
+
                 title: 'Gráfico de Custos',
                 subtitle: `de ${pageScreen.querySelector('#edtIni').value.date()} a ${pageScreen.querySelector('#edtFin').value.date()}`,
             }
@@ -158,11 +162,10 @@
                 const day = new Date(json[i].venc)
                 let div = day.overday(-1 * day.getDay()).substr(8,2)+'/'+day.overday(-1 * day.getDay()).substr(5,2)
 
-
-                if(daysBetween(params.dt_ini,params.dt_fin) > 60){
+                if(pageScreen.querySelector('#rbtMes').checked){
                     div = meses[Number(json[i].venc.substr(5,2))]
                 }
-                
+
                 if(!pageData.entsai.some(A => A[0] === div) ){  
                     pageData.entsai.push([div,0,0])
                 }
@@ -189,11 +192,6 @@
     pageFunc.fillCustos = ()=>{
         drawChart()
     }
-
-    pageFunc.fillEntSai = ()=>{
-        
-    }
-
     
     pageScreen.querySelector('#tab-custos').addEventListener('click',()=>{
         drawChart()
@@ -218,6 +216,21 @@
     pageScreen.querySelector('#edtFin').addEventListener('change',()=>{
         pageFunc.fillData()        
     })
+
+    pageScreen.querySelector('#ckbData').addEventListener('change',()=>{
+        pageFunc.fillData()        
+    })
+
+    pageScreen.querySelector('#rbtSemana').addEventListener('change',()=>{
+        pageFunc.fillData()        
+    })
+
+    pageScreen.querySelector('#rbtMes').addEventListener('change',()=>{
+        pageFunc.fillData()        
+    })
+
+
+    
 
     pageStart()
 
