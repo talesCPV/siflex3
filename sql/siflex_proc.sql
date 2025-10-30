@@ -2100,3 +2100,99 @@ DELIMITER $$
         END IF;
 	END $$
 	DELIMITER ;
+    
+    /* POSTS */
+
+ DROP PROCEDURE IF EXISTS sp_view_post;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_post(	
+		IN Istart int(11) unsigned,
+		IN Iend int(11) unsigned
+    )
+	BEGIN
+		UPDATE tb_post SET views=views+1;
+		SELECT * FROM vw_posts ORDER BY data_hora ASC LIMIT Istart,Iend;
+	END $$
+DELIMITER ;
+
+ DROP PROCEDURE IF EXISTS sp_set_post;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_post(
+		IN Ihash varchar(64),
+		IN Iid int(11),
+		IN Itexto varchar(255),
+        IN Ihas_image boolean
+    )
+	BEGIN    
+		SET @id_user =  (SELECT IFNULL(id,0) FROM tb_user WHERE hash COLLATE utf8_general_ci = Ihash COLLATE utf8_general_ci  ORDER BY id LIMIT 1);
+		IF(@id_user>0)THEN
+			IF(Itexto="#del")THEN
+				DELETE FROM tb_post_message WHERE id_post=Iid;
+				DELETE FROM tb_post WHERE id=Iid;
+                SELECT 0 AS id;
+            ELSE			
+				IF(Iid=0)THEN
+					INSERT INTO tb_post (id_user,texto,has_image)
+                    VALUES(@id_user,Itexto,Ihas_image);            
+					SELECT * FROM vw_posts WHERE id= (SELECT MAX(id) FROM tb_post);
+                ELSE
+					UPDATE tb_post SET texto=Itexto WHERE id=Iid;
+					SELECT * FROM vw_posts WHERE id=Iid;
+                END IF;
+            END IF;
+		ELSE
+			SELECT 0 AS id;
+        END IF;
+	END $$
+DELIMITER ;
+
+ DROP PROCEDURE IF EXISTS sp_add_like;
+DELIMITER $$
+	CREATE PROCEDURE sp_add_like(	
+		IN Iid int(11)
+    )
+	BEGIN
+		UPDATE tb_post SET likes=likes+1 WHERE id=Iid;
+        SELECT likes FROM tb_post WHERE id=Iid;
+	END $$
+DELIMITER ;
+
+ DROP PROCEDURE IF EXISTS sp_view_comment;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_comment(	
+		IN Iid_post int(11)
+    )
+	BEGIN
+		SELECT * FROM tb_post_message WHERE id_post=Iid_post ORDER BY data_hora ASC;
+	END $$
+DELIMITER ;
+
+ DROP PROCEDURE IF EXISTS sp_set_comment;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_comment(
+		IN Iid int(11),
+        IN Iid_post int(11),
+		IN Inome varchar(50),
+		IN Iempresa varchar(50),
+		IN Itexto varchar(256)
+    )
+	BEGIN    
+		IF(Itexto="#del")THEN
+			DELETE FROM tb_post_message WHERE id=Iid;
+			SELECT 0 AS id;
+		ELSE			
+			IF(Iid=0)THEN
+				INSERT INTO tb_post_message (id_post,nome,empresa,texto)
+				VALUES(Iid_post,Inome,Iempresa,Itexto);            
+				SELECT * FROM tb_post_message WHERE id= (SELECT MAX(id) FROM tb_post_message);
+			ELSE
+				UPDATE tb_post_message SET texto=Itexto WHERE id=Iid;
+				SELECT * FROM tb_post_message WHERE id=Iid;
+			END IF;
+		END IF;
+
+	END $$
+DELIMITER ;
+
+/* FIM POSTS */
+

@@ -66,6 +66,11 @@
             <input type="text" class="only-view" id="edtCod" maxlength="512" onkeypress="return getEnter(event,'fncVenc')" disabled>
         </div>
 
+        <div class="inline">
+            <label for="up_file">Upload</label>
+            <input  class="only-view"name="up_file" id="up_file" type="file" accept=".jpg,.jpeg,.pdf,.png" disabled>
+        </div>
+
         <div class="line">
             <button id="btnDel" class="only-view" disabled>Deletar</button>
             <button id="btnEdit">Editar</button>
@@ -214,6 +219,15 @@
             }
             openHTML('fin_pix.html','pop-up','Selecione uma Chave Pix',data,800)
         }
+    })
+
+    pageScreen.querySelector('#up_file').addEventListener('change',()=>{
+        const file = pageScreen.querySelector('#up_file').files[0]
+        const filename = pageData.id+'.'+file.type.split('/')[1]
+        const up = uploadFile(file,'../files/siflex/a_pagar/',filename)
+        up.then((resp)=>{
+            console.log(resp)
+        })
     })
 
     startPage()

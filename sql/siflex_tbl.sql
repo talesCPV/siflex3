@@ -353,3 +353,32 @@ CREATE TABLE tb_pix (
     id_ref int(11) DEFAULT NULL,
     PRIMARY KEY (id)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+/* POSTS */
+
+ DROP TABLE IF EXISTS tb_post;
+CREATE TABLE tb_post(
+	id int(11) unsigned NOT NULL AUTO_INCREMENT,
+    id_user int(11) NOT NULL,
+    data_hora TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    texto varchar(255),
+    has_image boolean DEFAULT 0,
+    likes int DEFAULT 0,
+    views int DEFAULT 0,
+    FOREIGN KEY (id) REFERENCES tb_usuario(id),
+    PRIMARY KEY (id)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+ DROP TABLE IF EXISTS tb_post_message;
+CREATE TABLE tb_post_message(
+	id int(11) unsigned NOT NULL AUTO_INCREMENT,
+    id_post int(11) NOT NULL,
+	nome varchar(50) NOT NULL,
+	empresa varchar(50) NOT NULL,    
+	texto varchar(256) NOT NULL,
+    data_hora TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY (id_post) REFERENCES tb_post(id),
+    PRIMARY KEY (id)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+/* FIM POSTS */

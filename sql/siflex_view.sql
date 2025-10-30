@@ -347,3 +347,15 @@ DROP VIEW IF EXISTS vw_analytics;
 	ORDER BY venc;
     
 SELECT * FROM vw_analytics;
+
+
+DROP VIEW IF EXISTS vw_posts;
+ CREATE VIEW vw_posts AS
+	SELECT PST.*, USR.email,
+    (SELECT COUNT(*) FROM tb_post_message WHERE id_post = PST.id) AS messages
+	FROM tb_post AS PST
+	INNER JOIN tb_usuario AS USR
+	ON PST.id_user = USR.id
+	ORDER BY data_hora ASC ;
+    
+    SELECT * FROM vw_posts;
