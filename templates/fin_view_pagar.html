@@ -13,6 +13,16 @@
         #btnGetKey span{
             font-size: 1.4em;
         }
+
+        .show-file span{
+            color: brown;
+            font-size: 2em;
+        }
+
+        #up_file{
+            width: 200px;
+        }
+
         @media all and (max-width : 768px) {
             .frm input, .frm select{
                 width: 98% !important;
@@ -69,6 +79,7 @@
         <div class="inline">
             <label for="up_file">Upload</label>
             <input  class="only-view"name="up_file" id="up_file" type="file" accept=".jpg,.jpeg,.pdf,.png" disabled>
+            <div class="show-file"><span class="mdi mdi-file-document-remove-outline"></span></div>
         </div>
 
         <div class="line">
@@ -88,7 +99,7 @@
     const newPgto = Object.keys(pageData).length == 0
 
     function startPage(){
-//        pageFunc.fillEmp()
+
         if(newPgto){
             openFields(1)
             pageScreen.querySelector('#edtBenef').id_cliente = 0
@@ -107,7 +118,24 @@
             pageScreen.querySelector('#cmbTipoPg').value = pageData.tipo
             pageScreen.querySelector('#cmbCusto').value = pageData.centro_custo
             changeTipo(pageScreen.querySelector('#cmbTipoPg').value)
+
+            showFiles('../files/siflex/a_pagar/',pageData.id).then((resolve)=>{
+                const json = JSON.parse(resolve)
+                if(json.length){
+                    openFile(json[0])
+                }
+            })
         }
+    }
+
+    function openFile(filename){
+        const file = pageScreen.querySelector('.show-file span')
+        file.style.color = 'green'
+        file.style.cursor = 'pointer'
+        file.className = 'mdi mdi-file-check-outline'
+        file.addEventListener('click',()=>{
+            window.open(`../files/siflex/a_pagar/${filename}`, '_blank');
+        })
     }
 
     function openFields(open=1){
@@ -226,6 +254,7 @@
         const filename = pageData.id+'.'+file.type.split('/')[1]
         const up = uploadFile(file,'../files/siflex/a_pagar/',filename)
         up.then((resp)=>{
+            openFile(resp)
             console.log(resp)
         })
     })
