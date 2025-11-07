@@ -201,7 +201,7 @@
             const json = JSON.parse(resolve)
             const mail = send ? pageScreen.querySelector('#cmbEntrada') : pageScreen.querySelector('#cmbSaida')
             mail.innerHTML = ''
-
+console.log(json)
             for(let i=0; i<json.length; i++){
                 const opt = document.createElement('option')
                 opt.data = json[i]       

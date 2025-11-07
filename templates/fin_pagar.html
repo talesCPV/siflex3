@@ -10,8 +10,8 @@
                 <label for="edtBusca">por:</label>
                 <select id="cmbBusca">
                     <option value="pgto" val="0" signal="=" selected>Pgto em Aberto</option>
-                    <option value="nome" signal="LIKE" >Nome</option>
-                    <option value="fornecedor" signal="LIKE" >Cliente</option>
+                    <option value="nome" signal="LIKE" >Referência</option>
+                    <option value="beneficiario" signal="LIKE" >Cedente</option>
                     <option value="centro_custo" signal="LIKE" >Centro de Custo</option>
                 </select>
                 <input type="text" id="edtBusca" onkeypress="return getEnter(event, 'btnBusca-pgto')">
@@ -58,7 +58,7 @@
             params.dt_fin = !ckb ? '9999-12-31' : pageScreen.querySelector('#edtFin').value
         const myPromisse = queryDB(params,'FIN-5')
         myPromisse.then((resolve)=>{
-            const json = JSON.parse(resolve)       
+            const json = JSON.parse(resolve)
             tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
             tbl.head('Cedente,Ref., Venc.,Valor,Pgto')
             let tot = 0

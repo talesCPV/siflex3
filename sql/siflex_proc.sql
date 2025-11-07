@@ -214,6 +214,20 @@ DELIMITER ;
 
 /* MAIL */
 
+ DROP PROCEDURE IF EXISTS sp_sys_alert;
+DELIMITER $$
+	CREATE PROCEDURE sp_sys_alert(	
+		IN Ihash varchar(64),
+		IN Imessage varchar(512)
+    )
+	BEGIN    
+		SET @access = (SELECT IFNULL(access,-1) FROM tb_user WHERE hash COLLATE utf8_general_ci = Ihash COLLATE utf8_general_ci LIMIT 1);
+        IF(@access=0)THEN
+			INSERT INTO tb_mail (id_from,id_to,message) SELECT 0,USR.id,Imessage FROM tb_user AS USR;
+        END IF;
+	END $$
+DELIMITER ;
+
  DROP PROCEDURE IF EXISTS sp_set_mail;
 DELIMITER $$
 	CREATE PROCEDURE sp_set_mail(	
@@ -239,15 +253,22 @@ DELIMITER $$
 		SET @id_call = (SELECT IFNULL(id,0) FROM tb_user WHERE hash COLLATE utf8_general_ci = Ihash COLLATE utf8_general_ci LIMIT 1);
 		IF(@id_call > 0)THEN
 			IF(Isend)THEN
+            SELECT MAIL.*, COALESCE(USR.email,"SIFLEX") AS mail_from
+				FROM tb_mail AS MAIL 
+				LEFT JOIN tb_user AS USR
+				ON MAIL.id_from = USR.id
+				WHERE MAIL.id_to = @id_call;
+/*            
 				SELECT MAIL.*, USR.email AS mail_from
 					FROM tb_mail AS MAIL 
 					INNER JOIN tb_user AS USR
-					ON MAIL.id_from = USR.id AND MAIL.id_to = @id_call;            
+					ON MAIL.id_from = USR.id AND MAIL.id_to = @id_call;  
+*/
             ELSE
 				SELECT MAIL.*, USR.email AS mail_to
 					FROM tb_mail AS MAIL 
 					INNER JOIN tb_user AS USR
-					ON MAIL.id_to = USR.id AND MAIL.id_from = @id_call;            
+					ON MAIL.id_to = USR.id AND MAIL.id_from = @id_call;
             END IF;
         END IF;
 	END $$

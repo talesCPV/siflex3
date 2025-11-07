@@ -127,7 +127,7 @@ CREATE TABLE tb_mail (
     looked boolean DEFAULT 0,
     FOREIGN KEY (id_from) REFERENCES tb_usuario(id),
     FOREIGN KEY (id_to) REFERENCES tb_usuario(id),
-    PRIMARY KEY (data,id_from)
+    PRIMARY KEY (data,id_from,id_to)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 DROP TABLE tb_empresa;
