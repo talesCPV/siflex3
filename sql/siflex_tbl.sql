@@ -382,3 +382,15 @@ CREATE TABLE tb_post_message(
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 /* FIM POSTS */
+
+ DROP TABLE tb_boletos;
+CREATE TABLE tb_boletos (
+    cod_pgto int(11) NOT NULL,
+    cliente varchar(25) NOT NULL,
+    valor double NOT NULL,
+    venc date NOT NULL,
+    pgto date DEFAULT NULL,
+    nf varchar(10) DEFAULT NULL,
+    quitado boolean DEFAULT 0,
+    PRIMARY KEY (cod_pgto)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;

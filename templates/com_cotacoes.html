@@ -61,7 +61,7 @@
 
     <table id="tblCot"></table>
     <p id="lblTotal"></p>
-            
+
 
 </template>
 <script>
@@ -71,13 +71,14 @@
     const pageScreen = document.querySelector('#card-com_cotacoes')
 
     pageFunc.fillCot = ()=>{
+        const ckd = pageScreen.querySelector('#ckbData').checked
         const query = getVal('cotacao')
         const params = new Object;
             params.field = query[0]
             params.signal = query[1]
             params.value = query[2]
-            params.dt_ini = pageScreen.querySelector('#edtIni').value
-            params.dt_fin = pageScreen.querySelector('#edtFin').value
+            params.dt_ini = ckd ? pageScreen.querySelector('#edtIni').value : '0000-00-00'
+            params.dt_fin = ckd ? pageScreen.querySelector('#edtFin').value : '9999-12-31'
         const myPromisse = queryDB(params,'COT-0');
         myPromisse.then((resolve)=>{            
             const json = JSON.parse(resolve)

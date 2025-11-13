@@ -131,6 +131,12 @@
         "SAN-0" => 'CALL sp_view_sanf_onibus(@access,@hash,"x00","x01","x02");', // FIELD,SIGNAL, VALUE
         "SAN-1"=> 'CALL sp_sanf_onibus(@access,@hash,x00,"x01","x02","x03","x04",x05,x06,x07,"x08","x09","x10","x11","x12","x13","x14","x15","x16","x17","x18","x19","x20","x21","x22");', // id,nome,marca,modelo,chassi,ano,qtd_barras,qtd_dob_teto,qtd_dob_chao,alt,larg,alt_teto,alt_lateral,larg_teto,alt_sanf,alt_sanf_cost,larg_sanf,topo_sanf,base_sanf,larg_corredor,larg_chao,dist_carro,obs
 
+        /* BOLETOS */
+        "BOL-0" => 'CALL sp_view_boletos(@access,@hash,"x00","x01");', // DT_INI, DT_FIN
+        "BOL-1" => 'CALL sp_set_boletos(@access,@hash,x00,"x01","x02","x03","x04","x05");', // cod_pgto,cliente,valor,venc,pgto,nf
+
+
+                
 
     );
 

@@ -4,10 +4,10 @@
         $hash = $_POST["hash"];
         $json = $_POST["json"];
         $access = -1;
-
+//echo $json;
         include "connect.php";        
 
-        $query = "SELECT access FROM tb_usuario WHERE hash=\"$hash\";";
+        $query = "SELECT access FROM tb_user WHERE hash=\"$hash\";";
 
         $result = mysqli_query($conexao, $query);
         $qtd_lin = $result->num_rows;
@@ -16,8 +16,9 @@
             $access = $row["access"];
         }
 	    $conexao->close();  
-
+//echo $access;
         if($access == '0'){ // only root!
+//echo $json;            
             $menu = json_decode($json, true);
             var_dump($menu['menu']);
             return file_put_contents($path, json_encode($menu));

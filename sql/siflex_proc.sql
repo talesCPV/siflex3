@@ -2217,3 +2217,55 @@ DELIMITER ;
 
 /* FIM POSTS */
 
+/* BOLETOS */
+
+ DROP PROCEDURE IF EXISTS sp_view_boletos;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_boletos(	
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Idt_ini date,
+        IN Idt_fin date
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+            SELECT *
+				FROM tb_boletos 
+				WHERE venc >= Idt_ini
+				AND venc <=Idt_fin
+				ORDER BY venc;
+        END IF;
+	END $$
+	DELIMITER ;
+
+ DROP PROCEDURE IF EXISTS sp_set_boletos;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_boletos(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Icod_pgto int(11),
+        IN Icliente varchar(25),
+		IN Ivalor double,
+		IN Ivenc date,
+		IN Ipgto date,
+		IN Inf varchar(10)
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			SET @nw = (SELECT COUNT(*) FROM tb_boletos WHERE cod_pgto=Icod_pgto);
+			IF(@nw = 0)THEN
+				INSERT INTO tb_boletos (cod_pgto,cliente,valor,venc,pgto,nf,quitado)
+				VALUES (Icod_pgto,Icliente,Ivalor,Ivenc,Ipgto,Inf,IF(Ipgto>0,1,0));
+            ELSE
+				IF (Ipgto>0)THEN
+					UPDATE tb_boletos SET pgto=Ipgto, quitado=1 WHERE cod_pgto=Icod_pgto;
+                END IF;
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;
+
+/* FIM BOLETOS */
+
