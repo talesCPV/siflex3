@@ -171,7 +171,7 @@ HTMLTableElement.prototype.plot = function(obj, fields,type='',file=false, mark=
                     html = obj[arr[0]] != null ? obj[arr[0]].trim() : ''
                   break;
                 case 'dat': // Formato de Data dia/mes/ano
-                    html = obj[arr[0]] != null ? obj[arr[0]].substring(8,10)+'/'+ obj[arr[0]].substring(5,7)+'/'+obj[arr[0]].substring(0,4) : ''
+                    html = obj[arr[0]] != null ?  obj[arr[0]].substring(0,4)=='0000' ? '****' :  obj[arr[0]].substring(8,10)+'/'+ obj[arr[0]].substring(5,7)+'/'+obj[arr[0]].substring(0,4) : ''
                     break                 
                 case 'Low': // Lower Case
                     html = obj[arr[0]] != null ? obj[arr[0]].toLowerCase().trim() : ''

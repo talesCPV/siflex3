@@ -6,13 +6,13 @@
     </style>
     
     <div class="tab-bar">
-        <div class="tab-item" id="tab-entrada" onclick="pictab(this)"> Entrada</div>
-        <div class="tab-item" id="tab-saida" onclick="pictab(this)">Saída</div>
+        <div class="tab-item" id="tab-filtro" onclick="pictab(this)">Filtro</div>
+        <div class="tab-item" id="tab-arquivos" onclick="pictab(this)">Arquivos</div>
 
     </div>
     
     <div class="tab-screen">
-        <div id="entrada" class="tab">
+        <div id="arquivos" class="tab">
             <fieldset>
                 <legend>Carregar Arquivo</legend>
                 <div class="inline">
@@ -20,13 +20,17 @@
                     <input type="file" id="edtFile" accept=".txt">
                 </div>
             </fieldset>
+            <fieldset>
+                <legend>Arquivos</legend>
+                <select id="cmbArquivos" size="20"></select>
+            </fieldset>
 
         </div>
-        <div id="saida" class="tab">
+        <div id="filtro" class="tab">
             <div class="inline">
                 <div class="line-ckb">
                     <label for="ckbData">Início/Final</label>
-                    <input type="checkbox" id="ckbData">
+                    <input type="checkbox" id="ckbData" checked>
                 </div>
                 <input type="date" id="edtIni" onkeypress="return getEnter(event, 'btnBusca-pgto')">
                 <input type="date" id="edtFin" onkeypress="return getEnter(event, 'btnBusca-pgto')">
@@ -46,10 +50,14 @@
     const pageScreen = document.querySelector('#card-fin_francesinha')
 
     function startPage(){
-        pageScreen.querySelector('#tab-entrada').click()
+        pageScreen.querySelector('#tab-filtro').click()
         pageScreen.querySelector('#edtIni').value = today.iniMonth()
         pageScreen.querySelector('#edtFin').value = today.finMonth()
+        pageFunc.viewBoleto()        
         pageData.francesinha = new Object
+        pageFunc.fillFiles()
+
+
     }
 
     pageFunc.parse = ()=>{
@@ -110,8 +118,6 @@
                     pageFunc.setBoleto(liq)
                 }
             }
-
-            console.log(out)
         }
 
     }
@@ -146,11 +152,21 @@
             for(let i=0; i<json.length; i++){
                 tbl.plot(json[i],'cliente,nf,valor,venc,pgto,quitado','Upp,Upp,R$.,dat,dat,cha 1=SIM 0=NÃO')
             }
-
-
-            console.log(json)
         })
 
+    }
+
+    pageFunc.fillFiles = ()=>{
+        const cmb = pageScreen.querySelector('#cmbArquivos')
+        cmb.innerHTML = ''
+        showFiles('../files/siflex/francesinha/').then((resolve)=>{
+            const json = JSON.parse(resolve)
+            for(let i=2; i<json.length; i++){
+                const opt = document.createElement('option')
+                opt.innerHTML = json[i]
+                cmb.appendChild(opt)
+            }
+        })
     }
 
 
@@ -164,6 +180,12 @@
                 pageData.francesinha.raw = evt.target.result
                 pageFunc.parse()
             }
+            const up = uploadFile(file,'../files/siflex/francesinha/',file.name)
+            up.then((resp)=>{
+                console.log(resp)
+            })
+
+
         }
     })
 
