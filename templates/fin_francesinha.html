@@ -148,10 +148,14 @@
         myPromisse.then((resolve)=>{
             const tbl = pageScreen.querySelector('#tblBoleto')
             const json = JSON.parse(resolve)
-            tbl.head('Cliente,NF,Valor,Venc.,Pgto,Quitado')
+            tbl.head('Cliente,NF,Venc.,Pago,Dia,Valor')
+            let tot = 0.0
             for(let i=0; i<json.length; i++){
-                tbl.plot(json[i],'cliente,nf,valor,venc,pgto,quitado','Upp,Upp,R$.,dat,dat,cha 1=SIM 0=NÃO')
+                tbl.plot(json[i],'cliente,nf,venc,quitado,pgto,valor','Upp,Upp,dat,cha 1=SIM 0=NÃO,dat,R$.')
+                tot += Number(json[i].valor)
             }
+            tbl.plot({'tot':tot},',,,,TOTAL,tot','let,let,let,let,let,R$.')
+            console.log(tot)
         })
 
     }

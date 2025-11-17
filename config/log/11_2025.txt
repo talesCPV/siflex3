@@ -28,3 +28,4 @@
 13/11/2025 15:02  : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$2394 dia 2025-12-11
 13/11/2025 15:36  : Folha de Pgto. Cadastrada Adto Nov, Valor 19115, Venc. dia 2025-11-14
 13/11/2025 15:37  : Folha de Pgto. Cadastrada Ferias Angela, Valor 2992.40, Venc. dia 2025-11-14
+17/11/2025 13:55  : Menu Alterado (Boletos, fin_francesinha.html, pop-up, Cobranca e Recebimentos)
