@@ -1,0 +1,232 @@
+
+<template>
+    <style>
+
+        .fds-wallpaper{
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+
+        .fds-wallpaper .inline{
+            width: 100%;
+        }
+
+        .fds-wallpaper  .inline :first-child{
+            min-width: 75px;
+        }
+
+        #btnSave{
+            width: 98%;
+        }
+
+    </style>
+  <fieldset class="fds-wallpaper">
+    <legend>Papel de Parede</legend>
+
+    <canvas width="300" height="300" id="cnvImg"></canvas>
+
+    <div class="inline">
+        <label for="up_file">Upload</label>
+        <input  name="up_file" id="up_file" type="file" accept=".jpg,.jpeg">
+    </div>
+    <div class="inline">
+        <label for="cmbWallpaper">Padrão</label>
+        <select id="cmbWallpaper">
+            <option value="unset">Nenhum</option>
+            <option value="assets/wallpaper_01.jpg">Wallpaper 01</option>
+            <option value="assets/wallpaper_02.jpg">Wallpaper 02</option>
+            <option value="assets/wallpaper_03.jpg">Wallpaper 03</option>
+            <option value="assets/wallpaper_04.jpg">Wallpaper 04</option>
+            <option value="assets/wallpaper_05.jpg">Wallpaper 05</option>
+        </select>
+    </div>
+    <div class="inline">
+        <label for="cmbEfect">Efeito</label>
+        <select id="cmbEfect">
+            <option value="normal">Normal</option>
+            <option value="hard-light">Filme</option>
+            <option value="color-dodge">Queimado</option>
+            <option value="exclusion">Negativo</option>
+            <option value="overlay">Overlay</option>
+            <option value="luminosity">Preto e Branco</option>
+        </select>    
+    </div>
+    <div class="inline">
+        <label for="cmbSize">Tamanho</label>
+        <select id="cmbSize">
+            <option value="1">Normal</option>
+            <option value="2">Tela Cheia</option>
+            <option value="3">Repetir</option>
+            <option value="4">Grande</option>
+        </select>    
+    </div>
+
+    <div class="inline">
+        <label for="edtFundo">Fundo</label>
+        <input type="color" id="edtFundo">
+        <input id="rngBackColor" type="range" min="1" max="255" step="1" value="255">
+
+    </div>
+
+
+<!--    <button id="btnUserUp">Salvar</button>-->
+
+  </fieldset>
+
+  <fieldset>
+    <legend>Menu</legend>
+    <div class="inline">
+        <label for="edtBarColor">Fundo</label>
+        <input type="color" id="edtBarColor">
+        <input id="rngBarColor" type="range" min="0" max="255" step="1" value="255">
+    </div>
+    <div class="inline">
+        <label for="edtBarFontColor">Fonte</label>
+        <input type="color" id="edtBarFontColor">
+        <input id="rngFontColor" type="range" min="0" max="255" step="1" value="255">
+    </div>
+    <div class="inline">
+        <label for="edtBarMouse">Fundo (sel)</label>
+        <input type="color" id="edtBarMouse">
+        <input id="rngBarMouse" type="range" min="0" max="255" step="1" value="255">
+    </div>
+    <div class="inline">
+        <label for="edtFontMouse">Fonte (sel)</label>
+        <input type="color" id="edtFontMouse">
+        <input id="rngFontMouse" type="range" min="0" max="255" step="1" value="255">
+    </div>
+
+  </fieldset>
+
+  <fieldset>
+    <legend>Janelas</legend>
+    <div class="inline">
+        <label for="edtWinColor">Fundo</label>
+        <input type="color" id="edtWinColor">
+        <input id="rngWinColor" type="range" min="0" max="255" step="1" value="255">
+    </div>
+    <div class="inline">
+        <label for="edtWinFontColor">Fonte</label>
+        <input type="color" id="edtWinFontColor">
+        <input id="rngWinFontColor" type="range" min="0" max="255" step="1" value="255">
+    </div>
+  </fieldset>
+  <button id="btnSave">Salvar</button>
+
+</template>
+<script>
+
+    const pageData = main_data.usr_config.data
+    const pageFunc = main_data.usr_config.func
+    const pageScreen = document.querySelector('#card-usr_config')
+    const dashboard = main_data.dashboard.data
+    const styleSheet = document.styleSheets[0].cssRules[2].style
+
+    pageScreen.querySelector('#edtBarColor').value = dashboard.colors.bar_back_color.substr(0,7)
+    pageScreen.querySelector('#edtBarFontColor').value = dashboard.colors.bar_font_color.substr(0,7)
+    pageScreen.querySelector('#edtBarMouse').value = dashboard.colors.bar_mouse_color.substr(0,7)
+    pageScreen.querySelector('#edtFontMouse').value = dashboard.colors.font_mouse_color.substr(0,7)
+    pageScreen.querySelector('#edtWinColor').value = dashboard.colors.win_back_color.substr(0,7)
+    pageScreen.querySelector('#edtWinFontColor').value = dashboard.colors.win_font_color.substr(0,7)
+    
+    pageScreen.querySelector('#rngBarColor').value = parseInt(dashboard.colors.bar_back_color.substr(7,2),16)
+    pageScreen.querySelector('#rngFontColor').value = parseInt(dashboard.colors.bar_font_color.substr(7,2),16)
+    pageScreen.querySelector('#rngBarMouse').value = parseInt(dashboard.colors.bar_mouse_color.substr(7,2),16)
+    pageScreen.querySelector('#rngFontMouse').value = parseInt(dashboard.colors.font_mouse_color.substr(7,2),16)
+    pageScreen.querySelector('#rngWinColor').value = parseInt(dashboard.colors.win_back_color.substr(7,2),16)
+    pageScreen.querySelector('#rngWinFontColor').value = parseInt(dashboard.colors.win_font_color.substr(7,2),16)
+
+    loadImg(dashboard.wallpaper.pic)
+    pageScreen.querySelector('#cmbEfect').value = dashboard.wallpaper.efect
+    pageScreen.querySelector('#cmbSize').value = dashboard.wallpaper.size == 'cover' ? 2  : dashboard.wallpaper.size == 'contain' ? 4 : dashboard.wallpaper.repeat == 'repeat' ? 3 : 1
+    pageScreen.querySelector('#edtFundo').value = dashboard.wallpaper.color.substr(0,7)
+    pageScreen.querySelector('#rngBackColor').value = parseInt(dashboard.wallpaper.color.substr(7,2),16)
+
+    const cmb = pageScreen.querySelector('#cmbWallpaper')
+    for(let i=0; i<cmb.options.length; i++){
+        if(cmb.options[i].value == dashboard.wallpaper.pic){
+            cmb.options.selectedIndex = i
+        }
+    }
+
+    function saveWallpaper(){
+        dashboard.wallpaper.efect = pageScreen.querySelector('#cmbEfect').value
+        dashboard.wallpaper.color = pageScreen.querySelector('#edtFundo').value+ parseInt(pageScreen.querySelector('#rngBackColor').value).toString(16).padStart(2, "0")
+        setConfig('wallpaper',JSON.stringify(dashboard.wallpaper))
+        main_data.dashboard.func.wallpaper()
+    }
+
+    pageScreen.querySelector('#up_file').addEventListener('change',()=>{
+        const up = uploadImage('up_file',`config/user/${localStorage.getItem('id_user')}/`,'wallpaper')
+        up.then((resp)=>{
+            dashboard.wallpaper.pic = `config/user/${localStorage.getItem('id_user')}/${resp}`
+            main_data.dashboard.func.wallpaper()
+            setConfig('wallpaper', JSON.stringify(dashboard.wallpaper))
+            loadImg(`config/user/${localStorage.getItem('id_user')}/${resp}`)
+        })
+    })
+
+    pageScreen.querySelector('#cmbWallpaper').addEventListener('change',()=>{
+        const cmb = pageScreen.querySelector('#cmbWallpaper').value
+        loadImg(cmb)
+        dashboard.wallpaper.pic = cmb
+        saveWallpaper()
+    })
+
+    pageScreen.querySelector('#edtFundo').addEventListener('change',()=>{
+        saveWallpaper()
+    })
+
+    pageScreen.querySelector('#rngBackColor').addEventListener('change',()=>{
+        saveWallpaper()
+    })
+
+    pageScreen.querySelector('#cmbEfect').addEventListener('change',()=>{
+        saveWallpaper()
+    })
+
+    pageScreen.querySelector('#cmbSize').addEventListener('change',()=>{        
+        switch(pageScreen.querySelector('#cmbSize').value){
+            case '1': // Normal
+                dashboard.wallpaper.repeat = 'no-repeat'
+                dashboard.wallpaper.size = 'inherit'
+                break
+            case '2': // Tela Cheia
+                dashboard.wallpaper.repeat = 'no-repeat'
+                dashboard.wallpaper.size = 'cover'
+                break
+            case '3': // Repetir
+                dashboard.wallpaper.repeat = 'repeat'
+                dashboard.wallpaper.size = 'inherit'
+                break
+            case '4': // Grande
+                dashboard.wallpaper.repeat = 'no-repeat'
+                dashboard.wallpaper.size = 'contain'
+        }
+        saveWallpaper()
+    })
+
+
+    pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
+
+        try{
+            dashboard.colors.bar_back_color = pageScreen.querySelector('#edtBarColor').value + parseInt(pageScreen.querySelector('#rngBarColor').value).toString(16).padStart(2, "0")
+            dashboard.colors.bar_font_color = pageScreen.querySelector('#edtBarFontColor').value + parseInt(pageScreen.querySelector('#rngFontColor').value).toString(16).padStart(2, "0")
+            dashboard.colors.bar_mouse_color = pageScreen.querySelector('#edtBarMouse').value + parseInt(pageScreen.querySelector('#rngBarMouse').value).toString(16).padStart(2, "0")
+            dashboard.colors.font_mouse_color = pageScreen.querySelector('#edtFontMouse').value + parseInt(pageScreen.querySelector('#rngFontMouse').value).toString(16).padStart(2, "0")
+            dashboard.colors.win_back_color = pageScreen.querySelector('#edtWinColor').value + parseInt(pageScreen.querySelector('#rngWinColor').value).toString(16).padStart(2, "0")
+            dashboard.colors.win_font_color = pageScreen.querySelector('#edtWinFontColor').value + parseInt(pageScreen.querySelector('#rngWinFontColor').value).toString(16).padStart(2, "0")
+
+            setConfig('colors' , JSON.stringify(dashboard.colors))
+            main_data.dashboard.func.setBarStyle()
+            closeModal('usr_config')
+        }catch{
+            console.log('Error!!')
+        } 
+    })
+
+</script>

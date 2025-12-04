@@ -1,0 +1,23 @@
+<template>
+    <style>
+
+     
+    </style>
+  
+
+</template>
+<script>
+    const pageData = main_data.fin_remessa.data
+    const pageFunc = main_data.fin_remessa.func
+    const pageScreen = document.querySelector('#card-fin_remessa')
+
+    function pageStart(){
+        pageData.boleto = new Boleto('nome_cliente','NF1234','30052025','125634')
+
+
+    }
+
+
+    pageStart()
+
+</script>

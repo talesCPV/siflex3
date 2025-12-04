@@ -1,0 +1,59 @@
+04/04/2024 15:13 tales@flexibus.com.br : Menu Incluido (RH)
+04/04/2024 15:13 tales@flexibus.com.br : Menu Incluido (Funcionarios)
+04/04/2024 15:15 tales@flexibus.com.br : Menu Alterado (Funcionarios, adm_funcionarios.html, pop-up, Funcionarios)
+04/04/2024 15:15 tales@flexibus.com.br : Menu Deletado (Cadastros)
+04/04/2024 15:17 tales@flexibus.com.br : Inclusao de novo Setor (EQUIPE DE SUPORTE)
+04/04/2024 15:32 tales@flexibus.com.br : Inclusao de novo Setor (ENGENHARIA)
+04/04/2024 15:32 tales@flexibus.com.br : Funcionario Editado TALES CEMBRANELI DANTAS -> TALES CEMBRANELI DANTAS
+04/04/2024 15:39 tales@flexibus.com.br : Funcionario Editado TALES CEMBRANELI DANTAS -> TALES CEMBRANELI DANTAS
+04/04/2024 15:41 tales@flexibus.com.br : Funcionario Editado TALES CEMBRANELI DANTAS -> TALES CEMBRANELI DANTAS
+04/04/2024 15:42 tales@flexibus.com.br : Funcionario Editado TALES CEMBRANELI DANTAS -> TALES CEMBRANELI DANTAS
+04/04/2024 15:42 tales@flexibus.com.br : Funcionario Editado TALES CEMBRANELI DANTAS -> TALES CEMBRANELI DANTAS
+04/04/2024 15:45 tales@flexibus.com.br : Funcionario Editado TALES CEMBRANELI DANTAS -> TALES CEMBRANELI DANTAS
+04/04/2024 15:48 tales@flexibus.com.br : Funcionario Editado LUCIMAR DIAS CALIXTO DA SILVA -> LUCIMAR DIAS CALIXTO DA SILVA
+04/04/2024 15:49 tales@flexibus.com.br : Funcionario Editado TALES CEMBRANELI DANTAS -> TALES CEMBRANELI DANTAS
+04/04/2024 15:49 tales@flexibus.com.br : Funcionario Editado ADEMIR MOREIRA -> ADEMIR MOREIRA
+04/04/2024 16:05 tales@flexibus.com.br : Funcionario Editado IGOR HENRIQUE -> IGOR HENRIQUE
+04/04/2024 16:05 tales@flexibus.com.br : Funcionario Editado JOAO LUZ -> JOAO LUZ
+04/04/2024 16:06 tales@flexibus.com.br : Funcionario Editado ONDINA DE FATIMA SOUSA -> ONDINA DE FATIMA SOUSA
+04/04/2024 16:06 tales@flexibus.com.br : Funcionario Editado BRUNO JOSE MATHIAS -> BRUNO JOSE MATHIAS
+04/04/2024 16:06 tales@flexibus.com.br : Funcionario Editado JERONIMO IGNACIO RAMOS -> JERONIMO IGNACIO RAMOS
+04/04/2024 16:06 tales@flexibus.com.br : Funcionario Editado GABRIEL LUIZ PEREIRA -> GABRIEL LUIZ PEREIRA
+04/04/2024 16:07 tales@flexibus.com.br : Funcionario Editado CARLOS ROBERTO OLIVEIRA SOUZA -> CARLOS ROBERTO OLIVEIRA SOUZA
+04/04/2024 16:07 tales@flexibus.com.br : Funcionario Editado IGOR HENRIQUE -> IGOR HENRIQUE
+04/04/2024 16:07 tales@flexibus.com.br : Alteracao de nome de Setor (EQUIPE DE SUPORTE -> SUPORTE)
+04/04/2024 16:12 tales@flexibus.com.br : Menu Incluido (Feriados)
+04/04/2024 16:14 tales@flexibus.com.br : Menu Alterado (Feriados, adm_feriados.html, pop-up, Feriados)
+04/04/2024 17:04 tales@flexibus.com.br : Inclusao de Feriado: 19/03 - NIVER DO TALES
+04/04/2024 17:04 tales@flexibus.com.br : Edicao de Feriado (NIVER DO TALES -> NIVER DO TALES 2, 19/03 -> 19/03)
+04/04/2024 17:04 tales@flexibus.com.br : Delecao de Feriado (NIVER DO TALES 2)
+04/04/2024 20:14 tales@flexibus.com.br : Menu Alterado (Feriados, adm_feriados.html, pop-up, Feriados)
+04/04/2024 20:31 tales@flexibus.com.br : Menu Incluido (Relogio de Ponto)
+04/04/2024 20:32 tales@flexibus.com.br : Menu Alterado (Relogio de Ponto, rh_relogio_ponto.html, pop-up, Relogio de Ponto)
+12/04/2024 15:47 tales@flexibus.com.br : Menu Incluido (PCP)
+12/04/2024 15:51 tales@flexibus.com.br : Menu Alterado (PCP, tool_pcp, pop-up, PCP)
+12/04/2024 19:57 tales@flexibus.com.br : Menu Alterado (PCP, tool_pcp.html, pop-up, PCP)
+16/04/2024 20:31 tales@flexibus.com.br : Alteracao de nome de Setor (EQUIPE DE FRENTE -> FRENTE)
+17/04/2024 14:47 tales@flexibus.com.br : Menu Alterado (Setores, adm_setores.html, pop-up, Setores)
+17/04/2024 20:11 tales@flexibus.com.br : Menu Alterado (Cargos, adm_cargos.html, pop-up, Cargos)
+17/04/2024 20:35 tales@flexibus.com.br : Inclusao de Feriado: 01/05 - DIA DO TRABALHO
+17/04/2024 21:01 tales@flexibus.com.br : Funcionario Editado J.BAZILIO -> J.BAZILIO
+17/04/2024 21:02 tales@flexibus.com.br : Funcionario Editado GABRIEL LUIZ PEREIRA -> GABRIEL LUIZ PEREIRA
+21/04/2024 03:22 tales@flexibus.com.br : Novo Registro de Hora: LUCIMAR DIAS CALIXTO DA SILVA Entrada: 12/04/2024 as 07:00, Saida: 12/04/2024 as 16:00
+21/04/2024 03:23 tales@flexibus.com.br : Registro de Hora Deletado: LUCIMAR DIAS CALIXTO DA SILVA Entrada: 12/04/2024 as 00:00, Saida: 12/04/2024 as 00:00
+21/04/2024 03:30 tales@flexibus.com.br : Registro de Hora Deletado: LUCIMAR DIAS CALIXTO DA SILVA Entrada: 22/04/2024 as 00:00, Saida: 22/04/2024 as 00:00
+21/04/2024 03:30 tales@flexibus.com.br : Novo Registro de Hora: LUCIMAR DIAS CALIXTO DA SILVA Entrada: 23/04/2024 as 07:00, Saida: 23/04/2024 as 16:00
+21/04/2024 03:31 tales@flexibus.com.br : Registro de Hora Deletado: LUCIMAR DIAS CALIXTO DA SILVA Entrada: 23/04/2024 as 07:00, Saida: 23/04/2024 as 16:00
+21/04/2024 03:36 tales@flexibus.com.br : Novo Registro de Hora: LUCIMAR DIAS CALIXTO DA SILVA Entrada: 23/04/2024 as 07:00, Saida: 23/04/2024 as 15:00
+21/04/2024 03:45 tales@flexibus.com.br : Registro de Hora Deletado: LUCIMAR DIAS CALIXTO DA SILVA Entrada: 23/04/2024 as 07:00, Saida: 23/04/2024 as 15:00
+21/04/2024 03:50 tales@flexibus.com.br : Novo Registro de Hora: LUCIMAR DIAS CALIXTO DA SILVA Entrada: 23/04/2024 as undefined, Saida: 23/04/2024 as 12:30
+21/04/2024 03:50 tales@flexibus.com.br : Registro de Hora Deletado: LUCIMAR DIAS CALIXTO DA SILVA Entrada: 23/04/2024 as 07:00, Saida: 23/04/2024 as 12:30
+22/04/2024 19:39 tales@flexibus.com.br : Novo Registro de Hora: ONDINA DE FATIMA SOUSA Entrada: 19/04/2024 as 07:00, Saida: 19/04/2024 as 17:00
+22/04/2024 19:39 tales@flexibus.com.br : Novo Registro de Hora: ONDINA DE FATIMA SOUSA Entrada: 19/04/2024 as 07:00, Saida: 19/04/2024 as 15:00
+22/04/2024 19:40 tales@flexibus.com.br : Novo Registro de Hora: ONDINA DE FATIMA SOUSA Entrada: 19/04/2024 as 07:00, Saida: 19/04/2024 as 23:00
+22/04/2024 19:52 tales@flexibus.com.br : Novo Registro de Hora: ONDINA DE FATIMA SOUSA Entrada: 19/04/2024 as 07:00, Saida: 19/04/2024 as 15:00
+22/04/2024 19:53 tales@flexibus.com.br : Registro de Hora Deletado: ONDINA DE FATIMA SOUSA Entrada: 19/04/2024 as 07:00, Saida: 19/04/2024 as 15:00
+24/04/2024 14:44 tales@flexibus.com.br : Menu Incluido (Comercial)
+24/04/2024 14:45 tales@flexibus.com.br : Menu Incluido (Cotacoes)
+24/04/2024 14:45 tales@flexibus.com.br : Menu Alterado (Cotacoes, com_cotacoes.html, pop-up, Cotacoes)
+24/04/2024 14:47 tales@flexibus.com.br : Menu Alterado (Cotacoes, com_cotacoes.html, pop-up, Cotacoes e Pedidos)

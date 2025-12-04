@@ -1,0 +1,216 @@
+
+<template>
+    <style>
+        .frm{
+            padding: 10px;
+        }
+
+        .top-form{
+            display: flex;
+            flex-direction: row;
+            margin: 10px;
+            padding: 10px 0 10px 10px;            
+        }
+
+        .pic{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: solid 1px;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .side-pic{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .side-pic .inline{
+            padding-right: 0;
+        }
+     
+        #up_file{
+            max-width: 280px;
+        }
+
+
+        @media all and (max-width : 1000px) {
+            .top-form{
+                flex-direction: column;
+                padding: 0;
+                margin: 0;
+            }
+        }
+
+    </style>
+  
+    <fieldset class="frm" >
+        <legend>Produto</legend>
+
+        <div class="top-form">
+            <div class="pic">
+                <canvas id="cnvImg"></canvas>
+                <input  name="up_file" id="up_file" type="file" accept=".jpg,.jpeg" class="only-view" disabled>            
+            </div>
+            <div class="side-pic">
+                <div class="inline">
+                    <label for="edtDesc">Descrição *</label>
+                    <input type="text" class="only-view" id="edtDesc" maxlength="80" disabled>
+                </div>
+                <div class="inline">
+                    <label for="edtMarca">Marca</label>
+                    <input type="text" class="only-view" id="edtMarca" maxlength="50" disabled>
+                    <label for="edtCodBar">Código de Barras</label>
+                    <input type="text" class="only-view" id="edtCodBar" maxlength="20" disabled>        
+                </div>
+                <div class="inline">
+                    <label for="cmdUnd">Unidade</label>
+                    <select id="cmdUnd" class="only-view" disabled></select>
+                    <label for="edtEtq">Estoque</label>
+                    <input type="text" class="only-view" id="edtEtq" maxlength="10" onkeyup="valFloat(this)" disabled>
+                    <label for="edtEtqMin">Estq. Min.</label>
+                    <input type="text" class="only-view" id="edtEtqMin" maxlength="10" onkeyup="valFloat(this)" disabled>              
+                </div>        
+            </div>
+        </div>
+
+
+        <div class="inline">
+            <label for="edtLocal">Local Estoque</label>
+            <input type="text" class="only-view" id="edtLocal" maxlength="20" disabled>
+            <label for="edtCA">Num. CA</label>
+            <input type="text" class="only-view" id="edtCA" maxlength="20" onkeyup="valInt(this)" disabled>
+        </div>
+
+        <div class="line">
+            <button id="btnDel" class="only-view" disabled>Deletar</button>
+            <button id="btnEdit">Editar</button>
+            <button id="btnSave" class="only-view" disabled>Salvar</button>
+        </div>
+    </fieldset>
+
+</template>
+<script>
+    
+    const pageData = main_data.seg_view_epi.data
+    const pageFunc = main_data.seg_view_epi.func
+    const pageScreen = document.querySelector('#card-seg_view_epi')
+    const newEPI = Object.keys(pageData).length == 0
+
+    function fillUnd(){
+        const params = new Object;
+            params.field = 'id'
+            params.signal = '>='
+            params.value = '1'
+        const myPromisse = queryDB(params,'ADM-5');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const cmb = pageScreen.querySelector('#cmdUnd')
+            cmb.innerHTML=''
+            for(let i=0; i<json.length; i++){
+                const opt = document.createElement('option')
+                opt.value = json[i].sigla
+                opt.innerHTML = json[i].nome
+                if(!newEPI){
+                    opt.selected =  json[i].sigla == pageData.und ? 1 : 0
+                }else{
+                    opt.selected =  json[i].sigla == 'UND' ? 1 : 0
+                }
+                cmb.appendChild(opt)
+            }            
+        })
+    }
+
+    function startPage(){
+        fillUnd()
+        if(newEPI){
+            openFields(1)
+            pageScreen.querySelector('#btnDel').disabled = 1
+            pageScreen.querySelector('#btnEdit').disabled = 1
+            pageScreen.querySelector('#up_file').disabled = 1
+        }else{
+            pageScreen.querySelector('#edtDesc').value = pageData.nome
+            pageScreen.querySelector('#edtMarca').value = pageData.marca
+            pageScreen.querySelector('#edtCodBar').value = pageData.cod_bar
+            pageScreen.querySelector('#cmdUnd').value = pageData.und
+            pageScreen.querySelector('#edtEtq').value = pageData.estq
+            pageScreen.querySelector('#edtEtqMin').value = pageData.estq_min
+            pageScreen.querySelector('#edtLocal').value = pageData.local
+            pageScreen.querySelector('#edtCA').value = pageData.num_ca
+            pageScreen.querySelector('#btnEdit').disabled = 0
+
+            const back = backFunc({'filename':`../assets/epi/epi_${pageData.id}.jpg`},1)
+            back.then((resp)=>{
+                const imgExist = JSON.parse(resp)    
+                loadImg( imgExist ? `assets/epi/epi_${pageData.id}.jpg` : 'assets/prod/noimage.jpg')
+            })            
+        }
+    }
+
+    function openFields(open=1){
+        const view = pageScreen.querySelectorAll('.only-view')
+        for(let i=0; i<view.length; i++){
+            view[i].disabled = !open
+        }
+    }
+// ID,descricao,marca,estq,estq_min,und,cod_bar,num_ca,local
+    pageFunc.setEPI = (del=0)=>{
+        const params = new Object;
+            params.id = newEPI ? 0 : pageData.id
+            params.nome = del ? '' : pageScreen.querySelector('#edtDesc').value.trim()
+            params.marca = pageScreen.querySelector('#edtMarca').value.trim()
+            params.estq = pageScreen.querySelector('#edtEtq').value.trim()
+            params.estq_min = pageScreen.querySelector('#edtEtqMin').value.trim()
+            params.und = pageScreen.querySelector('#cmdUnd').value
+            params.cod_bar = pageScreen.querySelector('#edtCodBar').value.trim()
+            params.num_ca = pageScreen.querySelector('#edtCA').value.trim()
+            params.local = pageScreen.querySelector('#edtLocal').value.trim()
+          
+        const myPromisse = queryDB(params,'SEG-1');
+        myPromisse.then((resolve)=>{            
+            setLog(`EPI ${newEPI?'Cadastrado': del ? 'Deletado': 'Editado'} ${ !newEPI ? pageData.descricao :''} -> ${params.descricao}`)
+            try{
+                main_data.seg_epi.func.fillEpi()
+            }catch{
+                console.error('Tela fechada pelo usuário!')
+            }
+            alert('Cadastrado efetuado!')
+            closeModal('seg_view_epi')
+        })
+    }
+
+    pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
+        pageFunc.setEPI()
+    })
+
+    pageScreen.querySelector('#btnDel').addEventListener('click',()=>{
+        if(confirm('Deseja realmente deletar este EPI?')){
+            pageFunc.setEPI(1)
+        }
+    })
+
+    pageScreen.querySelector('#btnEdit').addEventListener('click',()=>{
+        if(pageScreen.querySelector('#btnSave').disabled){
+            if(confirm('Abrir registro para edição?')){
+                openFields(1)
+            }
+        }else{
+            openFields(0)
+        }
+    })
+
+    pageScreen.querySelector('#up_file').addEventListener('change',()=>{        
+        showFile()
+        const up = uploadImage('up_file','assets/epi/',`epi_${pageData.id}.jpg`)
+        up.then((resp)=>{
+            setLog(` Imagem Alterada -> EPI: ${pageData.descricao}`)
+        })
+    })
+
+    startPage()    
+
+</script>

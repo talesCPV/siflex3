@@ -1,0 +1,106 @@
+
+<template>
+    <style>
+        .l-data, .l-quit, .l-val{
+            width: 150px;
+        }
+
+    </style>
+    
+    <div class="frm-vale">
+
+        <fieldset>
+            <legend>Novo Vale</legend>
+            <div class="inline">
+                <label for="edtDesc">Descrição*</label>
+                <input type="text" id="edtDesc" maxlength="200">
+            </div>
+            <div class="inline">
+                <label for="edtVal">Valor*</label>
+                <input type="text" id="edtVal" onkeyup="return valFloat(this)">
+                <label for="edtDataVale">Data</label>
+                <input type="date" id="edtDataVale" > 
+            </div>
+            <div class="line">
+                <button id="btnNovoVale" >Adicionar</button>
+            </div>
+
+        </fieldset>
+
+        <fieldset>
+            <legend>Histórico</legend>
+            <table id="tblVale"></table>
+
+        </fieldset>
+
+
+    </div>
+
+</template>
+<script>
+
+    const pageData = main_data.rh_vale.data
+    const pageFunc = main_data.rh_vale.func
+    const pageScreen = document.querySelector('#card-rh_vale')
+
+    function pageStart(){
+        pageScreen.querySelector('#edtDataVale').value = today.getFormatDate()
+        pageFunc.fillVale()
+    }
+
+    pageScreen.querySelector('#btnNovoVale').addEventListener('click',()=>{
+        if(checkField(['edtDesc','edtVal'])){
+            const val = pageScreen.querySelector('#edtVal').value.trim()
+            const obs = pageScreen.querySelector('#edtDesc').value.trim()
+            addVal(0,val,0,obs)         
+        }
+    })
+
+    pageScreen.querySelector('#tblVale').addEventListener('click',(e)=>{
+        dt = e.target.parentNode.data
+        if(e.target.parentNode.rowIndex >0 && e.target.parentNode.rowIndex < e.target.parentNode.parentNode.rows.length-1){
+            openHTML('rh_view_vale.html','pop-up',data.nome,dt)
+        }
+
+    })
+
+    pageFunc.fillVale = ()=>{
+        const params = new Object;
+            params.id = data.id
+
+        const myPromisse = queryDB(params,'FUN-3');
+        myPromisse.then((resolve)=>{
+            const tbl = pageScreen.querySelector('#tblVale')
+            tbl.innerHTML = ''
+            const json = JSON.parse(resolve)           
+            let tot = 0
+            tbl.head('Data|l-data,Descrição,Valor|l-val,Quitado.|l-quit')
+            for(let i=0; i<json.length;i++){
+                tbl.plot(json[i],'data,obs,valor,quitado','date,Upp,R$.,cha 0=NÃO 1=SIM')
+                tot += json[i].quitado == '0' ? parseFloat(json[i].SALDO) : 0
+            }
+            tbl.plot({},',,Saldo Devedor,R$'+tot.toFixed(2),'let,let,let,let')
+        })
+    } 
+
+    function addVal(id,val,quit,obs){
+
+        const params = new Object;
+            params.id = id
+            params.id_func = data.id
+            params.valor = val
+            params.quitado = quit
+            params.obs = obs
+            params.data = pageScreen.querySelector('#edtDataVale').value + ' 00:00:00'
+
+        const myPromisse = queryDB(params,'FUN-4');
+        myPromisse.then((resolve)=>{
+            pageFunc.fillVale()
+            pageScreen.querySelector('#edtVal').value = 0
+            pageScreen.querySelector('#edtDesc').value = ''
+        })
+    }
+
+    pageStart()
+
+</script>

@@ -1,0 +1,264 @@
+
+<template>
+    <style>
+        .frm{
+            padding: 10px;
+        }
+
+        #btnGetKey{
+            width: -moz-available;
+            padding: 7px;
+        }
+
+        #btnGetKey span{
+            font-size: 1.4em;
+        }
+
+        .show-file span{
+            color: brown;
+            font-size: 2em;
+        }
+
+        #up_file{
+            width: 200px;
+        }
+
+        @media all and (max-width : 768px) {
+            .frm input, .frm select{
+                width: 98% !important;
+            }
+        }
+
+    </style>
+
+    <fieldset class="frm" >
+        <legend>Descrição e valores</legend>
+
+        <div class="inline">
+            <label for="cmbTipoPg">Tipo Pgto</label>
+            <select id="cmbTipoPg"  class="only-view" disabled>
+                <option value="BOLETO" selected>Boleto Bancário</option>
+                <option value="PIX">Pix</option>                
+            </select>
+            <button id="btnGetKey" class="only-view" disabled><span class="mdi mdi-magnify"></span> Empresa</button>
+        </div>
+
+        <div class="inline">
+            <label for="edtBenef">Beneficiario</label>
+            <input type="text" class="only-view" id="edtBenef" maxlength="128" disabled>
+        </div>
+        <div class="inline">
+            <label for="edtNome">Descrição *</label>
+            <input type="text" class="only-view" id="edtNome" maxlength="60" disabled>
+        </div>
+        <div class="inline">
+            <label for="cmbCusto">Centro de Custo</label>
+            <select id="cmbCusto" class="only-view" disabled>
+                <option value="INSUMOS">Insumos</option>
+                <option value="MAO_DE_OBRA">Mão de Obra</option>
+                <option value="FIXO">Custo Fixo (água, luz, internet, etc)</option>
+                <option value="DIARIAS">Diárias</option>
+                <option value="FORNECEDORES">Fornecedores (Materia Prima, Ítens de Consumos, etc)</option>
+                <option value="MANUTENCAO">Manutenção</option>
+                <option value="IMPOSTOS">Impostos</option>
+                <option value="OUTROS">Outros</option>
+            </select>
+        </div>        
+        <div class="inline">
+            <label for="edtVal">Valor</label>
+            <input type="text" class="only-view" id="edtVal" inputmode="decimal" onkeyup="valFloat(this)" disabled>
+            <label for="edtVenc">Vencimento</label>
+            <input type="date" class="only-view" id="edtVenc" disabled>
+        </div>
+        <div class="inline">
+            <label for="edtCod">Cód. Pgto</label>
+            <input type="hidden" id="fncVenc">
+            <input type="text" class="only-view" id="edtCod" maxlength="512" onkeypress="return getEnter(event,'fncVenc')" disabled>
+        </div>
+
+        <div class="inline">
+            <label for="up_file">Upload</label>
+            <input  class="only-view"name="up_file" id="up_file" type="file" accept=".jpg,.jpeg,.pdf,.png" disabled>
+            <div class="show-file"><span class="mdi mdi-file-document-remove-outline"></span></div>
+        </div>
+
+        <div class="line">
+            <button id="btnDel" class="only-view" disabled>Deletar</button>
+            <button id="btnEdit">Editar</button>
+            <button id="btnSave" class="only-view" disabled>Salvar</button>
+            <button id="btnPgto">Pagar</button>
+        </div>
+    </fieldset>
+
+</template>
+<script>
+    
+    const pageData = main_data.fin_view_pagar.data
+    const pageFunc = main_data.fin_view_pagar.func
+    const pageScreen = document.querySelector('#card-fin_view_pagar')
+    const newPgto = Object.keys(pageData).length == 0
+
+    function startPage(){
+
+        if(newPgto){
+            openFields(1)
+            pageScreen.querySelector('#edtBenef').id_cliente = 0
+            pageScreen.querySelector('#btnDel').disabled = 1
+            pageScreen.querySelector('#btnEdit').disabled = 1
+            pageScreen.querySelector('#btnPgto').disabled = 1
+            pageScreen.querySelector('#edtVenc').value =  today.getFormatDate()
+            pageData.tipo = 'BOLETO'
+        }else{
+            pageScreen.querySelector('#edtBenef').id_cliente = pageData.id_cli
+            pageScreen.querySelector('#edtNome').value = pageData.nome
+            pageScreen.querySelector('#edtBenef').value = pageData.beneficiario
+            pageScreen.querySelector('#edtVal').value = pageData.valor
+            pageScreen.querySelector('#edtVenc').value = pageData.venc
+            pageScreen.querySelector('#edtCod').value = pageData.cod_pgto
+            pageScreen.querySelector('#cmbTipoPg').value = pageData.tipo
+            pageScreen.querySelector('#cmbCusto').value = pageData.centro_custo
+            changeTipo(pageScreen.querySelector('#cmbTipoPg').value)
+
+            showFiles('../files/siflex/a_pagar/',pageData.id).then((resolve)=>{
+                const json = JSON.parse(resolve)
+                if(json.length){
+                    openFile(json[0])
+                }
+            })
+        }
+    }
+
+    function openFile(filename){
+        const file = pageScreen.querySelector('.show-file span')
+        file.style.color = 'green'
+        file.style.cursor = 'pointer'
+        file.className = 'mdi mdi-file-check-outline'
+        file.addEventListener('click',()=>{
+            window.open(`../files/siflex/a_pagar/${filename}`, '_blank');
+        })
+    }
+
+    function openFields(open=1){
+        const view = pageScreen.querySelectorAll('.only-view')
+        for(let i=0; i<view.length; i++){
+            view[i].disabled = !open
+        }
+    }
+
+    function vencimento(cod){
+        const venc = new Date('2025-02-22')        
+        const dias = Number(cod.substr(33,4))
+        venc.setDate(venc.getDate()+ (dias - 999))
+        return cod.length >= 37 ? venc.getFormatDate() : today.getFormatDate()
+    }
+
+    function valor(cod){
+        const val = Number(cod.substr(-10)).toString()
+        return val.substr(0,val.length-2) + '.' + val.substr(-2)
+    }
+
+    function changeTipo(tipo){
+        const btn =  pageScreen.querySelector('#btnGetKey')
+        btn.innerHTML = '<span class="mdi mdi-magnify"></span> ' + (tipo == 'BOLETO' ? 'Empresa' : 'Chave Pix')
+    }
+
+    pageFunc.buscaEmp = (json)=>{
+        const edt = pageScreen.querySelector('#edtBenef')
+        edt.data = json
+        edt.value = json.fantasia
+        edt.id_cliente = json.id
+        pageData.tipo = 'BOLETO'
+    }
+
+    pageFunc.setPgto = (del=0)=>{
+        const params = new Object;
+            params.id = newPgto ? 0 : pageData.id
+            params.id_cliente = pageScreen.querySelector('#edtBenef').id_cliente
+            params.nome = del ? '' : pageScreen.querySelector('#edtNome').value.trim()
+            params.beneficiario = pageScreen.querySelector('#edtBenef').value.trim()
+            params.venc = pageScreen.querySelector('#edtVenc').value
+            params.valor = pageScreen.querySelector('#edtVal').value
+            params.cod_pgto = pageScreen.querySelector('#edtCod').value.trim()
+            params.tipo = pageScreen.querySelector('#cmbTipoPg').value
+            params.custo = pageScreen.querySelector('#cmbCusto').value
+            params.pgto = 0
+            const myPromisse = queryDB(params,'FIN-6');
+        myPromisse.then((resolve)=>{
+            setLog(`Contas A Pagar ${newPgto?'Cadastrada': del ? 'Deletada' : 'Editada'} ${del? pageData.nome : params.nome }, Valor ${params.valor}, Venc. dia ${params.venc}`)
+            try{
+                main_data.fin_pagar.func.fillPag()
+            }catch{
+                console.error('Tela fechada pelo usuário!')
+            }
+            alert('Cadastrado efetuado!')
+            closeModal('fin_view_pagar')
+        })
+    }
+
+    pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
+        pageFunc.setPgto()
+    })
+
+    pageScreen.querySelector('#btnDel').addEventListener('click',()=>{
+        if(confirm('Deseja realmente deletar esta Pagamento?')){
+            pageFunc.setPgto(1)
+        }
+    })
+
+    pageScreen.querySelector('#btnEdit').addEventListener('click',()=>{
+        if(pageScreen.querySelector('#btnSave').disabled){
+            if(confirm('Abrir registro para edição?')){
+                openFields(1)
+            }
+        }else{
+            openFields(0)
+        }
+    })
+
+    pageScreen.querySelector('#btnPgto').addEventListener('click',()=>{
+        openHTML('fin_check_pgto.html','pop-up','Pagamento ao Fornecedor',pageData)
+    })
+    
+    pageScreen.querySelector('#fncVenc').addEventListener('click',()=>{
+        const cod =  getNum(pageScreen.querySelector('#edtCod').value)
+        if(cod.length == 47){
+            pageScreen.querySelector('#edtVenc').value = vencimento(cod)
+            pageScreen.querySelector('#edtVal').value = valor(cod)
+        }
+    })
+
+    pageScreen.querySelector('#cmbTipoPg').addEventListener('change',()=>{
+        changeTipo(pageScreen.querySelector('#cmbTipoPg').value)
+    })
+
+    pageScreen.querySelector('#btnGetKey').addEventListener('click',()=>{
+        const tipo = pageScreen.querySelector('#cmbTipoPg').value
+        if(tipo == 'BOLETO'){
+            const data = new Object
+            data.org = 'fin_view_pagar'
+            openHTML('busca_emp.html','pop-up','Selecione uma Empresa',data,800)
+        }else{
+            const data = new Object
+            data.callback = (resp)=>{
+                pageScreen.querySelector('#edtCod').value = resp.chave
+                pageScreen.querySelector('#edtBenef').value = resp.nome
+                pageScreen.querySelector('#edtBenef').id_cliente = 0
+                pageData.tipo = 'PIX'
+            }
+            openHTML('fin_pix.html','pop-up','Selecione uma Chave Pix',data,800)
+        }
+    })
+
+    pageScreen.querySelector('#up_file').addEventListener('change',()=>{
+        const file = pageScreen.querySelector('#up_file').files[0]
+        const filename = pageData.id+'.'+file.type.split('/')[1]
+        const up = uploadFile(file,'../files/siflex/a_pagar/',filename)
+        up.then((resp)=>{
+            openFile(resp)
+            console.log(resp)
+        })
+    })
+
+    startPage()
+
+</script>

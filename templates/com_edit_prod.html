@@ -1,0 +1,68 @@
+
+<template>
+    <style>
+        .inline label{
+            min-width: unset !important;
+        }
+
+    </style>
+
+<fieldset>
+    <legend id="lgdItem"></legend>
+
+    <div class="inline">
+        <label for="edtQtd">Qtd</label>
+        <input type="text" id="edtQtd" onkeyup="return valFloat(this,2)">
+        <label for="edtPreco">Preço R$</label>
+        <input type="text" id="edtPreco" onkeyup="return valFloat(this)">
+    </div>
+    <div class="line">
+        <button id="btnSaveItem"><span class="mdi mdi-content-save-check"></span>Salvar</button>
+        <button id="btnDelItem"><span class="mdi mdi-delete-outline"></span>Deletar</button>
+    </div>
+</fieldset>
+
+
+</template>
+<script>
+
+    const pageData = main_data.com_edit_prod.data
+    const pageFunc = main_data.com_edit_prod.func
+    const pageScreen = document.querySelector('#card-com_edit_prod')
+
+    pageFunc.pageStart = ()=>{
+        pageScreen.querySelector('#lgdItem').innerHTML = pageData.descricao
+        pageScreen.querySelector('#edtQtd').value = pageData.qtd
+        pageScreen.querySelector('#edtPreco').value = parseFloat(pageData.preco).toFixed(2)
+    }
+
+    pageScreen.querySelector('#btnSaveItem').addEventListener('click',()=>{
+
+        try{            
+            if(main_data.hasOwnProperty(pageData.org)){
+                pageData.qtd = pageScreen.querySelector('#edtQtd').value
+                pageData.preco = pageScreen.querySelector('#edtPreco').value
+                main_data[pageData.org].func.edtItem(data)
+            }
+            closeModal('com_edit_prod')
+       }catch{null}
+    })
+
+    pageScreen.querySelector('#btnDelItem').addEventListener('click',()=>{
+
+        if (confirm('Deseja realmente deletar este ítem?')) {
+            try{            
+                if(main_data.hasOwnProperty(pageData.org)){
+                    pageData.qtd = 0
+                    pageData.preco = 0
+                    main_data[pageData.org].func.edtItem(data)
+                }
+                closeModal('com_edit_prod')
+            }catch{null}
+        }
+
+    })
+
+    pageFunc.pageStart()
+
+</script>

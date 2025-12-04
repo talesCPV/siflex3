@@ -1,0 +1,227 @@
+
+<template>
+    <style>
+
+        #tblPed{
+            font-size: 0.9em;
+        }
+
+        #fdsRelat{
+            display: none;
+        }
+
+        #btnVerNF{
+            display: none;
+        }
+
+    </style>
+    
+    <fieldset id="fdsPed">
+        <legend>Nota Fiscal</legend>
+        <table id="tblPed">
+            <tr>
+                <th>Código</th><th>NF</th><th class="mobHide">Empresa</th><th  class="mobHide">Data</th><th>Total</th>
+            </tr>
+            <tr>
+                <td id="tdCod"></td><td id="tdNF"></td><td id="tdEmp"  class="mobHide"></td><td id="tdData"  class="mobHide"></td><td id="tdTot"></td>
+            </tr>
+        </table>
+        <div class="line">
+            <button id="btnEdit" disabled>Editar</button>
+            <button id="btnDel" disabled>Deletar</button>
+            <button id="btnFecha" disabled>Encerrar</button>
+            <button id="btnVerNF">Ver NF</button>
+            <input  name="up_file" id="up_file" type="file" accept=".pdf" class="hide">
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>Ítens</legend>
+        <table id="tblItens"></table>
+        <div class="line">
+            <button id="btnAdd" disabled>Adicionar Ítens</button>
+        </div>
+        <div class="line">
+            <div class="ckBOX">
+                <label for="ckbValor">Mostrar Valor</label>
+                <input type="checkbox" id="ckbValor" disabled>
+            </div>
+            <button id="btnPed" disabled>Pedido de Compra</button>
+            <button id="btnCot" disabled>Solicitação de Cotação</button>
+        </div>
+
+
+
+    </fieldset>
+
+</template>
+<script>
+
+    const pageData = main_data.com_view_comp.data
+    const pageFunc = main_data.com_view_comp.func
+    const pageScreen = document.querySelector('#card-com_view_comp')
+
+    pageFunc.pageStart = ()=>{
+        pageScreen.querySelector('#tdCod').innerHTML = pageData.id
+        pageScreen.querySelector('#tdNF').innerHTML = pageData.nf.toUpperCase()
+        pageScreen.querySelector('#tdEmp').innerHTML = pageData.fantasia.toUpperCase()
+        pageScreen.querySelector('#tdData').innerHTML = pageData.data_ent != null ? dataBR(pageData.data_ent) : '*'
+
+        if(pageData.status == 'ABERTO'){
+            pageScreen.querySelector('#btnEdit').disabled = false
+            pageScreen.querySelector('#btnDel').disabled = false
+            pageScreen.querySelector('#btnAdd').disabled = false
+            pageScreen.querySelector('#btnPed').disabled = false
+            pageScreen.querySelector('#btnCot').disabled = false
+            pageScreen.querySelector('#ckbValor').disabled = false
+            pageScreen.querySelector('#btnFecha').innerHTML = 'Encerrar'
+        }else{
+            pageScreen.querySelector('#btnFecha').innerHTML = 'Upload NF' 
+            pageScreen.querySelector('#btnEdit').disabled = true
+            pageScreen.querySelector('#btnDel').disabled = true
+            pageScreen.querySelector('#btnAdd').disabled = true            
+            pageScreen.querySelector('#btnPed').disabled = true
+            pageScreen.querySelector('#btnCot').disabled = true
+            pageScreen.querySelector('#ckbValor').disabled = true
+
+            fetch(`../NF/compra/${pageData.id_emp}_${pageData.id}.pdf`, { method: 'HEAD' }) // Apenas verifica a existência, sem baixar o conteúdo
+            .then(response => {
+                if (response.ok) {
+                    pageScreen.querySelector('#btnVerNF').style.display = 'block'                 
+                } else {
+                    pageScreen.querySelector('#btnVerNF').style.display = 'none'                    
+                }
+            })
+
+        }
+    }
+
+    pageFunc.buscaProd = (data)=>{
+        data.qtd = prompt(`Digite a Quantidade: (em estoque: ${data.estoque} ${data.unidade})`,1)
+        const params = new Object
+            params.id = 0
+            params.id_prod = data.id
+            params.id_compra = pageData.id
+            params.qtd = data.qtd
+            params.valor = data.preco_comp
+        const myPromisse = queryDB(params,'COT-9')
+        myPromisse.then((resolve)=>{
+            pageFunc.fillItens()
+            main_data.com_compras.func.fillCompras()
+        })    
+    }
+
+    pageFunc.edtItem = (data)=>{
+        const params = new Object    
+        params.id = data.id
+        params.id_prod = data.id_prod
+        params.id_ped = data.id_ent
+        params.qtd = data.qtd
+        params.preco = data.preco
+        const myPromisse = queryDB(params,'COT-9')
+        myPromisse.then((resolve)=>{
+            try{
+                main_data.com_compras.func.fillCompras()
+                pageFunc.fillItens()
+            }catch{
+                console.error('Janela COMPRAS fechada pelo usuário!')
+            }
+        })
+    }
+
+    pageFunc.fillItens = ()=>{
+        const params = new Object;
+            params.id_compra = pageData.id
+        const myPromisse = queryDB(params,'COM-8');
+        myPromisse.then((resolve)=>{
+            pageData.itens = JSON.parse(resolve)
+            pageScreen.querySelector('#btnFecha').disabled = pageData.itens.length > 0 ? false : true
+            const tbl = pageScreen.querySelector('#tblItens')
+            let tot = 0
+            tbl.head('Cod.|mobHide,Descrição,Und.|mobHide,Qtd.,Preço Unit.,Sub Total')            
+            for(let i=0; i<pageData.itens.length;i++){
+                tbl.plot(pageData.itens[i],'id_prod|mobHide,descricao,unidade|mobHide,qtd,preco,total','str,Upp,Upp,str,R$.,R$.')
+                tot += parseFloat(pageData.itens[i].total)
+            }
+            pageScreen.querySelector('#tdTot').innerHTML = viewMoneyBR(tot.toFixed(2))
+        })
+    }
+
+    pageFunc.pageStart()
+    pageFunc.fillItens()
+
+    pageScreen.querySelector('#btnEdit').addEventListener('click',()=>{
+        openHTML('com_new_comp.html','pop-up','Edição', pageData)
+    })
+
+    pageScreen.querySelector('#btnDel').addEventListener('click',()=>{
+        
+        if (confirm('Deseja realmente deletar esta NF?')) {
+            const params = new Object;
+                params.id_compra = pageData.id
+
+            const myPromisse = queryDB(params,'COT-10');
+
+            myPromisse.then((resolve)=>{
+                main_data.com_compras.func.fillCompras()
+                closeModal('com_view_comp')               
+            })
+            
+        }                
+    })
+
+    pageScreen.querySelector('#btnAdd').addEventListener('click',()=>{
+        openHTML('busca_prod.html','pop-up','Adicione um Produto ou Serviço',{'org':'com_view_comp'},600)        
+    })
+
+    pageScreen.querySelector('#btnFecha').addEventListener('click',()=>{
+ 
+        if(pageData.status == 'ABERTO'){
+            if (confirm('Deseja dar entrada nesta NF?')) {
+                const params = new Object;
+                    params.id_compra = pageData.id
+                const myPromisse = queryDB(params,'COT-11');
+                myPromisse.then((resolve)=>{
+                    main_data.com_compras.func.fillCompras()
+                    pageScreen.querySelector('#btnFecha').innerHTML = 'Upload NF'
+                })
+            }                               
+
+        } else if(pageData.status == 'FECHADO'){
+            pageScreen.querySelector('#up_file').click()
+        }
+    })
+
+    pageScreen.querySelector('#tblItens').addEventListener('click',(e)=>{
+        if(pageData.status=='ABERTO'){
+            data = e.target.parentNode.data
+            data.org = 'com_view_comp'
+            openHTML('com_edit_prod.html','pop-up','Alteração do Ítem',data,500)
+        }
+    })
+
+    pageScreen.querySelector('#btnVerNF').addEventListener('click',()=>{
+        window.open(`../NF/compra/${pageData.id_emp}_${pageData.id}.pdf`, '_blank')
+    })
+
+    pageScreen.querySelector('#btnPed').addEventListener('click',()=>{
+        pageData.label = 'PEDIDO DE COMPRA - ' + pageData.nf.toUpperCase()
+        print_pedcomp()
+    })
+
+    pageScreen.querySelector('#btnCot').addEventListener('click',()=>{
+        pageData.label = 'SOLICITAÇÃO DE COTAÇÃO'
+        print_pedcomp()
+    })
+
+    pageScreen.querySelector('#up_file').addEventListener('change',()=>{
+
+        const up = uploadFile(pageScreen.querySelector('#up_file').files[0],`../NF/compra/`,`${pageData.id_emp}_${pageData.id}.pdf`)
+        up.then((resp)=>{
+            setLog(`PDF NF-Compra ${pageData.id} ADICIONADA `)
+            pageScreen.querySelector('#btnVerNF').style.display = 'block'
+        })
+
+    })
+
+
+</script>

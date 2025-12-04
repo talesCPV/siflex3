@@ -1,0 +1,200 @@
+
+<template>
+    <style>
+        .frm{
+            padding: 10px;
+        }
+
+        @media all and (max-width : 768px) {
+            .frm input, .frm select{
+                width: 98% !important;
+            }
+        }
+
+    </style>
+  
+    <fieldset class="frm" >
+        <legend>Empresa</legend>
+
+
+        <div class="inline">
+            <label for="ref">Referência</label>
+            <select id="ref">
+                <option value="0" selected>Sem Referência</option>
+                <option value="tb_funcionario">Funcionário</option>
+                <option value="tb_empresa">Empresa</option>
+            </select>
+            <label for="cmbRef" id="lblRef">Empresa</label>
+            <select id="cmbRef" disabled></select>
+        </div>
+        <div class="inline">
+            <label for="edtNome">Nome *</label>
+            <input type="text" class="only-view" id="edtNome" maxlength="60" disabled>
+        </div>
+        <div class="inline">
+            <label for="edtCidade">Cidade *</label>
+            <input type="text" class="only-view" id="edtCidade" maxlength="60" disabled>
+        </div> 
+        <div class="inline">
+            <label for="edtChave" style="height: 98px;">Chave *</label>
+            <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                <input type="text" class="only-view" id="edtChave" maxlength="512" style="width: 98%;" disabled>
+                <label for="">(Telefone, colorcar +55 na frente do DDD)</label>
+            </div>
+        </div>
+
+
+        <div class="line">
+            <button id="btnDel" class="only-view" disabled>Deletar</button>
+            <button id="btnEdit">Editar</button>
+            <button id="btnSave" class="only-view" disabled>Salvar</button>
+        </div>
+    </fieldset>
+
+</template>
+<script>
+    
+    const pageData = main_data.fin_view_pix.data
+    const pageFunc = main_data.fin_view_pix.func
+    const pageScreen = document.querySelector('#card-fin_view_pix')
+    const newPix = Object.keys(pageData).length == 0
+
+    function startPage(){        
+        if(newPix){
+            openFields(1)
+            pageScreen.querySelector('#btnDel').disabled = 1
+            pageScreen.querySelector('#btnEdit').disabled = 1
+        }else{
+            pageScreen.querySelector('#edtNome').value = pageData.nome
+            pageScreen.querySelector('#edtCidade').value = pageData.cidade
+            pageScreen.querySelector('#edtChave').value = pageData.chave
+            pageScreen.querySelector('#ref').value = pageData.org_ref == null ? '0' : pageData.org_ref
+            pageScreen.querySelector('#cmbRef').value = pageData.id_ref
+        }
+    }
+
+    function openFields(open=1){
+        const view = pageScreen.querySelectorAll('.only-view')
+        for(let i=0; i<view.length; i++){
+            view[i].disabled = !open
+        }
+    }
+
+    pageFunc.fillEmp = ()=>{      
+        const params = new Object;
+            params.field = 'nome'
+            params.signal = 'LIKE'
+            params.value = "'%%'"
+        const myPromisse = queryDB(params,'EMP-0')
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const cmb = pageScreen.querySelector('#cmbRef')
+            cmb.innerHTML = '<option value="0">Selecione uma Empresa</option>'
+            for(let i=0; i<json.length;i++){
+                const opt = document.createElement('option')
+                opt.value = json[i].id
+                opt.innerHTML = json[i].fantasia
+                opt.selected = json[i].id == pageData.id_ref
+                opt.data = json[i]
+                cmb.appendChild(opt)
+            }         
+        })
+    }
+
+    pageFunc.fillFunc = ()=>{      
+        const params = new Object
+            params.field = 'nome'
+            params.signal = 'LIKE'
+            params.value = "'%%'"
+            params.ativo =  1 
+        const myPromisse = queryDB(params,'FUN-0')
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)       
+            const cmb = pageScreen.querySelector('#cmbRef')
+            cmb.innerHTML = '<option value="0">Selecione um Funcionário</option>'
+            for(let i=0; i<json.length;i++){
+                const opt = document.createElement('option')
+                opt.value = json[i].id
+                opt.innerHTML = json[i].nome
+                opt.selected = json[i].id == pageData.id_ref
+                opt.data = json[i]
+                cmb.appendChild(opt)
+            }               
+        })
+    }
+
+    pageFunc.setPix = (del=0)=>{
+        const org_ref = pageScreen.querySelector('#ref').value
+        const params = new Object;
+            params.id = newPix ? 0 : pageData.id
+            params.nome = del ? '' : pageScreen.querySelector('#edtNome').value.trim()
+            params.cidade = pageScreen.querySelector('#edtCidade').value.trim()
+            params.chave = pageScreen.querySelector('#edtChave').value.trim()
+            params.org_ref = org_ref
+            params.id_ref = org_ref == '0' ? 0 : pageScreen.querySelector('#cmbRef').value
+          
+        const myPromisse = queryDB(params,'FIN-9');
+        myPromisse.then((resolve)=>{
+            setLog(`Chave Pix ${newPix?'Cadastrada': del ? 'Deletada' : 'Editada'} ${del? pageData.nome : params.nome }, Chave ${params.chave}`)
+            try{
+                main_data.fin_pix.func.fillPix()
+            }catch{
+                console.error('Tela fechada pelo usuário!')
+            }
+            alert('Cadastrado efetuado!')
+            closeModal('fin_view_pix')
+        })
+    }
+
+    pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
+        if(checkField(['edtNome','edtCidade','edtChave'])){
+            pageFunc.setPix()
+        }
+    })
+
+    pageScreen.querySelector('#btnDel').addEventListener('click',()=>{
+        if(confirm('Deseja realmente deletar esta Pagamento?')){
+            pageFunc.setPix(1)
+        }
+    })
+
+    pageScreen.querySelector('#btnEdit').addEventListener('click',()=>{
+        if(pageScreen.querySelector('#btnSave').disabled){
+            if(confirm('Abrir registro para edição?')){
+                openFields(1)
+            }
+        }else{
+            openFields(0)
+        }
+    })
+
+    pageScreen.querySelector('#ref').addEventListener('change',()=>{
+        const ref = pageScreen.querySelector('#ref').value
+        const cmb = pageScreen.querySelector('#cmbRef')
+        if(ref == 'tb_empresa'){
+            pageScreen.querySelector('#edtNome').value = ''
+            pageFunc.fillEmp()
+            pageScreen.querySelector('#lblRef').innerHTML = 'Empresa'
+            cmb. disabled = 0
+        }else if(ref == 'tb_funcionario'){
+            pageScreen.querySelector('#edtNome').value = ''
+            cmb. disabled = 0
+            pageScreen.querySelector('#lblRef').innerHTML = 'Funcionário'
+            pageFunc.fillFunc()
+        }else{
+            cmb. disabled = 1
+            cmb.innerHTML = '<option value="0" selected>Sem Referência</option>'
+        }
+    })
+    
+    pageScreen.querySelector('#cmbRef').addEventListener('change',()=>{
+        const sel =  pageScreen.querySelector('#cmbRef')
+        const data = sel.options[sel.selectedIndex].data
+        pageScreen.querySelector('#edtNome').value = sel.options[sel.selectedIndex].text
+        pageScreen.querySelector('#edtCidade').value = data.cidade.trim()
+
+    })
+
+    startPage()
+
+</script>

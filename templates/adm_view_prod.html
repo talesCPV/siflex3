@@ -1,0 +1,284 @@
+
+<template>
+    <style>
+        .frm{
+            padding: 10px;
+        }
+
+        .top-form{
+            display: flex;
+            flex-direction: row;
+            margin: 10px;
+            padding: 10px 0 10px 10px;            
+        }
+
+        .pic{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: solid 1px;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .side-pic{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .side-pic .inline{
+            padding-right: 0;
+        }
+     
+        #up_file{
+            max-width: 280px;
+        }
+
+
+        @media all and (max-width : 1000px) {
+            .top-form{
+                flex-direction: column;
+                padding: 0;
+                margin: 0;
+            }
+        }
+
+    </style>
+  
+    <fieldset class="frm" >
+        <legend>Produto</legend>
+
+        <div class="top-form">
+            <div class="pic">
+                <canvas id="cnvImg"></canvas>
+                <input  name="up_file" id="up_file" type="file" accept=".jpg,.jpeg" class="only-view" disabled>            
+            </div>
+            <div class="side-pic">
+                <div class="inline">
+                    <label for="edtDesc">Descrição *</label>
+                    <input type="text" class="only-view" id="edtDesc" maxlength="80" disabled>
+                </div>
+                <div class="inline">
+                    <label for="edtCod">Código</label>
+                    <input type="text"  id="edtCod" maxlength="20" disabled>
+                    <label for="edtCodForn">Código Forn.</label>
+                    <input type="text" class="only-view" id="edtCodForn" maxlength="20" disabled>
+                </div>
+                <div class="inline">
+                    <label for="cmbCons">Consumo</label>
+                    <select id="cmbCons" class="only-view" disabled>
+                        <option value="1">SIM</option>
+                        <option value="0">NÃO</option>
+                    </select>
+                    <label for="edtCodBar">Código de Barras</label>
+                    <input type="text" class="only-view" id="edtCodBar" maxlength="20" disabled>        
+                </div>
+                <div class="inline">
+                    <label for="cmdUnd">Unidade</label>
+                    <select id="cmdUnd" class="only-view" disabled></select>
+                    <label for="edtEtq">Estoque</label>
+                    <input type="text" class="only-view" id="edtEtq" maxlength="10" onkeyup="valFloat(this)" disabled>
+                    <label for="edtEtqMin">Estq. Min.</label>
+                    <input type="text" class="only-view" id="edtEtqMin" maxlength="10" onkeyup="valFloat(this)" disabled>              
+                </div>
+                <div class="inline">
+                    <label for="edtCusto">Custo (R$)</label>
+                    <input type="text" class="only-view" id="edtCusto" onkeyup="valFloat(this)" disabled>
+                    <label for="edtMarkup">Markup (%)</label>
+                    <input type="text" class="only-view" id="edtMarkup" onkeyup="valFloat(this)" disabled>    
+                </div>
+        
+            </div>
+        </div>
+
+
+        <div class="inline">
+            <label for="edtLocal">Local Estoque</label>
+            <input type="text" class="only-view" id="edtLocal" maxlength="20" disabled>
+            <label for="edtNCM">NCM</label>
+            <input type="text" class="only-view" id="edtNCM" maxlength="8" onkeyup="valInt(this)" disabled>
+        </div>
+        <div class="inline">
+            <label for="cmbForn">Fornecedor</label>
+            <select id="cmbForn" class="only-view" disabled></select>   
+        </div>
+
+        <div class="line">
+            <button id="btnDel" class="only-view" disabled>Deletar</button>
+            <button id="btnEdit">Editar</button>
+            <button id="btnSave" class="only-view" disabled>Salvar</button>
+        </div>
+    </fieldset>
+
+</template>
+<script>
+    
+    const pageData = main_data.adm_view_prod.data
+    const pageFunc = main_data.adm_view_prod.func
+    const pageScreen = document.querySelector('#card-adm_view_prod')
+    const newProd = Object.keys(pageData).length == 0
+
+    function fillEmp(){
+        const params = new Object;
+            params.field = 'fantasia'
+            params.signal = 'LIKE'
+            params.value = "'%%'"
+        const myPromisse = queryDB(params,'EMP-0');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const cmb = pageScreen.querySelector('#cmbForn')
+            cmb.innerHTML=''
+            for(let i=0; i<json.length; i++){
+                const opt = document.createElement('option')
+                opt.value = json[i].id
+                opt.innerHTML = json[i].fantasia
+                if(!newProd){
+                    opt.selected =  json[i].id == pageData.id_emp ? 1 : 0
+                }else{
+                    opt.selected =  json[i].id == '37' ? 1 : 0
+                }
+                cmb.appendChild(opt)
+            }            
+        })
+    }
+
+    function fillUnd(){
+        const params = new Object;
+            params.field = 'id'
+            params.signal = '>='
+            params.value = '1'
+        const myPromisse = queryDB(params,'ADM-5');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const cmb = pageScreen.querySelector('#cmdUnd')
+            cmb.innerHTML=''
+            for(let i=0; i<json.length; i++){
+                const opt = document.createElement('option')
+                opt.value = json[i].sigla
+                opt.innerHTML = json[i].nome
+                if(!newProd){
+                    opt.selected =  json[i].sigla == pageData.unidade ? 1 : 0
+                }
+                cmb.appendChild(opt)
+            }            
+        })
+    }
+
+    function startPage(){
+        fillEmp()
+        fillUnd()
+        if(newProd){
+            openFields(1)
+            pageScreen.querySelector('#btnDel').disabled = 1
+            pageScreen.querySelector('#btnEdit').disabled = 1
+            pageScreen.querySelector('#up_file').disabled = 1
+        }else{
+            pageScreen.querySelector('#edtDesc').value = pageData.descricao
+            pageScreen.querySelector('#edtCod').value = pageData.cod
+            pageScreen.querySelector('#edtCodForn').value = pageData.cod_cli
+            pageScreen.querySelector('#edtCodBar').value = pageData.cod_bar
+            pageScreen.querySelector('#cmdUnd').value = pageData.unidade
+            pageScreen.querySelector('#edtEtq').value = pageData.estoque
+            pageScreen.querySelector('#edtEtqMin').value = pageData.etq_min
+            pageScreen.querySelector('#cmbCons').value = pageData.consumo
+            pageScreen.querySelector('#edtCusto').value = pageData.preco_comp
+            pageScreen.querySelector('#edtMarkup').value = pageData.margem
+            pageScreen.querySelector('#edtLocal').value = pageData.local
+            pageScreen.querySelector('#edtNCM').value = pageData.ncm
+            pageScreen.querySelector('#btnEdit').disabled = 0
+
+            const back = backFunc({'filename':`../assets/prod/prod_${pageData.cod}.jpg`},1)
+            back.then((resp)=>{
+                const imgExist = JSON.parse(resp)    
+                loadImg( imgExist ? `assets/prod/prod_${pageData.cod}.jpg` : 'assets/prod/noimage.jpg')
+            })            
+        }
+    }
+
+    function openFields(open=1){
+        const view = pageScreen.querySelectorAll('.only-view')
+        for(let i=0; i<view.length; i++){
+            view[i].disabled = !open
+        }
+    }
+
+    pageFunc.setProd = ()=>{
+        const params = new Object;
+            params.id = newProd ? 0 : pageData.id
+            params.id_emp = pageScreen.querySelector('#cmbForn').value
+            params.descricao = pageScreen.querySelector('#edtDesc').value.trim()
+            params.estoque = pageScreen.querySelector('#edtEtq').value.trim()
+            params.estq_min = pageScreen.querySelector('#edtEtqMin').value.trim()
+            params.und = pageScreen.querySelector('#cmdUnd').value
+            params.ncm = pageScreen.querySelector('#edtNCM').value.trim()
+            params.cod_int = pageScreen.querySelector('#edtCod').value.trim()
+            params.cod_bar = pageScreen.querySelector('#edtCodBar').value.trim()
+            params.cod_forn = pageScreen.querySelector('#edtCodForn').value.trim()
+            params.consumo = pageScreen.querySelector('#cmbCons').value
+            params.custo = pageScreen.querySelector('#edtCusto').value.trim()
+            params.markup = pageScreen.querySelector('#edtMarkup').value.trim()
+            params.local = pageScreen.querySelector('#edtLocal').value.trim()
+          
+        const myPromisse = queryDB(params,'PROD-1');
+        myPromisse.then((resolve)=>{            
+            setLog(`Produto ${newProd?'Cadastrado':'Editado'} ${ !newProd ? pageData.descricao :''} -> ${params.descricao}`)
+            try{
+                main_data.adm_produtos.func.fillProd()
+            }catch{
+                console.error('Tela fechada pelo usuário!')
+            }
+            alert('Cadastrado efetuado!')
+            closeModal('adm_view_prod')
+        })
+    }
+
+    pageFunc.delProd = ()=>{
+        if(confirm('Deseja realmente deletar este produto?')){
+            const params = new Object;
+                params.id = pageData.id
+            
+            const myPromisse = queryDB(params,'PROD-2');
+            myPromisse.then((resolve)=>{
+                setLog(`Produto Deletado -> ${pageData.descricao}`)
+                try{
+                    main_data.adm_produtos.func.fillProd()
+                }catch{
+                    console.error('Tela fechada pelo usuário!')
+                }
+                closeModal('adm_view_prod')
+            })
+        }
+    }
+
+    pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
+        pageFunc.setProd()
+    })
+
+    pageScreen.querySelector('#btnDel').addEventListener('click',()=>{
+        pageFunc.delProd()
+    })
+
+    pageScreen.querySelector('#btnEdit').addEventListener('click',()=>{
+        if(pageScreen.querySelector('#btnSave').disabled){
+            if(confirm('Abrir registro para edição?')){
+                openFields(1)
+            }
+        }else{
+            openFields(0)
+        }
+    })
+
+    pageScreen.querySelector('#up_file').addEventListener('change',()=>{        
+        showFile()
+        const up = uploadImage('up_file','assets/prod/',`prod_${pageData.cod}.jpg`)
+        up.then((resp)=>{
+            setLog(` Imagem Alterada -> Produto: ${pageData.descricao}`)
+        })
+    })
+
+    startPage()    
+
+</script>

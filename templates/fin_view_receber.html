@@ -1,0 +1,207 @@
+
+<template>
+    <style>
+        .frm{
+            padding: 10px;
+        }
+
+        #btnGetKey{
+            width: -moz-available;
+            padding: 7px;
+        }
+
+        #btnGetKey span{
+            font-size: 1.4em;
+        }
+        @media all and (max-width : 768px) {
+            .frm input, .frm select{
+                width: 98% !important;
+            }
+        }
+
+    </style>
+
+    <fieldset class="frm" >
+        <legend>Descrição e valores</legend>
+
+        <div class="inline">
+            <label for="cmbTipoPg">Tipo Pgto</label>
+            <select id="cmbTipoPg"  class="only-view" disabled>
+                <option value="BOLETO" selected>Boleto Bancário</option>
+                <option value="PIX">Pix</option>                
+            </select>
+            <button id="btnGetKey" class="only-view" disabled><span class="mdi mdi-magnify"></span> Empresa</button>
+        </div>
+        <div class="inline">
+            <label for="edtCliente">Cliente</label>
+            <input type="text" class="only-view" id="edtCliente" maxlength="10" disabled>
+        </div>
+        <div class="inline">
+            <label for="edtNome">Descrição*</label>
+            <input type="text" class="only-view" id="edtNome" maxlength="60" disabled>
+        </div>
+        <div class="inline">
+            <label for="edtVal">Valor*</label>
+            <input type="text" class="only-view" id="edtVal" inputmode="decimal" onkeyup="valFloat(this)" disabled>
+            <label for="edtVenc">Vencimento*</label>
+            <input type="date" class="only-view" id="edtVenc" disabled>
+            <label for="edtNF">NF</label>
+            <input type="text" class="only-view" id="edtNF" maxlength="10" disabled>            
+        </div>
+        <div class="inline">
+            <label for="edtObs">Obs</label>
+            <textarea class="only-view" id="edtObs" rows="5" maxlength="256" disabled></textarea>
+        </div>
+
+        <div class="line">
+            <label for="ckbPgto">Pago</label>
+            <input type="checkbox" class="only-view" id="ckbPgto" disabled>
+        </div>
+
+        <div class="line">
+            <button id="btnDel" class="only-view" disabled>Deletar</button>
+            <button id="btnEdit">Editar</button>
+            <button id="btnSave" class="only-view" disabled>Salvar</button>
+        </div>
+    </fieldset>
+
+</template>
+<script>
+    
+    const pageData = main_data.fin_view_receber.data
+    const pageFunc = main_data.fin_view_receber.func
+    const pageScreen = document.querySelector('#card-fin_view_receber')
+    const newPgto = Object.keys(pageData).length == 0
+
+    function startPage(){
+//        pageFunc.fillEmp()
+        if(newPgto){
+            openFields(1)
+            pageScreen.querySelector('#btnDel').disabled = 1
+            pageScreen.querySelector('#btnEdit').disabled = 1
+            pageScreen.querySelector('#edtVenc').value =  today.getFormatDate()
+            pageScreen.querySelector('#edtCliente').id_cliente = 0
+            pageData.tipo = 'BOLETO'
+        }else{
+            pageScreen.querySelector('#edtCliente').id_cliente = pageData.id_cli == null ? 0 : pageData.id_cli
+            pageScreen.querySelector('#edtNome').value = pageData.nome
+            pageScreen.querySelector('#edtCliente').value = pageData.cliente
+            pageScreen.querySelector('#edtNF').value = pageData.nf
+            pageScreen.querySelector('#edtVal').value = pageData.valor
+            pageScreen.querySelector('#edtVenc').value = pageData.venc
+            pageScreen.querySelector('#edtObs').value = pageData.cod_pgto
+            pageScreen.querySelector('#cmbTipoPg').value = pageData.tipo
+            pageScreen.querySelector('#ckbPgto').checked = Number(pageData.pgto)
+            changeTipo(pageScreen.querySelector('#cmbTipoPg').value)
+        }
+    }
+
+    function openFields(open=1){
+        const view = pageScreen.querySelectorAll('.only-view')
+        for(let i=0; i<view.length; i++){
+            view[i].disabled = !open
+        }
+    }
+
+    function vencimento(cod){
+        const venc = new Date('2025-02-22')        
+        const dias = Number(cod.substr(33,4))
+        venc.setDate(venc.getDate()+ (dias - 999))
+        return cod.length >= 37 ? venc.getFormatDate() : today.getFormatDate()
+    }
+
+    function valor(cod){
+        const val = Number(cod.substr(-10)).toString()
+        return val.substr(0,val.length-2) + '.' + val.substr(-2)
+    }
+
+    function changeTipo(tipo){
+        const btn =  pageScreen.querySelector('#btnGetKey')
+        btn.innerHTML = '<span class="mdi mdi-magnify"></span> ' + (tipo == 'BOLETO' ? 'Empresa' : 'Chave Pix')
+    }
+
+    pageFunc.buscaEmp = (json)=>{
+        const edt = pageScreen.querySelector('#edtNF')
+        edt.data = json
+        edt.value = json.fantasia
+        edt.id_cliente = json.id
+        pageData.tipo = 'BOLETO'
+    }
+
+    pageFunc.setPgto = (del=0)=>{
+        const params = new Object;
+            params.id = newPgto ? 0 : pageData.id
+            params.id_cliente = pageScreen.querySelector('#edtCliente').id_cliente
+            params.desc = del ? '' : pageScreen.querySelector('#edtNome').value.trim()
+            params.venc = pageScreen.querySelector('#edtVenc').value
+            params.valor = pageScreen.querySelector('#edtVal').value
+            params.tipo = pageScreen.querySelector('#cmbTipoPg').value
+            params.nf = pageScreen.querySelector('#edtNF').value.trim()
+            params.obs = pageScreen.querySelector('#edtObs').value.trim()
+            params.pgto = pageScreen.querySelector('#ckbPgto').checked ? 1 : 0
+            
+            const myPromisse = queryDB(params,'FIN-11');
+        myPromisse.then((resolve)=>{
+            setLog(`Contas A Receber ${newPgto?'Cadastrada': del ? 'Deletada' : 'Editada'} ${del? pageData.nome : params.nome }, Valor ${params.valor}, Venc. dia ${params.venc}`)
+            try{
+                main_data.fin_receber.func.fillPag()
+            }catch{
+                console.error('Tela fechada pelo usuário!')
+            }
+            alert('Cadastrado efetuado!')
+            closeModal('fin_view_receber')
+        })
+    }
+
+    pageFunc.buscaEmp = (json)=>{    
+        pageScreen.querySelector('#edtCliente').value = json.fantasia
+        pageScreen.querySelector('#edtCliente').id_cliente = json.id
+    }
+
+    pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
+        if(checkField(['edtNome','edtVenc','edtVal'])){
+            pageFunc.setPgto()
+        }
+    })
+
+    pageScreen.querySelector('#btnDel').addEventListener('click',()=>{
+        if(confirm('Deseja realmente deletar esta Pagamento?')){
+            pageFunc.setPgto(1)
+        }
+    })
+
+    pageScreen.querySelector('#btnEdit').addEventListener('click',()=>{
+        if(pageScreen.querySelector('#btnSave').disabled){
+            if(confirm('Abrir registro para edição?')){
+                openFields(1)
+            }
+        }else{
+            openFields(0)
+        }
+    })
+/*   
+    pageScreen.querySelector('#btnPgto').addEventListener('click',()=>{
+        openHTML('fin_check_pgto.html','pop-up','Pagamento ao Fornecedor',pageData)
+    })
+ 
+    pageScreen.querySelector('#fncVenc').addEventListener('click',()=>{
+        const cod =  getNum(pageScreen.querySelector('#edtObs').value)
+        if(cod.length == 47){
+            pageScreen.querySelector('#edtVenc').value = vencimento(cod)
+            pageScreen.querySelector('#edtVal').value = valor(cod)
+        }
+    })
+
+    pageScreen.querySelector('#cmbTipoPg').addEventListener('change',()=>{
+        changeTipo(pageScreen.querySelector('#cmbTipoPg').value)
+    })
+*/
+    pageScreen.querySelector('#btnGetKey').addEventListener('click',()=>{
+        const data = new Object
+            data.org = 'fin_view_receber'
+            openHTML('busca_emp.html','pop-up','Selecione um Cliente',data,800)
+    })
+
+    startPage()
+
+</script>

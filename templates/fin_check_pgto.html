@@ -1,0 +1,154 @@
+<template>
+    <style></style>
+  
+    <div class="inline">
+        <label for="edtCliente">Cliente</label>
+        <input type="text" id="edtCliente" disabled>
+        <label for="edtValor">Valor</label>
+        <input type="text" id="edtValor" disabled>
+    </div>
+
+    <div class="inline">
+        <label for="edtDesc">Descrição</label>
+        <input type="text" id="edtDesc" disabled>
+
+    </div>
+
+    <div class="inline">
+        <label for="edtData">Data</label>
+        <input type="date" id="edtData">
+        <label for="cmbTipo">Tipo de Pgto</label>
+        <select id="cmbTipo">
+            <option value="BOLETO">Boleto Bancário</option>
+            <option value="PIX">Pix</option>
+            <option value="TED/DOC">Tranferência (TED/DOC)</option>
+            <option value="DEPODITO">Depśito Bancário</option>
+        </select>
+    </div>
+
+    <div class="inline">
+        <label for="edtObs">Obs.</label>
+        <textarea id="edtObs" rows="5"></textarea>
+    </div>
+
+    <div class="line">
+        <input type="text" id="payload" class="">
+        <button class="btn-round" id="btnClipboard"><span class="mdi mdi-content-copy"></span></button>
+    </div>
+
+    <div class="line">
+        <svg id="barcode"></svg>
+    </div>
+
+    <div class="line">
+        <div id="qrcode"></div>
+    </div>
+
+    <div class="line">
+        <div class="line">
+            <label for="ckbPgto">Quitar</label>
+            <input type="checkbox" id="ckbPgto" checked>
+        </div>
+
+        <button id="btnPgto">Pagar</button>
+    </div>
+
+
+</template>
+<script>
+
+    const pageData = main_data.fin_check_pgto.data
+    const pageFunc = main_data.fin_check_pgto.func
+    const pageScreen = document.querySelector('#card-fin_check_pgto')
+
+    function pageStart(){
+        pageScreen.querySelector('#cmbTipo').value = pageData.tipo
+        pageScreen.querySelector('#edtData').value = pageData.pgto_dia == null ? pageData.venc == null ? today.getFormatDate() : pageData.venc  : pageData.pgto_dia
+        pageScreen.querySelector('#edtDesc').value =  pageData.nome
+        pageScreen.querySelector('#edtObs').value =  pageData.obs
+        pageScreen.querySelector('#edtCliente').value =  pageData.beneficiario
+        pageScreen.querySelector('#edtValor').value =  pageData.valor
+        pageScreen.querySelector('#ckbPgto').checked = Number(pageData.pgto)
+        changePayMode()
+    }
+
+    function cod2barcode(code){
+        let out = '0'
+        const cod = getNum(code)
+        if(cod.length == 47){
+            out  = cod.substr(0,4)+cod.substr(32,15)+cod.substr(4,1)+cod.substr(5,4)+cod.substr(10,10)+cod.substr(21,10)
+        }else if(cod.length == 48){
+            out  = cod.substr(0,11)+cod.substr(12,11)+cod.substr(24,11)+cod.substr(36,11)
+        }
+        return out
+    }
+
+    pageScreen.querySelector('#btnPgto').addEventListener('click',()=>{
+        const params = new Object;
+            params.id = pageData.id
+            params.pago = pageScreen.querySelector('#ckbPgto').checked
+            params.pago_dia = pageScreen.querySelector('#edtData').value
+            params.tipo = pageScreen.querySelector('#cmbTipo').value
+            params.obs = pageScreen.querySelector('#edtObs').value.trim()
+        const myPromisse = queryDB(params,'FIN-7')
+        myPromisse.then((resolve)=>{
+            setLog(`Pagamento a ${pageData.fornecedor} ${params.pago?'': 'NÃO '}Efetuado, Valor R$${pageData.valor} dia ${params.pago_dia}`)
+            try{
+                main_data.fin_pagar.func.fillPag()
+            }catch{
+                console.error('Tela fechada pelo usuário!')
+            }
+            alert('Cadastrado efetuado!')
+            closeModal('fin_check_pgto')
+            closeModal('fin_view_pagar')
+        })
+
+    })
+
+    pageFunc.showQR = (cod)=>{
+        const qrcode = new QRCode("qrcode", {
+            text:cod,
+            width: 250,
+            height: 250,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H,
+            size : 300
+        })
+    }
+
+    pageScreen.querySelector('#cmbTipo').addEventListener('change',()=>{
+        changePayMode()
+    })
+
+    function changePayMode(){
+        const sel = pageScreen.querySelector('#cmbTipo')
+        if(sel.value == 'BOLETO'){
+            pageScreen.querySelector('#barcode').style.display = 'block'
+            pageScreen.querySelector('#qrcode').style.display = 'none'
+            JsBarcode("#barcode", cod2barcode(pageData.cod_pgto))
+            pageScreen.querySelector('#payload').value = cod2barcode(pageData.cod_pgto)
+        }else if(sel.value == 'PIX'){
+            pageScreen.querySelector('#barcode').style.display = 'none'
+            pageScreen.querySelector('#qrcode').style.display = 'block'
+            const myPix = new Pix(pageData.cod_pgto,pageData.valor,pageData.beneficiario,'CACAPAVA')
+            pageScreen.querySelector('#payload').value = myPix.payload()
+            console.log(myPix.payload())
+            pageFunc.showQR(myPix.payload())
+//            console.log(myPix.payload())
+        }else{
+            pageScreen.querySelector('#barcode').style.display = 'none'
+            pageScreen.querySelector('#qrcode').style.display = 'none'
+        }
+    }
+
+    pageScreen.querySelector('#btnClipboard').addEventListener('click',()=>{
+        pageScreen.querySelector('#payload').focus();
+        pageScreen.querySelector('#payload').select();
+        document.execCommand('copy')
+        alert('Código de pagamento copiado para área de transferência!')
+    })
+
+    pageStart()
+
+</script>

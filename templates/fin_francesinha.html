@@ -1,0 +1,214 @@
+<template>
+    <style>
+        .tab{
+            padding: 10px;
+        }
+
+        #cmbArquivos{
+            font-size: 1.5em;
+        }
+    </style>
+    
+    <div class="tab-bar">
+        <div class="tab-item" id="tab-filtro" onclick="pictab(this)">Filtro</div>
+        <div class="tab-item" id="tab-arquivos" onclick="pictab(this)">Arquivos</div>
+
+    </div>
+    
+    <div class="tab-screen">
+        <div id="arquivos" class="tab">
+            <fieldset>
+                <legend>Carregar Arquivo</legend>
+                <div class="inline">
+                    <label for="edtFile">Arquivo</label>
+                    <input type="file" id="edtFile" accept=".txt">
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Últimos arquivos</legend>
+                <select id="cmbArquivos"></select>
+            </fieldset>
+
+        </div>
+        <div id="filtro" class="tab">
+            <div class="inline">
+                <div class="line-ckb">
+                    <label for="ckbData">Início/Final</label>
+                    <input type="checkbox" id="ckbData" checked>
+                </div>
+                <input type="date" id="edtIni" onkeypress="return getEnter(event, 'btnBusca-pgto')">
+                <input type="date" id="edtFin" onkeypress="return getEnter(event, 'btnBusca-pgto')">
+                <button id="btnBusca" class="btn-round" ><span class="mdi mdi-magnify"></span></button>
+            </div> 
+            <table id="tblBoleto"></table> 
+        </div>
+    </div>
+
+
+
+
+</template>
+<script>
+    const pageData = main_data.fin_francesinha.data
+    const pageFunc = main_data.fin_francesinha.func
+    const pageScreen = document.querySelector('#card-fin_francesinha')
+
+    function startPage(){
+        pageScreen.querySelector('#tab-filtro').click()
+        pageScreen.querySelector('#edtIni').value = today.iniMonth()
+        pageScreen.querySelector('#edtFin').value = today.finMonth()
+        pageFunc.viewBoleto()        
+        pageData.francesinha = new Object
+        pageFunc.fillFiles()
+
+
+    }
+
+    pageFunc.parse = ()=>{
+
+        function splitLine(line){
+            const arr = line.trim().split('  ')
+            const out = []
+            for(let i=0; i< arr.length; i++){
+                const ln = arr[i].trim()
+                if(ln.length){
+                    out.push(ln)
+                }
+            }
+            return out
+        }
+
+        function getFloat(n){
+            return Number(n.replaceAll('.','').replaceAll(',','.'))
+        }
+
+        function getDate(d){
+            return '20'+d.substr(4,2)+'-'+d.substr(2,2)+'-'+d.substr(0,2)
+        }
+
+        function formatDate(d){
+            return d.substr(6,4)+'-'+d.substr(3,2)+'-'+d.substr(0,2)
+        }
+
+
+        pageData.francesinha.root = []
+        if(Number(pageData.francesinha.filename.substr(11,2))==1){
+            pageData.francesinha.root = pageData.francesinha.raw.split('\r\n')
+            const out = new Object
+            out.file = pageData.francesinha.filename
+            out.registros = []
+            out.liq = []
+            for(let i=0; i<pageData.francesinha.root.length; i++){
+                const line = splitLine(pageData.francesinha.root[i])
+                if(line[6] == 'ENTRADA'){
+                    const ent = new Object
+                    ent.cliente = line[0]
+                    ent.nf = line[1]
+                    ent.num = Number(line[2])
+                    ent.venc = formatDate(line[3])
+                    ent.pgto = 0
+                    ent.valor = getFloat(line[4])
+                    out.registros.push(ent)
+                    pageFunc.setBoleto(ent)
+                }else if(line[3] == '0,00' && line[4] == '0,00'){
+                    const liq = new Object
+                    liq.cliente = pageData.francesinha.root[i].substr(0,16)
+                    liq.nf = line[0].split(' ')[line[0].split(' ').length-1]
+                    liq.num = Number(line[1].split(' ')[0])
+                    liq.venc = getDate(line[1].split(' ')[1])
+                    liq.pgto = getDate(line[1].split(' ')[2])
+                    liq.valor = getFloat(line[5])
+                    out.liq.push(liq)
+                    pageFunc.setBoleto(liq)
+                }
+            }
+        }
+
+    }
+
+    pageFunc.setBoleto = (obj)=>{
+        const params = new Object;
+            params.cod_pgto = obj.num
+            params.cliente = obj.cliente
+		    params.valor = obj.valor
+		    params.venc = obj.venc
+		    params.pgto = obj.pgto
+		    params.nf = obj.nf
+
+        const myPromisse = queryDB(params,'BOL-1');
+        myPromisse.then((resolve)=>{
+            console.log(resolve)
+        })
+
+    }
+
+    pageFunc.viewBoleto = ()=>{
+        const ckb = pageScreen.querySelector('#ckbData').checked
+        const params = new Object;
+            params.dt_ini = ckb ? pageScreen.querySelector('#edtIni').value : '0000-00-00'
+            params.dt_fin = ckb ? pageScreen.querySelector('#edtFin').value : '9999-12-31'
+
+        const myPromisse = queryDB(params,'BOL-0');
+        myPromisse.then((resolve)=>{
+            const tbl = pageScreen.querySelector('#tblBoleto')
+            const json = JSON.parse(resolve)
+            tbl.head('Cliente,NF,Venc.,Pago,Dia,Valor')
+            let tot = 0.0
+            for(let i=0; i<json.length; i++){
+                tbl.plot(json[i],'cliente,nf,venc,quitado,pgto,valor','Upp,Upp,dat,cha 1=SIM 0=NÃO,dat,R$.')
+                tot += Number(json[i].valor)
+            }
+            tbl.plot({'tot':tot},',,,,TOTAL,tot','let,let,let,let,let,R$.')
+            console.log(tot)
+        })
+
+    }
+
+    pageFunc.fillFiles = ()=>{
+        const cmb = pageScreen.querySelector('#cmbArquivos')
+        cmb.innerHTML = ''
+        showFiles('../files/siflex/francesinha/').then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const arr = []
+            for(let i=2; i<json.length; i++){
+                arr.push(Number(json[i].substr(18,2)+json[i].substr(16,2)+json[i].substr(14,2)))
+            }
+            arr.sort((a, b) => a - b)
+            for(let i=arr.length-1; i>=0;  i--){
+                const opt = document.createElement('option')
+                const dt = arr[i].toString()
+                opt.innerHTML = dt.substr(4,2)+'/'+dt.substr(2,2)+'/20'+dt.substr(0,2)
+                cmb.appendChild(opt)
+            }
+            console.log(arr)
+
+        })
+    }
+
+
+    pageScreen.querySelector('#edtFile').addEventListener('change',()=>{
+        const file = pageScreen.querySelector('#edtFile').files[0]
+        pageData.francesinha.filename = file.name
+        if (file) {
+            var reader = new FileReader();
+            reader.readAsText(file, "UTF-8");
+            reader.onload = function (evt) {
+                pageData.francesinha.raw = evt.target.result
+                pageFunc.parse()
+            }
+            const up = uploadFile(file,'../files/siflex/francesinha/',file.name)
+            up.then((resp)=>{
+                console.log(resp)
+            })
+
+
+        }
+    })
+
+    pageScreen.querySelector('#btnBusca').addEventListener('click',()=>{
+        pageFunc.viewBoleto()
+    })
+
+
+    startPage()
+</script>

@@ -1,0 +1,96 @@
+<template>
+    <style></style>
+  
+
+    <fieldset>
+        <legend>Dados</legend>
+        <table id="tblDados"></table>
+    </fieldset>
+
+    <div class="line">
+        <button id="btnAdd">Adicionar</button>
+    </div>
+
+
+</template>
+<script>
+
+    const pageData = main_data.sys_data.data
+    const pageFunc = main_data.sys_data.func
+    const pageScreen = document.querySelector('#card-sys_data')
+    pageData.data = {}
+
+
+    function pageStart(){
+       loadData()
+       
+    }
+
+    pageScreen.querySelector('#btnAdd').addEventListener('click',()=>{
+        getValue()
+    })
+
+    pageScreen.querySelector('#tblDados').addEventListener('click',(e)=>{
+        const key = e.target.parentNode.data
+        getValue(key,pageData.data[key])
+
+    })
+
+    function loadData(){
+        const data = new URLSearchParams()
+        data.append("path",'/../config/data.json' )
+
+        const myRequest = new Request("backend/loadFile.php",{
+            method : "POST",
+            body : data
+        })
+
+        const MyPromisse = new Promise((resolve,reject) =>{
+            fetch(myRequest)
+            .then(function (response){
+                if (response.status === 200) { 
+                    response.text()
+                    .then((txt)=>{
+                        pageData.data = JSON.parse(txt) == null ? {} : JSON.parse(txt)
+                        pageData.data = pageData.data.length != undefined ? {} : pageData.data
+                        fillData()
+                    })
+                } else { 
+                    reject(new Error("Houve algum erro na comunicação com o servidor"));
+                } 
+            })
+        })
+
+    }
+
+    function fillData(){
+        const tbl = pageScreen.querySelector('#tblDados')
+        tbl.head('Campo,Valor')
+        const keys = Object.keys(pageData.data)
+
+        for(let i=0; i<keys.length; i++){
+            tbl.plot(keys[i],`${keys[i]},${pageData.data[keys[i]]}`,'let,let')
+        }
+    }
+
+    function getValue(key='',val=''){
+        const field = prompt('Digite o nome do Campo:',key)
+        if(field!= null && field.trim()!=''){
+            const value = prompt('Digite o valor do Campo:',val)
+            if(value!= null ){
+                pageData.data[field] = value
+                saveFile(JSON.stringify(pageData.data),'/../config/data.json')
+            }
+           fillData()
+        }else if(field.trim()=='' && key!=''){
+            if(confirm(`Deseja deletar o campo ${key}?`)){
+                delete pageData.data[key]
+                saveFile(JSON.stringify(pageData.data),'/../config/data.json')
+            }
+            fillData()
+        }
+    }
+
+    pageStart()
+
+</script>

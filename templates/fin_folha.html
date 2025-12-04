@@ -1,0 +1,103 @@
+<template>
+    <style>
+
+     
+    </style>
+  
+    <fieldset class="fds-busca pgto">
+        <legend>Busca</legend>
+        <div class="inline">
+            <label for="edtBusca">por:</label>
+            <select id="cmbBusca">
+                <option value="nome" signal="LIKE" selected>Todas</option>
+                <option value="tipo" val="'FOLHA'" signal="=" >Folha de Pgto.</option>
+                <option value="tipo" val="'ADTO'" signal="=" >Adiantamento</option>
+                <option value="tipo" val="'FERIAS'" signal="=" >Férias</option>
+                <option value="tipo" val="'PLR'" signal="=" >Participação nos Lucros e Resultados</option>
+                <option value="tipo" val="'BONUS'" signal="=" >Bônus</option>
+                <option value="tipo" val="'PIX'" signal="=" >Outros</option>
+            </select>
+            <input type="text" id="edtBusca" onkeypress="return getEnter(event, 'btnBusca-pgto')">
+            <button id="btnBusca-pgto" class="btn-round" ><span class="mdi mdi-magnify"></span></button>
+            <button id="btnNovo" class="btn-round"><span class="mdi mdi-plus-thick"></span></button>            
+
+        </div>
+        <div class="inline">
+            <div class="line-ckb">
+                <label for="ckbData">Início/Final</label>
+                <input type="checkbox" id="ckbData" checked>
+            </div>
+            <input type="date" id="edtIni" onkeypress="return getEnter(event, 'btnBusca-pgto')">
+            <input type="date" id="edtFin" onkeypress="return getEnter(event, 'btnBusca-pgto')">
+        </div>  
+
+        <table id="tblPag"></table>
+    </fieldset>
+
+</template>
+<script>
+    const pageData = main_data.fin_folha.data
+    const pageFunc = main_data.fin_folha.func
+    const pageScreen = document.querySelector('#card-fin_folha')
+
+    function pageStart(){
+        pageScreen.querySelector('#edtIni').value = today.iniMonth()
+        pageScreen.querySelector('#edtFin').value = today.finMonth()
+        pageFunc.fillPag()
+    }
+
+    pageFunc.fillPag = ()=>{
+        const tbl = pageScreen.querySelector('#tblPag')
+        tbl.innerHTML = ''
+        const query = getVal('pgto')
+        const ckb = query[0]=='pgto' ? 0 : pageScreen.querySelector('#ckbData').checked
+        pageScreen.querySelector('#ckbData').checked = ckb
+        const params = new Object
+            params.field = query[0]
+            params.signal = query[1]
+            params.value = `${query[2]}  AND centro_custo='MAO_DE_OBRA'`                 //query[2]
+            params.dt_ini = !ckb ? '0000-00-00' : pageScreen.querySelector('#edtIni').value
+            params.dt_fin = !ckb ? '9999-12-31' : pageScreen.querySelector('#edtFin').value
+     
+        const myPromisse = queryDB(params,'FIN-5')
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)       
+console.log(json)            
+            tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
+            tbl.head('Cedente,Ref., Venc.,Valor,Pgto')
+            let tot = 0
+            for(let i=0; i<json.length;i++){
+                tot += Number(json[i].valor)
+                tbl.plot(json[i],'beneficiario,nome,venc,valor,pgto','Upp,Upp,dat,R$.,cha 0=NÃO 1=SIM')
+            }
+            tbl.plot({'tot':tot},',,Total,tot,','let,let,let,R$.,let')
+        })
+    }
+
+    pageScreen.querySelector('#btnBusca-pgto').addEventListener('click',()=>{
+        pageFunc.fillPag()
+    })
+
+    pageScreen.querySelector('#cmbBusca').addEventListener('change',()=>{
+        pageFunc.fillPag()
+    })
+
+    pageScreen.querySelector('#btnNovo').addEventListener('click',()=>{
+        openHTML('fin_view_folha.html','pop-up','Novo Pagamento')
+    })
+
+    pageScreen.querySelector('#tblPag').addEventListener('click',(e)=>{
+        try{
+            if(main_data.hasOwnProperty('adm_view_emp')){
+                closeModal('adm_view_emp')
+            }
+            data = e.target.parentNode.data
+            data != undefined ? openHTML('fin_view_folha.html','pop-up',`Edição de dados - ${data.nome.toUpperCase()}`,data) : null
+       }catch{null}
+    })
+
+
+
+    pageStart()
+
+</script>

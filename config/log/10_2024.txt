@@ -1,0 +1,46 @@
+02/10/2024 16:48 tales@flexibus.com.br : Etapa de Processo Cadastrado Calafetacao
+02/10/2024 16:49 tales@flexibus.com.br : Delecao de Setor (CALAFETACAO)
+02/10/2024 16:49 tales@flexibus.com.br : Delecao de Setor (PINTURA)
+02/10/2024 16:50 tales@flexibus.com.br : Funcionario Editado BRUNO JOSE MATHIAS -> BRUNO JOSE MATHIAS
+02/10/2024 20:43 tales@flexibus.com.br : Alteracao de usuario, email:apontamento@flexibus.com.br -> apontamento@flexibus.com.br, acesso:3 -> 3
+02/10/2024 20:44 tales@flexibus.com.br : Delecao de usuario, email:gilberto@teste.com -> , acesso:1 -> 1
+02/10/2024 20:45 tales@flexibus.com.br : Permissao alterada, Modulo: Sistema, Acesso:[[0]])
+02/10/2024 20:45 tales@flexibus.com.br : Permissao alterada, Modulo: Ferramentas, Acesso:[[0,1,2]])
+02/10/2024 20:45 tales@flexibus.com.br : Permissao alterada, Modulo: Cadastros, Acesso:[[0,1]])
+02/10/2024 20:45 tales@flexibus.com.br : Permissao alterada, Modulo: Parametros, Acesso:[[0,1,2]])
+02/10/2024 20:45 tales@flexibus.com.br : Permissao alterada, Modulo: Operacional, Acesso:[[0,1]])
+02/10/2024 20:45 tales@flexibus.com.br : Permissao alterada, Modulo: RH, Acesso:[[0,1,2]])
+02/10/2024 20:45 tales@flexibus.com.br : Permissao alterada, Modulo: Comercial, Acesso:[[0,1]])
+02/10/2024 20:45 tales@flexibus.com.br : Permissao alterada, Modulo: Seguranca, Acesso:[[0,1]])
+02/10/2024 20:45 tales@flexibus.com.br : Permissao alterada, Modulo: Fiscal, Acesso:[[0,1]])
+02/10/2024 20:45 tales@flexibus.com.br : Permissao alterada, Modulo: Ordem de Servico, Acesso:[[0,1,3]])
+02/10/2024 21:05 tales@flexibus.com.br : Etapa de Processo Cadastrado teste
+02/10/2024 21:05 tales@flexibus.com.br : Etapa de Processo Cadastrado 
+02/10/2024 21:07 tales@flexibus.com.br : Etapa de Processo Cadastrado Desmontagem da parte
+02/10/2024 21:53 tales@flexibus.com.br : Etapa de Processo Cadastrado teste
+02/10/2024 21:54 tales@flexibus.com.br : Etapa de Processo Cadastrado teste 2
+02/10/2024 21:54 tales@flexibus.com.br : Etapa de Processo Cadastrado Costura
+02/10/2024 21:54 tales@flexibus.com.br : Etapa de Processo Cadastrado 
+08/10/2024 20:36 tales@flexibus.com.br : Funcionario Editado TALES CEMBRANELI DANTAS -> TALES CEMBRANELI DANTAS
+08/10/2024 21:55 tales@flexibus.com.br : Etapa de Processo Cadastrado 
+08/10/2024 21:55 tales@flexibus.com.br : Etapa de Processo Cadastrado dsddssd
+08/10/2024 21:56 tales@flexibus.com.br : Etapa de Processo Cadastrado dsddssd
+08/10/2024 21:56 tales@flexibus.com.br : Etapa de Processo Cadastrado 
+08/10/2024 21:56 tales@flexibus.com.br : Etapa de Processo Cadastrado 
+08/10/2024 21:56 tales@flexibus.com.br : Etapa de Processo Cadastrado 
+08/10/2024 21:56 tales@flexibus.com.br : Etapa de Processo Cadastrado 
+08/10/2024 22:00 tales@flexibus.com.br : Etapa de Processo Cadastrado teste
+09/10/2024 13:58 tales@flexibus.com.br : Etapa de Processo Cadastrado teste 2
+09/10/2024 13:58 tales@flexibus.com.br : Etapa de Processo Cadastrado teste 3
+09/10/2024 13:59 tales@flexibus.com.br : Etapa de Processo Cadastrado teste 4
+09/10/2024 14:00 tales@flexibus.com.br : Etapa de Processo Cadastrado teste 6
+09/10/2024 14:12 tales@flexibus.com.br : Etapa de Processo Cadastrado fdss
+09/10/2024 15:36 tales@flexibus.com.br : Funcionario Cadastrado  -> Angela Maria
+09/10/2024 16:05 tales@flexibus.com.br : Processo EDITADO undefined
+31/10/2024 14:46 tales@flexibus.com.br : Inclusao de novo Setor (DESMONTAGEM)
+31/10/2024 14:46 tales@flexibus.com.br : Inclusao de novo Setor (HIGENIZACAO)
+31/10/2024 14:46 tales@flexibus.com.br : Alteracao de nome de Setor (COSTURA -> COSTURA 1)
+31/10/2024 14:46 tales@flexibus.com.br : Inclusao de novo Setor (COSTURA 2)
+31/10/2024 14:46 tales@flexibus.com.br : Inclusao de novo Setor (PREPARACAO)
+31/10/2024 14:47 tales@flexibus.com.br : Inclusao de novo Setor (PINTURA)
+31/10/2024 14:47 tales@flexibus.com.br : Inclusao de novo Setor (SERVICO EXTERNO)

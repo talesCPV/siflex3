@@ -1,0 +1,292 @@
+<template>    
+    <style>
+        .draw-screen{
+            width: 100%;
+            height: 100%;
+        }
+     
+        main{
+            padding: unset !important;
+            display: contents;
+        }
+
+        .baia{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        .lf{
+            width: 50%;
+        }
+
+        .lf img{
+            width: 100%;
+            max-height: 90vh;
+        }
+
+        .rg{
+            min-width: 50%;
+        }
+
+        @media all and (max-width : 768px) {
+            .lf{
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+    <div class="tab-bar">
+        <div class="tab-item" id="tab-main" onclick="pictab(this)"> Descrição</div>
+        <div class="tab-item" id="tab-sanfona" onclick="pictab(this)">Sanfona</div>
+        <div class="tab-item" id="tab-sanfoninha" onclick="pictab(this)">Sanfoninha</div>
+        <div class="tab-item" id="tab-chao" onclick="pictab(this)">Chão</div>            
+    </div>
+
+    <div class="tab-screen">
+        <div id="main" class="tab">
+            <div class="inline">
+                <label for="edtNome">Nome</label>
+                <input type="text" id="edtNome" maxlength="120" class="only-view" disabled value="">
+            </div>
+            <div class="inline">
+                <label for="edtModelo">Modelo</label>
+                <input type="text" id="edtModelo" maxlength="60" class="only-view" disabled value="">
+                <label for="edtChassi">Chassi</label>
+                <input type="text" id="edtChassi" maxlength="30" class="only-view" disabled value="">
+            </div>
+            <div class="inline">                
+                <label for="edtMarca">Marca</label>
+                <input type="text" id="edtMarca" maxlength="60" class="only-view" disabled value="">
+                <label for="edtAno">Ano</label>
+                <input type="text" id="edtAno" maxlength="4" inputmode="decimal" onkeyup="valInt(this)" class="only-view" disabled value="">
+            </div>
+            <div class="inline">
+                <label for="edtQtdBarras">Qtd. Barras</label>
+                <input type="text" id="edtQtdBarras" inputmode="decimal" onkeyup="valInt(this)"  value="0" class="only-view" disabled>
+                <label for="edtQtdDobTeto">Dobrinha Teto</label>
+                <input type="text" id="edtQtdDobTeto" inputmode="decimal" onkeyup="valInt(this)" value="0" class="only-view" disabled>
+                <label for="edtQtdDobChao">Dobrinha Chão</label>
+                <input type="text" id="edtQtdDobChao" inputmode="decimal" onkeyup="valInt(this)" value="0" class="only-view" disabled>
+            </div>            
+            <div class="inline">
+                <label for="edtObs">Obs</label>
+                <textarea id="edtObs" maxlength="1024" rows="5" class="only-view" disabled value=""></textarea>
+            </div>
+        </div>
+        <div id="sanfona" class="tab">
+
+            <div class="baia">
+
+                <div class="lf">
+                    <img src="assets/sanf_geral.png" alt="">
+                </div>
+                <div class="rg">
+                    <div class="inline">
+                        <label for="edtAlt">Altura</label>
+                        <input type="text" id="edtAlt" inputmode="decimal" onkeyup="valFloat(this)" value="0" class="only-view" disabled>
+                    </div>
+                    <div class="inline">
+                        <label for="edtLarg">Largura</label>
+                        <input type="text" id="edtLarg" inputmode="decimal" onkeyup="valFloat(this)" value="0" class="only-view" disabled>
+                    </div>
+                    <div class="inline">
+                        <label for="edtLargTeto">Larg. Teto</label>
+                        <input type="text" id="edtLargTeto" inputmode="decimal" onkeyup="valFloat(this)" value="0" class="only-view" disabled>
+                    </div>
+                    <div class="inline">
+                        <label for="edtAltLat">Alt. Lateral</label>
+                        <input type="text" id="edtAltLat" inputmode="decimal" onkeyup="valFloat(this)" value="0" class="only-view" disabled>
+                    </div>
+                    <div class="inline">
+                        <label for="edtAltTeto">Alt. Teto</label>
+                        <input type="text" id="edtAltTeto" inputmode="decimal" onkeyup="valFloat(this)" value="0" class="only-view" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="sanfoninha" class="tab">
+            <div class="baia">
+
+                <div class="lf">
+                    <img src="assets/sanfoninha.png" alt="">
+                </div>
+                <div class="rg">
+                    <div class="inline">
+                        <label for="edtAltSanfCost">Alt. Costura</label>
+                        <input type="text" id="edtAltSanfCost" inputmode="decimal" onkeyup="valFloat(this)" value="0" class="only-view" disabled>
+                    </div>                    
+                    <div class="inline">
+                        <label for="edtAltSanf">Alt. Sanf.</label>
+                        <input type="text" id="edtAltSanf" inputmode="decimal" onkeyup="valFloat(this)" value="0" class="only-view" disabled>
+                    </div>
+                    <div class="inline">                
+                        <label for="edtTopoSanf">Topo. Sanf.</label>
+                        <input type="text" id="edtTopoSanf" inputmode="decimal" onkeyup="valFloat(this)" value="0" class="only-view" disabled>
+                    </div>
+                    <div class="inline">                
+                        <label for="edtBaseSanf">Base Sanf.</label>
+                        <input type="text" id="edtBaseSanf" inputmode="decimal" onkeyup="valFloat(this)" value="0" class="only-view" disabled>
+                    </div>
+                    <div class="inline">                
+                        <label for="edtLargSanf">Larg. Sanf.</label>
+                        <input type="text" id="edtLargSanf" inputmode="decimal" onkeyup="valFloat(this)" value="0" class="only-view" disabled>
+                    </div>
+                    <div class="inline">                
+                        <label for="edtLargCorredor">Larg. Corredor</label>
+                        <input type="text" id="edtLargCorredor" inputmode="decimal" onkeyup="valFloat(this)" value="0" class="only-view" disabled>
+                    </div>
+                </div>        
+            </div>                    
+        </div>
+        <div id="chao" class="tab">
+            <div class="inline">                
+                <label for="edtLargChao">Larg. Chão</label>
+                <input type="text" id="edtLargChao" inputmode="decimal" onkeyup="valFloat(this)" value="0" class="only-view" disabled>
+            </div>
+            <div class="inline">                
+                <label for="edtDistCarro">Dist. entre Carros</label>
+                <input type="text" id="edtDistCarro" inputmode="decimal" onkeyup="valFloat(this)" value="0" class="only-view" disabled>
+            </div>
+        </div>
+
+    </div>
+    <div class="line">
+        <button id="btnEdit">Editar</button>
+        <button id="btnDel">Deletar</button>
+        <button id="btnSalvar" class="only-view" disabled>Salvar</button>
+    </div>
+    <div class="draw-screen">
+        <main></main>
+    </div>
+
+</template>
+<script>
+
+    const pageData = main_data.sanf_view.data
+    const pageFunc = main_data.sanf_view.func
+    const pageScreen = document.querySelector('#card-sanf_view')
+    const newSanf = Object.keys(pageData).length == 0
+
+    function pageStart(){
+        pageScreen.classList.add('fullscreen')
+        pageScreen.querySelector('#tab-main').click()
+
+        if(newSanf){
+            openFields(1)
+            pageScreen.querySelector('#btnDel').disabled = 1 
+            pageScreen.querySelector('#btnEdit').disabled = 1
+            pageScreen.querySelector('#btnSalvar').disabled = 0
+
+        }else{
+            pageScreen.querySelector('#edtNome').value = pageData.nome
+            pageScreen.querySelector('#edtMarca').value = pageData.marca
+            pageScreen.querySelector('#edtModelo').value = pageData.modelo
+            pageScreen.querySelector('#edtChassi').value = pageData.chassi
+            pageScreen.querySelector('#edtAno').value = pageData.ano
+            pageScreen.querySelector('#edtQtdBarras').value = pageData.qtd_barras
+            pageScreen.querySelector('#edtQtdDobTeto').value = pageData.qtd_dob_teto
+            pageScreen.querySelector('#edtQtdDobChao').value = pageData.qtd_dob_chao
+            pageScreen.querySelector('#edtAlt').value = pageData.alt
+            pageScreen.querySelector('#edtLarg').value = pageData.larg
+            pageScreen.querySelector('#edtAltTeto').value = pageData.alt_teto
+            pageScreen.querySelector('#edtAltLat').value = pageData.alt_lateral
+            pageScreen.querySelector('#edtLargTeto').value = pageData.larg_teto
+            pageScreen.querySelector('#edtAltSanf').value = pageData.alt_sanf
+            pageScreen.querySelector('#edtAltSanfCost').value = pageData.alt_sanf_cost
+            pageScreen.querySelector('#edtLargSanf').value = pageData.larg_sanf
+            pageScreen.querySelector('#edtTopoSanf').value = pageData.topo_sanf
+            pageScreen.querySelector('#edtBaseSanf').value = pageData.base_sanf
+            pageScreen.querySelector('#edtLargCorredor').value = pageData.larg_corredor
+            pageScreen.querySelector('#edtLargChao').value = pageData.larg_chao
+            pageScreen.querySelector('#edtDistCarro').value = pageData.dist_carro
+            pageScreen.querySelector('#edtObs').value = pageData.obs
+            pageScreen.querySelector('#btnEdit').disabled = 0
+        }
+
+
+    }
+
+    function openFields(open=1){
+        const view = pageScreen.querySelectorAll('.only-view')
+        for(let i=0; i<view.length; i++){
+            view[i].disabled = !open
+        }
+    }
+
+    pageFunc.setSanf = (del=0)=>{
+        const params = new Object;
+            params.id = newSanf ? 0 : pageData.id
+            params.nome = del ? '' : pageScreen.querySelector('#edtNome').value
+            params.marca = pageScreen.querySelector('#edtMarca').value
+            params.modelo = pageScreen.querySelector('#edtModelo').value
+            params.chassi = pageScreen.querySelector('#edtChassi').value
+            params.ano = pageScreen.querySelector('#edtAno').value
+            params.qtd_barra = pageScreen.querySelector('#edtQtdBarras').value
+            params.qtd_dob_teto = pageScreen.querySelector('#edtQtdDobTeto').value
+            params.qtd_dob_chao = pageScreen.querySelector('#edtQtdDobChao').value
+            params.alt = pageScreen.querySelector('#edtAlt').value
+            params.larg = pageScreen.querySelector('#edtLarg').value
+            params.alt_teto = pageScreen.querySelector('#edtAltTeto').value
+            params.alt_lateral = pageScreen.querySelector('#edtAltLat').value
+            params.larg_teto = pageScreen.querySelector('#edtLargTeto').value
+            params.alt_sanf = pageScreen.querySelector('#edtAltSanf').value
+            params.alt_sanf_cost = pageScreen.querySelector('#edtAltSanfCost').value
+            params.larg_sanf = pageScreen.querySelector('#edtLargSanf').value
+            params.topo_sanf = pageScreen.querySelector('#edtTopoSanf').value
+            params.base_sanf = pageScreen.querySelector('#edtBaseSanf').value
+            params.larg_corredor = pageScreen.querySelector('#edtLargCorredor').value
+            params.larg_chao = pageScreen.querySelector('#edtLargChao').value
+            params.dist_carro = pageScreen.querySelector('#edtDistCarro').value
+            params.obs = pageScreen.querySelector('#edtObs').value
+        const myPromisse = queryDB(params,'SAN-1');
+        myPromisse.then((resolve)=>{
+            try{
+                main_data.sanf_modelos.func.fillSanf()
+            }catch{
+                console.error('Tela fechada pelo usuário!')
+            }            
+            setLog(`Modelo de Sanfona ${newSanf?'Cadastrado':'Editado'} ${ !newSanf ? pageData.nome :''} -> ${params.nome}`)
+            alert('Cadastrado efetuado!')
+            closeModal('sanf_view')
+        })
+    }
+
+    var sk = function( sketch ) {
+        sketch.setup = function() {
+            const width = pageScreen.offsetWidth -30
+            sketch.createCanvas(width, 410)
+        }
+        sketch.draw = function(){
+            sketch.background(0)
+        }
+    }
+    var myp5 = new p5(sk)
+
+    pageScreen.querySelector('#btnSalvar').addEventListener('click',()=>{
+        if(checkField(['edtNome','edtModelo','edtAno'])){
+            pageFunc.setSanf()
+        }
+    })
+
+    pageScreen.querySelector('#btnDel').addEventListener('click',()=>{
+        if(confirm('Deletar este modelo pernamentemente?')){
+            pageFunc.setSanf(1)
+        }
+    })
+
+    pageScreen.querySelector('#btnEdit').addEventListener('click',()=>{
+        if(pageScreen.querySelector('#btnSalvar').disabled){
+            if(confirm('Abrir registro para edição?')){
+                openFields(1)
+            }
+        }else{
+            openFields(0)
+        }
+    })
+
+    pageStart()
+
+</script>

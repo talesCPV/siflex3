@@ -1,0 +1,87 @@
+<template>
+    <style>
+
+        .linCKB{
+            display: flex;
+            flex-direction: row;
+        }
+
+        .linCKB label {
+            text-align: right;
+            width: auto;
+            min-width: 120px;
+            align-self: flex-end;
+            padding: 10px;
+            white-space: nowrap;
+        }
+
+        .linCKB input[type=checkbox]{
+            margin: 30px 10px 10px 0 !important;
+
+        }
+
+    </style>
+    
+    <fieldset>
+        <legend>Registro de Unidade</legend>
+
+        <div class="inline">
+            <label for="edtUnd">Unidade</label>
+            <input type="text" id="edtUnd" maxlength="30">
+        </div>
+
+        <div class="inline">
+            <label for="edtSigla">Sigla</label>
+            <input type="text" id="edtSigla" maxlength="8">
+        </div>
+
+        <div class="line">
+            <button id="btnSaveUnd">Salvar</button>
+        </div>
+    
+      </fieldset>    
+
+
+
+</template>
+<script>
+
+    const pageData = main_data.adm_view_und.data
+    const pageFunc = main_data.adm_view_und.func
+    const pageScreen = document.querySelector('#card-adm_view_und')
+
+    pageFunc.fill = ()=>{
+        if(parseInt(pageData.id)>0){
+            pageScreen.querySelector('#edtUnd').value = pageData.nome
+            pageScreen.querySelector('#edtSigla').value = pageData.sigla
+        }
+    }
+
+    pageScreen.querySelector('#btnSaveUnd').addEventListener('click',()=>{
+        const params = new Object
+            params.id = pageData.id
+            params.nome = pageScreen.querySelector('#edtUnd').value.trim()
+            params.sigla = pageScreen.querySelector('#edtSigla').value.trim()
+
+        const myPromisse = queryDB(params,'ADM-4');
+        myPromisse.then((resolve)=>{
+            if(params.id == '0'){
+                setLog(`Inclusão de Unidade (${params.nome})`)
+            }else if(params.nome==''){
+                setLog(`Deleção de Unidade (${pageData.nome})`)
+            }else{
+                setLog(`Edição de Unidade (${pageData.nome} -> ${params.nome}, ${pageData.sigla} -> ${params.sigla})`)
+            }
+            
+            try{
+                main_data.adm_unidades.func.fillUnd()
+            }catch{
+                console.error('Tela fechada pelo usuário!')
+            }            
+            closeModal('adm_view_und')
+        })
+    })
+
+    pageFunc.fill()
+
+</script>

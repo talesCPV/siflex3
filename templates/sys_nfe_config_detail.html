@@ -1,0 +1,94 @@
+<template>
+    <style>
+        .fds-opt{
+            padding: 10px;
+        }
+    </style>
+
+    <fieldset>
+        <legend>Edição de Campos</legend>
+
+        <div class="inline">
+            <label for="edtPad">Valor Padrão</label>
+            <input type="text" id="edtPad">
+        </div>
+        <div class="inline">
+            <label for="edtTam">Tamanho</label>
+            <input type="text" id="edtTam">
+            <label for="edtDec">Casas Dec.</label>
+            <input type="text" id="edtDec" onkeyup="valInt(this)" value="0">
+        </div>
+        <div class="inline">
+            <label for="cmbTipo">Tipo</label>
+            <select id="cmbTipo">
+                <option value="C">Caracter</option>
+                <option value="N">Numérico</option>
+                <option value="D">Data</option>
+                <option value="H">Hora</option>
+                <option value="DH">Data e Hora</option>
+            </select>            
+            <label for="cmbOcor">Obrigatório</label>
+            <select id="cmbOcor">
+                <option value="1-1">Sim</option>
+                <option value="0-1" selected>Não</option>
+            </select>
+        </div>
+        <fieldset class="fds-opt">
+            <legend>Opções</legend>
+            <select id="cmbOpt" size="5"></select>
+            <div class="line">
+                <label for="edtVal">Valor</label>
+                <input type="text" id="edtVal" style="max-width: 50px;" maxlength="5">
+                <label for="edtOpt">Texto</label>
+                <input type="text" id="edtOpt" style="width: 100%;">
+                <button class="btn-round" id="addOpt"><span class="mdi mdi-content-save-check-outline"></span></button>
+            </div>
+        </fieldset>
+
+    </fieldset>
+    <div class="line">
+        <button id="btnSave">Salvar</button>
+    </div>
+</template>
+<script>
+    const pageData = main_data.sys_nfe_config_detail.data
+    const pageFunc = main_data.sys_nfe_config_detail.func
+    const pageScreen = document.querySelector('#card-sys_nfe_config_detail')
+
+    function pageStart(){
+        pageScreen.querySelector('#edtPad').value = pageData.rule.def
+        pageScreen.querySelector('#edtTam').value = pageData.rule.tam
+        pageScreen.querySelector('#cmbTipo').value = pageData.rule.tipo
+        pageScreen.querySelector('#cmbOcor').value = pageData.rule.ocor
+        pageScreen.querySelector('#edtDec').value = pageData.rule.dec
+        if(pageData.rule.hasOwnProperty('opt')){
+            const select =  pageScreen.querySelector('#cmbOpt')
+            select.innerHTML = ''
+            const opt = pageData.rule.opt.split('|')
+            for(let i=0; i<opt.length; i++){
+                const dd = opt[i].split('-')
+                const option = document.createElement('option')
+                option.value = dd[0].trim()
+                option.innerHTML = dd[1].trim()
+                select.appendChild(option)
+            }
+
+        }
+    }
+
+    pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
+        if(confirm(`Deseja salvar estes valores como padrão para o este campo?`)){
+            pageData.rule.def = pageScreen.querySelector('#edtPad').value
+            pageData.rule.tam = pageScreen.querySelector('#edtTam').value
+            pageData.rule.tipo = pageScreen.querySelector('#cmbTipo').value
+            pageData.rule.ocor = pageScreen.querySelector('#cmbOcor').value
+            pageData.rule.dec = pageScreen.querySelector('#edtDec').value
+            pageData.save(pageData.grupo)
+//            main_data.sys_nfe_config.func.saveRules(pageData.grupo)
+            closeModal('sys_nfe_config_detail')
+        }
+    })
+
+    pageStart()
+
+</script>

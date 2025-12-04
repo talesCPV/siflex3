@@ -1,0 +1,189 @@
+<template>
+    <style>
+
+        .frm-calc{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+	        grid-template-rows: repeat(6,50px);
+            gap: 10px;
+            padding: 15px;
+            background-color: #000000;
+        }
+
+        .frm-calc *{
+            border-radius: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #FFFFFF;
+            font-weight: bolder;
+            font-size: 1.4em;
+        }
+
+        .frm-calc *:hover{
+            cursor: pointer;
+            filter: brightness(85%);
+        }
+
+        .ligth_gray{
+            background-color: #A3A3A3;
+        }
+        .orange{
+            background-color: #FF9F0A;
+        }
+
+        .numer{
+            background-color: #323232;
+        }
+
+        #display{
+            grid-column: span 4;
+            border-radius: unset !important;
+            display: flex;
+            justify-content: end;
+            font-size: 2em;
+        }
+
+        #n0{
+            grid-column: span 2;
+        }
+
+     
+    </style>
+  
+    <div class="frm-calc">
+        <div id="display"></div>
+        <div id="ac" class="ligth_gray func">AC</div>
+        <div id="neg" class="ligth_gray func">+/-</div>
+        <div id="perc" class="ligth_gray oper">%</div>
+        <div id="div" class="orange oper">/</div>
+        <div id="n7" class="numer">7</div>
+        <div id="n8" class="numer">8</div>
+        <div id="n9" class="numer">9</div>
+        <div id="mult" class="orange oper">x</div>
+        <div id="n4" class="numer">4</div>
+        <div id="n5" class="numer">5</div>
+        <div id="n6" class="numer">6</div>
+        <div id="sub" class="orange oper">-</div>
+        <div id="n1" class="numer">1</div>
+        <div id="n2" class="numer">2</div>
+        <div id="n3" class="numer">3</div>
+        <div id="soma" class="orange oper">+</div>
+        <div id="n0" class="numer">0</div>
+        <div id="coma" class="numer">,</div>
+        <div id="igual" class="orange oper">=</div>
+
+    </div>
+
+
+</template>
+<script>
+
+    const pageData = main_data.usr_calc.data
+    const pageFunc = main_data.usr_calc.func
+    const pageScreen = document.querySelector('#card-usr_calc')
+
+    const calc = new Object
+        calc.display = 0
+        calc.resp = 0
+        calc.oper = '='
+        calc.last = '='
+        calc.clear = 1
+        calc.queu = []
+
+    const number = pageScreen.querySelectorAll('.numer')
+    for(let i=0; i<number.length; i++){
+        number[i].addEventListener('click',()=>{
+            type(number[i].innerHTML)
+        })
+    }
+
+    const oper = pageScreen.querySelectorAll('.oper')
+    for(let i=0; i<oper.length; i++){
+        oper[i].addEventListener('click',()=>{
+            calcula(oper[i].innerHTML)
+        })
+    }
+
+    function show(){
+        pageScreen.querySelector('#display').innerHTML = calc.display.toString().substring(0,12)
+    }
+
+    function type(N){
+        if(calc.clear){
+            calc.resp = calc.display
+            calc.display = 0
+            calc.clear = 0
+        }
+        calc.display = getFloat(calc.display.toString() + N,10)
+        show()
+    }
+
+    function clear(){
+        calc.display = 0
+        calc.resp = 0
+        calc.oper = '='
+        calc.queu = []
+        show()
+    }
+
+    function calcula(OP){
+        OP = OP=='x' ? '*' : OP
+        if(calc.queu.length>=2){
+            let line = calc.queu[0] + calc.queu[1] + calc.display
+            line = OP == '%' ? `(${line})/100` : line
+            calc.display = eval(line)
+        }
+        calc.queu = []
+        if(OP != '='){
+            calc.queu.push(calc.display)
+            calc.queu.push(OP)
+        }
+        calc.resp = calc.display
+        calc.clear = 1
+        show()
+    }
+
+    pageFunc.type = (keyCode)=>{
+        if(keyCode>=96 && keyCode<=105 || keyCode==108){
+            const key = keyCode==108 ? '.' : keyCode-96
+            type(key)
+        }else if(keyCode == 46){
+            clear()
+        }else if(keyCode == 13){
+            calcula()
+        }else if(keyCode == 106){
+            calcula()
+            calc.oper = 'x'
+        }else if(keyCode == 107){
+            calcula()
+            calc.oper = '+'
+        }else if(keyCode == 108){
+            calcula()
+            calc.oper = '/'
+        }else if(keyCode == 109){
+            calcula()
+            calc.oper = '-'
+        }
+    }
+
+    pageScreen.querySelector('#ac').addEventListener('click',()=>{
+        clear()
+    })
+
+    pageScreen.querySelector('#neg').addEventListener('click',()=>{
+        calc.display *= -1
+        show()
+    })
+
+
+    pageScreen.addEventListener('keyup',(event)=>{
+console.log(event)        
+        pageFunc.type(event.keyCode)
+    })
+
+
+
+    show()
+
+</script>

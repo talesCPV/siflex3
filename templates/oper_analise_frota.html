@@ -1,0 +1,152 @@
+<template>
+    <style>
+
+        #tblAnaFrota, #fdsRelat{
+            display: none;
+        }
+
+    </style>
+
+    <fieldset class="fds-busca analise">
+        <legend>Busca</legend>
+        <div class="inline">
+            <label for="edtBusca">por:</label>
+            <select id="cmbBusca">
+                <option value="empresa" signal="LIKE" selected>Cliente</option>
+                <option value="id_emp" signal="=">Cód. Cliente.</option>
+                <option value="num_carro" signal="IN" >Num. Carro</option>
+                <option value="id" signal="IN">Cod. Análise</option>
+            </select>
+            <input type="text" id="edtBusca" onkeypress="return getEnter(event, 'btnBusca')">
+            <select id="cmbExec">
+                <option value="serv_exec" signal="IN" val="0,1" selected>Todos</option>
+                <option value="serv_exec" signal="=" val="1">Executados</option>
+                <option value="serv_exec" signal="=" val="0">Não Executados</option>
+            </select>
+            <button id="btnBusca" class="btn-round" ><span class="mdi mdi-magnify"></span></button>
+            <button id="btnNovo" class="btn-round"><span class="mdi mdi-plus-thick"></span></button>            
+        </div>
+        <div class="inline fdata">
+            <label for="ckbData">entre:</label>
+            <input type="checkbox" id="ckbData" checked>
+            <input type="date" id="edtIni" onkeypress="return getEnter(event, 'btnBusca')">
+            <input type="date" id="edtFin" onkeypress="return getEnter(event, 'btnBusca')">
+        </div>
+    </fieldset>  
+    <table id="tblAnaFrota"></table>
+
+    <fieldset id="fdsRelat">
+        <legend>Relatórios</legend>
+        <div class="inline">
+            <label for="edtTitle">Título</label>
+            <input type="text" id="edtTitle" placeholder="Título do relatório" value="Análise de Frota">
+            <label for="edtObj">Objeto</label>
+            <input type="text" id="edtObj" class="mob-wide" value="Carro" style="width: 200px;">
+            <label for="edtFont">Fonte</label>
+            <input type="text" id="edtFont" class="mob-wide" onkeyup="return valFloat(this,0)" value="11" style="width: 80px;">
+            <label for="edtCor">Cor</label>
+            <input type="color" id="edtCor" class="mob-wide" style="width: 80px;">
+            <label for="edtDesc">Desconto</label>
+            <input type="text" id="edtDesc"  class="mob-wide" style="width: 200px;" onkeyup="return valFloat(this)" value="0">
+        </div>
+
+        <div class="inline">
+            <label for="edtObs">Obs:</label>
+            <textarea id="edtObs" cols="30" rows="10"></textarea>
+        </div>
+        <div class="inline">
+            <label for="edtRodape">Rodapé:</label>
+            <textarea id="edtRodape" cols="30" rows="3"></textarea>
+        </div>
+
+        <div class="line">            
+            <button id="btnRelat">Reltório</button>
+            <button id="btnOrc">Orçamento</button>
+        </div>
+
+    </fieldset>
+
+
+
+</template>
+<script>
+
+    const pageData = main_data.oper_analise_frota.data
+    const pageFunc = main_data.oper_analise_frota.func
+    const pageScreen = document.querySelector('#card-oper_analise_frota')
+
+    pageScreen.querySelector('#edtIni').value = today.iniMonth()
+    pageScreen.querySelector('#edtFin').value = today.finMonth()
+
+    function getDate(){
+        return (pageScreen.querySelector('#edtIni').value.length > 0 && pageScreen.querySelector('#edtFin').value.length > 0) || !document.getElementById('ckbData').checked
+    }
+
+    pageFunc.fillAnalise = ()=>{     
+        if(getDate()){
+            const tbl = pageScreen.querySelector('#tblAnaFrota')
+            const sel = pageScreen.querySelector('#cmbExec')
+            tbl.innerHTML = ''
+            const query = getVal('analise')
+            const params = new Object;
+                params.field = query[0]
+                params.signal = query[1]
+                params.value = query[2]
+                params.exec = sel.options[sel.selectedIndex].getAttribute('val')
+                params.ini = pageScreen.querySelector('#ckbData').checked ? pageScreen.querySelector('#edtIni').value : '0000-00-00'
+                params.fin = pageScreen.querySelector('#ckbData').checked ? pageScreen.querySelector('#edtFin').value : '9999-12-31'
+            const myPromisse = queryDB(params,'ANA-0');
+            myPromisse.then((resolve)=>{
+                const json = JSON.parse(resolve)
+                tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
+                pageScreen.querySelector('#fdsRelat').style.display = json.length > 0 ? 'inline-table' : 'none'
+                tbl.head('Cod.,Data,Cliente,Carro,Exec.,Valor') 
+                for(let i=0; i<json.length;i++){
+                
+                    tbl.plot(json[i],'id,data_analise,empresa,num_carro,exec,valor','str,dat,Upp,str,cha 0=NÃO 1=SIM,R$.')
+                }         
+            });
+        }else{
+            alert('Favor preencher as datas corretamente.')
+        }
+
+    }
+
+    pageScreen.querySelector('#btnBusca').addEventListener('click',()=>{
+        pageFunc.fillAnalise()
+    })
+
+    pageScreen.querySelector('#btnNovo').addEventListener('click',()=>{
+        openHTML('oper_view_ana_frota.html','pop-up','Cadastro - Análise de Frota',{'id':0})
+    })
+
+    pageScreen.querySelector('#tblAnaFrota').addEventListener('click',(e)=>{
+        data = e.target.parentNode.data
+        openHTML('oper_view_ana_frota.html','pop-up','Cadastro - Análise de Frota',data)
+    })
+
+    pageFunc.print = (relat)=>{
+        pageData.org = 'Análise'
+        pageData.relatorio = relat
+        pageData.titulo = pageScreen.querySelector('#edtTitle').value.trim()
+        pageData.desc = parseFloat(pageScreen.querySelector('#edtDesc').value)
+        pageData.cor = pageScreen.querySelector('#edtCor').value
+        pageData.objeto = pageScreen.querySelector('#edtObj').value
+        pageData.rodape = pageScreen.querySelector('#edtRodape').value
+        pageData.fontsize = parseFloat(pageScreen.querySelector('#edtFont').value)
+        pageData.showdata = pageScreen.querySelector('#ckbData').value
+        pageData.data_ini = pageScreen.querySelector('#edtIni').value
+        pageData.data_fin = pageScreen.querySelector('#edtFin').value
+        carrosRelat(pageScreen.querySelector('#tblAnaFrota'),pageData )
+    }
+
+    pageScreen.querySelector('#btnRelat').addEventListener('click',()=>{
+        pageFunc.print(1)
+    })
+
+    pageScreen.querySelector('#btnOrc').addEventListener('click',()=>{
+        pageFunc.print(0)       
+    })
+
+
+</script>

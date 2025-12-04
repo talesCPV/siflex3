@@ -1,0 +1,63 @@
+
+<template>
+    <style>
+        .col{
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+  
+    <fieldset>
+        <legend>Selecione o arquivo</legend>
+        <div class="col">
+            <input  name="up_file" id="up_file" type="file" accept=".jpg,.jpeg,.png">  
+            <div class="line">
+                <button id="btnUpload"><span class="mdi mdi-content-save-check"></span>Salvar</button>
+            </div>
+        </div>
+    </fieldset>
+
+
+</template>
+<script>
+
+    const pageData = main_data.tool_upload_file.data
+    const pageFunc = main_data.tool_upload_file.func
+    const pageScreen = document.querySelector('#card-tool_upload_file')
+
+    pageFunc.start = ()=>{
+        pageScreen.querySelector('#up_file').accept =  '.'+pageData.name.split('.')[1]
+    }
+
+    pageFunc.uploadFile = ()=>{
+        const up_data = new FormData()
+            up_data.append("up_file",  pageScreen.querySelector('#up_file').files[0])
+            up_data.append("path", pageData.path)
+            up_data.append("filename", pageData.name)
+
+        const myRequest = new Request("backend/upload.php",{
+            method : "POST",
+            body : up_data
+        });
+
+        const myPromisse = new Promise((resolve,reject) =>{
+            fetch(myRequest)
+            .then(function (response){
+                if (response.status === 200){
+                    resolve(response.text())
+                    main_data[pageData.org].func.uploadCallBack(myPromisse) 
+                }else{
+                    reject(new Error("Houve algum erro na comunicação com o servidor"))
+                }                 
+                closeModal('tool_upload_file')
+            })
+        })
+    }
+
+    pageScreen.querySelector('#btnUpload').addEventListener('click',()=>{
+        const upload = pageFunc.uploadFile()
+    })
+
+    pageFunc.start()
+
+</script>

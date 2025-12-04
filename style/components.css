@@ -1,0 +1,361 @@
+/* BUTTONS */
+
+    .btn{
+        border-radius: 5px;
+        margin-top: 10px;
+        padding: 10px;
+        margin: 1em;
+        background: white;
+        border: solid 1px white;
+        color: rgb(155, 155, 155);
+        border: solid 1px rgb(155, 155, 155);  
+        max-width: calc(100% - 2em);
+      }
+      
+      .btn:hover{
+        border: solid 1px #212121;  
+        color: #212121;
+        transition: background 0.3s ease-in-out;
+      }
+      
+      .btn-fill{
+        background: var(--top-bar) !important;
+        border: solid 1px var(--top-bar);
+        color: var(--top-bar-font) !important;
+      }
+      
+      .btn-fill:hover{
+        background: var(--top-bar-font) !important;
+        color: var(--top-bar) !important;
+      }
+
+      .btn-round{
+        padding: 10px;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        min-width: unset !important;
+        font-size: 1.4em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .btn-round:hover{
+        border: solid 2px #16a083;
+        color: #16a083;
+        background-color: #ffffff;
+      }
+/* Edit + Button */
+
+      .edtbtn{
+        display: flex;
+        width: 100%;
+        padding: 10px;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .edtbtn *{
+        margin: 0;
+      }
+
+      .edtbtn button{
+/*        font-size: 1.8em;*/
+        padding: 0;
+        width: 45px;
+      }
+
+/* FIELDSET BUSCA */
+
+    .fds-busca{
+        container-name : busca;
+        container-type: inline-size;
+    }
+
+    .fds-busca select{
+        max-width: 200px;
+    }
+
+/* HIDE */
+
+    .hide{
+        display: none;
+    }
+
+/* PAINEIS */
+
+    .panel{
+        display: flex;
+        flex-direction: row;
+        min-height: 300px;
+        width: 100%;
+    }
+
+    .panel fieldset{
+        width: 100%;
+        padding: 10px;
+    }
+
+    .middle{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .panel select{
+        margin: 0;
+        padding: 10px;
+    }
+
+/*  ABAS (TAB) */
+
+    .tab-bar{
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .tab-screen{
+        overflow: scroll;
+        border: solid;
+        width: 100%;
+        height: 80vh;
+        margin-top: 0px;
+/* ATENTION      
+        display: flex;
+        justify-content: center;
+        align-items: center;       
+*/ 
+    }
+
+    .tab-item{
+/*        margin: 20px 0 0 0;*/
+        padding: 0 10px 0 10px;
+        border: rgb(10, 10, 10) solid;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .tab-item:hover{
+        cursor: pointer;
+    }
+
+    .tab-item:target{
+        background-color: #3F5954;
+        color: ghostwhite;
+        font-size: large;
+    }
+
+    .check-tab{
+        background-color: var(--win-font);
+        color: var(--win-back);
+    }
+
+    .btnAdd{
+        max-width: 50px;
+        border-radius: 50%;
+        font-size: 1.5em;
+    }
+
+/* AGENDA DO DIA */
+
+    .schedule{
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        background-color: rgb(248, 246, 147);;
+        left: 40vw;
+        top: 40vh;
+        padding: 10px 30px;
+        border-radius: 10px;
+        border: solid 1px white;
+        max-width: 400px;
+    }
+
+    .schedule-title{
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .schedule-btn{
+        margin: auto;
+        background-color: #f8f693;
+        border: solid 1px;
+        border-radius: 5px;
+    }
+
+    .schedule-btn:hover{
+        background-color: #f0ee8e;
+    }
+
+    .schedule-txt{
+        max-height: 300px;
+        overflow: scroll;
+        padding-bottom: 20px;
+    }
+
+    .x-close{
+        position: absolute;
+        top: 0;
+        right: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1.5em;
+    }
+
+/* ATALHOS ICONES */
+
+    .icone{
+        position: fixed;
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: center;
+        align-items: center;
+        width: 80px;
+        height: 80px;
+        cursor: pointer;
+        background-color: var(--top-bar);
+        color: var(--top-bar-font);
+        border-radius: 50%;
+    }
+
+    .icone:active{
+        cursor: grabbing;
+    }
+
+    .icone:hover{
+        background-color: var(--top-bar-hover);
+        color: var(--top-font-hover);
+        
+    }
+
+    .icone span{
+        font-size: 2.2em;
+    }
+
+    .icone p{
+        font-size: 0.7em;
+        max-width: 60px;
+        line-height: 1em;
+        padding-top: 8px;
+        text-align: center;
+    }
+
+/* BADGES */
+
+    .badge{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 0 2px 0;
+        border-radius: 50%;
+        background-color: rgb(201, 42, 42);
+        color: rgb(253, 253, 253) !important;
+        width: 20px;
+        height: 20px;
+        font-size: 0.8em;
+        cursor: pointer;
+    } 
+
+    .badge:empty{
+        display: none;
+        background-color: rgba(0, 0, 0, 0);
+    }
+
+
+@container busca (max-width: 500px) {
+
+    .fds-busca .inline{
+        flex-direction: unset;
+        flex-wrap: wrap;
+    }
+
+    .fdata{
+        justify-content: center;
+    }
+
+    .fds-busca label{
+        display: none;
+    }
+
+    .fdata  label{
+        display: block !important;
+        width: auto;
+        min-width: unset !important;
+    }
+
+    #edtBusca{
+        order: 5;
+/*        width: 100%;*/
+        width: calc(100% - 140px);
+    }
+
+    .fds-busca button{
+        order: 6;
+    }
+
+    .fds-busca select{
+        max-width: unset;
+/*        width: calc(100% - 140px);*/
+    }
+
+}
+
+@media all and (max-width : 768px) {
+
+    .schedule{
+        left: unset;
+        top: 20vh;
+    }
+
+    .icone{
+        position: unset;
+    }
+
+    .fds-busca .inline{
+        flex-direction: unset;
+        flex-wrap: wrap;
+    }
+
+    .fds-busca label{
+        display: none;
+    }
+
+    .fdata{
+        justify-content: center;
+    }
+
+    .fdata  label{
+        display: block !important;
+        width: auto;
+        min-width: unset !important;
+    }
+
+    #edtBusca{
+        order: 5;
+/*        width: 100%;*/
+        width: calc(100% - 140px);
+    }
+
+    .fds-busca button{
+        order: 6;
+    }
+
+    .fds-busca select{
+        max-width: unset;
+/*        width: calc(100% - 140px);*/
+    }
+
+    .panel{
+        flex-direction: column;
+    }
+
+    .panel .middle{
+        flex-direction: row;
+    }
+
+    .panel .middle button{
+        transform: rotate(90deg);
+    }
+
+}

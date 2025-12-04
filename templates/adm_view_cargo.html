@@ -1,0 +1,77 @@
+<template>
+    <style>
+
+    </style>
+    
+    <fieldset>
+        <legend>Registro de Cargos</legend>
+
+        <div class="inline">
+            <label for="edtCargo">Cargo</label>
+            <input type="text" id="edtCargo" maxlength="30">
+        </div>
+
+        <div class="inline">
+            <label for="edtSal">Salário</label>
+            <input type="text" id="edtSal" onkeyup="return valFloat(this)">
+            <label for="edtCBO">CBO</label>
+            <input type="text" id="edtCBO" maxlength="8" onkeyup="return valInt(this)">
+            <div class="line-ckb">
+                <label for="ckbHora">Horista</label>
+                <input type="checkbox" id="ckbHora" checked>
+            </div>    
+        </div>
+
+        <div class="line">
+            <button id="btnSaveCargo" class="btn">Salvar</button>
+        </div>
+    
+      </fieldset>    
+
+
+
+</template>
+<script>
+
+    const pageData = main_data.adm_view_cargo.data
+    const pageFunc = main_data.adm_view_cargo.func
+    const pageScreen = document.querySelector('#card-adm_view_cargo')
+
+    pageFunc.fill = ()=>{
+        if(parseInt(pageData.id)>0){
+            pageScreen.querySelector('#edtCargo').value = pageData.cargo
+            pageScreen.querySelector('#edtSal').value = pageData.salario
+            pageScreen.querySelector('#edtCBO').value = pageData.cbo
+            pageScreen.querySelector('#ckbHora').checked = pageData.tipo == 'MENSAL' ? 0 : 1
+        }
+    }
+
+
+    pageScreen.querySelector('#btnSaveCargo').addEventListener('click',()=>{
+        const params = new Object
+            params.id = pageData.id
+            params.cargo = pageScreen.querySelector('#edtCargo').value.trim()
+            params.sal = pageScreen.querySelector('#edtSal').value.trim()
+            params.mensal = pageScreen.querySelector('#ckbHora').checked ? 0 : 1
+            params.cbo = pageScreen.querySelector('#edtCBO').value.trim()
+        const myPromisse = queryDB(params,'ADM-2');
+        myPromisse.then((resolve)=>{
+            if(params.id == '0'){
+                setLog(`Inclusão de novo Cargo (${params.cargo})`)
+            }else if(params.cargo == ''){
+                setLog(`Deleção de Cargo (${pageData.cargo})`)
+            }else{
+                setLog(`Alteração de Cargo (${pageData.cargo}, ${pageData.salario.money()}, ${parseInt(pageData.mensal) ? 'MENSALISTA' : 'HORISTA'}, ${pageData.cbo}) -> (${params.cargo},${params.sal.money()},${parseInt(params.mensal) ? 'MENSALISTA' : 'HORISTA'} ,${params.cbo})`)
+            }            
+            try{
+                main_data.adm_cargos.func.fillCargo()
+            }catch{
+                console.error('Tela fechada pelo usuário!')
+            }
+            closeModal('adm_view_cargo')
+        })
+    })
+
+    pageFunc.fill()
+
+</script>

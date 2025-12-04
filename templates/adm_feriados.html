@@ -1,0 +1,62 @@
+
+<template>
+    <style>
+
+        #fdsFeriados{
+            display: none;
+        }
+
+        #btnNovo{
+            min-width: unset !important;
+        }
+
+    </style>
+        
+        <div class="line">
+            <label for="btnNovo">Novo Feriado</label>
+            <button id="btnNovo" class="btn-round"><span class="mdi mdi-plus-thick"></span></button>            
+        </div>
+
+        <fieldset id="fdsFeriados">
+            <table id="tbl"></table>            
+        </fieldset>
+
+</template>
+<script>
+
+    const pageData = main_data.adm_feriados.data
+    const pageFunc = main_data.adm_feriados.func
+    const pageScreen = document.querySelector('#card-adm_feriados')
+  
+    pageFunc.fillFeriado= ()=>{
+        const tbl = pageScreen.querySelector('#tbl')
+        tbl.innerHTML = ''
+        const params = new Object;
+        const myPromisse = queryDB(params,'ADM-6');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            pageScreen.querySelector('#fdsFeriados').style.display = json.length > 0 ? 'block' : 'none'
+
+            tbl.head('Data,Descrição')
+            for(let i=0; i<json.length;i++){
+                tbl.plot(json[i],'data,nome','str,Upp')                
+            }         
+        });
+    }
+
+    pageFunc.fillFeriado()
+
+
+    pageScreen.querySelector('#btnNovo').addEventListener('click',()=>{
+        openHTML('adm_view_feriado.html','pop-up','Nova Unidade',{'id':'0'},500)
+    })
+
+    pageScreen.querySelector('#tbl').addEventListener('click',(e)=>{
+        if(main_data.hasOwnProperty('adm_view_feriado')){
+            closeModal('adm_view_feriado')
+        }
+        data = e.target.parentNode.data
+        data != undefined ? openHTML('adm_view_feriado.html','pop-up',`Feriado - ${data.nome.toUpperCase()}`,data,500) : null
+    })
+
+</script>

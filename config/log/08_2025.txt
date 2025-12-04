@@ -1,0 +1,7 @@
+28/08/2025 20:37 tales@flexibus.com.br : Menu Incluido (A Receber)
+28/08/2025 20:38 tales@flexibus.com.br : Menu Alterado (A Receber, fin_receber.html, pop-up, Titulos a Receber)
+28/08/2025 21:28 tales@flexibus.com.br : Contas A Receber Cadastrada undefined, Valor 10, Venc. dia 2025-09-17
+28/08/2025 21:37 tales@flexibus.com.br : Contas A Receber Editada undefined, Valor 100.58, Venc. dia 2025-08-17
+28/08/2025 21:44 tales@flexibus.com.br : Contas A Receber Editada undefined, Valor 100.58, Venc. dia 2025-08-17
+28/08/2025 21:45 tales@flexibus.com.br : Contas A Receber Editada undefined, Valor 100.58, Venc. dia 2025-08-17
+28/08/2025 21:45 tales@flexibus.com.br : Contas A Receber Deletada teste recebimento 2, Valor 100.58, Venc. dia 2025-08-17

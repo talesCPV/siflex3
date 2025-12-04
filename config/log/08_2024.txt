@@ -1,0 +1,110 @@
+05/08/2024 11:45  : Novo Registro de Hora: LUIZ ANTONIO DE MOURA Entrada: 01/08/2024 as 00:00, Saida: 01/08/2024 as 00:00
+05/08/2024 11:46  : Novo Registro de Hora: IGOR HENRIQUE Entrada: 01/08/2024 as 07:00, Saida: 01/08/2024 as 18:00
+05/08/2024 11:46  : Novo Registro de Hora: JERONIMO IGNACIO RAMOS Entrada: 01/08/2024 as 07:00, Saida: 01/08/2024 as 18:00
+05/08/2024 11:46  : Novo Registro de Hora: BRUNO JOSE MATHIAS Entrada: 02/08/2024 as 17:00, Saida: 03/08/2024 as 06:00
+05/08/2024 11:46  : Novo Registro de Hora: IGOR HENRIQUE Entrada: 02/08/2024 as 17:00, Saida: 03/08/2024 as 06:00
+05/08/2024 11:47  : Novo Registro de Hora: JERONIMO IGNACIO RAMOS Entrada: 02/08/2024 as 17:00, Saida: 03/08/2024 as 06:00
+05/08/2024 11:47  : Novo Registro de Hora: J.BAZILIO Entrada: 02/08/2024 as 17:00, Saida: 03/08/2024 as 06:00
+05/08/2024 11:48  : Novo Registro de Hora: CARLOS ROBERTO OLIVEIRA SOUZA Entrada: 04/08/2024 as 05:00, Saida: 04/08/2024 as 20:30
+05/08/2024 11:48  : Novo Registro de Hora: JOAO LUZ Entrada: 04/08/2024 as 05:00, Saida: 04/08/2024 as 20:30
+05/08/2024 13:49  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-02, N. Carro:8331, VALOR: R$940.00
+05/08/2024 13:50  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-02, N. Carro:8324, VALOR: R$1.575.00
+05/08/2024 13:51  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-02, N. Carro:8314, VALOR: R$3.145.00
+05/08/2024 13:52  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-02, N. Carro:8320, VALOR: R$945.00
+05/08/2024 13:52  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-02, N. Carro:8306, VALOR: R$630.00
+05/08/2024 13:53  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-02, N. Carro:8186, VALOR: R$1.885.00
+05/08/2024 13:53  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-02, N. Carro:8165, VALOR: R$420.00
+05/08/2024 13:54  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-02, N. Carro:8328, VALOR: R$1.570.00
+05/08/2024 13:55  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-02, N. Carro:8304, VALOR: R$1.255.00
+05/08/2024 13:56  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-02, N. Carro:8307, VALOR: R$1.570.00
+05/08/2024 13:57  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-02, N. Carro:8301, VALOR: R$945.00
+05/08/2024 13:57  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-02, N. Carro:8311, VALOR: R$945.00
+05/08/2024 13:58  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-02, N. Carro:8315, VALOR: R$315.00
+06/08/2024 09:21 tales@flexibus.com.br : Insercao de novo usuarios, email:undefined -> gilberto@teste.com, acesso:undefined -> 1
+06/08/2024 15:45 tales@flexibus.com.br : Menu Incluido (Compras)
+06/08/2024 15:45 tales@flexibus.com.br : Menu Alterado (Compras, com_compras.html, pop-up, Compras)
+06/08/2024 15:46 tales@flexibus.com.br : Permissao alterada, Modulo: Sistema, Acesso:[[0]])
+06/08/2024 15:46 tales@flexibus.com.br : Permissao alterada, Modulo: Ferramentas, Acesso:[[0,1,2]])
+06/08/2024 15:46 tales@flexibus.com.br : Permissao alterada, Modulo: Cadastros, Acesso:[[0,1]])
+06/08/2024 15:46 tales@flexibus.com.br : Permissao alterada, Modulo: Parametros, Acesso:[[0,1,2]])
+06/08/2024 15:46 tales@flexibus.com.br : Permissao alterada, Modulo: Operacional, Acesso:[[0,1]])
+06/08/2024 15:46 tales@flexibus.com.br : Permissao alterada, Modulo: Comercial, Acesso:[[0,1]])
+06/08/2024 15:46 tales@flexibus.com.br : Permissao alterada, Modulo: Fiscal, Acesso:[[0,1]])
+06/08/2024 15:46 tales@flexibus.com.br : Permissao alterada, Modulo: RH, Acesso:[[0,1,2]])
+12/08/2024 08:38  : Novo Registro de Hora: BRUNO JOSE MATHIAS Entrada: 09/08/2024 as 16:00, Saida: 10/08/2024 as 07:00
+12/08/2024 08:38  : Novo Registro de Hora: IGOR HENRIQUE Entrada: 09/08/2024 as 12:00, Saida: 10/08/2024 as 07:00
+12/08/2024 08:39  : Novo Registro de Hora: J.BAZILIO Entrada: 09/08/2024 as 12:00, Saida: 10/08/2024 as 07:00
+12/08/2024 08:39  : Novo Registro de Hora: JERONIMO IGNACIO RAMOS Entrada: 09/08/2024 as 16:00, Saida: 10/08/2024 as 07:00
+12/08/2024 08:40  : Novo Registro de Hora: MARCELO CUSTODIO DE SIQUEIRA Entrada: 09/08/2024 as 16:00, Saida: 10/08/2024 as 07:00
+12/08/2024 08:40  : Novo Registro de Hora: WELLINGTON HENRIQUE A SIQUEIRA Entrada: 09/08/2024 as 16:00, Saida: 10/08/2024 as 07:00
+12/08/2024 14:36  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-09, N. Carro:8312, VALOR: R$1.570.00
+12/08/2024 14:37  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-09, N. Carro:8183, VALOR: R$1.885.00
+12/08/2024 14:37  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-09, N. Carro:8319, VALOR: R$1.255.00
+12/08/2024 14:38  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-09, N. Carro:8326, VALOR: R$1.885.00
+12/08/2024 14:39  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-09, N. Carro:8318, VALOR: R$1.255.00
+12/08/2024 14:39  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-09, N. Carro:8163, VALOR: R$1.570.00
+12/08/2024 14:40  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-09, N. Carro:8178, VALOR: R$1.570.00
+12/08/2024 14:41  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-09, N. Carro:8302, VALOR: R$1.885.00
+12/08/2024 14:41  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-09, N. Carro:8180, VALOR: R$315.00
+12/08/2024 14:42  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-09, N. Carro:8162, VALOR: R$735.00
+12/08/2024 14:43  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-09, N. Carro:8190, VALOR: R$315.00
+12/08/2024 14:43  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-09, N. Carro:8189, VALOR: R$1.885.00
+12/08/2024 14:44  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-09, N. Carro:8167, VALOR: R$420.00
+12/08/2024 14:44  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-09, N. Carro:8301, VALOR: R$940.00
+12/08/2024 14:48  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-09, N. Carro:8104, VALOR: R$15.000.00
+15/08/2024 11:32  : Produto Cadastrado  -> REPARO NA PARTE INFERIOR DO FLANGE VALE S.A
+19/08/2024 09:21  : Novo Registro de Hora: IGOR HENRIQUE Entrada: 17/08/2024 as 04:00, Saida: 17/08/2024 as 22:00
+19/08/2024 09:22  : Novo Registro de Hora: J.BAZILIO Entrada: 17/08/2024 as 04:00, Saida: 17/08/2024 as 22:00
+19/08/2024 09:22  : Novo Registro de Hora: JERONIMO IGNACIO RAMOS Entrada: 17/08/2024 as 04:00, Saida: 17/08/2024 as 22:00
+19/08/2024 09:22  : Novo Registro de Hora: CARLOS ROBERTO OLIVEIRA SOUZA Entrada: 18/08/2024 as 04:30, Saida: 18/08/2024 as 20:30
+19/08/2024 09:23  : Novo Registro de Hora: JOAO LUZ Entrada: 18/08/2024 as 04:30, Saida: 18/08/2024 as 20:30
+19/08/2024 09:23  : Novo Registro de Hora: WELLINGTON HENRIQUE A SIQUEIRA Entrada: 18/08/2024 as 04:30, Saida: 18/08/2024 as 20:30
+19/08/2024 15:29  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-18, N. Carro:63507, VALOR: R$3.550.00
+19/08/2024 15:30  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-18, N. Carro:63500, VALOR: R$3.550.00
+19/08/2024 15:38  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-17, N. Carro:32786, VALOR: R$7.500.00
+19/08/2024 15:39  : EDICAO SERV EXEC - Cliente:MOBIBRASIL ALVARENGA, Data:2024-08-18, N. Carro:63507, VALOR: R$3.550.00
+19/08/2024 15:39  : EDICAO SERV EXEC - Cliente:MOBIBRASIL ALVARENGA, Data:2024-08-18, N. Carro:63500, VALOR: R$3.550.00
+23/08/2024 15:20  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-23, N. Carro:32796, VALOR: R$7.500.00
+23/08/2024 15:20  : EDICAO SERV EXEC - Cliente:CAPELLINI HORTOLANDIA, Data:2024-08-17, N. Carro:32786, VALOR: R$7.250.00
+23/08/2024 15:20  : EDICAO SERV EXEC - Cliente:CAPELLINI HORTOLANDIA, Data:2024-08-23, N. Carro:32796, VALOR: R$7.250.00
+23/08/2024 15:22  : EDICAO SERV EXEC - Cliente:CAPELLINI HORTOLANDIA, Data:2024-08-21, N. Carro:32796, VALOR: R$7.250.00
+23/08/2024 15:40  : Novo Registro de Hora: IGOR HENRIQUE Entrada: 21/08/2024 as 04:00, Saida: 21/08/2024 as 22:00
+23/08/2024 15:40  : Novo Registro de Hora: JERONIMO IGNACIO RAMOS Entrada: 21/08/2024 as 04:00, Saida: 21/08/2024 as 22:00
+23/08/2024 15:41  : Novo Registro de Hora: MARCELO CUSTODIO DE SIQUEIRA Entrada: 21/08/2024 as 04:00, Saida: 21/08/2024 as 22:00
+23/08/2024 15:42  : Novo Registro de Hora: BRUNO JOSE MATHIAS Entrada: 22/08/2024 as 04:00, Saida: 22/08/2024 as 21:30
+23/08/2024 15:43  : Novo Registro de Hora: BRUNO JOSE MATHIAS Entrada: 22/08/2024 as 04:00, Saida: 22/08/2024 as 21:30
+23/08/2024 15:43  : Novo Registro de Hora: BRUNO JOSE MATHIAS Entrada: 22/08/2024 as 04:00, Saida: 22/08/2024 as 21:30
+23/08/2024 15:43  : Novo Registro de Hora: IGOR HENRIQUE Entrada: 22/08/2024 as 04:00, Saida: 22/08/2024 as 21:30
+23/08/2024 15:43  : Novo Registro de Hora: JERONIMO IGNACIO RAMOS Entrada: 22/08/2024 as 04:00, Saida: 22/08/2024 as 21:30
+23/08/2024 15:43  : Novo Registro de Hora: J.BAZILIO Entrada: 22/08/2024 as 04:00, Saida: 22/08/2024 as 21:30
+23/08/2024 15:44  : Novo Registro de Hora: BRUNO JOSE MATHIAS Entrada: 23/08/2024 as 04:00, Saida: 23/08/2024 as 16:00
+23/08/2024 15:44  : Novo Registro de Hora: IGOR HENRIQUE Entrada: 23/08/2024 as 04:00, Saida: 23/08/2024 as 16:00
+23/08/2024 15:44  : Novo Registro de Hora: MARCELO CUSTODIO DE SIQUEIRA Entrada: 23/08/2024 as 04:00, Saida: 23/08/2024 as 16:00
+26/08/2024 08:41  : Funcionario Editado LUIZ ANTONIO DE MOURA -> LUIZ ANTONIO DE MOURA
+26/08/2024 08:43  : Novo Registro de Hora: IGOR HENRIQUE Entrada: 09/08/2024 as 12:00, Saida: 10/08/2024 as 07:00
+26/08/2024 11:27  : EDICAO SERV EXEC - Cliente:CAPELLINI HORTOLANDIA, Data:2024-08-21, N. Carro:32796, VALOR: R$7.250.00
+26/08/2024 11:27  : EDICAO SERV EXEC - Cliente:CAPELLINI HORTOLANDIA, Data:2024-08-17, N. Carro:32786, VALOR: R$7.250.00
+29/08/2024 08:59 tales@flexibus.com.br : Empresa Cadastrada  -> Tecbelt Industria LTDA
+29/08/2024 09:02 tales@flexibus.com.br : Produto Cadastrado  -> Tromba Telescopica diametro 1620mm
+29/08/2024 09:03 tales@flexibus.com.br : Produto Cadastrado  -> Tromba Telescopica diametro 870mm
+29/08/2024 09:03 tales@flexibus.com.br : Produto Editado Tromba Telescopica diametro 870mm -> Tromba Telescopica diametro 870mm
+29/08/2024 09:04 tales@flexibus.com.br : Produto Cadastrado  -> Tromba Telescopica diametro 1620mm
+29/08/2024 09:05 tales@flexibus.com.br : Produto Cadastrado  -> teste
+29/08/2024 09:50 tales@flexibus.com.br : Produto Editado Tromba Telescopica, Ã 1620mm -> Tromba Telescopica, Ã 1620mm
+29/08/2024 09:51 tales@flexibus.com.br : Produto Cadastrado  -> Tromba Telescopica, Ã 870mm
+29/08/2024 09:56  : Novo Registro de Hora: CARLOS ROBERTO OLIVEIRA SOUZA Entrada: 27/08/2024 as 04:00, Saida: 27/08/2024 as 22:00
+29/08/2024 09:56  : Novo Registro de Hora: IGOR HENRIQUE Entrada: 27/08/2024 as 04:00, Saida: 27/08/2024 as 22:00
+29/08/2024 09:56  : Novo Registro de Hora: JERONIMO IGNACIO RAMOS Entrada: 27/08/2024 as 04:00, Saida: 27/08/2024 as 22:00
+29/08/2024 09:56  : Novo Registro de Hora: JOAO LUZ Entrada: 27/08/2024 as 04:00, Saida: 27/08/2024 as 22:00
+29/08/2024 09:57  : Novo Registro de Hora: BRUNO JOSE MATHIAS Entrada: 28/08/2024 as 05:00, Saida: 28/08/2024 as 17:00
+29/08/2024 09:57  : Novo Registro de Hora: IGOR HENRIQUE Entrada: 28/08/2024 as 05:00, Saida: 28/08/2024 as 17:00
+29/08/2024 09:57  : Novo Registro de Hora: JERONIMO IGNACIO RAMOS Entrada: 28/08/2024 as 05:00, Saida: 28/08/2024 as 17:00
+29/08/2024 11:36  : Produto Cadastrado  -> REVITALIZACAO COMPLETA DO FOLE DO FINGER DE EMBARQUE
+29/08/2024 15:33  : EDICAO SERV EXEC - Cliente:MOBIBRASIL ALVARENGA, Data:2024-04-06, N. Carro:63042, VALOR: R$3.550.00
+29/08/2024 15:33  : EDICAO SERV EXEC - Cliente:MOBIBRASIL ALVARENGA, Data:2024-06-15, N. Carro:63076, VALOR: R$3.420.00
+29/08/2024 15:47  : Empresa Cadastrada  -> CONSORCIO SOROCABA
+29/08/2024 15:57  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-22, N. Carro:1257, VALOR: R$4.860.00
+29/08/2024 15:57  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-22, N. Carro:1267, VALOR: R$4.000.00
+29/08/2024 15:58  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-27, N. Carro:1262, VALOR: R$4.860.00
+29/08/2024 15:59  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-27, N. Carro:1325, VALOR: R$860.00
+29/08/2024 15:59  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-08-27, N. Carro:1415, VALOR: R$4.000.00

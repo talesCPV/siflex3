@@ -1,0 +1,148 @@
+<template>
+    <style>
+     
+    </style>
+  
+    <div class="frm-menu">
+
+        <div class="inline">
+            <label for="edtMod">Módulo</label>
+            <input type="text" id="edtMod">
+        </div>
+
+        <div class="inline">
+            <label for="edtLink">Link</label>
+            <input type="text" id="edtLink">
+        </div>
+
+        <div class="inline">
+            <label for="edtIcon">Icone</label>
+            <div class="edtbtn">
+                <input type="text" id="edtIcon" readonly>
+                <button id="btnIcon"><span class="mdi mdi-image-search-outline"></span></button>                
+            </div>
+        </div>
+
+        <div class="inline">
+            <label for="cmbJanela">Janela</label>
+            <select id="cmbJanela">
+                <option value="content-screen">Principal</option>
+                <option value="pop-up" selected>Pop-Up</option>
+            </select>
+        </div>
+
+        <div class="inline">
+            <label for="edtLabel">Label</label>
+            <input type="text" id="edtLabel">
+        </div>
+
+        <div class="inline">
+            <label for="edtLargura">Largura</label>
+            <input type="text" id="edtLargura" value="auto">
+        </div>
+
+        <div class="line">
+            <button id="btnDelMenu" class="btn">Deletar</button>
+            <button id="btnAddItem" class="btn">Novo Ítem</button>
+            <button id="btnSaveMenu" class="btn">Salvar</button>
+        </div>
+
+    </div>
+
+</template>
+<script>
+
+    const pageData = main_data.sys_new_menu.data
+    const pageFunc = main_data.sys_new_menu.func
+    const pageScreen = document.querySelector('#card-sys_new_menu')
+    const link = pageData.link
+
+    function saveMenu(){
+        main_data.sys_perm.func.refreshMenu()
+        main_data.sys_perm.func.setMenu(JSON.stringify(main_data.sys_perm.data.json))
+        closeModal('sys_new_menu')
+    }
+
+    pageScreen.querySelector('#edtMod').value = pageData.innerHTML
+    pageScreen.querySelector('#edtLink').value = pageData.link
+    pageScreen.querySelector('#edtLabel').value = pageData.label
+    pageScreen.querySelector('#edtLargura').value = pageData.width 
+    pageScreen.querySelector('#edtIcon').value = pageData.icone 
+
+    pageScreen.querySelector('#btnAddItem').addEventListener('click',()=>{
+        const menu = new Object
+            menu.modulo = prompt('Digite o nome do ítem:')
+            menu.link = 'menu'
+            menu.access = [0]
+            menu.class = ''
+            menu.icone = ''
+            menu.janela = 'pop-up'
+            menu.label = ''
+            menu.width = 'auto'
+            menu.itens = []
+        
+        const index = pageData.index
+        let obj = main_data.sys_perm.data.json
+
+        for(let i=0; i<index.length; i++){
+            obj = obj.itens[index[i]]        
+        }
+
+        obj.itens.push(menu)  
+        saveMenu()
+        setLog(`Menu Incluído (${menu.modulo})`)
+    })
+
+    pageScreen.querySelector('#btnDelMenu').addEventListener('click',()=>{
+        if(pageData.id != 'menu-raiz'){
+            if(confirm(`Deseja realmente deletar o menu ${pageData.innerHTML.toUpperCase()} e todos seus ítens?`)){
+                const index = pageData.index
+                let obj = main_data.sys_perm.data.json
+
+                for(let i=0; i<index.length-1; i++){
+                    obj = obj.itens[index[i]]        
+                }
+                setLog(`Menu Deletado (${obj.modulo})`)
+                obj.itens.splice(index[index.length-1],1)  
+                saveMenu()
+            }
+        }else{
+            alert('O menu Raiz não pode ser deletado!')
+        }
+    })
+
+    pageScreen.querySelector('#btnSaveMenu').addEventListener('click',()=>{
+        if(confirm(`Deseja salvar a alteração?`)){
+            const index = pageData.index
+            const modulo = pageScreen.querySelector('#edtMod').value.trim()
+            const link = pageScreen.querySelector('#edtLink').value.trim()
+            const janela = pageScreen.querySelector('#cmbJanela').value
+            const label = pageScreen.querySelector('#edtLabel').value
+            const icone = pageScreen.querySelector('#edtIcon').value
+            let width = pageScreen.querySelector('#edtLargura').value.trim()
+
+            width = width != 'auto' ? parseInt(width) : 'auto'
+            width = width == undefined ? 'auto' : width
+            
+            let obj = main_data.sys_perm.data.json
+
+            for(let i=0; i<index.length; i++){
+                obj = obj.itens[index[i]]        
+            }
+
+            obj.modulo = modulo
+            obj.link = link == '' ? 'error.html' : link
+            obj.janela = janela
+            obj.label = label
+            obj.icone = icone
+            obj.width = width
+            saveMenu()
+            setLog(`Menu Alterado (${modulo}, ${link}, ${janela}, ${label})`)
+        }
+    })
+
+    pageScreen.querySelector('#btnIcon').addEventListener('click',()=>{
+        openHTML('sys_icons.html','pop-up','Busca de Icones',{},600)
+    })
+
+</script>

@@ -1,0 +1,172 @@
+<template>
+
+    <style>
+        @import url("style/menu.css");     
+        
+        body{
+            background-image: url('assets/wallpaper_03.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            background-blend-mode: hard-light;
+            background-position: center;
+        }        
+
+        #content-screen{
+            margin-top: 80px;
+        }
+
+        #mail-badge-lbl{
+            position: absolute;
+            top: 15px;
+            left: 60px;
+        }
+
+    </style>
+         
+    <nav id="sidebar">
+        <div id="sidebar_content">
+            <div id="user">
+                <img src="assets/icons/user_default.png" id="user_avatar" alt="=)">               
+                <p id="user_infos">
+                    <span id="user-name" class="item-description" onclick="openHTML('usr_viewUser.html','pop-up','Configuração de Usuário',{},900)"></span>
+                    <span id="user-email" class="item-description" onclick="openHTML('usr_mail.html','pop-up','Comunicação Interna',{},900)"></span>
+                    <span id="mail-badge-lbl" class="badge" onclick="openHTML('usr_mail.html','pop-up','Comunicação Interna',{},900)"></span>
+                </p>
+            </div>
+    
+            <ul id="side_items"></ul>
+    
+            <button id="open_btn">
+                <span id="open_btn_icon" class="mdi mdi-arrow-right-thick"></span>
+            </button>
+        </div>
+
+        <div id="logout">
+            <label id="logout_btn" onclick="logout()">
+                <span class="mdi mdi-logout"></span>
+                <span class="item-description">Logout</span>
+            </label>
+        </div>
+    </nav>
+
+
+
+
+
+    <div id="content-screen"></div>
+    
+</template>
+<script>
+
+    openMenu()
+    const pageData = main_data.dashboard.data
+    const pageFunc = main_data.dashboard.func
+    const styleSheet = document.styleSheets[0].cssRules[2].style
+
+    getConfig('colors')
+    .then((response)=>{
+        const json = response.trim() != '' ? JSON.parse(JSON.parse(response)) : new Object
+        pageData.colors = new Object
+        pageData.colors.bar_back_color = json.hasOwnProperty('bar_back_color') ? json.bar_back_color : styleSheet.getPropertyValue('--top-bar')
+        pageData.colors.bar_font_color = json.hasOwnProperty('bar_font_color') ? json.bar_font_color : styleSheet.getPropertyValue('--top-bar-font')
+        pageData.colors.bar_mouse_color = json.hasOwnProperty('bar_mouse_color') ? json.bar_mouse_color : styleSheet.getPropertyValue('--top-bar-hover')
+        pageData.colors.font_mouse_color = json.hasOwnProperty('font_mouse_color') ? json.font_mouse_color : styleSheet.getPropertyValue('--top-font-hover')
+        pageData.colors.win_back_color = json.hasOwnProperty('win_back_color') ? json.win_back_color : styleSheet.getPropertyValue('--win-back')
+        pageData.colors.win_font_color = json.hasOwnProperty('win_font_color') ? json.win_font_color : styleSheet.getPropertyValue('--win-font')
+
+        pageFunc.setBarStyle()
+    })
+
+    getConfig('wallpaper')
+    .then((response)=>{
+        const json = response.trim() != '' ? JSON.parse(JSON.parse(response)) : new Object
+        pageData.wallpaper = new Object
+        pageData.wallpaper.pic = json.hasOwnProperty('pic') ? json.pic : 'assets/wallpaper_03.jpg'
+        pageData.wallpaper.efect = json.hasOwnProperty('efect') ? json.efect : 'normal'
+        pageData.wallpaper.repeat = json.hasOwnProperty('repeat') ? json.repeat : 'no-repeat'
+        pageData.wallpaper.size = json.hasOwnProperty('size') ? json.size : 'contain'
+        pageData.wallpaper.color = json.hasOwnProperty('color') ? json.color : '#FFFFFF'
+        pageFunc.wallpaper()
+    })
+
+    pageFunc.wallpaper = ()=>{
+        document.querySelector('body').style.backgroundImage = `url(${main_data.dashboard.data.wallpaper.pic}?${new Date().getTime()})`
+        document.querySelector('body').style['background-blend-mode'] = main_data.dashboard.data.wallpaper.efect
+        document.querySelector('body').style['background-repeat'] = main_data.dashboard.data.wallpaper.repeat
+        document.querySelector('body').style['background-size'] = main_data.dashboard.data.wallpaper.size
+        document.querySelector('body').style['background-color'] = main_data.dashboard.data.wallpaper.color
+    } 
+
+    pageFunc.setBarStyle = ()=>{
+        styleSheet.setProperty('--top-bar', main_data.dashboard.data.colors.bar_back_color)
+        styleSheet.setProperty('--top-bar-font', main_data.dashboard.data.colors.bar_font_color)
+        styleSheet.setProperty('--top-bar-hover', main_data.dashboard.data.colors.bar_mouse_color)
+        styleSheet.setProperty('--top-font-hover', main_data.dashboard.data.colors.font_mouse_color)
+        styleSheet.setProperty('--win-back', main_data.dashboard.data.colors.win_back_color);
+        styleSheet.setProperty('--win-font', main_data.dashboard.data.colors.win_font_color);
+    }
+
+    document.querySelector('body').addEventListener('contextmenu',(e)=>{
+        e.preventDefault()
+
+        if(e.target.nodeName == 'BODY'){
+            const tbl = []
+
+            const calc = new Object
+            calc.label = 'Calculadora'
+            calc.link = ()=>{
+                openHTML('usr_calc.html','pop-up','Calculadora',{},300)
+            }            
+            tbl.push(calc)
+
+            const mail = new Object
+            mail.label = 'Mensagens'
+            mail.link = ()=>{
+                openHTML('usr_mail.html','pop-up','Comunicação Interna',{},800)
+            }            
+            tbl.push(mail)
+
+            const user = new Object
+            user.label = 'Usuário'
+            user.link = ()=>{
+                openHTML('usr_viewUser.html','pop-up','Configuração do Usuário',{},800)
+            }            
+            tbl.push(user)
+
+            const agenda = new Object
+            agenda.label = 'Agenda'
+            agenda.link = ()=>{
+                openHTML('usr_agenda.html','pop-up','Agenda')
+            }
+            tbl.push(agenda)
+
+            const config = new Object
+            config.label = 'Configurar Aparência'
+            config.link = ()=>{
+                openHTML('usr_config.html','pop-up','Aparência do Sistema',{},600)
+            }
+            tbl.push(config)
+
+            menuContext(tbl,e)
+
+        }
+    })
+
+    document.getElementById('open_btn').addEventListener('click', function () {
+        document.getElementById('sidebar').classList.toggle('open-sidebar');
+
+        if(!document.getElementById('sidebar').classList.contains('open-sidebar')){
+            closeMenu()
+        }
+
+    });
+
+    const back = backFunc({'filename':`../assets/users/${localStorage.getItem('id_user')}/perfil.jpg`},1)
+    back.then((resp)=>{
+        const imgExist = JSON.parse(resp)
+        const img = document.querySelector('#user_avatar')
+        img.src =  imgExist ? `assets/users/${localStorage.getItem('id_user')}/perfil.jpg` : 'assets/icons/user_default.png'
+    }) 
+
+</script>

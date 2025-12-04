@@ -1,0 +1,120 @@
+<template>
+    <style>
+        #btnProc{
+            width: 97%;
+        }
+
+    </style>
+  
+
+    <fieldset class="fds-busca inv">
+        <legend>Adicionar Produtos</legend>
+
+        <div class="inline">
+            <label for="edtBusca">por:</label>
+            <select id="cmbBusca">
+                <option value="cod_int" signal="IN">Código</option>
+                <option value="descricao" signal="LIKE" selected>Descrição</option>
+                <option value="cod_forn" signal="LIKE">Código Forn.</option>
+                <option value="cod_bar" signal="LIKE" >Código de Barras</option>
+                <option value="consumo" signal="=" val="1">Consumo</option>
+                <option value="estoque" signal="<=" val="estq_min">Estoque Baixo</option>
+                <option value="ramo" signal="LIKE" >Fornecedor</option>
+            </select>
+            <input type="text" id="edtBusca" onkeypress="return getEnter(event, 'btnBusca-prod-inv')">
+            <button id="btnBusca-prod-inv" class="btn-round" ><span class="mdi mdi-magnify"></span></button>
+        </div>
+
+        <table id="tbl_prod_inv"></table>
+    </fieldset>
+
+    <fieldset>
+        <legend>Inventário</legend>
+        <select id="lbxItens" size="25"></select>
+        <button id="btnProc">Processar</button>
+    </fieldset>
+
+</template>
+<script>
+
+    const pageData = main_data.tool_inventario.data
+    const pageFunc = main_data.tool_inventario.func
+    const pageScreen = document.querySelector('#card-tool_inventario')
+
+    pageFunc.addItem = (data)=>{
+
+        const opt = document.createElement('option')
+            opt.setAttribute('qtd',data.qtd) 
+            opt.setAttribute('id_prod',data.id) 
+            opt.setAttribute('oper',data.radio) 
+
+            const radio = data.radio=='add' ? 'ADICIONAR' : data.radio=='sub' ? 'RETIRAR' : 'RESERVAR'
+            opt.innerHTML = `${radio} ${Math.abs(data.qtd)} ${data.unidade}(s) (${data.descricao})` 
+
+        pageScreen.querySelector('#lbxItens').appendChild(opt)
+        pageScreen.querySelector('#tbl_prod_inv').innerHTML = ''
+        pageScreen.querySelector('#edtBusca').value = ''
+        closeModal('tool_add_prod')
+    }
+
+    pageFunc.fillProd = ()=>{      
+        const tbl = pageScreen.querySelector('#tbl_prod_inv')
+        tbl.innerHTML = ''
+        const query = getVal('inv')
+        const params = new Object;
+            params.field = query[0]
+            params.signal = query[1]
+            params.value = query[2]
+        const myPromisse = queryDB(params,'PROD-0');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
+            tbl.head('Descrição|w70,Und.,Estq.,Reserv.,Disp.')
+            for(let i=0; i<json.length;i++){
+                tbl.plot(json[i],'descricao,unidade,estoque,reserva,disponivel','Upp,Upp,str,str,str')
+            }         
+        });
+    }
+
+    pageScreen.querySelector('#btnBusca-prod-inv').addEventListener('click',()=>{
+        pageFunc.fillProd()
+    })
+
+    pageScreen.querySelector('#tbl_prod_inv').addEventListener('click',(e)=>{        
+        try{
+            if(main_data.hasOwnProperty('tool_add_prod')){
+                closeModal('tool_add_prod')
+            }
+            data = e.target.parentNode.data
+            data != undefined ? openHTML('tool_add_prod.html','pop-up',data.descricao.toUpperCase(),data,500) : null
+        }catch{}
+    })
+
+    pageScreen.querySelector('#lbxItens').addEventListener('dblclick',()=>{
+        if(confirm('Deletar essa linha?')) {
+            const sel =  pageScreen.querySelector('#lbxItens')
+            sel.remove(sel.selectedIndex)
+        }
+    })
+
+    pageScreen.querySelector('#btnProc').addEventListener('click',()=>{
+        if(confirm('Processar este inventário?')) {
+            const opt = pageScreen.querySelector('#lbxItens').querySelectorAll('option')
+            for(let i=0; i<opt.length; i++){
+                const params = new Object;
+                    params.id = opt[i].getAttribute('id_prod')
+                    params.qtd = parseInt(opt[i].getAttribute('qtd'))
+                    params.oper = opt[i].getAttribute('oper')
+
+                const myPromisse = queryDB(params,'PROD-4');
+                myPromisse.then(()=>{
+
+                })
+            }
+            alert('Inventário lançado com sucesso.')
+            closeModal('tool_inventario')
+        }
+    })
+
+
+</script>

@@ -1,0 +1,260 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+/*    background-color: #e3e9f7;*/
+}
+
+main {
+    padding: 20px;
+    position: fixed;
+    z-index: 1;
+    padding-left: calc(82px + 20px);
+}
+
+ul>li>label>span, #logout_btn {
+    padding-left: 10px;
+    font-size: 1.5em;
+}
+
+#sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color:  var(--top-bar);
+    color: var(--top-bar-font);
+    height: 100vh;
+    border-radius: 0px 18px 18px 0px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: all .5s;
+    min-width: 82px;
+    z-index: 2000;
+}
+
+#sidebar li{
+    list-style: none;
+}
+/*
+#sidebar_content {
+    padding: 12px;
+}
+*/
+#user {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+#user_avatar {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 20px;
+    margin-left: 15px;
+    margin-top: 10px;
+}
+
+#user_infos {
+    display: flex;
+    flex-direction: column;
+}
+
+#user_infos span:last-child {
+    color: var(--top-bar-font);
+    font-size: 12px;
+}
+
+#side_items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: scroll ;
+    max-height: calc(100vh - 140px);
+}
+
+.side-item {
+    border-radius: 8px;
+    padding: 5px 0;
+    margin: 0 5px;
+}
+
+/*
+.side-item.active {
+    background-color: #4f46e5;
+}
+*/
+.side-item:hover:not(.active),
+#logout_btn:hover {
+    background-color: var(--top-bar-hover);
+    color: var(--top-font-hover)
+}
+
+.side-item label {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+/*    color: #0a0a0a;*/
+}
+
+*/*
+.side-item.active label {
+    color: #e3e9f7;
+}
+*/
+.side-item label i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+}
+
+#logout {
+    border-top: 1px solid;
+/*    padding: 12px;*/
+}
+
+#logout_btn {
+    border: none;
+    padding: 5px;
+    margin: 5px;
+/*    font-size: 14px;**/
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: flex-end;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+#open_btn {
+    position: absolute;
+    top: 30px;
+    right: -30px;
+    background-color: var(--top-bar-hover);
+    color: var(--top-font-hover);
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+#open_btn_icon {
+    transition: transform .3s ease;
+    display: block;
+    font-size: 1.5em;
+}
+
+.open-sidebar #open_btn_icon {
+    transform: rotate(180deg);
+}
+
+.item-description {
+    width: 0px;
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 11px;
+    transition: width .6s;
+    height: 0px;
+}
+
+.item-description span:nth-child(2){
+    font-size: 1.8em;
+    width: auto !important;
+    transition: transform .3s ease;
+}
+
+.item-description span:nth-child(2):hover{
+    border: unset !important;
+}
+
+.item-description:hover{
+    cursor: pointer;
+    border-bottom: solid 1px;
+}
+
+#sidebar.open-sidebar {
+    min-width: 15%;
+}
+
+#sidebar.open-sidebar .item-description {
+    width: 150px;
+    height: auto;
+}
+
+#sidebar.open-sidebar .side-item label {
+    justify-content: flex-start;
+    gap: 14px;
+}
+
+/* **/
+
+.side-item label{
+  cursor: pointer;
+}
+
+.side-item input {
+  display: none;
+}
+
+.side-item input:checked ~ ul{
+    max-height: 500px;
+/*    overflow-y: scroll;*/
+    padding-left: 10px;
+}
+
+.side-item:has(input:checked) > label > div span:nth-child(2){
+    transform: rotate(90deg);
+}
+
+.side-item ul{
+  max-height: 0;
+  overflow: hidden;
+
+  transition: all .5s ease;
+
+}
+
+@media all and (max-width : 768px) {
+
+    #sidebar{
+        left: -82px;
+        border-radius: 0px 0 18px 0px;
+    }
+
+    #sidebar.open-sidebar{
+        left: 0;
+    }
+
+    #open_btn{
+        top: 0;
+        right: -60px;
+        border-radius: 0 50% 50% 0;
+        background-color: var(--top-bar);
+        color: var(--top-bar-font);
+        margin-top: 0;
+        height: 50px;
+        width: 50px;
+    }
+
+}

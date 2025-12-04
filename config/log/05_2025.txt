@@ -1,0 +1,73 @@
+02/05/2025 20:31 tales@flexibus.com.br : Contas A Pagar Cadastrada teste, Valor 25, Venc. dia 2025-05-02
+05/05/2025 15:14 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$1680 dia 2025-05-05
+05/05/2025 15:14 tales@flexibus.com.br : Contas A Pagar Deletada teste, Valor 25, Venc. dia 2025-05-02
+05/05/2025 15:25 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$339.9 dia 2025-05-05
+05/05/2025 15:25 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$567.8 dia 2025-05-05
+05/05/2025 15:27 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25.42 dia 2025-05-05
+05/05/2025 15:28 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$80 dia 2025-05-05
+05/05/2025 15:29 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$299.71 dia 2025-05-05
+05/05/2025 15:30 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$2274.84 dia 2025-05-05
+05/05/2025 15:32 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$1191.3 dia 2025-05-05
+05/05/2025 15:33 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$95.8 dia 2025-05-05
+05/05/2025 15:37 tales@flexibus.com.br : Contas A Pagar Editada MES ABRIL, Valor 339.9, Venc. dia 2025-05-05
+06/05/2025 20:05 tales@flexibus.com.br : Chave Pix Cadastrada Joao Coco, Chave 12974071180
+06/05/2025 20:05 tales@flexibus.com.br : Contas A Pagar Editada FRETE GALPAO ROCA (TRELICAS), Valor 1000, Venc. dia 2025-05-06
+06/05/2025 20:10 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$1000 dia 2025-05-06
+08/05/2025 15:55 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$1038.45 dia 2025-05-08
+08/05/2025 20:58 tales@flexibus.com.br : Menu Incluido (Dados Complementares)
+08/05/2025 20:59 tales@flexibus.com.br : Menu Alterado (Dados Complementares, sys_data.html, pop-up, Dados Complementares)
+12/05/2025 15:44 tales@flexibus.com.br : Novo Registro de Hora: JOAO BAZILIO Entrada: 14/05/2025 as 00:00, Saida: 14/05/2025 as 00:00
+12/05/2025 15:45 tales@flexibus.com.br : Novo Registro de Hora: JOAO BAZILIO Entrada: 14/05/2025 as 07:00, Saida: 14/05/2025 as 19:00
+12/05/2025 15:45 tales@flexibus.com.br : Novo Registro de Hora: JOAO BAZILIO Entrada: 14/05/2025 as 07:00, Saida: 14/05/2025 as 19:00
+12/05/2025 15:50 tales@flexibus.com.br : Novo Registro de Hora: JOAO BAZILIO Entrada: 14/05/2025 as 07:00, Saida: 14/05/2025 as 19:00
+12/05/2025 20:35 tales@flexibus.com.br : Novo Registro de Hora: JOAO BAZILIO Entrada: 15/05/2025 as 05:00, Saida: 15/05/2025 as 19:30
+12/05/2025 20:35 tales@flexibus.com.br : Registro de Hora Deletado: JOAO BAZILIO Entrada: 14/05/2025 as 07:00, Saida: 14/05/2025 as 19:00
+12/05/2025 20:36 tales@flexibus.com.br : Registro de Hora Deletado: JOAO BAZILIO Entrada: 15/05/2025 as 05:00, Saida: 15/05/2025 as 19:30
+12/05/2025 21:02 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$21969.04 dia 2025-05-12
+12/05/2025 21:04 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-05-12
+12/05/2025 21:05 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-05-12
+12/05/2025 21:06 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-05-12
+12/05/2025 21:06 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-05-12
+12/05/2025 21:07 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$2050.5 dia 2025-05-12
+12/05/2025 21:08 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$61.25 dia 2025-05-12
+12/05/2025 21:36 tales@flexibus.com.br : Chave Pix Editada KAUA HENRIQUE DA SILVA DELFINO, Chave +5512996508245
+12/05/2025 21:39 tales@flexibus.com.br : Contas A Pagar Cadastrada teste, Valor 25, Venc. dia 2025-05-12
+12/05/2025 21:46 tales@flexibus.com.br : Chave Pix Editada Diane Thais, Chave +5512992196870
+12/05/2025 21:46 tales@flexibus.com.br : Chave Pix Editada Joao Coco, Chave +5512974071180
+12/05/2025 21:47 tales@flexibus.com.br : Chave Pix Editada JOAO PEDRO VARGAS DOS SANTOS, Chave +5512991920042
+12/05/2025 21:50 tales@flexibus.com.br : Chave Pix Editada Jose Ronaldo, Chave +5512997454991
+12/05/2025 21:50 tales@flexibus.com.br : Chave Pix Editada LEANDRO (PIX FILHA THIFANY DE OLIVEIRA), Chave +5512997196113
+12/05/2025 21:51 tales@flexibus.com.br : Chave Pix Editada LUCIMAR DIAS CALIXTO DA SILVA, Chave +5512997831838
+12/05/2025 21:51 tales@flexibus.com.br : Chave Pix Editada LUIS FERNANDO ACARAIM BEULK, Chave +5512981726598
+12/05/2025 21:51 tales@flexibus.com.br : Chave Pix Editada Monteiro (Serralheiro), Chave +5512996475670
+12/05/2025 21:52 tales@flexibus.com.br : Contas A Pagar Deletada teste, Valor 25, Venc. dia 2025-05-12
+13/05/2025 15:44 tales@flexibus.com.br : Novo Registro de Hora: ADEMIR MOREIRA Entrada: 15/05/2025 as 07:00, Saida: 15/05/2025 as 17:00
+13/05/2025 15:46 tales@flexibus.com.br : Novo Registro de Hora: ADEMIR MOREIRA Entrada: 16/05/2025 as 07:00, Saida: 16/05/2025 as 17:00
+13/05/2025 15:46 tales@flexibus.com.br : Novo Registro de Hora: ADEMIR MOREIRA Entrada: 16/05/2025 as 07:00, Saida: 16/05/2025 as 17:00
+13/05/2025 15:46 tales@flexibus.com.br : Registro de Hora Deletado: ADEMIR MOREIRA Entrada: 15/05/2025 as 07:00, Saida: 15/05/2025 as 17:00
+13/05/2025 15:46 tales@flexibus.com.br : Registro de Hora Deletado: ADEMIR MOREIRA Entrada: 16/05/2025 as 07:00, Saida: 16/05/2025 as 17:00
+14/05/2025 16:24 tales@flexibus.com.br : Contas A Pagar Cadastrada teste, Valor 25, Venc. dia 2025-05-14
+21/05/2025 15:47 tales@flexibus.com.br : Menu Incluido (Arquivo Remessa)
+21/05/2025 15:48 tales@flexibus.com.br : Menu Alterado (Arquivo Remessa, fin_remessa.html, pop-up, Arquivos de Remessa)
+23/05/2025 14:44 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$183.8 dia 2025-05-23
+23/05/2025 14:45 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$208 dia 2025-05-23
+23/05/2025 14:46 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$215.28 dia 2025-05-23
+23/05/2025 14:48 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$630 dia 2025-05-23
+23/05/2025 14:49 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$589 dia 2025-05-23
+23/05/2025 14:50 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$580 dia 2025-05-23
+23/05/2025 14:51 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$580 dia 2025-05-23
+23/05/2025 14:51 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$520 dia 2025-05-23
+23/05/2025 14:53 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$500 dia 2025-05-23
+23/05/2025 14:53 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$50 dia 2025-05-23
+23/05/2025 14:54 tales@flexibus.com.br : Contas A Pagar Cadastrada Semana 19 a 23/05, Valor 850, Venc. dia 2025-05-23
+23/05/2025 14:55 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$50 dia 2025-05-23
+23/05/2025 14:56 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-05-23
+23/05/2025 14:56 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-05-23
+23/05/2025 14:57 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-05-23
+23/05/2025 14:58 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$90 dia 2025-05-23
+23/05/2025 14:58 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$850 dia 2025-05-23
+23/05/2025 15:00 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$44.9 dia 2025-05-28
+29/05/2025 15:05 tales@flexibus.com.br :  Imagem Alterada -> Perfil Usuario: tales@flexibus.com.br
+29/05/2025 15:33 tales@flexibus.com.br : PDF NF-Compra 706 ADICIONADA 
+29/05/2025 15:33 tales@flexibus.com.br : PDF NF-Compra 706 ADICIONADA 
+29/05/2025 16:44 tales@flexibus.com.br : PDF NF-Compra 706 ADICIONADA 

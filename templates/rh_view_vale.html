@@ -1,0 +1,243 @@
+
+<template>
+    <style>
+
+        .saldo{
+            text-align: end;
+        }
+
+    </style>
+
+    <fieldset>
+        <legend>Vale</legend>
+        <div class="inline">
+            <label for="edtDescVal">Descrição*</label>
+            <input type="text" id="edtDescVal" maxlength="200">
+        </div>
+        <div class="inline">
+            <label for="edtDataVal">Data</label>
+            <input type="date" id="edtDataVal" >
+            <label for="edtValVal">Valor*</label>
+            <input type="text" id="edtValVal" onkeyup="return valFloat(this)">
+        </div>
+        <div class="line">
+            <button id="btnDelVale">Deletar</button>
+            <button id="btnSaveVale">Salvar</button>
+        </div>
+
+
+    </fieldset>
+
+    <fieldset>
+        <legend>Pagamentos</legend>
+
+        <table id="tblPgto"></table>
+
+        <div class="inline">
+            <label for="edtDatapgto">Data</label>
+            <input type="date" id="edtDatapgto" >
+            <label for="edtValPgto">Valor*</label>
+            <input type="text" id="edtValPgto" onkeyup="return valFloat(this)" value="0">
+        </div>
+
+        <div class="inline">
+            <label for="edtObsPgto">Obs.</label>
+            <input type="text" id="edtObsPgto" maxlength="200">
+        </div>
+        <div class="line">
+            <button id="btnPgtoVale">Adicionar</button>
+            <button id="btnPrint">Imprimir</button>
+        </div>
+
+
+    </fieldset>
+
+
+</template>
+<script>
+
+    const pageData = main_data.rh_view_vale.data
+    const pageFunc = main_data.rh_view_vale.func
+    const pageScreen = document.querySelector('#card-rh_view_vale')
+
+    function pageStart(){
+        pageScreen.querySelector('#edtDescVal').value = pageData.obs
+        pageScreen.querySelector('#edtDataVal').value = pageData.data.substr(0,10)
+        pageScreen.querySelector('#edtValVal').value = pageData.valor
+        pageScreen.querySelector('#edtDatapgto').value = today.getFormatDate()
+        fillPgto()
+    }
+
+    
+
+    pageScreen.querySelector('#btnPgtoVale').addEventListener('click',()=>{
+
+        if(pageData.quitado == '0'){
+            const val = pageScreen.querySelector('#edtValPgto').value.trim()
+            const obs = pageScreen.querySelector('#edtObsPgto').value.trim()
+            const dt = pageScreen.querySelector('#edtDatapgto').value+' 00:00:00'
+            if(val.length >0 && obs.length>0){
+                addPgto(val,obs,dt)         
+            }else{
+                alert('Favor preencher descrição e valor.')
+            }
+        }else{
+            alert('Empréstimo já quitado!')
+        }
+    })
+
+    pageScreen.querySelector('#btnDelVale').addEventListener('click',()=>{
+        if(pageData.quitado == '0'){
+            if(confirm('Deseja deletar este empréstimo definitivamente?')){
+                const params = new Object;
+                    params.id = pageData.id
+                    params.id_func = pageData.id_func
+                    params.valor = 0
+                    params.quitado = 0
+                    params.obs = ''                    
+                const myPromisse = queryDB(params,'FUN-4');
+                myPromisse.then((resolve)=>{
+                    main_data.rh_vale.func.fillVale()
+                    closeModal('rh_view_vale')
+                })
+            }
+            
+        }else{
+            alert('Empréstimo já quitado! (Não pode ser deletado)')
+        }           
+    })
+
+    pageScreen.querySelector('#btnSaveVale').addEventListener('click',()=>{
+        if(pageData.quitado == '0'){
+            if(confirm('Deseja Alterar este Vale?')){
+                const params = new Object;
+                    params.id = pageData.id
+                    params.id_func = data.id_func
+                    params.valor = pageScreen.querySelector('#edtValVal').value
+                    params.quitado = 0
+                    params.obs = pageScreen.querySelector('#edtDescVal').value
+                    params.data = pageScreen.querySelector('#edtDataVal').value + ' 00:00:00'
+                const myPromisse = queryDB(params,'FUN-4');
+                myPromisse.then((resolve)=>{
+                    main_data.rh_vale.func.fillVale()
+                    closeModal('rh_view_vale')
+                })
+            }
+           
+        }else{
+            alert('Empréstimo já quitado! (Não pode ser alterado)')
+        }           
+    })
+
+
+    pageScreen.querySelector('#tblPgto').addEventListener('click',(e)=>{
+        if(data.quitado == '0'){
+            const dt = e.target.parentNode.data
+            const last_row = e.target.parentNode.parentNode.rows.length -1
+            if(e.target.parentNode.rowIndex >1 && e.target.parentNode.rowIndex < last_row){
+                if(confirm('Deseja deletar este pagamento?')){
+                    const params = new Object;
+                        params.id = dt.id
+                        params.valor = 0
+                        params.data = ''
+                        params.obs = ''
+                    const myPromisse = queryDB(params,'FUN-6');
+                    myPromisse.then((resolve)=>{
+                        
+                        fillPgto()
+                        pageScreen.querySelector('#edtValPgto').value = 0
+                        pageScreen.querySelector('#edtObsPgto').value = ''
+                    })
+                }
+            }   
+        }else{
+            alert('Empréstimo já quitado!')
+        }
+    })
+
+    function fillPgto(){
+        const params = new Object;
+            params.id = pageData.id
+
+        const myPromisse = queryDB(params,'FUN-5');
+        myPromisse.then((resolve)=>{  
+            const tbl = pageScreen.querySelector('#tblPgto')
+            tbl.innerHTML = ''            
+            const json = JSON.parse(resolve)            
+            let tot = 0
+            tbl.head('Data|l-data,Descrição,Valor|l-val')
+            tbl.plot(pageData,'data,EMPRÉSTIMO,valor','dat,let,R$.')
+
+            for(let i=0; i<json.length;i++){
+                tbl.plot(json[i],'data,obs,valor','dat,Upp,R$.')
+                tot += parseFloat(json[i].valor)
+            }
+            tot = parseFloat(pageData.valor) - tot            
+            tbl.plot(json[0],',Saldo Devedor|saldo,R$'+tot.toFixed(2),'let,let,let')
+            if(tot <=0 && pageData.quitado == '0'){
+                quitar()
+            }
+        })        
+    }
+
+    function addPgto(val,obs,dt){
+
+        const params = new Object;
+            params.id = pageData.id
+            params.valor = val
+            params.data = dt
+            params.obs = obs
+
+        const myPromisse = queryDB(params,'FUN-6');
+        myPromisse.then((resolve)=>{
+//            console.log(resolve)
+            fillPgto()
+            pageScreen.querySelector('#edtValPgto').value = 0
+            pageScreen.querySelector('#edtObsPgto').value = ''
+        })
+    }
+
+    function quitar(){
+
+        const params = new Object;
+            params.id = pageData.id
+            params.id_func = pageData.id_func
+            params.valor = pageData.valor
+            params.quitado = 1
+            params.obs = pageData.obs
+            params.data = pageData.data
+
+        const myPromisse = queryDB(params,'FUN-4');
+        myPromisse.then((resolve)=>{
+            main_data.rh_vale.func.fillVale()
+        })
+    }
+
+    pageScreen.querySelector('#btnPrint').addEventListener('click',()=>{
+
+        const rows = pageScreen.querySelector('#tblPgto').rows
+        const out = pageData
+        out.data = today
+        out.impostos = ''
+        out.horas = new Object
+        out.horas.vale = 10
+        out.nome = main_data.rh_vale.data.nome
+        out.cbo = main_data.rh_vale.data.cbo
+        out.cargo = main_data.rh_vale.data.cargo
+        out.data_adm = main_data.rh_vale.data.data_adm
+        out.pgto = []
+
+        for(let i=1; i<rows.length-1; i++){       
+            const obj = new Object
+            obj.obs = rows[i].data.obs
+            obj.valor = rows[i].data.valor
+            obj.data = rows[i].data.data
+            obj.sinal = i==1 ? 1 : -1
+            out.pgto.push(obj)
+        }
+        holerite(out,'EMPRESTIMO')
+    })
+
+    pageStart()
+
+</script>

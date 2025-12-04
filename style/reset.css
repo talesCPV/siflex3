@@ -1,0 +1,294 @@
+    /*  Import Fonts and Reset CSS */
+
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+    @import url(https://fonts.googleapis.com/css?family=Bree+Serif);
+
+
+    :root{
+        --top-bar : #8ff0a4f1;
+        --top-bar-font : #000000FF;
+        --top-bar-hover : #33d17af1;
+        --top-font-hover : #000000FF;
+    
+        --win-back : #f0fbe5f1;
+        --win-font : #202c2aFF;
+    }
+
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    input, select, textarea{
+        padding: 10px;
+        margin: 10px;
+        min-width: 30px;;
+    }
+
+    body {
+        background: #212121;
+        line-height: 32px;
+        margin: 0;
+        padding: 0;
+        word-wrap:break-word !important;
+        font-family: 'Open Sans', sans-serif;
+        scroll-behavior: smooth;
+    }
+
+    button{
+        cursor: pointer;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    textarea{
+        resize: none;
+    }
+
+    table {
+        margin: 10px;
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 97.5%;
+    }
+
+    td, th {
+        text-align: left;
+        padding: 5px;
+        min-width: 50px;
+    }
+
+    tr td{
+        cursor: pointer;
+    }
+
+    tr:hover td{
+        background-color: #919191;
+        color: rgb(255, 255, 255);
+        
+    }
+
+    tr:nth-child(even) {
+        background-color: var(--win-back);
+        filter: brightness(90%);
+    }    
+
+    fieldset{
+        border-radius: 10px;
+        margin: 10px;
+        border: solid 1px #c4c2c2;
+    }
+
+    legend{
+        font-size: medium;
+        font-weight: 700;
+        margin-left: 10px;
+        padding: 10px;
+    }
+    
+    h1 {
+        text-align:center;
+        font-family: 'Bree Serif', 'serif';
+    }
+
+    label{
+        cursor: pointer;
+    }
+/*
+    fieldset button{
+       width: 100%;
+    }
+*/
+    /* RANGE */
+
+    input[type="range"] {
+        -webkit-appearance: none;
+        background: #cfcfcf;
+        border-radius: 10px;
+        padding: 0;
+        margin: 20px;
+        border: solid 1px black;    
+    }
+
+    /* CLASSES */
+
+    .center-itens{
+        justify-content: center;
+    }
+
+    .inline{
+        display: flex;
+        padding: 10px;
+        align-items: center;        
+    }
+
+    .inline input, select, textarea{
+        width: 94%;
+    }
+
+    .inline input[type=checkbox]{
+        width: auto;
+        height: fit-content;
+    }
+
+    .inline :first-child{
+        min-width: 120px;
+    }
+
+    .fds-busca label{
+        min-width: unset !important;
+    }
+
+    .busca-itens{
+        display: flex;
+        width: 100%;
+    }
+
+    .inline span{
+        width: auto;
+        min-width: unset !important;
+    }
+
+    .inline label{
+        text-align: right;
+        width: auto;
+       /* align-self: flex-end;*/
+        padding: 10px;
+        white-space: nowrap;
+    }
+
+    .line{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .line button{
+        min-width: 150px;
+    }
+
+    .line-ckb{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        min-width: unset !important;
+    }
+
+    .line-ckb input[type=checkbox]{
+        height: fit-content;
+    }
+
+    .line-ckb label{
+        padding: 0 !important;
+    }
+
+    .form-base{
+        border-radius: 20px;
+        background-color: var(--win-back);
+        color: var(--win-font);
+        max-width: 1200px;
+        margin: auto;
+        margin-top: 80px;
+        padding: 30px;
+    }
+
+    #close-screen{
+        position: relative;
+        left: 99%;        
+        color: var(--win-font);
+        font-size: 1.5em;
+        font-weight: 800;
+        padding: 0 9px;
+        border-radius: 18px;
+
+    }
+
+    #close-screen:hover{
+        border: solid 1px;
+        cursor: pointer;
+        color: rgb(224, 77, 77);
+    }    
+
+/*  MOBILE  */
+
+    @media all and (max-width : 768px) {
+
+        fieldset button {
+            width: 94%;
+        }
+
+        input[type=date]{
+            max-width: none;
+        }
+
+        table{
+            font-size: small;
+        }
+
+        #main-screen{
+            display: flex !important;
+            gap: 10px;
+            width: 100%;
+            flex-wrap: wrap;
+            padding-top: 70px;
+            justify-content: center;
+            align-content: start;
+        }
+
+        .form-base{
+            margin-top: 150px;
+        }
+
+        .control-size{
+            flex-direction: column;
+            width: 100% !important;
+        }
+
+        .mob-hide{
+            display: none;
+        }
+
+        .inline{
+            flex-direction: column;
+/*            align-items: center;*/
+            justify-content: center;
+            padding: 0 10px;
+        }
+
+        .inline label{
+            text-align: left;
+            width: 100%;
+        }
+
+        .inline *{
+            margin: 2px 10px;
+        }
+
+        .line {
+            flex-direction: column;
+            gap: 0;
+            margin-top: 10px;
+        }
+
+        .modal-content{
+            left: 0 !important;
+            right: 0 !important;
+        }
+
+        .btnAdd{
+            max-width: 100%;
+            border-radius: 0;
+            font-size: 0.9em;
+        }
+
+        .btnAdd:before {
+            content: 'Novo ';
+          }
+
+        .busca-itens{
+            flex-direction: row-reverse;
+        }
+
+    }

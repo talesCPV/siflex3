@@ -1,0 +1,160 @@
+
+<template>
+    <style>
+
+        #btnDel{
+            display: none;
+        }
+
+    </style>
+
+    <fieldset>
+        <legend>Carro</legend>
+        <div class="inline">
+            <label for="edtCliente">Cliente *</label>
+            <div class="edtbtn">
+                <input type="text" id="edtCliente" readonly>
+                <button id="btnCliente" class="btn-round"><span class="mdi mdi-magnify"></span></button>
+            </div>
+        </div>
+        <div class="inline">
+            <label for="edtData">Data *</label>
+            <input type="date" id="edtData">
+            <label for="edtNumCarro">Num. do Carro*</label>
+            <input type="text" id="edtNumCarro">           
+        </div>
+        <div class="inline">
+            <label for="edtDetal">Detalhamento *</label>
+            <textarea id="edtDetal" cols="30" rows="10"></textarea>
+        </div>
+        <div class="inline">
+            <label for="edtTecnico">Técnico *</label>
+            <input type="text" id="edtTecnico" value="Bruno Mathias">
+            <label for="cmbLocal">Local de Execução</label>
+            <select id="cmbLocal">
+                <option value="No Cliente">No Cliente</option>
+                <option value="Na Flexibus">Na Fábrica</option>
+            </select>             
+        </div>     
+        <div class="inline">
+            <label for="edtValor">Valor R$</label>
+            <input type="text" id="edtValor" value="0" onkeyup="return valFloat(this)">
+            <label for="cmbExe">Executado</label>
+            <select id="cmbExe">
+                <option value="0">NÃO</option>
+                <option value="1">SIM</option>
+            </select>
+        </div>
+
+        <div class="line">
+            <button id="btnCad">Cadastrar</button>
+            <button id="btnDel">Deletar</button>
+        </div>
+
+
+
+    </fieldset>
+
+
+</template>
+<script>
+
+    const pageData = main_data.oper_view_ana_frota.data
+    const pageFunc = main_data.oper_view_ana_frota.func
+    const pageScreen = document.querySelector('#card-oper_view_ana_frota')
+
+    if(pageData.id != 0){
+        pageScreen.querySelector('#edtCliente').value = pageData.empresa
+        pageScreen.querySelector('#edtCliente').obj = {'id':pageData.id_emp}
+        pageScreen.querySelector('#edtData').value = pageData.data_analise
+        pageScreen.querySelector('#edtNumCarro').value = pageData.num_carro
+        pageScreen.querySelector('#edtTecnico').value = pageData.func
+        pageScreen.querySelector('#cmbLocal').value = pageData.local
+        pageScreen.querySelector('#edtValor').value = parseFloat(pageData.valor).toFixed(2)
+        pageScreen.querySelector('#edtDetal').value = pageData.obs
+        pageScreen.querySelector('#cmbExe').value = pageData.exec
+        pageScreen.querySelector('#btnDel').style.display = 'block'
+        pageScreen.querySelector('#btnCad').innerHTML = 'Salvar'     
+    }
+
+    pageFunc.buscaEmp = (obj)=>{
+        pageScreen.querySelector('#edtCliente').value = obj.nome.toUpperCase()
+        pageScreen.querySelector('#edtCliente').obj = obj
+    }
+
+    pageScreen.querySelector('#edtData').value = today.getFormatDate()
+
+    pageScreen.querySelector('#btnCliente').addEventListener('click',()=>{        
+        openHTML('busca_emp.html','pop-up','Selecione o Cliente',{'org':'oper_view_ana_frota'},600)
+    })
+
+
+    pageScreen.querySelector('#btnCad').addEventListener('click',()=>{
+
+        if(checkField(['edtData','edtNumCarro','edtDetal','edtTecnico'])){
+            const params = new Object;
+                params.id = pageData.id 
+                params.id_emp = pageScreen.querySelector('#edtCliente').obj.id
+                params.data_analise = pageScreen.querySelector('#edtData').value.trim()
+                params.num_carro = pageScreen.querySelector('#edtNumCarro').value.trim()
+                params.exec = pageScreen.querySelector('#cmbExe').value
+                params.func = pageScreen.querySelector('#edtTecnico').value.trim()
+                params.local = pageScreen.querySelector('#cmbLocal').value
+                params.valor = pageScreen.querySelector('#edtValor').value.trim()
+                params.obs = pageScreen.querySelector('#edtDetal').value.trim()
+            const myPromisse = queryDB(params,'ANA-1');
+            myPromisse.then((resolve)=>{     
+                if(pageData.id == 0){           
+                    pageScreen.querySelector('#edtNumCarro').value = ''
+                    pageScreen.querySelector('#edtDetal').value = ''
+                    pageScreen.querySelector('#edtValor').value = ''
+                    pageScreen.querySelector('#edtNumCarro').focus()
+                }else{                
+                    main_data.oper_analise_frota.func.fillAnalise()
+                    closeModal('oper_view_ana_frota')
+                }
+            })
+        }
+    })
+
+    pageScreen.querySelector('#btnDel').addEventListener('click',()=>{
+        if (confirm('Deseja realmente deletar este Registro?')) {
+            const params = new Object;
+                params.id = pageData.id
+
+            const myPromisse = queryDB(params,'ANA-2');
+
+            myPromisse.then((resolve)=>{
+                main_data.oper_analise_frota.func.fillAnalise()
+                closeModal('oper_view_ana_frota')                
+            })
+        }        
+    })
+
+/*
+
+    const params = new Object;
+        params.hash = localStorage.getItem('hash');
+        params.field = 'tipo'
+        params.signal = '='
+        params.value = 'CLI'
+
+    fillCombo('cmbCli',params,11,['id','cod_nome'],typeof main_data.viewAnaFrota.data === 'object' ? main_data.viewAnaFrota.data.id_emp :'' )
+
+    if(typeof main_data.viewAnaFrota.data === 'object'){
+        document.querySelector('#edtData').value = main_data.viewAnaFrota.data.data_analise
+        document.querySelector('#edtNumCarro').value = main_data.viewAnaFrota.data.num_carro
+        document.querySelector('#edtTecnico').value = main_data.viewAnaFrota.data.func
+        document.querySelector('#cmbLocal').value = main_data.viewAnaFrota.data.local
+        document.querySelector('#edtValor').value = parseFloat(main_data.viewAnaFrota.data.valor).toFixed(2)
+        document.querySelector('#edtDetal').value = main_data.viewAnaFrota.data.obs
+        document.querySelector('#cmbExe').value = main_data.viewAnaFrota.data.exec
+        document.querySelector('#btnDel').style.display = 'block'
+        document.querySelector('#btnCad').innerHTML = 'Salvar'     
+    }
+
+
+
+*/
+
+</script>

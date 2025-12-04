@@ -1,0 +1,77 @@
+<template>
+    <style>
+
+        .w70{
+            width: 70%;
+        }
+     
+    </style>
+
+    <fieldset class="fds-busca">
+        <legend>Busca</legend>
+        <div class="inline">
+            <input type="text" id="edtBusca" onkeypress="return getEnter(event, 'btnBusca')">
+            <button id="btnBusca" class="btn-round" ><span class="mdi mdi-magnify"></span></button>
+            <button id="btnNovo" class="btn-round"><span class="mdi mdi-plus-thick"></span></button>
+        </div>
+
+        <table id="tblProc"></table>
+    </fieldset> 
+
+</template>
+<script>
+
+    const pageData = main_data.oper_processo.data
+    const pageFunc = main_data.oper_processo.func
+    const pageScreen = document.querySelector('#card-oper_processo')
+
+    pageFunc.startPage = ()=>{
+        pageFunc.fillProc()
+    }
+
+    pageFunc.fillProc = ()=>{      
+        const tbl = pageScreen.querySelector('#tblProc')
+        tbl.innerHTML = ''
+        const params = new Object;
+            params.nome = pageScreen.querySelector('#edtBusca').value
+        const myPromisse = queryDB(params,'PRC-0')
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
+            tbl.head('Nome')
+            for(let i=0; i<json.length; i++){
+                tbl.plot(json[i],'nome','Upp')
+            }
+        })
+    }
+
+    pageFunc.setProc = (id=0, del=0,desc='')=>{
+        const params = new Object
+            params.id = id              
+            params.nome = del ?  '' : prompt('Nome do Processo:',desc)
+        if(params.nome != null){
+            const myPromisse = queryDB(params,'PRC-1')
+            myPromisse.then((resolve)=>{
+                setLog(`Processo ${id? del? 'DELETADO' : 'EDITADO' : 'CADASTRADO'} ${pageData.nome}`)
+                pageFunc.fillProc()
+            })
+        }
+        return params.nome
+    }
+
+    pageScreen.querySelector('#btnBusca').addEventListener('click',()=>{
+        pageFunc.fillProc()
+    })
+
+    pageScreen.querySelector('#btnNovo').addEventListener('click',()=>{
+        pageFunc.setProc()
+    })
+
+    pageScreen.querySelector('#tblProc').addEventListener('click',(e)=>{       
+        data = e.target.parentNode.data
+        data != undefined ? openHTML('oper_view_proc.html','pop-up',`Processo Detalhado - ${data.nome.toUpperCase()}`,data) : null
+    })
+
+    pageFunc.startPage()
+ 
+</script>

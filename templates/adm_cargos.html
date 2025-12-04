@@ -1,0 +1,82 @@
+
+<template>
+    <style>
+
+        #fdsCargo{
+            display: none;
+        }
+
+
+    </style>
+
+        <fieldset class="fds-busca cargo">
+            <legend>Busca</legend>
+            <div class="inline">
+                <label for="cmbBusca">Pesquisa</label>
+                <select id="cmbBusca">
+                    <option value="cargo" signal="LIKE">Cargo</option>
+                    <option value="cbo" signal="LIKE">CBO</option>
+                    <option value="mensal" signal="=" val="0">Horista</option>
+                    <option value="mensal" signal="=" val="1">Mensalista</option>
+                </select>
+                <input type="text" id="edtBusca" onkeypress="return getEnter(event, 'btnBusca-cargo')">
+                <button id="btnBusca-cargo" class="btn-round"><span class="mdi mdi-magnify"></span></button>
+                <button id="btnNovoCargo" class="btn-round"><span class="mdi mdi-plus-thick"></span></button>            
+            </div>
+        </fieldset>
+
+        <fieldset id="fdsCargo">
+            <legend>Cargos</legend>
+            <table id="tblCargo"></table>
+        </fieldset>
+
+</template>
+<script>
+
+    const pageData = main_data.adm_cargos.data
+    const pageFunc = main_data.adm_cargos.func
+    const pageScreen = document.querySelector('#card-adm_cargos')
+
+
+    pageFunc.fillCargo = ()=>{
+        const tbl = pageScreen.querySelector('#tblCargo')
+        tbl.innerHTML = ''
+        const params = new Object;
+        const query = getVal('cargo')
+            params.field = query[0]
+            params.signal = query[1]
+            params.value = query[2]
+        const myPromisse = queryDB(params,'ADM-3');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)            
+            pageScreen.querySelector('#fdsCargo').style.display = json.length > 0 ? 'block' : 'none'
+
+            tbl.head('Cod.,Cargo,CBO,Salário,Horista')
+            for(let i=0; i<json.length;i++){
+                tbl.plot(json[i],'id,cargo,cbo,salario,tipo','str,Upp,Upp,R$.,cha HORA=SIM MENSAL=NÃO')                
+            }         
+        });
+    }
+
+    pageScreen.querySelector('#btnBusca-cargo').addEventListener('click',()=>{
+        pageFunc.fillCargo()
+    })
+
+    pageScreen.querySelector('#btnNovoCargo').addEventListener('click',()=>{
+        openHTML('adm_view_cargo.html','pop-up','Cargos',{'id':'0'},800)
+    })
+
+    pageScreen.querySelector('#tblCargo').addEventListener('click',(e)=>{
+        try{
+            if(main_data.hasOwnProperty('adm_view_cargo')){
+                closeModal('adm_view_cargo')
+            }
+            data = e.target.parentNode.data            
+            data != undefined ? openHTML('adm_view_cargo.html','pop-up','Edição de Cargo',data,800) : null
+        }catch{
+            null
+        }
+    })
+
+
+</script>

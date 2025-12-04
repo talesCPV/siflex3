@@ -1,0 +1,59 @@
+02/07/2024 16:18 tales@flexibus.com.br : Menu Incluido (NFe Config)
+02/07/2024 16:20 tales@flexibus.com.br : Menu Alterado (NFe Config, sys_nfe_config.html, pop-up, NFe Config)
+03/07/2024 14:56 tales@flexibus.com.br : Menu Incluido (NFs Config)
+03/07/2024 14:58 tales@flexibus.com.br : Menu Alterado (NFs Config, sys_nfs_config.html, pop-up, Configuracao de Regras da NFs)
+10/07/2024 15:24 tales@flexibus.com.br : Funcionario Editado MARCELO CUSTODIO DE SIQUEIRA -> MARCELO CUSTODIO DE SIQUEIRA
+12/07/2024 15:17 tales@flexibus.com.br : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-07-12, N. Carro:teste, VALOR: R$0.00
+12/07/2024 15:20 tales@flexibus.com.br : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-07-12, N. Carro:teste, VALOR: R$0.00
+12/07/2024 15:24 tales@flexibus.com.br : DELECAO SERV EXEC - Cliente:3E COMERCIAL LTDA, Data:2024-07-12, N. Carro:teste, VALOR: R$0.00
+12/07/2024 15:24 tales@flexibus.com.br : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-07-12, N. Carro:12, VALOR: R$0.00
+12/07/2024 15:25 tales@flexibus.com.br : DELECAO SERV EXEC - Cliente:NEXT MOBILIDADE, Data:2024-07-12, N. Carro:12, VALOR: R$0.00
+16/07/2024 15:48 tales@flexibus.com.br : Registro de Hora Deletado: LUIZ ANTONIO DE MOURA Entrada: 15/07/2024 as 00:00, Saida: 15/07/2024 as 00:00
+16/07/2024 15:49 tales@flexibus.com.br : Novo Registro de Hora: LUIZ ANTONIO DE MOURA Entrada: 15/07/2024 as 00:00, Saida: 15/07/2024 as 00:00
+16/07/2024 16:21 tales@flexibus.com.br : Funcionario Cadastrado  -> 1
+16/07/2024 16:23 tales@flexibus.com.br : Funcionario Editado LUIZ ANTONIO DE MOURA -> LUIZ ANTONIO DE MOURA
+16/07/2024 16:23 tales@flexibus.com.br : Funcionario Deletado -> LUIZ ANTONIO DE MOURA
+16/07/2024 16:24 tales@flexibus.com.br : Funcionario Cadastrado  -> 1
+16/07/2024 16:25 tales@flexibus.com.br : Funcionario Cadastrado  -> teste
+16/07/2024 16:29 tales@flexibus.com.br : Funcionario Cadastrado  -> teste 2
+16/07/2024 16:30 tales@flexibus.com.br : Funcionario Cadastrado  -> teste 2
+16/07/2024 16:30 tales@flexibus.com.br : Funcionario Deletado -> teste 2
+16/07/2024 16:31 tales@flexibus.com.br : Funcionario Deletado -> teste
+16/07/2024 16:43 tales@flexibus.com.br : Funcionario Cadastrado  -> teste 3
+16/07/2024 16:43 tales@flexibus.com.br : Funcionario Deletado -> teste 3
+16/07/2024 20:02 tales@flexibus.com.br : Menu Incluido (Ferias)
+16/07/2024 20:03 tales@flexibus.com.br : Menu Alterado (Ferias, rh_ferias.html, pop-up, Ferias)
+16/07/2024 20:08 tales@flexibus.com.br : Menu Alterado (Ferias, rh_ferias.html, pop-up, Ferias)
+16/07/2024 20:22 tales@flexibus.com.br : Funcionario Cadastrado  -> novo func
+16/07/2024 20:23 tales@flexibus.com.br : Funcionario Deletado -> novo func
+18/07/2024 18:55 tales@flexibus.com.br : Menu Alterado (Sistema, menu, pop-up, )
+22/07/2024 22:03 tales@flexibus.com.br : Menu Alterado (Ferramentas, none, pop-up, )
+22/07/2024 22:03 tales@flexibus.com.br : Menu Alterado (Operacional, menu, pop-up, )
+23/07/2024 19:28 tales@flexibus.com.br : Menu Alterado (RH, menu, pop-up, )
+23/07/2024 19:28 tales@flexibus.com.br : Menu Alterado (Comercial, menu, pop-up, )
+23/07/2024 19:29 tales@flexibus.com.br : Menu Alterado (Fiscal, menu, pop-up, )
+23/07/2024 19:30 tales@flexibus.com.br : Menu Alterado (Cadastros, #, pop-up, )
+23/07/2024 19:31 tales@flexibus.com.br : Menu Alterado (Parametros, menu, pop-up, )
+23/07/2024 19:34 tales@flexibus.com.br : Menu Alterado (NFe Config, sys_nfe_config.html, pop-up, NFe Config)
+23/07/2024 19:35 tales@flexibus.com.br : Menu Alterado (NFe Config, sys_nfe_config.html, pop-up, NFe Config)
+23/07/2024 20:39 tales@flexibus.com.br : Menu Deletado (Fiscal)
+23/07/2024 20:48 tales@flexibus.com.br : Menu Alterado (Sistema, menu, pop-up, )
+23/07/2024 20:48 tales@flexibus.com.br : Menu Alterado (Sistema, menu, pop-up, )
+23/07/2024 21:10 tales@flexibus.com.br : Menu Alterado (Ferramentas, none, pop-up, )
+23/07/2024 21:10 tales@flexibus.com.br : Menu Alterado (Operacional, menu, pop-up, )
+24/07/2024 15:45 tales@flexibus.com.br :  Imagem Alterada -> Perfil Usuario: tales@flexibus.com.br
+24/07/2024 15:47 tales@flexibus.com.br :  Imagem Alterada -> Perfil Usuario: tales@flexibus.com.br
+24/07/2024 15:49 tales@flexibus.com.br :  Imagem Alterada -> Perfil Usuario: tales@flexibus.com.br
+24/07/2024 15:55 tales@flexibus.com.br :  Imagem Alterada -> Perfil Usuario: tales@flexibus.com.br
+24/07/2024 16:05 tales@flexibus.com.br :  Imagem Alterada -> Perfil Usuario: tales@flexibus.com.br
+24/07/2024 16:06  :  Imagem Alterada -> Perfil Usuario: comercial@flexibus.com.br
+26/07/2024 20:09 tales@flexibus.com.br :  Imagem Alterada -> Produto: PINO REI
+26/07/2024 20:21 tales@flexibus.com.br :  Imagem Alterada -> Produto: PINO REI
+26/07/2024 20:21 tales@flexibus.com.br : Produto Editado PINO REI -> PINO REI
+26/07/2024 15:28 tales@flexibus.com.br :  Imagem Alterada -> Produto: ESTICADOR ABERTO CABO DE ACO  (COM PORCAS DE TRAVA)                
+29/07/2024 10:46 tales@flexibus.com.br : Empresa Editada undefined -> CONCESSIONARIA DO AEROPORTO INTERNACIONAL CONFINS
+30/07/2024 13:22  : Novo Registro de Hora: IGOR HENRIQUE Entrada: 26/07/2024 as 05:00, Saida: 26/07/2024 as 20:00
+30/07/2024 13:22  : Novo Registro de Hora: JERONIMO IGNACIO RAMOS Entrada: 26/07/2024 as 05:00, Saida: 26/07/2024 as 20:00
+30/07/2024 13:22  : Novo Registro de Hora: WELLINGTON HENRIQUE A SIQUEIRA Entrada: 26/07/2024 as 05:00, Saida: 26/07/2024 as 20:00
+30/07/2024 13:26  : INCLUSAO SERV EXEC - Cliente:undefined, Data:2024-07-26, N. Carro:2101, VALOR: R$6.800.00
+31/07/2024 10:25  : Produto Cadastrado  -> MAO DE OBRA FLEXIBUS SANFONADOS

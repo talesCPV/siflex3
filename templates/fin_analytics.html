@@ -1,0 +1,237 @@
+<template>
+    <style>
+
+        .visual{
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding-bottom: 30px;
+        }
+
+        .visual fieldset{
+            margin-top: 0;
+            min-width: 250px;
+        }
+
+        .visual-periodo{
+            flex-direction: column;
+        }
+
+
+    </style>
+
+    <div class="top">
+        <h4>Visualizações</h4>
+
+        <div class="visual">
+
+            <fieldset>
+                <legend>Movimentação</legend>
+                <div class="inline">
+                    <label for="ckbEntrada">Entradas</label>
+                    <input type="checkbox" id="ckbEntrada" checked>
+                </div>
+    
+                <div class="inline">
+                    <label for="ckbSaida">Saídas</label>
+                    <input type="checkbox" id="ckbSaida" checked>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Período</legend>
+                <div class="inline">
+                    <label for="rbtSemana">Semana</label>
+                    <input type="radio" name="graph" id="rbtSemana">
+                </div>
+                <div class="inline">
+                    <label for="rbtMes">Mês</label>
+                    <input type="radio" name="graph" id="rbtMes" checked>
+                </div>
+
+            </fieldset>
+            <fieldset class="">
+                <legend>Período</legend>
+                <div class="inline visual-periodo">
+                    <input type="date" id="edtIni" onkeypress="return getEnter(event, 'btnBusca')">
+                    <input type="date" id="edtFin" onkeypress="return getEnter(event, 'btnBusca')">
+                    <div class="inline">
+                        <label for="ckbData">no período:</label>
+                        <input type="checkbox" id="ckbData" checked>
+                    </div>
+                </div>
+            </fieldset>
+
+        </div>
+
+    </div>
+
+    <hr>    
+
+    <h4>Análise</h4>
+
+    <div class="tab-bar">
+        <div class="tab-item" id="tab-tabela"   onclick="pictab(this)">Dados       </div>
+        <div class="tab-item" id="tab-custos"   onclick="pictab(this)">Custos     </div>
+        <div class="tab-item" id="tab-comp"     onclick="pictab(this)">Ent/Saida     </div>            
+    </div>
+    <div class="tab-screen">        
+        <div id="tabela" class="tab">
+            <table id="tblDados"></table>
+        </div>
+        <div id="custos" class="tab">
+            <div id="piechart" style="width: 100%; height: 100%;"></div>
+        </div>
+        <div id="comp" class="tab">
+            <div id="columnchart" style="width: 100%; height: 100%;"></div>
+        </div>
+    </div>
+
+
+</template>
+<script>
+    const pageData = main_data.fin_analytics.data
+    const pageFunc = main_data.fin_analytics.func
+    const pageScreen = document.querySelector('#card-fin_analytics')
+    var chart 
+
+
+    function pageStart(){
+        pageScreen.querySelector('#tab-tabela').click()
+        
+        loadExternalScript("https://www.gstatic.com/charts/loader.js",'google_chart').then((resolve, reject)=>{
+            pageFunc.fillData()
+        })        
+
+        pageScreen.querySelector('#edtIni').value = today.iniMonth()
+        pageScreen.querySelector('#edtFin').value = today.finMonth()
+        
+    }
+
+    function drawChart() {
+
+
+            var pie_chart = new google.visualization.PieChart(document.getElementById('piechart'))
+            var pie_data = google.visualization.arrayToDataTable(pageData.centro_custo);
+
+            var column_chart = new google.visualization.ColumnChart(document.getElementById('columnchart'))
+            var column_data = google.visualization.arrayToDataTable(pageData.entsai);
+
+
+            var options = {
+                vAxis: {
+                    minValue: 0
+                },
+
+                title: 'Gráfico de Custos',
+                subtitle: `de ${pageScreen.querySelector('#edtIni').value.date()} a ${pageScreen.querySelector('#edtFin').value.date()}`,
+            }
+
+            pie_chart.draw(pie_data, options)
+            column_chart.draw(column_data, options)
+
+        }
+
+    pageFunc.fillData = ()=>{
+        const ckb = pageScreen.querySelector('#ckbData').checked ? 1 : 0 
+        const params = new Object
+            params.entrada = pageScreen.querySelector('#ckbEntrada').checked ? 'ENTRADA' : 'NULL'
+            params.saida = pageScreen.querySelector('#ckbSaida').checked ? 'SAIDA' : 'NULL'
+            params.dt_ini = !ckb ? '0000-00-00' : pageScreen.querySelector('#edtIni').value
+            params.dt_fin = !ckb ? '9999-12-31' : pageScreen.querySelector('#edtFin').value
+        const myPromisse = queryDB(params,'FIN-12')
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            pageData.dados = json
+            const tbl = pageScreen.querySelector('#tblDados')
+            tbl.head('Data,Ent/Sai,Credor,Devedor,Desc.,Valor,Saldo')
+            pageData.centro_custo = [['Centro de Custo', 'Valor']]
+            pageData.entsai = [['Data','Entradas','Saídas']]
+            for(let i=0; i<json.length; i++){
+                tbl.plot(json[i],'venc,modalidade,credor,devedor,nome,valor,saldo','dat,Upp,Upp,Upp,Upp,R$.,R$.')
+                if(json[i].modalidade == 'SAÍDA'){
+                    if(!pageData.centro_custo.some(A => A[0] === json[i].centro_custo) ){                   
+                        pageData.centro_custo.push([json[i].centro_custo,Number(json[i].valor) * -1])
+                    }else{
+                        const indice = pageData.centro_custo.findIndex(function(arr_interno) {                        
+                            return arr_interno[0] === json[i].centro_custo
+                        })
+                        pageData.centro_custo[indice][1] += (Number(json[i].valor) * -1)
+                    }
+                }
+
+                const day = new Date(json[i].venc)
+                let div = day.overday(-1 * day.getDay()).substr(8,2)+'/'+day.overday(-1 * day.getDay()).substr(5,2)
+
+                if(pageScreen.querySelector('#rbtMes').checked){
+                    div = meses[Number(json[i].venc.substr(5,2))]
+                }
+
+                if(!pageData.entsai.some(A => A[0] === div) ){  
+                    pageData.entsai.push([div,0,0])
+                }
+
+                const indice = pageData.entsai.findIndex(function(arr_interno) {                        
+                    return arr_interno[0] === div
+                })
+
+                if(json[i].modalidade == 'SAÍDA'){
+                    pageData.entsai[indice][2] += (Number(json[i].valor) * -1)
+                }else{
+                    pageData.entsai[indice][1] += Number(json[i].valor)
+                }
+
+            }
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
+
+//            pageFunc.fillCustos()
+        })
+        return myPromisse
+    }
+
+    pageFunc.fillCustos = ()=>{
+        drawChart()
+    }
+    
+    pageScreen.querySelector('#tab-custos').addEventListener('click',()=>{
+        drawChart()
+    })
+
+    pageScreen.querySelector('#tab-comp').addEventListener('click',()=>{
+        drawChart()
+    })
+
+    pageScreen.querySelector('#ckbEntrada').addEventListener('change',()=>{
+        pageFunc.fillData()        
+    })
+
+    pageScreen.querySelector('#ckbSaida').addEventListener('change',()=>{
+        pageFunc.fillData()        
+    })
+
+    pageScreen.querySelector('#edtIni').addEventListener('change',()=>{
+        pageFunc.fillData()        
+    })
+
+    pageScreen.querySelector('#edtFin').addEventListener('change',()=>{
+        pageFunc.fillData()        
+    })
+
+    pageScreen.querySelector('#ckbData').addEventListener('change',()=>{
+        pageFunc.fillData()        
+    })
+
+    pageScreen.querySelector('#rbtSemana').addEventListener('change',()=>{
+        pageFunc.fillData()        
+    })
+
+    pageScreen.querySelector('#rbtMes').addEventListener('change',()=>{
+        pageFunc.fillData()        
+    })
+
+
+    
+
+    pageStart()
+
+</script>

@@ -1,0 +1,76 @@
+<template>
+    <style>
+        .resp-busca{
+            width: 100%;
+            max-height: 400px;
+            overflow-y: scroll;
+        }
+
+    </style>
+
+    <fieldset class="fds-busca prod">
+        <legend>Filtro</legend>
+        <div class="inline">
+            <label for="edtBusca">por:</label>
+            <select id="cmbBusca">
+                <option value="cod_int" signal="IN">Código</option>
+                <option value="descricao" signal="LIKE" selected>Descrição</option>
+                <option value="cod_forn" signal="LIKE">Código Forn.</option>
+                <option value="cod_bar" signal="LIKE" >Código de Barras</option>
+                <option value="consumo" signal="=" val="1">Consumo</option>
+                <option value="estoque" signal="<=" val="estq_min">Estoque Baixo</option>
+                <option value="ramo" signal="LIKE" >Fornecedor</option>
+            </select>
+            <input type="text" id="edtBusca" onkeypress="return getEnter(event, 'btnBusca-prod')">
+            <button id="btnBusca-prod" class="btn-round" ><span class="mdi mdi-magnify"></span></button>
+        </div>
+
+        
+    </fieldset>  
+    <div class="resp-busca">
+        <table id="tblProd"></table>
+    </div>
+</template>
+<script>
+
+    const pageData = main_data.busca_prod.data
+    const pageFunc = main_data.busca_prod.func
+    const pageScreen = document.querySelector('#card-busca_prod')
+
+    pageFunc.fillProd = ()=>{      
+        const tbl = pageScreen.querySelector('#tblProd')
+        tbl.innerHTML = ''
+        const query = getVal('prod')
+        const params = new Object;
+            params.field = query[0]
+            params.signal = query[1]
+            params.value = query[2]
+        const myPromisse = queryDB(params,'PROD-0');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
+            tbl.head('Descrição|w70,Und.,Estq.,Reserv.,Disp.')
+            for(let i=0; i<json.length;i++){
+                tbl.plot(json[i],'descricao,unidade,estoque,reserva,disponivel','Upp,Upp,str,str,str')
+            }         
+        });
+    }
+
+    pageScreen.querySelector('#btnBusca-prod').addEventListener('click',()=>{
+        pageFunc.fillProd()
+    })
+
+    pageScreen.querySelector('#tblProd').addEventListener('click',(e)=>{
+        try{            
+            if(main_data.hasOwnProperty(pageData.org)){
+                data = e.target.parentNode.data
+                data != undefined ?  main_data[pageData.org].func.buscaProd(data) : null
+            }
+            closeModal('busca_prod')
+       }catch{
+
+        }
+        
+    })
+
+</script>

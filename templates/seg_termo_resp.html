@@ -1,0 +1,106 @@
+<template>
+    <style>
+        .tab-rigth{
+            display: flex;
+            width: 100%;
+            justify-content: end;
+            padding-right: 10px;
+        }
+     
+    </style>
+  
+    <div class="inline">
+        <label for="cmbFunc">Funcionário</label>
+        <select id="cmbFunc"></select>
+    </div>
+
+    <div class="inline">
+        <label for="edtTitulo">Título</label>
+        <input type="text" id="edtTitulo">
+    </div>
+
+    <div class="inline">
+        <label for="edtTexto">Texto</label>
+        <textarea id="edtTexto" rows="15"></textarea>
+    </div>
+    <div class="tab-rigth">
+        <button id="btnSave">Salvar Texto</button>
+        <button id="btnPrint">Imprimir</button>
+    </div>
+
+
+</template>
+<script>
+    const pageData = main_data.seg_termo_resp.data
+    const pageFunc = main_data.seg_termo_resp.func
+    const pageScreen = document.querySelector('#card-seg_termo_resp')
+
+    pageFunc.pageStart = ()=>{
+        fillFunc()
+        loadTermo()
+    }
+
+    pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
+        const obj = new Object
+        obj.txt = pageScreen.querySelector('#edtTexto').value.trim()
+        obj.titulo = pageScreen.querySelector('#edtTitulo').value.trim()
+        saveTxt(obj,'/../config/text/termo_resp.json')
+        .then(()=>{
+            alert('Texto salvo!')
+        })
+    })
+
+    pageScreen.querySelector('#btnPrint').addEventListener('click',()=>{
+        const func = pageData.func[parseInt(pageScreen.querySelector('#cmbFunc').value)]
+
+        const obj = new Object
+        obj.text = pageScreen.querySelector('#edtTexto').value.trim()
+        obj.titulo = pageScreen.querySelector('#edtTitulo').value.trim()
+        obj.font = 10
+        obj.color = 0
+        obj.ass = func.nome
+
+        obj.text = obj.text.replaceAll('#nome',func.nome)
+        obj.text = obj.text.replaceAll('#cargo',func.cargo)
+        obj.text = obj.text.replaceAll('#reg',func.reg)
+        obj.text = obj.text.replaceAll('#rg',getRG(func.rg))
+        obj.text = obj.text.replaceAll('#uf',func.estado)
+
+        termo(obj)
+    })
+
+    function fillFunc(){
+        const params = new Object;
+            params.field = 'nome'
+            params.signal = 'LIKE'
+            params.value = "'%%'"
+            params.ativo = 1
+        const myPromisse = queryDB(params,'FUN-0');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            pageData.func = json
+            const cmb = pageScreen.querySelector('#cmbFunc')
+            cmb.innerHTML=''
+            for(let i=0; i<json.length; i++){
+                const opt = document.createElement('option')
+                opt.value = i
+                opt.innerHTML = json[i].nome
+                opt.data = json[i]
+                cmb.appendChild(opt)
+            }            
+        })
+    }
+
+    function loadTermo(){
+        getFile('/../config/text/termo_resp.json')
+        .then((txt)=>{
+            const json = JSON.parse(txt)
+            pageScreen.querySelector('#edtTexto').value = json.txt
+            pageScreen.querySelector('#edtTitulo').value = json.titulo
+        })
+    }
+
+
+    pageFunc.pageStart()
+
+</script>

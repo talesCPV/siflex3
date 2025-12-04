@@ -1,0 +1,204 @@
+
+<template>
+    <style>
+        .frm{
+            padding: 10px;
+        }
+
+        .top-form{
+            display: flex;
+            flex-direction: row;
+            margin: 10px;
+            padding: 10px 0 10px 10px;            
+        }
+
+        .pic{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: solid 1px;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .side-pic{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .side-pic .inline{
+            padding-right: 0;
+        }
+     
+        #up_file{
+            max-width: 280px;
+        }
+
+
+        @media all and (max-width : 1000px) {
+            .top-form{
+                flex-direction: column;
+                padding: 0;
+                margin: 0;
+            }
+        }
+
+    </style>
+  
+    <fieldset class="frm" >
+        <legend>Produto</legend>
+
+        <div class="inline">
+            <label for="cmbProc">Processo</label>
+            <select id="cmbProc" disabled></select>
+        </div>
+
+        <div class="inline">
+            <label for="cmbCli">Cliente</label>
+            <select id="cmbCli" class="only-view" disabled></select>   
+        </div>
+
+        <div class="inline">
+            <label for="edtEmit">Emissão</label>
+            <input type="date"  id="edtEmit" disabled>
+            <label for="edtEnt">Entrega</label>
+            <input type="date" class="only-view" id="edtEnt" disabled>
+        </div>
+
+        <div class="inline">
+            <label for="edtObs">Obs.</label>
+            <textarea id="edtObs" class="only-view" rows="5" maxlength="255" disabled></textarea>
+        </div>
+
+        <div class="line">
+            <button id="btnDel" class="only-view" disabled>Deletar</button>
+            <button id="btnEdit">Editar</button>
+            <button id="btnSave" class="only-view" disabled>Salvar</button>
+            <button id="btnPrint" class="only-view" disabled>Imprimir</button>
+        </div>
+    </fieldset>
+
+    <img id="barcode"></img>
+
+</template>
+<script>
+    
+    const pageData = main_data.oper_view_os.data
+    const pageFunc = main_data.oper_view_os.func
+    const pageScreen = document.querySelector('#card-oper_view_os')
+    const newOS = Object.keys(pageData).length == 0
+
+    function startPage(){
+        fillEmp()
+        fillProc()
+        if(newOS){
+            openFields(1)            
+            pageScreen.querySelector('#cmbProc').disabled = 0
+            pageScreen.querySelector('#btnDel').disabled = 1
+            pageScreen.querySelector('#btnEdit').disabled = 1
+            pageScreen.querySelector('#btnPrint').disabled = 1
+            pageScreen.querySelector('#edtEmit').value =  today.getFormatDate()
+            pageScreen.querySelector('#edtEnt').value = today.overday(30)
+        }else{   
+            pageScreen.querySelector('#edtObs').value = pageData.obs
+            pageScreen.querySelector('#edtEmit').value = pageData.data.substring(0,10)
+            pageScreen.querySelector('#edtEnt').value = pageData.dt_entrega
+            pageScreen.querySelector('#btnEdit').disabled = 0
+            pageScreen.querySelector('#btnPrint').disabled = 0
+        }
+    }
+
+    function fillProc(){
+        const params = new Object;
+            params.nome = ''
+        const myPromisse = queryDB(params,'PRC-0')
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const cmb = pageScreen.querySelector('#cmbProc')
+            cmb.innerHTML=''
+            for(let i=0; i<json.length; i++){
+                const opt = document.createElement('option')
+                opt.value = json[i].id
+                opt.innerHTML = json[i].nome
+                if(!newOS){
+                    opt.selected =  json[i].id == pageData.id_proc ? 1 : 0
+                }
+                cmb.appendChild(opt)
+            }            
+        })
+    }
+
+    function fillEmp(){
+        const params = new Object;
+            params.field = 'fantasia'
+            params.signal = 'LIKE'
+            params.value = "'%%'"
+        const myPromisse = queryDB(params,'EMP-0');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const cmb = pageScreen.querySelector('#cmbCli')
+            cmb.innerHTML=''
+            for(let i=0; i<json.length; i++){
+                const opt = document.createElement('option')
+                opt.value = json[i].id
+                opt.innerHTML = json[i].fantasia
+                if(!newOS){
+                    opt.selected =  json[i].id == pageData.id_emp ? 1 : 0
+                }else{
+                    opt.selected =  json[i].id == '37' ? 1 : 0
+                }
+                cmb.appendChild(opt)
+            }            
+        })
+    }
+
+    function openFields(open=1){
+        const view = pageScreen.querySelectorAll('.only-view')
+        for(let i=0; i<view.length; i++){
+            view[i].disabled = !open
+        }
+    }
+
+    function setOS(id=0, del=0){
+        const params = new Object
+            params.id = id
+            params.id_proc = del ?  0 : pageScreen.querySelector('#cmbProc').value
+            params.id_emp = pageScreen.querySelector('#cmbCli').value
+            params.dt_entrega = pageScreen.querySelector('#edtEnt').value
+            params.obs = pageScreen.querySelector('#edtObs').value
+            const myPromisse = queryDB(params,'OS-1')
+            myPromisse.then((resolve)=>{
+                setLog(`OS ${id? del? 'DELETADA' : 'EDITADA' : 'CADASTRADA'} `)
+                main_data.oper_os.func.fillOS()
+                closeModal('oper_view_os')
+            })
+    }
+
+    pageScreen.querySelector('#btnEdit').addEventListener('click',()=>{
+        if(pageScreen.querySelector('#btnSave').disabled){
+            if(confirm('Abrir registro para edição?')){
+                openFields(1)
+            }
+        }else{
+            openFields(0)
+        }
+    })
+
+    pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
+        setOS(newOS ? 0 : pageData.id)
+    })
+
+    pageScreen.querySelector('#btnDel').addEventListener('click',()=>{
+        setOS(pageData.id,1)
+    })
+
+    pageScreen.querySelector('#btnPrint').addEventListener('click',()=>{
+        printOS(pageData)
+    })
+    
+    startPage()    
+
+</script>

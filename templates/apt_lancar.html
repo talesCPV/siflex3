@@ -1,0 +1,90 @@
+<template>
+    <style>
+
+     
+    </style>
+
+    <fieldset>
+        <legend>Ordem de Serviço</legend>
+        <div class="inline">
+            <label for="edtOS">Num. OS </label>
+            <input type="text" id="edtOS" onkeypress="return getEnter(event, 'btnBusca')">
+            <button id="btnBusca" class="btn-round"><span class="mdi mdi-magnify"></span></button>
+        </div>
+        
+    </fieldset>
+
+    <table id="tblOS"></table>
+    <table id="tblProc"></table>
+
+
+</template>
+<script>
+
+    const pageData = main_data.apt_lancar.data
+    const pageFunc = main_data.apt_lancar.func
+    const pageScreen = document.querySelector('#card-apt_lancar')
+
+    function pageStart(){
+        pageScreen.querySelector('#edtOS').focus()
+    }
+
+    pageFunc.fillOS = (N)=>{
+        const os = N.length == 9 ? Number(N.substring(0,4)) : Number(N)
+        const etapa = N.length == 9 ? Number(N.substring(4,9)) : 0
+        function fillProc(obj){
+console.log(obj)            
+            let message = ''
+            const tbl = pageScreen.querySelector('#tblProc')
+            tbl.style.display = obj.length > 0 ? 'inline-table' : 'none'
+            tbl.head('Op., Setor, Descrição,<span class="mdi mdi-check-bold"></span>')
+            for(let i=0; i<obj.length; i++){
+                tbl.plot(obj[i],'ordem,setor,descricao,ok','Upp,Upp,Upp,ico 0=mdi-close-thick 1=mdi-check-bold ')
+                if(Number(etapa) == obj[i].id_etapa && obj[i].ok == '0'){
+                    message = `Digite seu cod. para lançar o processo ${obj[i].ordem}, setor ${obj[i].setor}:` 
+                }
+            }
+            return message
+        }
+
+        const params = new Object
+            params.N = N
+        const myPromisse = queryDB(params,'OS-2')
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const tbl = pageScreen.querySelector('#tblOS')
+            tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
+            tbl.head('OS,Cliente,Serviço, Entrega,<span class="mdi mdi-check-bold"></span>')
+            for(let i=0; i<json.length; i++){
+                tbl.plot(json[i],'id,cliente,processo,dt_entrega,ok','padStart(4.0),Upp,Upp,dat,Upp')
+            } 
+            queryDB(params,'OS-3')
+            .then((resolve)=>{
+                const json = JSON.parse(resolve)             
+                const message = fillProc(json)
+                if(message.length > 0 && etapa > 0){
+                    const id_func = prompt(message)
+                    if(id_func != null){
+                        params.id_func = id_func
+                        queryDB(params,'OS-4')
+                        .then((resolve)=>{
+//                            const json = JSON.parse(resolve)
+//                            fillProc(json)
+                            pageFunc.fillOS(N)
+                        })
+                    }
+                }
+            })
+        })
+    }
+
+    pageScreen.querySelector('#btnBusca').addEventListener('click',()=>{
+        const cod = pageScreen.querySelector('#edtOS')
+        pageFunc.fillOS(cod.value)
+        cod.value = ''
+        cod.focus()
+    })
+
+    pageStart()
+
+</script>

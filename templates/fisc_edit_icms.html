@@ -1,0 +1,52 @@
+
+<template>
+    <style>
+
+        #edtIcms{
+            margin: 10px;
+            width: 100px;
+        }
+
+        .center{
+            display: flex;
+            justify-content: center;
+        }
+
+    </style>
+  
+    <div class="inline center">
+        <label for="edtIcms" id="lblIcms"></label>
+        <input type="text" id="edtIcms" onkeyup="valFloat(this)">
+        <button id="btnSaveIcms" class="btn-round" ><span class="mdi mdi-content-save"></span></button>
+    </div>
+  
+
+
+</template>
+<script>
+
+    const pageData = main_data.fisc_edit_icms.data
+    const pageFunc = main_data.fisc_edit_icms.func
+    const pageScreen = document.querySelector('#card-fisc_edit_icms')
+   
+    pageScreen.querySelector('#lblIcms').innerHTML = `Valor do ICMS para ${pageData.sigla} (%)`
+    pageScreen.querySelector('#edtIcms').value = parseFloat(pageData.valor).toFixed(2)
+
+    pageScreen.querySelector('#btnSaveIcms').addEventListener('click',()=>{
+
+        const params = new Object;     
+            params.id = pageData.id
+            params.valor = pageScreen.querySelector('#edtIcms').value
+
+        const myPromisse = queryDB(params,'FIN-2');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            main_data.fisc_icms.func.fillUF()
+            closeModal('fisc_edit_icms')
+        })
+
+
+    })
+
+
+</script>

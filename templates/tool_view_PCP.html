@@ -1,0 +1,39 @@
+
+<template>
+    <style>
+        textarea{
+            font-size: 1.4em;
+        }
+
+    </style>
+
+        <textarea id="edtPCP" cols="30" rows="10"></textarea>
+        <div class="line">
+            <button id="btnSave">Salvar</button> 
+        </div>
+
+</template>
+<script>
+
+    const pageData = main_data.tool_view_PCP.data
+    const pageFunc = main_data.tool_view_PCP.func
+    const pageScreen = document.querySelector('#card-tool_view_PCP')
+
+    pageScreen.querySelector('#edtPCP').value = pageData.content.trim()
+
+    document.querySelector('#btnSave').addEventListener('click',()=>{
+
+        const params = new Object;
+            params.data_serv = pageData.data
+            params.id_setor = pageData.id
+            params.valor = pageScreen.querySelector('#edtPCP').value.trim()
+        const myPromisse = queryDB(params,'TOOL-1');
+        myPromisse.then((resolve)=>{
+            main_data.tool_pcp.func.refresh(params)
+            closeModal('tool_view_PCP')
+        })
+
+
+    })
+
+</script>

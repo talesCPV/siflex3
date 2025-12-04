@@ -1,0 +1,71 @@
+
+<template>
+    <style>
+
+    </style>
+
+        <fieldset class="fds-busca sanf">
+            <legend>Busca</legend>
+            <div class="inline">
+                <label for="edtBusca">por:</label>
+                <select id="cmbBusca">
+                    <option value="id" signal="IN">Código</option>
+                    <option value="nome" signal="LIKE" selected>Nome</option>
+                    <option value="marca" signal="LIKE">Marca</option>
+                    <option value="modelo" signal="LIKE" >Modelo</option>
+                    <option value="ano" signal="LIKE">Ano</option>
+                </select>
+                <input type="text" id="edtBusca" onkeypress="return getEnter(event, 'btnBusca-sanf')">
+                <button id="btnBusca-sanf" class="btn-round" ><span class="mdi mdi-magnify"></span></button>
+                <button id="btnNovo" class="btn-round"><span class="mdi mdi-plus-thick"></span></button>            
+
+            </div>
+
+            <table id="tblSanf"></table>
+        </fieldset>
+    
+</template>
+<script>
+  
+    const pageData = main_data.sanf_modelos.data
+    const pageFunc = main_data.sanf_modelos.func
+    const pageScreen = document.querySelector('#card-sanf_modelos')
+
+    pageFunc.fillSanf = ()=>{      
+        const tbl = pageScreen.querySelector('#tblSanf')
+        tbl.innerHTML = ''
+        const query = getVal('sanf')
+        const params = new Object;
+            params.field = query[0]
+            params.signal = query[1]
+            params.value = query[2]
+        const myPromisse = queryDB(params,'SAN-0');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
+            tbl.head('Nome,Marca,Modelo,Ano')
+            for(let i=0; i<json.length;i++){
+                tbl.plot(json[i],'nome,marca,modelo,ano','Upp,Upp,Upp,Upp')
+            }         
+        })
+    }
+
+    pageScreen.querySelector('#btnBusca-sanf').addEventListener('click',()=>{
+        pageFunc.fillSanf()
+    })
+
+    pageScreen.querySelector('#btnNovo').addEventListener('click',()=>{
+        openHTML('sanf_view.html','pop-up','Nova Sanfona')
+    })
+
+    pageScreen.querySelector('#tblSanf').addEventListener('click',(e)=>{
+        try{
+            if(main_data.hasOwnProperty('sanf_view')){
+                closeModal('sanf_view')
+            }
+            data = e.target.parentNode.data
+            data != undefined ? openHTML('sanf_view.html','pop-up',`Edição de dados - ${data.nome.toUpperCase()}`,data) : null
+       }catch{}
+    })
+
+</script>

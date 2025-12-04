@@ -1,0 +1,73 @@
+
+<template>
+    <style>
+
+    </style>
+
+        <fieldset class="fds-busca pix">
+            <legend>Busca</legend>
+            <div class="inline">
+                <label for="edtBusca">por:</label>
+                <select id="cmbBusca">
+                    <option value="chave" signal="LIKE">Chave Pix</option>
+                    <option value="nome" signal="LIKE" selected>Nome</option>
+                </select>
+                <input type="text" id="edtBusca" onkeypress="return getEnter(event, 'btnBusca-pix')">
+                <button id="btnBusca-pix" class="btn-round" ><span class="mdi mdi-magnify"></span></button>
+                <button id="btnNovo" class="btn-round"><span class="mdi mdi-plus-thick"></span></button>
+            </div>
+            <table id="tblPix"></table>
+        </fieldset>
+    
+</template>
+<script>
+  
+    const pageData = main_data.fin_pix.data
+    const pageFunc = main_data.fin_pix.func
+    const pageScreen = document.querySelector('#card-fin_pix')
+
+    function pageStart(){
+        pageFunc.fillPix()
+    }
+
+    pageFunc.fillPix = ()=>{
+        const tbl = pageScreen.querySelector('#tblPix')
+        tbl.innerHTML = ''
+        const query = getVal('pix')
+        const params = new Object
+            params.field = query[0]
+            params.signal = query[1]
+            params.value = query[2]
+        const myPromisse = queryDB(params,'FIN-8')
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
+            tbl.head('Nome, Chave Pix')
+            for(let i=0; i<json.length;i++){
+                tbl.plot(json[i],'nome,chave','Upp,str')
+            }         
+        })
+    }
+
+    pageScreen.querySelector('#btnBusca-pix').addEventListener('click',()=>{
+        pageFunc.fillPix()
+    })
+
+    pageScreen.querySelector('#btnNovo').addEventListener('click',()=>{
+        openHTML('fin_view_pix.html','pop-up','Chave PIX')
+    })
+
+    pageScreen.querySelector('#tblPix').addEventListener('click',(e)=>{
+        try{
+            data = e.target.parentNode.data
+            if(pageData.hasOwnProperty('callback')){
+                pageData.callback(data)
+                closeModal('fin_pix')
+            }else{
+                data != undefined ? openHTML('fin_view_pix.html','pop-up',`Edição de dados - ${data.nome.toUpperCase()}`,data) : null
+            }
+       }catch{null}
+    })
+
+    pageStart()
+</script>

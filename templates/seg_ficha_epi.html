@@ -1,0 +1,169 @@
+<template>
+    <style>
+
+        .panel{
+            display: flex;
+            justify-content: center;
+        }
+
+        .panel div{
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            padding-left: 10px;
+            overflow: scroll;
+        }
+
+        .panel select{
+            margin-left: 0;
+        }
+
+        .central{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: auto !important;
+        }
+
+    </style>
+
+    <div class="inline">
+        <label for="cmbFunc">Funcionário</label>
+        <select id="cmbFunc"></select>
+        <label for="edtData">Data</label>
+        <input type="date" id="edtData">
+    </div>  
+
+    <div class="panel">
+
+        <div>
+            <label for="cmbEpi">EPIs</label>
+            <select id="cmbEpi" size="10"></select>
+        </div>
+    
+        <div class="central">
+            <button id="btnAdd"><span class="mdi mdi-arrow-right-thick"></span></button>
+            <button id="btnRem"><span class="mdi mdi-arrow-left-thick"></span></button>
+        </div>
+    
+        <div>
+            <label for="cmbEpiFunc" id="lblFunc">EPIs Entregues</label>
+            <select id="cmbEpiFunc" size="10"></select>
+        </div>
+    
+    </div>
+
+    <div class="line">
+        <button id="btnPrint">Gerar Ficha</button>
+    </div>
+
+
+</template>
+<script>
+
+    const pageData = main_data.seg_ficha_epi.data
+    const pageFunc = main_data.seg_ficha_epi.func
+    const pageScreen = document.querySelector('#card-seg_ficha_epi')
+
+    pageFunc.pageStart = ()=>{
+        fillFunc()
+        fillEpi()
+        pageScreen.querySelector('#edtData').value = today.getFormatDate()
+    }
+
+    function fillFunc(){
+        const params = new Object;
+            params.field = 'nome'
+            params.signal = 'LIKE'
+            params.value = "'%%'"
+            params.ativo = 1
+        const myPromisse = queryDB(params,'FUN-0');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)      
+            pageData.func = json
+            const cmb = pageScreen.querySelector('#cmbFunc')
+            cmb.innerHTML=''
+            for(let i=0; i<json.length; i++){
+                const opt = document.createElement('option')
+                opt.value = json[i].id
+                opt.innerHTML = json[i].nome
+                opt.data = json[i]
+                cmb.appendChild(opt)
+            }         
+        })
+    }
+
+    function fillEpi(){
+        const params = new Object;
+            params.field = 'nome'
+            params.signal = 'LIKE'
+            params.value = "'%%'"
+            params.ativo = 1
+        const myPromisse = queryDB(params,'SEG-0');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            pageData.func = json
+            const cmb = pageScreen.querySelector('#cmbEpi')
+            cmb.innerHTML=''
+            for(let i=0; i<json.length; i++){
+                const opt = document.createElement('option')
+                opt.value = json[i].id
+                opt.innerHTML = json[i].nome
+                opt.data = json[i]
+                cmb.appendChild(opt)
+            }            
+        })
+    }
+
+/*    
+    function selFunc(){
+        const func = pageScreen.querySelector('#cmbFunc')
+        pageScreen.querySelector('#lblFunc').innerHTML = func.options[func.selectedIndex].text
+    }
+*/
+
+    function getSelect(add=1){
+
+        const sel1 = pageScreen.querySelector(`#${add ? 'cmbEpi' : 'cmbEpiFunc'}`)
+        const sel2 = pageScreen.querySelector(`#${add ? 'cmbEpiFunc' : 'cmbEpi'}`)
+        if(sel1.selectedIndex >= 0){
+            if(add){
+                sel1.options[sel1.selectedIndex].data.qtd = prompt('Quantidade',1)
+                sel1.options[sel1.selectedIndex].innerHTML = sel1.options[sel1.selectedIndex].data.qtd.padStart(2,0) +' - '+sel1.options[sel1.selectedIndex].data.nome
+            }else{
+                sel1.options[sel1.selectedIndex].innerHTML = sel1.options[sel1.selectedIndex].data.nome
+            }
+            sel2.appendChild(sel1.options[sel1.selectedIndex])
+            sel1.options.remove(sel1.selectedIndex)
+
+        }
+    }
+
+    pageScreen.querySelector('#btnAdd').addEventListener('click',()=>{
+        getSelect(1)
+    })
+
+    pageScreen.querySelector('#btnRem').addEventListener('click',()=>{
+        getSelect(0)
+    })
+
+    pageScreen.querySelector('#btnPrint').addEventListener('click',()=>{
+        const func = pageScreen.querySelector('#cmbFunc').options[pageScreen.querySelector('#cmbFunc').selectedIndex].data
+        const opt = pageScreen.querySelector('#cmbEpiFunc').options
+        const epi = []
+        for(let i=0; i< opt.length; i++){
+            epi.push(opt[i].data)
+        }
+        
+        if(epi.length){
+            const obj = {'epi':epi,'func':func, 'data':pageScreen.querySelector('#edtData').value}
+            fichaEPI(obj)
+        }else{
+            alert('Você deve selecionar algum EPI para ser entrege ao funcionário!')
+        }
+        
+    })
+
+    pageFunc.pageStart()
+
+</script>

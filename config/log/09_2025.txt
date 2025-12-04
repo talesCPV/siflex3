@@ -1,0 +1,244 @@
+04/09/2025 14:51 tales@flexibus.com.br : Registro de Hora Deletado: BRUNO JOSE MATHIAS Entrada: 03/09/2025 as 07:00, Saida: 03/09/2025 as 20:00
+04/09/2025 14:51 tales@flexibus.com.br : Novo Registro de Hora: BRUNO JOSE MATHIAS Entrada: 03/09/2025 as 07:00, Saida: 03/09/2025 as 20:00
+04/09/2025 14:51 tales@flexibus.com.br : Novo Registro de Hora: SUELLEN HENRIQUE DE SIQUEIRA Entrada: 03/09/2025 as 07:00, Saida: 03/09/2025 as 17:00
+04/09/2025 14:52 tales@flexibus.com.br : Novo Registro de Hora: TIAGO ALVES DE ARAUJO Entrada: 03/09/2025 as 07:00, Saida: 03/09/2025 as 17:00
+04/09/2025 14:52 tales@flexibus.com.br : Registro de Hora Deletado: SUELLEN HENRIQUE DE SIQUEIRA Entrada: 03/09/2025 as 07:00, Saida: 03/09/2025 as 17:00
+04/09/2025 16:18 tales@flexibus.com.br : Novo Registro de Hora: TIAGO ALVES DE ARAUJO Entrada: 04/09/2025 as 00:00, Saida: 04/09/2025 as 17:00
+04/09/2025 16:20 tales@flexibus.com.br : Registro de Hora Deletado: SUELLEN HENRIQUE DE SIQUEIRA Entrada: 02/09/2025 as 07:00, Saida: 02/09/2025 as 20:00
+04/09/2025 16:20 tales@flexibus.com.br : Novo Registro de Hora: SUELLEN HENRIQUE DE SIQUEIRA Entrada: 02/09/2025 as 07:00, Saida: 02/09/2025 as 20:00
+04/09/2025 16:20 tales@flexibus.com.br : Novo Registro de Hora: SUELLEN HENRIQUE DE SIQUEIRA Entrada: 03/09/2025 as 07:00, Saida: 03/09/2025 as 17:00
+04/09/2025 16:20 tales@flexibus.com.br : Novo Registro de Hora: SUELLEN HENRIQUE DE SIQUEIRA Entrada: 25/09/2025 as 00:00, Saida: 25/09/2025 as 17:00
+04/09/2025 16:20 tales@flexibus.com.br : Novo Registro de Hora: TIAGO ALVES DE ARAUJO Entrada: 26/08/2025 as 07:00, Saida: 26/08/2025 as 17:00
+04/09/2025 16:22 tales@flexibus.com.br : Registro de Hora Deletado: SUELLEN HENRIQUE DE SIQUEIRA Entrada: 25/09/2025 as 00:00, Saida: 25/09/2025 as 17:00
+04/09/2025 16:22 tales@flexibus.com.br : Registro de Hora Deletado: SUELLEN HENRIQUE DE SIQUEIRA Entrada: 03/09/2025 as 07:00, Saida: 03/09/2025 as 17:00
+04/09/2025 16:23 tales@flexibus.com.br : Novo Registro de Hora: TIAGO ALVES DE ARAUJO Entrada: 06/09/2025 as 07:00, Saida: 06/09/2025 as 17:00
+04/09/2025 16:23 tales@flexibus.com.br : Registro de Hora Deletado: TIAGO ALVES DE ARAUJO Entrada: 06/09/2025 as 07:00, Saida: 06/09/2025 as 17:00
+04/09/2025 16:24 tales@flexibus.com.br : Registro de Hora Deletado: TIAGO ALVES DE ARAUJO Entrada: 04/09/2025 as 00:00, Saida: 04/09/2025 as 17:00
+04/09/2025 16:24 tales@flexibus.com.br : Registro de Hora Deletado: TIAGO ALVES DE ARAUJO Entrada: 03/09/2025 as 07:00, Saida: 03/09/2025 as 17:00
+04/09/2025 16:25 tales@flexibus.com.br : Registro de Hora Deletado: TIAGO ALVES DE ARAUJO Entrada: 26/08/2025 as 07:00, Saida: 26/08/2025 as 17:00
+04/09/2025 16:25 tales@flexibus.com.br : Registro de Hora Deletado: TIAGO ALVES DE ARAUJO Entrada: 02/09/2025 as 07:00, Saida: 02/09/2025 as 20:00
+04/09/2025 16:25 tales@flexibus.com.br : Novo Registro de Hora: TIAGO ALVES DE ARAUJO Entrada: 28/08/2025 as 07:00, Saida: 28/08/2025 as 17:00
+04/09/2025 16:26 tales@flexibus.com.br : Registro de Hora Deletado: TIAGO ALVES DE ARAUJO Entrada: 28/08/2025 as 07:00, Saida: 28/08/2025 as 17:00
+04/09/2025 16:26 tales@flexibus.com.br : Novo Registro de Hora: TIAGO ALVES DE ARAUJO Entrada: 26/08/2025 as 07:00, Saida: 26/08/2025 as 17:00
+04/09/2025 16:26 tales@flexibus.com.br : Novo Registro de Hora: TIAGO ALVES DE ARAUJO Entrada: 01/09/2025 as 07:00, Saida: 01/09/2025 as 20:00
+04/09/2025 16:28 tales@flexibus.com.br : Novo Registro de Hora: TIAGO ALVES DE ARAUJO Entrada: 03/09/2025 as 07:00, Saida: 03/09/2025 as 17:00
+04/09/2025 16:43 tales@flexibus.com.br : Funcionario Editado FRANCISCO ELONIO SA SILVA MART -> FRANCISCO ELONIO SA SILVA MART
+04/09/2025 16:44 tales@flexibus.com.br : Funcionario Editado FRANCISCO ELONIO SA SILVA MART -> FRANCISCO ELONIO SA SILVA MART
+04/09/2025 20:36 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:37 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:37 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09 +  DIARIA 06/09, Valor 525, Venc. dia 2025-09-05
+04/09/2025 20:38 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:41 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:42 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO PARA LUCAS FREELANCE, Valor 360, Venc. dia 2025-09-05
+04/09/2025 20:43 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:43 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:45 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:47 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:48 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:48 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:49 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:50 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:51 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:52 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 850, Venc. dia 2025-09-05
+04/09/2025 20:54 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO PARA LUCAS FREELANCE, Valor 360, Venc. dia 2025-09-05
+04/09/2025 20:54 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09 +  DIARIA 06/09, Valor 525, Venc. dia 2025-09-05
+04/09/2025 20:54 tales@flexibus.com.br : Contas A Pagar Editada PAGAMENTO SEMANA 01/09 A 05/09, Valor 760, Venc. dia 2025-09-05
+05/09/2025 20:34 tales@flexibus.com.br : Contas A Pagar Editada TECIDO, Valor 9709.87, Venc. dia 2025-09-03
+08/09/2025 15:20 tales@flexibus.com.br : Menu Incluido (Analytics)
+08/09/2025 15:22 tales@flexibus.com.br : Menu Alterado (Analytics, fin_analytics.html, pop-up, )
+08/09/2025 15:24 tales@flexibus.com.br : Menu Alterado (Analytics, fin_analytics.html, pop-up, Analise Financeiro)
+09/09/2025 20:20 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$3988.94 dia 2025-09-08
+09/09/2025 20:21 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-09-08
+09/09/2025 20:22 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-09-08
+09/09/2025 20:23 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-09-08
+09/09/2025 20:23 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-09-08
+09/09/2025 20:24 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-09-08
+09/09/2025 20:25 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2025-09-08
+11/09/2025 21:05 tales@flexibus.com.br : Menu Incluido (Folha de Pgto)
+11/09/2025 21:06 tales@flexibus.com.br : Menu Alterado (Folha de Pgto, fin_folha.html, pop-up, Folha de Pagamento)
+11/09/2025 21:41 tales@flexibus.com.br : Contas A Pagar Cadastrada teste, Valor 10, Venc. dia 2025-09-11
+11/09/2025 21:42 tales@flexibus.com.br : Contas A Pagar Deletada teste, Valor 10, Venc. dia 2025-09-11
+11/09/2025 21:50 tales@flexibus.com.br : Folha de Pgto. Cadastrada teste 2, Valor 200, Venc. dia 2025-09-15
+11/09/2025 21:58 tales@flexibus.com.br : Folha de Pgto. Editada teste 2, Valor 500, Venc. dia 2025-09-15
+11/09/2025 21:59 tales@flexibus.com.br : Folha de Pgto. Editada teste 2, Valor 500, Venc. dia 2025-09-15
+11/09/2025 22:00 tales@flexibus.com.br : Folha de Pgto. Deletada teste 2, Valor 500, Venc. dia 2025-09-15
+15/09/2025 16:01 tales@flexibus.com.br : Permissao alterada, Modulo: Sistema, Acesso:[[0]])
+15/09/2025 16:01 tales@flexibus.com.br : Permissao alterada, Modulo: Ferramentas, Acesso:[[0,1,2]])
+15/09/2025 16:01 tales@flexibus.com.br : Permissao alterada, Modulo: Cadastros, Acesso:[[0,1]])
+15/09/2025 16:01 tales@flexibus.com.br : Permissao alterada, Modulo: Parametros, Acesso:[[0,1,2]])
+15/09/2025 16:01 tales@flexibus.com.br : Permissao alterada, Modulo: Operacional, Acesso:[[0,1]])
+15/09/2025 16:01 tales@flexibus.com.br : Permissao alterada, Modulo: Seguranca, Acesso:[[0,1]])
+15/09/2025 16:01 tales@flexibus.com.br : Permissao alterada, Modulo: RH, Acesso:[[0,1,2]])
+15/09/2025 16:01 tales@flexibus.com.br : Permissao alterada, Modulo: Comercial, Acesso:[[0,1]])
+15/09/2025 16:01 tales@flexibus.com.br : Permissao alterada, Modulo: Fiscal, Acesso:[[0,1]])
+15/09/2025 16:01 tales@flexibus.com.br : Permissao alterada, Modulo: Ordem de Servico, Acesso:[[0,1,3]])
+15/09/2025 16:01 tales@flexibus.com.br : Permissao alterada, Modulo: Projetos, Acesso:[[0,1]])
+15/09/2025 16:01 tales@flexibus.com.br : Permissao alterada, Modulo: Financeiro, Acesso:[[0,1,2,5]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Sistema, Acesso:[[0]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Cadastros, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Ferramentas, Acesso:[[0,1,2]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Parametros, Acesso:[[0,1,2]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Seguranca, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Fiscal, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Operacional, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: RH, Acesso:[[0,1,2,5]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Comercial, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Projetos, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Financeiro, Acesso:[[0,1,2,5]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Ordem de Servico, Acesso:[[0,1,3]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Sistema, Acesso:[[0]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Cadastros, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Parametros, Acesso:[[0,1,2]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Operacional, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Ferramentas, Acesso:[[0,1,2]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: RH, Acesso:[[0,1,2,5]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Fiscal, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Seguranca, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Comercial, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Ordem de Servico, Acesso:[[0,1,3]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Projetos, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Financeiro, Acesso:[[0,1,2,5]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Sistema, Acesso:[[0]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Cadastros, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Ferramentas, Acesso:[[0,1,2]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Parametros, Acesso:[[0,1,2]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Operacional, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: RH, Acesso:[[0,1,2,5]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Fiscal, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Seguranca, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Comercial, Acesso:[[0,1,5]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Ordem de Servico, Acesso:[[0,1,3]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Financeiro, Acesso:[[0,1,2,5]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Projetos, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Sistema, Acesso:[[0]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Cadastros, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Parametros, Acesso:[[0,1,2]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Operacional, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: RH, Acesso:[[0,1,2,5]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Ferramentas, Acesso:[[0,1,2]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Comercial, Acesso:[[0,1,5]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Fiscal, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Seguranca, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Ordem de Servico, Acesso:[[0,1,3]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Financeiro, Acesso:[[0,1,2,5]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Projetos, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Sistema, Acesso:[[0]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Ferramentas, Acesso:[[0,1,2]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Parametros, Acesso:[[0,1,2]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Cadastros, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Operacional, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: RH, Acesso:[[0,1,2,5]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Seguranca, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Comercial, Acesso:[[0,1,5]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Fiscal, Acesso:[[0,1,5]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Ordem de Servico, Acesso:[[0,1,3]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Financeiro, Acesso:[[0,1,2,5]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Projetos, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Sistema, Acesso:[[0]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Cadastros, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Ferramentas, Acesso:[[0,1,2]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Parametros, Acesso:[[0,1,2]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Operacional, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: RH, Acesso:[[0,1,2,5]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Comercial, Acesso:[[0,1,5]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Seguranca, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Fiscal, Acesso:[[0,1,5]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Ordem de Servico, Acesso:[[0,1,3]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Projetos, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Financeiro, Acesso:[[0,1,2,5]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Sistema, Acesso:[[0]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Ferramentas, Acesso:[[0,1,2]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Cadastros, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Operacional, Acesso:[[0,1]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: RH, Acesso:[[0,1,2,5]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Parametros, Acesso:[[0,1,2]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Comercial, Acesso:[[0,1,5]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Fiscal, Acesso:[[0,1,5]])
+15/09/2025 16:14 tales@flexibus.com.br : Permissao alterada, Modulo: Seguranca, Acesso:[[0,1,5]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Ordem de Servico, Acesso:[[0,1,3]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Projetos, Acesso:[[0,1]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Financeiro, Acesso:[[0,1,2,5]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Sistema, Acesso:[[0]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Parametros, Acesso:[[0,1,2]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Cadastros, Acesso:[[0,1]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Ferramentas, Acesso:[[0,1,2]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: RH, Acesso:[[0,1,2,5]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Operacional, Acesso:[[0,1]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Comercial, Acesso:[[0,1,5]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Fiscal, Acesso:[[0,1,5]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Seguranca, Acesso:[[0,1,5]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Ordem de Servico, Acesso:[[0,1,3]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Financeiro, Acesso:[[0,1,2,5]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Projetos, Acesso:[[0,1]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Sistema, Acesso:[[0]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Comercial, Acesso:[[0,1,5]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Cadastros, Acesso:[[0,1]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Ferramentas, Acesso:[[0,1,2]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Parametros, Acesso:[[0,1,2]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: RH, Acesso:[[0,1,2,5]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Operacional, Acesso:[[0,1]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Fiscal, Acesso:[[0,1,5]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Seguranca, Acesso:[[0,1,5]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Financeiro, Acesso:[[0,1,2,5]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Projetos, Acesso:[[0,1]])
+15/09/2025 16:15 tales@flexibus.com.br : Permissao alterada, Modulo: Ordem de Servico, Acesso:[[0,1,3]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Sistema, Acesso:[[0]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Ferramentas, Acesso:[[0,1,2]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Cadastros, Acesso:[[0,1]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Operacional, Acesso:[[0,1]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Parametros, Acesso:[[0,1,2]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Comercial, Acesso:[[0,1,5]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: RH, Acesso:[[0,1,2,5]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Fiscal, Acesso:[[0,1,5]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Seguranca, Acesso:[[0,1,5]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Ordem de Servico, Acesso:[[0,1,3]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Projetos, Acesso:[[0,1]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Financeiro, Acesso:[[0,1,2,5]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Sistema, Acesso:[[0]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Ferramentas, Acesso:[[0,1,2]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Cadastros, Acesso:[[0,1]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Parametros, Acesso:[[0,1,2]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: RH, Acesso:[[0,1,2,5]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Operacional, Acesso:[[0,1]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Comercial, Acesso:[[0,1,5]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Fiscal, Acesso:[[0,1,5]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Seguranca, Acesso:[[0,1,5]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Ordem de Servico, Acesso:[[0,1,3]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Projetos, Acesso:[[0,1]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Financeiro, Acesso:[[0,1,2,5]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Sistema, Acesso:[[0]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Cadastros, Acesso:[[0,1]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Ferramentas, Acesso:[[0,1,2]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Parametros, Acesso:[[0,1,2]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: RH, Acesso:[[0,1,2,5]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Operacional, Acesso:[[0,1]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Comercial, Acesso:[[0,1,5]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Fiscal, Acesso:[[0,1,5]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Seguranca, Acesso:[[0,1,5]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Ordem de Servico, Acesso:[[0,1,3]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Projetos, Acesso:[[0,1]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Financeiro, Acesso:[[0,1,2,5]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Sistema, Acesso:[[0]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Ferramentas, Acesso:[[0,1,2]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Cadastros, Acesso:[[0,1]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Operacional, Acesso:[[0,1]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Parametros, Acesso:[[0,1,2]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: RH, Acesso:[[0,1,2,5]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Comercial, Acesso:[[0,1,5]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Seguranca, Acesso:[[0,1,5]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Fiscal, Acesso:[[0,1,5]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Ordem de Servico, Acesso:[[0,1,3]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Projetos, Acesso:[[0,1]])
+15/09/2025 16:16 tales@flexibus.com.br : Permissao alterada, Modulo: Financeiro, Acesso:[[0,1,2,5]])
+15/09/2025 16:17 tales@flexibus.com.br : Permissao alterada, Modulo: Sistema, Acesso:[[0]])
+15/09/2025 16:17 tales@flexibus.com.br : Permissao alterada, Modulo: Ferramentas, Acesso:[[0,1,2]])
+15/09/2025 16:17 tales@flexibus.com.br : Permissao alterada, Modulo: Cadastros, Acesso:[[0,1]])
+15/09/2025 16:17 tales@flexibus.com.br : Permissao alterada, Modulo: Parametros, Acesso:[[0,1,2]])
+15/09/2025 16:17 tales@flexibus.com.br : Permissao alterada, Modulo: Operacional, Acesso:[[0,1]])
+15/09/2025 16:17 tales@flexibus.com.br : Permissao alterada, Modulo: Comercial, Acesso:[[0,1,5]])
+15/09/2025 16:17 tales@flexibus.com.br : Permissao alterada, Modulo: RH, Acesso:[[0,1,2,5]])
+15/09/2025 16:17 tales@flexibus.com.br : Permissao alterada, Modulo: Seguranca, Acesso:[[0,1,5]])
+15/09/2025 16:17 tales@flexibus.com.br : Permissao alterada, Modulo: Fiscal, Acesso:[[0,1,5]])
+15/09/2025 16:17 tales@flexibus.com.br : Permissao alterada, Modulo: Ordem de Servico, Acesso:[[0,1,3]])
+15/09/2025 16:17 tales@flexibus.com.br : Permissao alterada, Modulo: Financeiro, Acesso:[[0,1,2,5]])
+15/09/2025 16:17 tales@flexibus.com.br : Permissao alterada, Modulo: Projetos, Acesso:[[0,1]])
