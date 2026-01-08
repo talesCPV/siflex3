@@ -39,6 +39,12 @@
             width: 97%;
         }
 
+        .fds-status{
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+        }
+
         @media (max-width: 768px) {
 /*            
             .fds-busca label {
@@ -82,24 +88,38 @@
                 <button id="btnBusca" class="btn-round"><span class="mdi mdi-magnify"></span></button>
                 <button id="btnNovo" class="btn-round"><span class="mdi mdi-plus-thick"></span></button>
             </div>
-            <div class="inline center-itens">
-                <div class="line-ckb">
-                    <label for="ckbData">Entrega </label>
-                    <input type="checkbox" id="ckbData" checked>
-                </div>
-
-                <input type="date" id="edtIni">
-                <div class="line-ckb">
-                    <label for="ckbData_fin"></label>
-                    <input type="checkbox" id="ckbData_fin">
-                </div>                
-                <input type="date" id="edtFin">
-                <div class="line-ckb">
-                    <label id="lblConc" for="ckbConc">Concluídas </label>
-                    <input type="checkbox" id="ckbConc">
-                </div>
-            </div>            
         </fieldset>
+            <fieldset>
+                <legend>Entrega</legend>
+                <div class="inline center-itens">
+                    <div class="line-ckb">
+                        <label for="ckbData">de</label>
+                        <input type="checkbox" id="ckbData">
+                        <input type="date" id="edtIni">
+                    </div>
+                    <div class="line-ckb">
+                        <label for="ckbData_fin">até</label>
+                        <input type="checkbox" id="ckbData_fin">
+                        <input type="date" id="edtFin">
+                    </div>                
+                </div>                
+            </fieldset>
+            <fieldset class="fds-status">
+                <legend>Status</legend>
+                <div class="line-ckb">
+                    <label for="rdoAberta">Abertas</label>
+                    <input type="radio" name="status" id="rdoAberta" checked>
+                </div>   
+                <div class="line-ckb">
+                    <label for="rdoFechada">Encerradas</label>
+                    <input type="radio" name="status" id="rdoFechada">
+                </div>   
+                <div class="line-ckb">
+                    <label for="rdoTodas">Todas</label>
+                    <input type="radio" name="status" id="rdoTodas">
+                </div>   
+            </fieldset>
+
 
         <table id="tblOS"></table>
           
@@ -116,6 +136,7 @@
     pageFunc.pageStart = ()=>{
         pageScreen.querySelector('#edtIni').value =  today.overday(-7)
         pageScreen.querySelector('#edtFin').value =  today.overday(30)
+        pageFunc.fillOS()
     }
 
     pageFunc.fillOS = ()=>{     
@@ -133,10 +154,12 @@
         const myPromisse = queryDB(params,'OS-0')
         myPromisse.then((resolve)=>{
             const json = JSON.parse(resolve)
+            const status = pageScreen.querySelector('#rdoTodas').checked ? 1 : pageScreen.querySelector('#rdoAberta').checked ? 2 : 3
+
             tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
             tbl.head('OS|center-text,Serviço, Cliente, Entrega,Setor,<span class="mdi mdi-check-bold"></span>')
-            for(let i=0; i<json.length; i++){
-                if(pageScreen.querySelector('#ckbConc').checked || json[i].setor != 'CONCLUIDA' ){
+            for(let i=0; i<json.length; i++){        
+                if(status==1 || (status==2 && json[i].aberta=="1") || (status==3 && json[i].aberta=="0" ) ){
                     tbl.plot(json[i],'id,processo,cliente,dt_entrega,setor,ok','padStart(4.0),Upp,Upp,dat,Upp,Upp')
                 }
                 const row = tbl.rows[tbl.rows.length-1]

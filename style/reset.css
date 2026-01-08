@@ -115,6 +115,7 @@
 
     .center-itens{
         justify-content: center;
+        gap: 50px;
     }
 
     .inline{
