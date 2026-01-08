@@ -343,14 +343,13 @@
             const json = JSON.parse(resolve)
             allow.innerHTML=''
             forbid.innerHTML=''
-
+            const setores = pageData.id_setores==null ? [] : pageData.id_setores.split(',')
             for(let i=0; i<json.length; i++){
                 const opt = document.createElement('option')
                 opt.value = json[i].id
                 opt.innerHTML = json[i].nome
 
                 if(typeof pageData.setores == 'string'){
-                    const setores = pageData.setores.split(',')
                     if(setores.includes(json[i].id)){
                         allow.appendChild(opt)
                     }else{

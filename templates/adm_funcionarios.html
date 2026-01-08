@@ -46,7 +46,7 @@
         const myPromisse = queryDB(params,'FUN-0');
         myPromisse.then((resolve)=>{
             const json = JSON.parse(resolve)
-        
+//console.log(json)
             tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
             tbl.head('Cod.,Nome,Cargo')
             for(let i=0; i<json.length;i++){
