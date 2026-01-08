@@ -178,10 +178,23 @@
             })
     }
 
+    function closeOS(id=0){
+        const params = new Object
+            params.id = id
+            params.status = 0
+            const myPromisse = queryDB(params,'OS-5')
+            myPromisse.then((resolve)=>{
+                setLog(`OS ${id} ENCERRADA`)
+                main_data.oper_os.func.fillOS()
+                closeModal('oper_view_os')
+            })
+    }
+
     pageScreen.querySelector('#btnEdit').addEventListener('click',()=>{
         if(pageScreen.querySelector('#btnSave').disabled){
             if(confirm('Abrir registro para edição?')){
                 openFields(1)
+                pageScreen.querySelector('#btnClose').disabled = !Number(pageData.aberta)
             }
         }else{
             openFields(0)
@@ -200,6 +213,12 @@
         printOS(pageData)
     })
     
+    pageScreen.querySelector('#btnClose').addEventListener('click',()=>{
+        if(confirm(`Deseja encerrar a Order de Serviço ${pageData.id}?`)){
+            closeOS(pageData.id)
+        }
+    })    
+
     startPage()    
 
 </script>

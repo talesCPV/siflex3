@@ -126,6 +126,7 @@
         "OS-2" => 'CALL sp_view_os(@access,@hash,"x00");', // SCANNER
         "OS-3" => 'CALL sp_view_apt("x00");', // SCANNER
         "OS-4" => 'CALL sp_set_apt(@access,@hash,"x00",x01);', // SCANNER, ID_FUNC
+        "OS-5" => 'CALL sp_close_os(@access,@hash,x00,x01);', // ID_OS, STATUS(0 = ENCERRADA, 1 = ABERTA)
 
         /* SANFONA DE ÔNIBUS */
         "SAN-0" => 'CALL sp_view_sanf_onibus(@access,@hash,"x00","x01","x02");', // FIELD,SIGNAL, VALUE

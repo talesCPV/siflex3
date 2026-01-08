@@ -1774,6 +1774,22 @@ DELIMITER $$
 	END $$
 DELIMITER ;
 
+ DROP PROCEDURE IF EXISTS sp_close_os;
+DELIMITER $$
+	CREATE PROCEDURE sp_close_os(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN Iid int(11),
+		IN Istatus int
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			UPDATE tb_os SET aberta=Istatus WHERE id=Iid;
+        END IF;
+	END $$
+DELIMITER ;
+
 	DROP PROCEDURE IF EXISTS sp_proc_detail;
 DELIMITER $$
 	CREATE PROCEDURE sp_proc_detail(
@@ -2234,7 +2250,7 @@ DELIMITER $$
 				FROM tb_boletos 
 				WHERE venc >= Idt_ini
 				AND venc <=Idt_fin
-				ORDER BY venc;
+				ORDER BY venc DESC;
         END IF;
 	END $$
 	DELIMITER ;
