@@ -7,7 +7,6 @@
                 $hash = $_POST["hash"];
                 $rows = array();
                 $query = 'SELECT email FROM tb_user WHERE hash COLLATE utf8_general_ci = "'.$hash.'" LIMIT 1;';
-echo ($query);
                 $result = mysqli_query($conexao, $query);
                 if(is_object($result)){
                         if($result->num_rows > 0){			
