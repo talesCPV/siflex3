@@ -1,0 +1,80 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:hom="http://homologacao.ginfes.com.br">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <hom:RecepcionarLoteRps>
+            <arg0>
+                <EnviarLoteRpsEnvio xmlns="http://www.ginfes.com.br/servico_enviar_lote_rps_envio_v03.xsd">
+                    <LoteRps Id="2233310">
+                        <NumeroLote xmlns="http://www.ginfes.com.br/tipos_v03.xsd">#####</NumeroLote>
+                        <Cnpj xmlns="http://www.ginfes.com.br/tipos_v03.xsd">######</Cnpj>
+                        <InscricaoMunicipal xmlns="http://www.ginfes.com.br/tipos_v03.xsd">#####</InscricaoMunicipal>
+                        <QuantidadeRps xmlns="http://www.ginfes.com.br/tipos_v03.xsd">1</QuantidadeRps>
+                        <ListaRps xmlns="http://www.ginfes.com.br/tipos_v03.xsd">
+                            <Rps>
+                                <InfRps Id="rps7">
+                                    <IdentificacaoRps>
+                                        <Numero>7</Numero>
+                                        <Serie>1</Serie>
+                                        <Tipo>1</Tipo>
+                                    </IdentificacaoRps>
+                                    <DataEmissao>2018-04-26T09:41:33</DataEmissao>
+                                    <NaturezaOperacao>4</NaturezaOperacao>
+                                    <RegimeEspecialTributacao>6</RegimeEspecialTributacao>
+                                    <OptanteSimplesNacional>2</OptanteSimplesNacional>
+                                    <IncentivadorCultural>2</IncentivadorCultural>
+                                    <Status>1</Status>
+                                    <Servico>
+                                        <Valores>
+                                            <ValorServicos>15.00</ValorServicos>
+                                            <ValorDeducoes>0.00</ValorDeducoes>
+                                            <ValorPis>0.00</ValorPis>
+                                            <ValorCofins>0.00</ValorCofins>
+                                            <ValorInss>0.00</ValorInss>
+                                            <ValorIr>0.00</ValorIr>
+                                            <ValorCsll>0.00</ValorCsll>
+                                            <IssRetido>2</IssRetido>
+                                            <ValorIss>0.58</ValorIss>
+                                            <ValorIssRetido>0.00</ValorIssRetido>
+                                            <OutrasRetencoes>0.00</OutrasRetencoes>
+                                            <BaseCalculo>15.00</BaseCalculo>
+                                            <Aliquota>3.87</Aliquota>
+                                            <ValorLiquidoNfse>15.00</ValorLiquidoNfse>
+                                            <DescontoIncondicionado>0.00</DescontoIncondicionado>
+                                            <DescontoCondicionado>0.00</DescontoCondicionado>
+                                        </Valores>
+                                        <ItemListaServico>1215</ItemListaServico>
+                                        <CodigoCnae>6190601</CodigoCnae>
+                                        <Discriminacao>Taxa de instalacao</Discriminacao>
+                                        <CodigoMunicipio>4204608</CodigoMunicipio>
+                                    </Servico>
+                                    <Prestador>
+                                        <Cnpj>#########</Cnpj>
+                                    </Prestador>
+                                    <Tomador>
+                                        <IdentificacaoTomador>
+                                            <CpfCnpj>
+                                                <Cpf>#############</Cpf>
+                                            </CpfCnpj>
+                                        </IdentificacaoTomador>
+                                        <RazaoSocial>NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL</RazaoSocial>
+                                        <Endereco>
+                                            <Endereco>Endereco 10</Endereco>
+                                            <Numero>10</Numero>
+                                            <Bairro>Centro</Bairro>
+                                            <CodigoMunicipio>4204608</CodigoMunicipio>
+                                            <Uf>SC</Uf>
+                                        </Endereco>
+                                    </Tomador>
+                                </InfRps>
+                                <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+                                </Signature>
+                            </Rps>
+                        </ListaRps>
+                    </LoteRps>
+                    <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+                    </Signature>
+                </EnviarLoteRpsEnvio>
+            </arg0>
+        </hom:RecepcionarLoteRps>
+    </soapenv:Body>
+</soapenv:Envelope>

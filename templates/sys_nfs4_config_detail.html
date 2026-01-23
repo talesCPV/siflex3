@@ -90,15 +90,13 @@
     const pageFunc = main_data.sys_nfs4_config_detail.func
     const pageScreen = document.querySelector('#card-sys_nfs4_config_detail')
 
-console.log(pageData)
-
     function pageStart(){
         pageData.valor.opt = pageData.valor.hasOwnProperty('opt') ? pageData.valor.opt : []
         pageScreen.querySelector('#edtNome').value = pageData.tag
         pageScreen.querySelector('#edtPad').value = pageData.valor.def
         pageScreen.querySelector('#edtTam').value = pageData.valor.tam
         pageScreen.querySelector('#cmbTipo').value = pageData.valor.tipo
-        pageScreen.querySelector('#cmbOcor').value = pageData.valor.ocor.trim() == '' ? 0 : pageData.valor.ocor
+        pageScreen.querySelector('#cmbOcor').value = pageData.valor.ocor == '' ? 0 : pageData.valor.ocor
         pageScreen.querySelector('#edtDec').value = pageData.valor.dec
         fillOpt(pageScreen.querySelector('#cmbOpt'),pageData.valor.opt)
         fillOpt(pageScreen.querySelector('#cmbAtr'),pageData.atrib)
