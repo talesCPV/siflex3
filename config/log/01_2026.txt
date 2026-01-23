@@ -6,3 +6,12 @@
 08/01/2026 18:46  : Teste
 08/01/2026 18:47  : Teste
 08/01/2026 18:52 tales@flexibus.com.br : Teste
+22/01/2026 13:02 tales@flexibus.com.br : Menu Incluido (NFs 4.0)
+22/01/2026 13:04 tales@flexibus.com.br : Menu Alterado (NFs 4.0, sys_nfs_4.html, pop-up, NFs 4.0)
+22/01/2026 13:05 tales@flexibus.com.br : Menu Incluido (NFs 4.0)
+22/01/2026 13:06 tales@flexibus.com.br : Menu Alterado (NFs 4.0, sys_nfs4_config.html, pop-up, NFs 4.0 Config)
+22/01/2026 19:30 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2026-01-22
+22/01/2026 19:30 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2026-01-22
+22/01/2026 19:31 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2026-01-22
+22/01/2026 19:33 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$62.5 dia 2026-01-22
+22/01/2026 19:34 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$44.9 dia 2026-01-28

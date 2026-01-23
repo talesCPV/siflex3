@@ -38,7 +38,7 @@
             <select id="cmbOpt" size="5"></select>
             <div class="line">
                 <label for="edtVal">Valor</label>
-                <input type="text" id="edtVal" style="max-width: 50px;" maxlength="5">
+                <input type="text" id="edtVal" style="max-width: 150px;">
                 <label for="edtOpt">Texto</label>
                 <input type="text" id="edtOpt" style="width: 100%;">
                 <button class="btn-round" id="addOpt"><span class="mdi mdi-content-save-check-outline"></span></button>
@@ -61,20 +61,26 @@
         pageScreen.querySelector('#cmbTipo').value = pageData.rule.tipo
         pageScreen.querySelector('#cmbOcor').value = pageData.rule.ocor
         pageScreen.querySelector('#edtDec').value = pageData.rule.dec
+        fillOpt()
+    }
+
+    function fillOpt(){
         if(pageData.rule.hasOwnProperty('opt')){
             const select =  pageScreen.querySelector('#cmbOpt')
             select.innerHTML = ''
-            const opt = pageData.rule.opt.split('|')
+            const opt = pageData.rule.opt
             for(let i=0; i<opt.length; i++){
-                const dd = opt[i].split('-')
                 const option = document.createElement('option')
-                option.value = dd[0].trim()
-                option.innerHTML = dd[1].trim()
+                option.value = opt[i].val
+                option.innerHTML = `${opt[i].val} - ${opt[i].txt}`
+                option.data = opt[i]
                 select.appendChild(option)
             }
-
         }
+        pageScreen.querySelector('#edtVal').value = ''
+        pageScreen.querySelector('#edtOpt').value = ''
     }
+
 
     pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
         if(confirm(`Deseja salvar estes valores como padrão para o este campo?`)){
@@ -88,6 +94,43 @@
             closeModal('sys_nfe_config_detail')
         }
     })
+
+    pageScreen.querySelector('#addOpt').addEventListener('click',()=>{
+        const opt = new Object
+        opt.val = pageScreen.querySelector('#edtVal').value
+        opt.txt = pageScreen.querySelector('#edtOpt').value
+        pageData.rule.opt.push(opt)
+        pageData.save(pageData.grupo)
+        fillOpt()
+    })
+
+    pageScreen.querySelector('#cmbOpt').addEventListener('click',(e)=>{
+
+        if(e.target.index!=undefined){
+            const tbl = []
+            const load = new Object
+            load.label = 'Carregar'
+            load.link = ()=>{
+                pageScreen.querySelector('#edtPad').value = e.target.data.val
+                pageScreen.querySelector('#edtPad').focus()
+                pageData.rule.def = pageScreen.querySelector('#edtPad').value
+                pageData.save(pageData.grupo)
+            }
+            tbl.push(load)
+            const del = new Object
+            del.label = 'Deletar'
+            del.link = ()=>{
+                if(confirm('Remover este valor padrão?')){
+                    pageData.rule.opt.splice(e.target.index,1)
+                    pageData.save(pageData.grupo)
+                    fillOpt()            
+                }
+            }
+            tbl.push(del)        
+            menuContext(tbl,e) 
+        }
+    })
+
 
     pageStart()
 

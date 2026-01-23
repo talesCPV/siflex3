@@ -37,6 +37,9 @@
             max-width: 280px;
         }
 
+        .hide{
+            display: none;
+        }
 
         @media all and (max-width : 1000px) {
             .top-form{
@@ -82,7 +85,8 @@
         </div>
     </fieldset>
 
-    <img id="barcode"></img>
+    <img id="barcode" class="hide"></img>
+    <div id="qrcode" class="hid"></div>
 
 </template>
 <script>
@@ -93,6 +97,7 @@
     const newOS = Object.keys(pageData).length == 0
 
     function startPage(){
+        
         fillEmp()
         fillProc()
         if(newOS){
@@ -110,6 +115,24 @@
             pageScreen.querySelector('#btnEdit').disabled = 0
             pageScreen.querySelector('#btnPrint').disabled = 0
         }
+
+        const params = new Object
+        params.id_proc = pageData.id_proc
+        const myPromisse = queryDB(params,'PRC-4')
+        myPromisse.then((resolve)=>{
+            pageData.operaçoes = JSON.parse(resolve)
+            const qr_img = document.querySelector('#qrcode')
+            qr_img.innerHTML = ''
+            for(let i=0; i<pageData.operaçoes.length; i++){
+                const cod = pageData.operaçoes[i].id_processo.padStart(4,0)+pageData.operaçoes[i].id.padStart(5,0)
+                const div = document.createElement('div')
+                pageData.operaçoes[i].cod = cod
+                qr_img.appendChild(div)
+                div.id = 'cod-'+cod
+                pageFunc.showQR('cod-'+cod,cod)
+            }
+            console.log(pageData)
+        })
     }
 
     function fillProc(){
@@ -188,6 +211,18 @@
                 main_data.oper_os.func.fillOS()
                 closeModal('oper_view_os')
             })
+    }
+
+    pageFunc.showQR = (id,cod)=>{
+        const qrcode = new QRCode(id, {
+            text:cod,
+            width: 250,
+            height: 250,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H,
+            size : 300
+        })
     }
 
     pageScreen.querySelector('#btnEdit').addEventListener('click',()=>{

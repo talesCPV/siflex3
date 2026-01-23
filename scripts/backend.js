@@ -169,9 +169,9 @@ function listNF(path,ext='txt'){
     })
     myPromisse.then((txt)=>{
         const list = JSON.parse(txt)
-        const sel = document.querySelector(`#${ext}Files`)
+        const sel = document.querySelector(`#txtFiles`)
         sel.innerHTML=''
-        for(let i=list.length-1; i>1;  i--){
+        for(let i=list.length-1; i>=0;  i--){
             sel.innerHTML += `<option value="${list[i]}">${list[i]}</option>`
         }
     })
@@ -283,6 +283,24 @@ function uploadNFs(txt, filename){
             }
 */
         }
+        document.querySelector('#tab-export').click()
+    })
+}
+
+function uploadNfsXML(xml, filename){
+
+    saveFile(xml,path=`/../../NF/NFs/xml/${filename}.xml`).then(()=>{
+        alert('XML da NFs exportado com sucesso!!')
+        listNF('../NF/NFs/xml','xml')
+/*
+        if (confirm(`Deseja lançar od boletos?`)) {
+
+            for(let i=0; i<pageData.NFs.fatura.length; i++){
+                addBoleto(pageData.NFs.fatura[i])
+            }
+
+        }
+*/
         document.querySelector('#tab-export').click()
     })
 }

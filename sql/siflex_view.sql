@@ -354,7 +354,7 @@ DROP VIEW IF EXISTS vw_posts;
 	SELECT PST.*, USR.email,
     (SELECT COUNT(*) FROM tb_post_message WHERE id_post = PST.id) AS messages
 	FROM tb_post AS PST
-	INNER JOIN tb_usuario AS USR
+	INNER JOIN tb_user AS USR
 	ON PST.id_user = USR.id
 	ORDER BY data_hora ASC ;
     

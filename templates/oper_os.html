@@ -137,6 +137,14 @@
         pageScreen.querySelector('#edtIni').value =  today.overday(-7)
         pageScreen.querySelector('#edtFin').value =  today.overday(30)
         pageFunc.fillOS()
+
+        const radio = pageScreen.querySelectorAll('input[name="status"]')
+        for(let i=0; i<radio.length; i++){
+            radio[i].addEventListener('change',()=>{
+                pageFunc.fillOS()
+            })
+        }
+        
     }
 
     pageFunc.fillOS = ()=>{     

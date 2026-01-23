@@ -9,10 +9,13 @@ var nfe_rules = 0
 getFile('/../config/NFe_rules.json').then((json)=>{
     nfe_rules = JSON.parse(json)
 })
+
+/*
 var nfs_rules = {}
 getFile('/../config/NFs_rules.json').then((json)=>{
     nfs_rules = JSON.parse(json)
 })
+*/
 
 /*  FUNCTIONS  */
 

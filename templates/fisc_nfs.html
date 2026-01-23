@@ -216,8 +216,8 @@ function startPage(){
         pageScreen.querySelector('#numNFS').value = parseInt(pageData.NFs.CONF.numNFS) + 1
         pageScreen.querySelector('#AlqIssSN').value = pageData.NFs.CONF.AlqIssSN.replace(',','.')
 
-        listNF('../NF/NFs/txt')
-        listNF('../NF/NFs/pdf','pdf')
+        listNF('../NF/NFs/xml','xml')
+//        listNF('../NF/NFs/pdf','pdf')
         fillForms(pageData.NFs,'CONF')
 
     }
@@ -352,14 +352,17 @@ function startPage(){
 
     pageScreen.querySelector('#brnGeraNFs').addEventListener('click',()=>{
         saveNFs()
-        const txt = pageData.NFs.export('10,20,90')
+        const xml = pageData.NFs.exportXML(pageData.NFs)
+        console.log(xml)
+//        const txt = pageData.NFs.export('10,20,90')
         const filename = 'NFs-'+(pageData.NFs.CONF.numNFS).padStart(6,'0')
-        uploadNFs(txt, filename) 
+//        uploadNFs(txt, filename) 
+        uploadNfsXML(xml, filename) 
 
     })
 
     pageScreen.querySelector('#txtFiles').addEventListener('dblclick',()=>{
-        downloadFile('../NF/NFs/txt/' + pageScreen.querySelector('#txtFiles').value)
+        downloadFile('../NF/NFs/xml/' + pageScreen.querySelector('#txtFiles').value)
     })
 
     pageScreen.querySelector('#pdfFiles').addEventListener('dblclick',()=>{

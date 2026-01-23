@@ -1,0 +1,100 @@
+<SDTNotasExport xmlns="NFe">
+    <CpfCnpj>99.999.999/9999-99</CpfCnpj>
+    <DtIni>dd/mm/aaaa</DtIni>
+    <DtFin>dd/mm/aaaa</DtFin>
+    <TipoArq>1</TipoArq>
+    <Versao>2.00</Versao>
+    <Reg20>
+        <Reg20Item>
+            <TipoNf>P</TipoNf>
+            <NumNf>4869</NumNf>
+            <SerNf>NFE</SerNf>
+            <DtEmiNf>dd/mm/aaaa</DtEmiNf>
+            <DtHrGerNf>dd/mm/aaaa 00:00:00</DtHrGerNf>
+            <CodVernf>X9X9X9X9X9X9X9X9X9X9</CodVernf>
+            <NumRps>20</NumRps>
+            <SerRps>A</SerRps>
+            <DtEmiRps>dd/mm/aaaa</DtEmiRps>
+            <TipoCpfCnpjPre>J</TipoCpfCnpjPre>
+            <CpfCnpjPre>00.000.000/0000-00</CpfCnpjPre>
+            <RazSocPre>TESTES TM</RazSocPre>
+            <LogPre>Rua Tal</LogPre>
+            <NumEndPre>290</NumEndPre>
+            <ComplEndPre />
+            <BairroPre>Centro</BairroPre>
+            <MunPre>SAO PAULO</MunPre>
+            <SiglaUFPre>SP</SiglaUFPre>
+            <CepPre>12345678</CepPre>
+            <EmailPre>teste@teste.com.br</EmailPre>
+            <TipoTribPre>TM</TipoTribPre>
+            <DtAdeSN />
+            <AlqIssSN />
+            <SitNf>2</SitNf>
+            <DataCncNf />
+            <MotivoCncNf>OK</MotivoCncNf>
+            <TipoCpfCnpjTom>J</TipoCpfCnpjTom>
+            <CpfCnpjTom>00.000.000/0000-00</CpfCnpjTom>
+            <RazSocTom>Cliente Novo</RazSocTom>
+            <LogTom>Praça Central</LogTom>
+            <NumEndTom>555</NumEndTom>
+            <ComplEndTom>6 andar - parte</ComplEndTom>
+            <BairroTom>Centro</BairroTom>
+            <MunTom>TAUBATE</MunTom>
+            <SiglaUFTom>SP</SiglaUFTom>
+            <CepTom>87654321</CepTom>
+            <EMailTom />
+            <LogLocPre>Rodovia Larga</LogLocPre>
+            <NumEndLocPre>km 0</NumEndLocPre>
+            <ComplEndLocPre />
+            <BairroLocPre>Centro</BairroLocPre>
+            <MunLocPre>TAUBATE</MunLocPre>
+            <SiglaUFLocpre>SP</SiglaUFLocpre>
+            <CepLocPre>13141516</CepLocPre>
+            <CodSrv>01.01</CodSrv>
+            <DiscrSrv>Discriminacao Srv</DiscrSrv>
+            <VlNFS>100.00</VlNFS>
+            <VlDed>0.00</VlDed>
+            <DiscrDed />
+            <VlBasCalc>100.00</VlBasCalc>
+            <AlqIss>5.00</AlqIss>
+            <VlIss>5.00</VlIss>
+            <VlIssRet>0.00</VlIssRet>
+            <Reg30>
+                <Reg30Item>
+                    <TributoSigla>IR</TributoSigla>
+                    <TributoAliquota>1.56</TributoAliquota>
+                    <TributoValor>0.45</TributoValor>
+                </Reg30Item>
+                <Reg30Item>
+                    <TributoSigla>PIS</TributoSigla>
+                    <TributoAliquota>1.00</TributoAliquota>
+                    <TributoValor>0.30</TributoValor>
+                </Reg30Item>
+                <Reg30Item>
+                    <TributoSigla>COFINS</TributoSigla>
+                    <TributoAliquota>1.00</TributoAliquota>
+                    <TributoValor>0.30</TributoValor>
+                </Reg30Item>
+                <Reg30Item>
+                    <TributoSigla>CSLL</TributoSigla>
+                    <TributoAliquota>1.00</TributoAliquota>
+                    <TributoValor>0.30</TributoValor>
+                </Reg30Item>
+                <Reg30Item>
+                    <TributoSigla>INSS</TributoSigla>
+                    <TributoAliquota>1.00</TributoAliquota>
+                    <TributoValor>0.30</TributoValor>
+                </Reg30Item>
+            </Reg30>
+        </Reg20Item>
+    </Reg20>
+    <Reg90>
+        <QtdRegNormal>1</QtdRegNormal>
+        <ValorNFS>999.99</ValorNFS>
+        <ValorISS>999.99</ValorISS>
+        <ValorDed>999.99</ValorDed>
+        <ValorIssRet>999.99</ValorIssRet>
+        <QtdReg30>5</QtdReg30>
+        <ValorTributos>999.99</ValorTributos>
+    </Reg90>
+</SDTNotasExport>

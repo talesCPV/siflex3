@@ -1,0 +1,164 @@
+<template>
+    <link rel="stylesheet" href="style/tree.css">
+    <style>
+
+    </style>
+        <fieldset>
+            <legend>Regras</legend>
+            <ul class="tree">
+                <li>
+                <details open>
+                    <summary id="main-summary">NFs</summary>
+                    <ul id="nfs-itens"></ul>
+                </details>
+                </li>
+            </ul>
+        </fieldset>
+
+</template>
+<script>
+    const pageData = main_data.sys_nfs4_config.data
+    const pageFunc = main_data.sys_nfs4_config.func
+    const pageScreen = document.querySelector('#card-sys_nfs4_config')
+    const nf_file = '/../config/NFs4_rules.json'
+    var main_group = 0
+
+    function pageStart(){
+        getFile(nf_file).then((json)=>{
+            pageData.nfs_rules = JSON.parse(json)
+            pageFunc.createTree()
+
+        })
+    }
+
+    function emptyTag(){
+        let newItem = false
+        const tag_name = prompt('Digite o nome da Tag:')
+        if(tag_name){
+            newItem = new Object
+            newItem.tag = tag_name
+            newItem.valor = {"def":"","tam":"0","tipo":"C","obrig":"1","dec":"0","obs":""}
+            newItem.atrib = []
+            newItem.itens = []
+            newItem.opt = []
+        }
+        return newItem
+    }
+
+    pageScreen.querySelector('#main-summary').addEventListener('contextmenu',(e)=>{
+        e.preventDefault()
+        const tbl = []
+        const obj = new Object
+        obj.label = 'Adicionar nova Tag'
+        obj.link = ()=>{
+            const newTag = emptyTag()
+            if(newTag){
+                pageData.nfs_rules.push(newTag)
+                pageFunc.saveRules()
+            }
+        }
+        tbl.push(obj)
+        menuContext(tbl,e)          
+    })
+
+    pageFunc.createTree = (grp='')=>{
+        const tree = pageScreen.querySelector('#nfs-itens')
+        tree.innerHTML = ''
+        getTagItem(tree,pageData.nfs_rules)
+        function getTagItem(div,arr){
+            if(Array.isArray(arr)){
+                for(const grupo in arr){
+                    const li_grupo = document.createElement('li')                
+                    const details_grupo = document.createElement('details')
+                    details_grupo.open = grp==grupo ? 1 : 0
+                    const summary_grupo = document.createElement('summary')
+                    summary_grupo.innerHTML = arr[grupo].tag
+
+                    summary_grupo.addEventListener('click',(e)=>{
+                        if(e.target.parentNode.parentNode.parentNode.id=='nfs-itens'){
+                            main_group = grupo
+                        }
+                    })
+                    
+                    summary_grupo.addEventListener('contextmenu',(e)=>{
+                        e.preventDefault()
+                        const tbl = []
+
+                        const editar = new Object
+                        editar.label = 'Configurações'
+                        editar.link = ()=>{
+                            openHTML('sys_nfs4_config_detail.html','pop-up',`Configuração (${arr[grupo].tag})`,arr[grupo],800)
+                        }
+                        tbl.push(editar)  
+
+                        const n_campo = new Object
+                        n_campo.label = 'Adicionar nova Tag'
+                        n_campo.link = ()=>{
+                            const newTag = emptyTag()
+                            if(newTag){
+                                arr[grupo].itens.push(newTag)
+                                pageFunc.saveRules()
+                            }
+                        }
+                        tbl.push(n_campo)
+
+                        const up_grupo = new Object
+                        up_grupo.label = 'Subir Tag na pilha'
+                        up_grupo.link = ()=>{
+                            pageFunc.bubble(arr,grupo)
+                            pageFunc.saveRules()  
+                        }
+                        tbl.push(up_grupo)
+
+                        const del_grupo = new Object
+                        del_grupo.label = 'Remover Tag'
+                        del_grupo.link = ()=>{
+                            if(confirm(`Confirma a remoção definitiva da tag ${arr[grupo].tag}?`)){
+                                arr.splice(grupo,1)
+                                pageFunc.saveRules()
+                            }
+                        }
+                        tbl.push(del_grupo) 
+                      
+                        menuContext(tbl,e) 
+                    }) 
+
+                    details_grupo.appendChild(summary_grupo)
+                    const ul_grupo = document.createElement('ul')
+
+                    if(arr[grupo].itens.length){
+                        getTagItem(ul_grupo,arr[grupo].itens)
+                    }else{
+                        summary_grupo.className = 'last'
+                        summary_grupo.addEventListener('click',()=>{
+                            openHTML('sys_nfs4_config_detail.html','pop-up',`Configuração (${arr[grupo].tag})`,arr[grupo],800)
+                        })
+                    }
+
+                    details_grupo.appendChild(ul_grupo)
+                    li_grupo.appendChild(details_grupo)
+                    div.appendChild(li_grupo)
+
+                }
+            }
+        }     
+    }
+
+    pageFunc.saveRules = ()=>{
+        const file_rules = JSON.stringify(pageData.nfs_rules)
+        saveFile(file_rules,nf_file)
+        pageFunc.createTree(main_group)
+    }
+
+    pageFunc.bubble = (grupo,campo)=>{            
+        const i = Number(campo)
+        if(i>0){
+            grupo.splice(i-1,0,new Object)
+            grupo[i-1] = grupo[i+1]
+            grupo.splice(i+1,1)
+        }
+    }
+
+    pageStart()
+
+</script>

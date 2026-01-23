@@ -280,6 +280,18 @@ HTMLTableElement.prototype.head = function(hd){
     this.appendChild(tr)
 }
 
+XMLDocument.prototype.newTag = function(tag,name,val=''){
+    const child = this.createElement(name)        
+    child.textContent = val
+    const parent = this.getElementsByTagName(tag)[0];
+    parent.appendChild(child)
+}
+
+XMLDocument.prototype.setAtr = function(tag,name,val=''){
+    const parent = this.getElementsByTagName(tag)[0];
+    parent.setAttribute(name,val);
+}
+
 /* CLASSES */
 
 class Pix{

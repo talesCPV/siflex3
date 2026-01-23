@@ -1,0 +1,21 @@
+<in_movimentodecl xmlns="NFe">
+    <Login>
+        <CodigoUsuario>609612c6-c072-4818-8e89-5490482d7f8545av18ap9305acac000-ed12-o1i</CodigoUsuario>
+        <CodigoContribuinte>54e52fdb-c30b-4236-9565-b9ef226086f012av10ap0050acac398-ed15-o4i</CodigoContribuinte>
+    </Login>
+    <Movimento>
+        <Operacao>string</Operacao>
+        <Ano>int</Ano>
+        <Mes>int</Mes>
+        <PossuiServicosPrestado>string</PossuiServicosPrestados>
+        <PossuiServicosTomados>string</PossuiServicosTomados>
+        <CpfResponsavel>string</CpfResponsavel>
+        <NomeResponsavel>string</NomeResponsavel>
+        <EMailResponsavel>string</EMailResponsavel>
+    <Movimento>
+</in_movimentodecl>
+<out_movimentodecl xmlns="NFe">
+    <Retorno>string</Retorno>
+    <Protocolo>string</Protocolo>
+    <MensagemErro>string</MessagemErro>
+</out_movimentodecl>

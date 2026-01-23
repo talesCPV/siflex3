@@ -1,0 +1,71 @@
+<XML_Notas>
+    <CpfCnpj>XXXXXXXXXXXXX</CpfCnpj>
+    <DtIni>2013-10-30</DtIni>
+    <DtFin>2013-10-30</DtFin>
+    <TipoArq>0</TipoArq>
+    <Versao>2.00</Versao>
+    <Reg20>
+        <Reg20Item>
+            <TipoNf>X</TipoNf>
+            <NumNf>0</NumNf>
+            <SerNf>SER</SerNf>
+            <DtEmiNf>dd/mm/aaaa</DtEmiNf>
+            <DtHrGerNf>dd/mm/aaaa hh:mm:ss</DtHrGerNf>
+            <CodVernf>XXXXXX</CodVernf>
+            <NumRps>0</NumRps>
+            <SerRps>SER</SerRps>
+            <DtEmiRps>dd/mm/aaaa</DtEmiRps>
+            <TipoCpfCnpjPre>J</TipoCpfCnpjPre>
+            <CpfCnpjPre>XXXXXXXXXXXXXX</CpfCnpjPre>
+            <RazSocPre>RAZ. SOCIAL PRE</RazSocPre>
+            <LogPre>LOGRADOURO PRE</LogPre>
+            <NumEndPre>NUMERO PRE</NumEndPre>
+            <ComplEndPre>COMPLEMENTO PRE</ComplEndPre>
+            <BairroPre>BairroPre</BairroPre>
+            <MunPre>MUNICIPIO PRE</MunPre>
+            <SiglaUFPre>UF</SiglaUFPre>
+            <CepPre>0</CepPre>
+            <EmailPre>EMAIL@PRESTADOR.COM.BR</EmailPre>
+            <TipoTribPre>TM</TipoTribPre>
+            <DtAdeSN>dd/mm/aaaa</DtAdeSN>
+            <AlqIssSN>0.00</AlqIssSN>
+            <SitNf>0</SitNf>
+            <DataCncNf>dd/mm/aaaa</DataCncNf>
+            <MotivoCncNf>MOTIVO DO CANCELAMENTO</MotivoCncNf>
+            <TipoCpfCnpjTom>J</TipoCpfCnpjTom>
+            <CpfCnpjTom>XXXXXXXXXXXXXX</CpfCnpjTom>
+            <RazSocTom>RAZ. SOCIAL TOM</RazSocTom>
+            <LogTom>LOGRADOURO TOM</LogTom>
+            <NumEndTom>NUMERO TOM</NumEndTom>
+            <ComplEndTom>COMPLEMENTO TOM</ComplEndTom>
+            <BairroTom>BairroTom</BairroTom>
+            <MunTom>MUNICIPIO TOM</MunTom>
+            <SiglaUFTom>UF</SiglaUFTom>
+            <CepTom>0</CepTom>
+            <EMailTom>EMAIL@TOMADOR.COM.BR</EMailTom>
+            <LogLocPre>LOGRADOURO LOC PRE</LogLocPre>
+            <NumEndLocPre>NUMERO LOC PRE</NumEndLocPre>
+            <ComplEndLocPre>COMPLEMENTO LOC PRE</ComplEndLocPre>
+            <BairroLocPre>BairroLocPre</BairroLocPre>
+            <MunLocPre>MUNICIPIO LOC PRE</MunLocPre>
+            <SiglaUFLocpre>UF</SiglaUFLocpre>
+            <CepLocPre>0</CepLocPre>
+            <CodSrv>00.00</CodSrv>
+            <DiscrSrv>DISCR. SERVICO</DiscrSrv>
+            <VlNFS>0.00</VlNFS>
+            <VlDed>0.00</VlDed>
+            <DiscrDed>DISCR. DEDUCAO</DiscrDed>
+            <VlBasCalc>0.00</VlBasCalc>
+            <AlqIss>0.00</AlqIss>
+            <VlIss>0.00</VlIss>
+            <VlIssRet>0.00</VlIssRet>
+            <Reg30>
+                <Reg30Item>
+                    <TributoSigla>XXXXX</TributoSigla>
+                    <TributoAliquota>0.00</TributoAliquota>
+                    <TributoValor>0.00</TributoValor>
+                </Reg30Item>
+            </Reg30>
+        </Reg20Item>
+    </Reg20>
+</XML_Notas>

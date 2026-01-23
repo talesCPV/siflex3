@@ -1,6 +1,7 @@
 
 /*  RELATORIES  */
 
+
 function print_etq(data){
     
     doc = new jsPDF()  
@@ -1032,7 +1033,6 @@ function holerite(func,tipo='holerite'){
 
 }
 
-
 function termo(texto){
 
 
@@ -1217,7 +1217,6 @@ function fichaEPI(obj){
 
 }
 
-
 function printOS(os){
 
     doc = new jsPDF();
@@ -1262,41 +1261,34 @@ function printOS(os){
     line(65)
     txt.y = 70
 
-    const params = new Object
-    params.id_proc = os.id_proc
-    const myPromisse = queryDB(params,'PRC-4')
-    myPromisse.then((resolve)=>{
-        const json = JSON.parse(resolve)
+    const json = os.operaçoes
+    for(let i=0; i<json.length; i++){
 
-        for(let i=0; i<json.length; i++){
+        const ceiling = txt.y.toString()
 
-            const ceiling = txt.y.toString()
+        doc.setFont(undefined, 'bold')
+        doc.setFontSize(8)
+        center_text(json[i].setor,[5,40])
+        txt.y -= 5
+        doc.setFont(undefined, 'normal')
+        doc.setFontSize(10)
+        box(json[i].descricao,50,txt.y,100)
 
-            doc.setFont(undefined, 'bold')
-            doc.setFontSize(8)
-            center_text(json[i].setor,[5,40])
-            txt.y -= 5
-            doc.setFont(undefined, 'normal')
-            doc.setFontSize(10)
-            box(json[i].descricao,50,txt.y,100)
+        const cod = os.id.padStart(4,0)+json[i].id.padStart(5,0)
+        
+        const img = document.getElementById('cod-'+cod).querySelector('img')
 
-            const img = document.querySelector('#barcode')
-            img.style.display = 'none'
+        doc.addImage(img.src, 'PNG', 180, Number(ceiling)-4, 16, 16);
+        txt.y += 5
 
-            const cod = os.id.padStart(4,0)+json[i].id.padStart(5,0)
+        line(txt.y + 5)
+        doc.line(40,Number(ceiling)-5,40,txt.y+5)
+        txt.y+=10
+    }
+    
+    openPDF(doc,'os.pdf')
 
-            JsBarcode("#barcode", cod );
-            doc.addImage(img.src, 'JPEG', 150, Number(ceiling)-2, 54, 16);
-            txt.y += 5
-
-            line(txt.y + 5)
-            doc.line(40,Number(ceiling)-5,40,txt.y+5)
-            txt.y+=10
-        }
-        openPDF(doc,'os.pdf')
-    })
 }
-
 
 function cracha(func){
 

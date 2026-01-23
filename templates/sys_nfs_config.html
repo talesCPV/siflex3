@@ -90,6 +90,7 @@
                     summary.className = 'last'
                     summary.addEventListener('click',(e)=>{
                         const data = new Object
+                        nfs_rules[grupo][campo].opt = nfs_rules[grupo][campo].hasOwnProperty('opt') ? nfs_rules[grupo][campo].opt : []
                         data.grupo = grupo
                         data.rule = nfs_rules[grupo][campo]
                         data.save = pageFunc.saveRules

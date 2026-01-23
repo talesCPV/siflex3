@@ -23,7 +23,6 @@
                 }
         }
 
-
         if (IsSet($_POST["line"])){
 
                 $email = getEmail();
