@@ -5,6 +5,10 @@
             margin: 0 10px;
         }
 
+        option{
+            overflow: scroll;
+        }
+
         .inline{
             padding: 0;
         }
@@ -14,7 +18,7 @@
         }
 
         @media (max-width: 768px) {
-            input{
+            input, select{
                 max-width: unset !important;
                 width: 100%;
             } 
@@ -28,32 +32,30 @@
         <div class="inline">
             <label for="edtNome">Nome</label>
             <input type="text" id="edtNome">
-            <label for="edtPad">Valor Padrão</label>
-            <input type="text" id="edtPad">
-        </div>
-
-        <div class="inline">
-
-        </div>
-        <div class="inline">
-            <label for="cmbOcor">Obrigatório</label>
-            <select id="cmbOcor">
-                <option value="1">Sim</option>
-                <option value="0" selected>Não</option>
-            </select>            
             <label for="cmbTipo">Tipo</label>
-            <select id="cmbTipo">
+            <select id="cmbTipo" style="max-width: 200px;">
                 <option value="C">Caracter</option>
                 <option value="N">Numérico</option>
                 <option value="D">Data</option>
                 <option value="H">Hora</option>
                 <option value="DH">Data e Hora</option>
-            </select>               <label for="edtTam">Tam.</label>
-            <input type="text" id="edtTam" style="max-width: 50px;">
-            <label for="edtDec">Dec.</label>
-            <input type="text" id="edtDec" onkeyup="valInt(this)" value="0" style="max-width: 50px;">
-         
+            </select>
+        </div>
 
+        <div class="inline">
+            <label for="edtPad">Valor Padrão</label>
+            <input type="text" id="edtPad">
+        </div>
+        <div class="inline">
+            <label for="edtTam">Tamanho</label>
+            <input type="text" id="edtTam" style="max-width: 100px;">
+            <label for="edtDec">Dec.</label>
+            <input type="text" id="edtDec" onkeyup="valInt(this)" value="0" style="max-width: 100px;">
+            <label for="cmbOcor">Obrigatório</label>
+            <select id="cmbOcor">
+                <option value="1">Sim</option>
+                <option value="0" selected>Não</option>
+            </select>
         </div>
 
         <fieldset class="fds-opt">
@@ -72,10 +74,10 @@
             <legend>Atributos</legend>
             <select id="cmbAtr" size="5"></select>
             <div class="line">
+                <label for="edtOptAtr">Atributo</label>
+                <input type="text" id="edtOptAtr" style="max-width: 150px;">
                 <label for="edtValAtr">Valor</label>
-                <input type="text" id="edtValAtr" style="max-width: 150px;">
-                <label for="edtOptAtr">Texto</label>
-                <input type="text" id="edtOptAtr" style="width: 100%;">
+                <input type="text" id="edtValAtr" style="width: 100%;">
                 <button class="btn-round" id="addOptAtr"><span class="mdi mdi-content-save-check-outline"></span></button>
             </div>
         </fieldset>

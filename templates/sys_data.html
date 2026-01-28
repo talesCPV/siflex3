@@ -1,7 +1,6 @@
 <template>
     <style></style>
   
-
     <fieldset>
         <legend>Dados</legend>
         <table id="tblDados"></table>
@@ -11,7 +10,6 @@
         <button id="btnAdd">Adicionar</button>
     </div>
 
-
 </template>
 <script>
 
@@ -20,10 +18,8 @@
     const pageScreen = document.querySelector('#card-sys_data')
     pageData.data = {}
 
-
     function pageStart(){
        loadData()
-       
     }
 
     pageScreen.querySelector('#btnAdd').addEventListener('click',()=>{
@@ -31,9 +27,25 @@
     })
 
     pageScreen.querySelector('#tblDados').addEventListener('click',(e)=>{
+        e.preventDefault()
         const key = e.target.parentNode.data
-        getValue(key,pageData.data[key])
+        const tbl = []
 
+        const obj = new Object
+        obj.label = 'Editar'
+        obj.link = ()=>{
+            getValue(key,pageData.data[key])
+        }
+        tbl.push(obj)
+
+        const del = new Object
+        del.label = 'Deletar'
+        del.link = ()=>{
+            getValue(key,1,1)
+        }
+        tbl.push(del)
+
+        menuContext(tbl,e)  
     })
 
     function loadData(){
@@ -60,7 +72,6 @@
                 } 
             })
         })
-
     }
 
     function fillData(){
@@ -73,16 +84,29 @@
         }
     }
 
-    function getValue(key='',val=''){
-        const field = prompt('Digite o nome do Campo:',key)
-        if(field!= null && field.trim()!=''){
+    function getValue(key='',val='',del=0){
+        const edt = key=='' ? 0 : key.toString()        
+        if(!del){
+            const field = prompt('Digite o nome do Campo:',key)
             const value = prompt('Digite o valor do Campo:',val)
             if(value!= null ){
-                pageData.data[field] = value
+                if(edt){
+                    const new_obj =  new Object
+                    for (const [obj_key, obj_value] of Object.entries(pageData.data)) {
+                        if(obj_key != edt){
+                            new_obj[obj_key] = obj_value
+                        }else{
+                            new_obj[field] = value
+                        }
+                    }
+                    pageData.data = new_obj
+                }else{
+                    pageData.data[field] = value
+                }
                 saveFile(JSON.stringify(pageData.data),'/../config/data.json')
             }
            fillData()
-        }else if(field.trim()=='' && key!=''){
+        }else{
             if(confirm(`Deseja deletar o campo ${key}?`)){
                 delete pageData.data[key]
                 saveFile(JSON.stringify(pageData.data),'/../config/data.json')

@@ -124,7 +124,6 @@ NFe.prototype.geraTXT = function(){
 
     function addItens(itens){
         let lines = ''
-console.log(itens)        
         for(let i=0; i<itens.length; i++){
             for (const item_key in itens[i]) {
                 lines += makeLine(itens[i],item_key)
@@ -166,19 +165,50 @@ NFe.prototype.saveRules = function(){
 /***** NFs-SERVIÇO ******/
 
 class NFs{
-    constructor(fds,rules){
+    constructor(rules){        
         this.rules = rules
-        fds = fds.split(',')
-        for(let i=0; i<fds.length; i++){
-            this[fds[i]] = makeGroup(fds[i],this.rules)
-        }
-        this.formatFields()
+        this.makeXML(rules)
+/*        
+        this.viewXML()     
         const day = new Date()    
-        const td = day.getDate().toString().padStart(2,0)+'/'+(day.getMonth()+1).toString().padStart(2,0)+'/'+day.getFullYear()
-        this[10].DtIni = td
-        this[10].DtFin = td
-        this[20].DtEmi = td
+        this.date = day.getDate().toString().padStart(2,0)+'/'+(day.getMonth()+1).toString().padStart(2,0)+'/'+day.getFullYear()
+*/
     }
+}
+
+NFs.prototype.makeXML = function(arr,parent=null){
+
+    for(let i=0; i<arr.length; i++){
+
+        let item
+
+        if(!this.hasOwnProperty('xmlDoc')){
+            this.xmlDoc = document.implementation.createDocument(null, arr[i].tag, null)
+            item = this.xmlDoc.documentElement
+        }else{
+            item = this.xmlDoc.createElement(arr[i].tag);
+        }
+            
+        item.appendChild(this.xmlDoc.createTextNode(arr[i].valor.def))
+    
+        for(let j=0; j<arr[i].atrib.length; j++){
+            item.setAttribute(arr[i].atrib[j].txt, arr[i].atrib[j].val);
+        }
+        
+        if(arr[i].itens.length){
+            this.makeXML(arr[i].itens,item)
+        }        
+
+        if(parent != null){
+            parent.appendChild(item)
+        }
+    }
+}
+
+NFs.prototype.viewXML = function(){
+    const serializer = new XMLSerializer();
+    const xmlString = serializer.serializeToString(this.xmlDoc);
+    console.log(xmlString);
 }
 
 NFs.prototype.formatComa = function(val){
@@ -186,9 +216,32 @@ NFs.prototype.formatComa = function(val){
     return val.replace('.',',')
 }
 
-NFs.prototype.import = function(obj){
-    nfImport(obj,this)
-    this.formatFields()
+NFs.prototype.import = function(grupo, obj){
+    console.log(obj)
+/*
+    for (const grupo in obj) {
+        if(NF.hasOwnProperty(grupo)){
+            for (const campo in obj[grupo]){
+                if(NF.rules[grupo].hasOwnProperty(campo)){
+                    switch(NF.rules[grupo][campo].tipo){
+                        case 'N':
+                            obj[grupo][campo] = onlyNum(obj[grupo][campo])
+                        break
+                        case 'C':
+                            obj[grupo][campo] = onlyAlpha(obj[grupo][campo])
+                        break
+                        default:
+                            obj[grupo][campo] += campo == 'dhEmi' ? 'T07:00:00-03:00' : ''
+                            obj[grupo][campo] += campo == 'dhSaiEnt' ? 'T16:00:00-03:00' : ''
+                    }
+                    NF[grupo][campo] =  obj[grupo][campo].trim()
+                }
+            }
+        }
+    }
+*/
+
+//    this.formatFields()
 }
 
 NFs.prototype.formatFields  = function(){

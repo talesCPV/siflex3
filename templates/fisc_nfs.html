@@ -145,7 +145,7 @@
                 </fieldset>
             </div>
 
-            <div id="fatura" class="tab">
+            <div id="fatura" class="tab grupo">
                 <div class="inline">
                     <label for="numNFS">Num NFs</label>
                     <input type="text" id="numNFS" onkeyup="valInt(this)">
@@ -164,7 +164,7 @@
                     <input type="text" id="AlqIssSN" onkeyup="valFloat(this)">
                 </div>
                 <div class="inline">
-                    <label for="cmbLocal">Local Execução</label>
+                    <label for="cmbLocal">Local Exec.</label>
                     <select id="cmbLocal">
                         <option value="TOM" selected>No Cliente</option>
                         <option value="PRE">Na Empresa</option>
@@ -184,8 +184,8 @@
         </div>
         <div id="export" class="tab">
             <fieldset>
-                <legend>TXT</legend>
-                <select id="txtFiles" size="20"></select>
+                <legend>XML</legend>
+                <select id="xmlFiles" size="20"></select>
             </fieldset>
             <button id="btnUpPDF">UPLOAD PDF</button>
             <fieldset>
@@ -201,7 +201,7 @@
     const pageData = main_data.fisc_nfs.data
     const pageFunc = main_data.fisc_nfs.func
     const pageScreen = document.querySelector('#card-fisc_nfs')
-    pageData.NFs = new NFs('10,20,90,CONF',nfs_rules)
+    const nf_file = '/../config/NFs4_rules.json'
 
     startPage()
 
@@ -212,33 +212,58 @@ function startPage(){
         pageScreen.querySelector('#edtIni').value =  today.iniMonth()
         pageScreen.querySelector('#edtFin').value =  today.finMonth()
         pageScreen.querySelector('#dtEmit').value = today.getFormatDate()
+/*        
         pageScreen.querySelector('#DefRPS').value = pageData.NFs.CONF.DefRPS
         pageScreen.querySelector('#numNFS').value = parseInt(pageData.NFs.CONF.numNFS) + 1
         pageScreen.querySelector('#AlqIssSN').value = pageData.NFs.CONF.AlqIssSN.replace(',','.')
+*/
 
         listNF('../NF/NFs/xml','xml')
-//        listNF('../NF/NFs/pdf','pdf')
-        fillForms(pageData.NFs,'CONF')
 
+        getFile(nf_file).then((json)=>{
+            pageData.NFs = new NFs(JSON.parse(json))
+        })
+
+        loadData().then(function (response){
+            if (response.status === 200) { 
+                response.text()
+                .then((txt)=>{
+                    pageData.CONF = JSON.parse(txt) == null ? {} : JSON.parse(txt)
+                    fillForms(pageData.CONF,'CONF')
+                    fillForms(pageData.CONF,'20')
+                })
+            } 
+        })
+        
     }
 
-    function fillForms(obj,grupos){
-        grupos = grupos.split(',')
-        for(let i=0; i<grupos.length; i++){
-            for(const key in obj[grupos[i]]){
-                const id_grupo = isNaN(Number(grupos[i])) ? grupos[i] : 'G-'+grupos[i]
-                const field = pageScreen.querySelector(`#${id_grupo}`).querySelector(`#${key}`)
-                if(field != undefined){
-                    field.value = obj[grupos[i]][key]
-                    try{
-                        field.onkeyup()
-                    }catch{null}
-                }
+    function loadData(){
+        const data = new URLSearchParams()
+        data.append("path",'/../config/data.json' )
+
+        const myRequest = new Request("backend/loadFile.php",{
+            method : "POST",
+            body : data
+        })
+        return fetch(myRequest)
+    }
+
+    function fillForms(obj,grupo){
+        for(const key in obj){
+            const id_grupo = isNaN(Number(grupo)) ? grupo : 'G-'+grupo
+            const field = pageScreen.querySelector(`#${id_grupo}`).querySelector(`#${key}`)
+            if(field != undefined){
+                field.value = obj[key]
+                try{
+                    field.onkeyup()
+                }catch{null}
             }
         }
     }
 
     function saveNFs(){
+        saveFile(pageData.NFs.rules,nf_file)
+/*        
         const out = new Object
         const grupo = pageScreen.querySelectorAll('.grupo')
         for(let g=0; g<grupo.length; g++){
@@ -253,9 +278,10 @@ function startPage(){
         saveFiscal()
         pageData.NFs.import(out)
         pageData.NFs.saveRules()
+*/
     }
 
-
+/*
     function saveFiscal(){
 
         const fat =  getFat()
@@ -316,7 +342,7 @@ function startPage(){
         pageData.NFs['90'].ValorIssRetTom = retido=='SIM' ? vISS.toFixed(2).replace('.',',') : '0,00'
       
     }
-
+*/
 
     function downloadFile(path){
         const link = document.createElement("a")
@@ -338,12 +364,12 @@ function startPage(){
                 }catch{null}
             }
         }
-        pageData.NFs.import({"20" : obj})
-
+        pageData.NFs.import(pageScreen.querySelector('#G-20'), obj)
     }
 
     pageScreen.querySelector('#btnSaveEmit').addEventListener('click',()=>{
-        saveNFs()      
+        saveFile(JSON.stringify(pageData.data),'/../config/data.json')
+//        saveNFs()      
     })
 
     pageScreen.querySelector('#btnSaveCli').addEventListener('click',()=>{
@@ -361,8 +387,8 @@ function startPage(){
 
     })
 
-    pageScreen.querySelector('#txtFiles').addEventListener('dblclick',()=>{
-        downloadFile('../NF/NFs/xml/' + pageScreen.querySelector('#txtFiles').value)
+    pageScreen.querySelector('#xmlFiles').addEventListener('dblclick',()=>{
+        downloadFile('../NF/NFs/xml/' + pageScreen.querySelector('#xmlFiles').value)
     })
 
     pageScreen.querySelector('#pdfFiles').addEventListener('dblclick',()=>{
@@ -406,16 +432,18 @@ function startPage(){
 
     pageScreen.querySelector('#tblServExec').addEventListener('click',(e)=>{
         data = e.target.parentNode.data
-        data.mode = 'edit'
-        if (confirm(`Carregar Carro.${data.num_carro} de ${data.empresa.toUpperCase()}?`)) {
-            const serv = pageScreen.querySelector('#DiscrSrv')
-            if(serv.innerHTML.trim() == ''){
-                addCliente(data)          
-                serv.innerHTML = `CARRO:${data.num_carro}\n` + data.obs +'\n'
-                pageScreen.querySelector('#VlNFS').value = data.valor
-            }else if (confirm(`Adicionar o carro ${data.num_carro} a NFs atual?`)){
-                serv.innerHTML += `\nCARRO:${data.num_carro}\n` + data.obs +'\n'
-                pageScreen.querySelector('#VlNFS').value =  (parseFloat(pageScreen.querySelector('#VlNFS').value)+parseFloat(data.valor)).toFixed(2)
+        if(data != undefined){
+            data.mode = 'edit'
+            if (confirm(`Carregar Carro.${data.num_carro} de ${data.empresa.toUpperCase()}?`)) {
+                const serv = pageScreen.querySelector('#DiscrSrv')
+                if(serv.innerHTML.trim() == ''){
+                    addCliente(data)          
+                    serv.innerHTML = `CARRO:${data.num_carro}\n` + data.obs +'\n'
+                    pageScreen.querySelector('#VlNFS').value = data.valor
+                }else if (confirm(`Adicionar o carro ${data.num_carro} a NFs atual?`)){
+                    serv.innerHTML += `\nCARRO:${data.num_carro}\n` + data.obs +'\n'
+                    pageScreen.querySelector('#VlNFS').value =  (parseFloat(pageScreen.querySelector('#VlNFS').value)+parseFloat(data.valor)).toFixed(2)
+                }
             }
         }
     })
@@ -440,6 +468,7 @@ function startPage(){
             info.innerHTML = rows.length > 2 ? 'Serviço aprovado conforme Pedidos:' : 'Serviço aprovado conforme Pedido:'
             addCliente(rows[1].data)
             for(let i=1; i<rows.length; i++){
+console.log(rows[i].data)                
                 serv.innerHTML += `\nCARRO:${rows[i].data.num_carro}\n` + rows[i].data.obs +'\n'
                 pageScreen.querySelector('#VlNFS').value =  (parseFloat(pageScreen.querySelector('#VlNFS').value)+parseFloat(rows[i].data.valor)).toFixed(2)
                 info.innerHTML += pedidos.includes(rows[i].data.pedido.trim()) ? '' : rows[i].data.pedido.trim()+' '
