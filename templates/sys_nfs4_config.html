@@ -73,6 +73,7 @@
                     details_grupo.open = grp==grupo ? 1 : 0
                     const summary_grupo = document.createElement('summary')
                     summary_grupo.innerHTML = arr[grupo].tag
+                    arr[grupo].div = li_grupo
 
                     summary_grupo.addEventListener('click',(e)=>{
                         if(e.target.parentNode.parentNode.parentNode.id=='nfs-itens'){

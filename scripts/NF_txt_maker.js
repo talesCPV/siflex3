@@ -208,7 +208,11 @@ NFs.prototype.makeXML = function(arr,parent=null){
 NFs.prototype.viewXML = function(){
     const serializer = new XMLSerializer();
     const xmlString = serializer.serializeToString(this.xmlDoc);
-    console.log(xmlString);
+    return xmlString;
+}
+
+NFs.prototype.fillNFs = function(){
+    console.log(this.rules)
 }
 
 NFs.prototype.formatComa = function(val){

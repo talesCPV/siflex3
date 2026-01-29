@@ -32,3 +32,8 @@
 27/01/2026 14:23 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$1428.32 dia 2026-02-13
 27/01/2026 14:24 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$7794.25 dia 2026-02-13
 27/01/2026 14:26 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$14599.42 dia 2026-02-19
+29/01/2026 18:14 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$748 dia 2026-01-29
+29/01/2026 18:15 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$550 dia 2026-01-30
+29/01/2026 18:16 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$675 dia 2026-01-30
+29/01/2026 18:16 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$850 dia 2026-01-30
+29/01/2026 18:18 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$434.2 dia 2026-02-05

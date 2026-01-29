@@ -100,43 +100,42 @@
             <div id="cliente" class="tab">
                     <div class="inline">
                         <label> Razão Social *</label>
-                        <input type="text" id="RazSocTom" class="campo" maxlength="60" />
+                        <input type="text" id="RazSocTom" class="campo" maxlength="60" path="" readonly/>
                     </div>
                     <div class="inline">
                         <label> CNPJ </label>
-                        <input type="text" id="CpfCnpjTom" class="campo" maxlength="18" onkeyup="valCNPJ(this)"/>
+                        <input type="text" id="CpfCnpjTom" class="campo" maxlength="18" onkeyup="valCNPJ(this)" readonly/>
                         <label> Insc. MUn. </label>
-                        <input type="text" id="IMTom" class="campo" maxlength="18" onkeyup="valInt(this)"/>
+                        <input type="text" id="IMTom" class="campo" maxlength="18" onkeyup="valInt(this)" readonly/>
                     </div>
                     <div class="inline">
                         <label> Endereço </label>
-                        <input type="text" id="LogTom" class="campo" maxlength="60" />
+                        <input type="text" id="LogTom" class="campo" maxlength="60" readonly/>
                         <label> Número: </label>
-                        <input type="text" id="NumEndTom" class="campo" maxlength="5" style="max-width: 100px;" />
+                        <input type="text" id="NumEndTom" class="campo" maxlength="5" style="max-width: 100px;" readonly/>
                     </div>
                     <div class="inline">
                         <label> Bairro </label>
-                        <input type="text" id="BairroTom" class="campo" maxlength="60" />
+                        <input type="text" id="BairroTom" class="campo" maxlength="60" readonly/>
                         <label> Complemento </label>
-                        <input type="text" id="ComplEndTom" class="campo" maxlength="60" style="max-width: 200px;" />
+                        <input type="text" id="ComplEndTom" class="campo" maxlength="60" style="max-width: 200px;" readonly/>
                     </div>
                     <div class="inline">
                         <label> Municipio</label>
-                        <input type="text" id="MunTom" class="campo" maxlength="60" />
+                        <input type="text" id="MunTom" class="campo" maxlength="60" readonly/>
                         <label> Sigla da UF </label>
-                        <input type="text" id="SiglaUFTom" class="campo" maxlength="2" style="max-width: 50px;" />
+                        <input type="text" id="SiglaUFTom" class="campo" maxlength="2" style="max-width: 50px;" readonly/>
                     </div>
                     <div class="inline">
                         <label> CEP </label>
-                        <input type="text" id="CepTom" class="campo" maxlength="8" onkeyup="valCEP(this)"/>
+                        <input type="text" id="CepTom" class="campo" maxlength="8" onkeyup="valCEP(this)" readonly/>
                         <label for="Telefone">Fone</label>
-                        <input type="text" id="Telefone" class="campo" onkeyup="phone(this)" maxlength="15">
+                        <input type="text" id="Telefone" class="campo" onkeyup="phone(this)" maxlength="15" readonly>
                     </div>
                     <div class="inline">
                         <label> Email </label>
-                        <input type="text" id="EMail_1" class="campo" class="campo" maxlength="50" onkeyup="validaEmail(this)"/>
+                        <input type="text" id="EMail_1" class="campo" class="campo" maxlength="50" onkeyup="validaEmail(this)" readonly/>
                     </div>
-                <button id="btnSaveCli">Salvar</button>
             </div>
             <div id="itens" class="tab">
                 <fieldset>
@@ -148,36 +147,36 @@
             <div id="fatura" class="tab grupo">
                 <div class="inline">
                     <label for="numNFS">Num NFs</label>
-                    <input type="text" id="numNFS" onkeyup="valInt(this)">
+                    <input type="text" id="numNFS" class="campo" onkeyup="valInt(this)">
                     <label for="DefRPS">RPS Defasagem</label>
                     <input type="text" id="DefRPS" class="campo" onkeyup="valInt(this)">
                     <label for="">Data Emissão</label>
-                    <input type="date" id="dtEmit">
+                    <input type="date" id="dtEmit" class="campo">
                 </div>
                 <div class="inline">
                     <label for="VlNFS">Valor R$</label>
-                    <input type="text" id="VlNFS" value="0.00" onkeyup="valFloat(this)">
+                    <input type="text" id="VlNFS" value="0.00" class="campo" onkeyup="valFloat(this)">
                     <label for="dfat">Dias entre Parcelas (separar por /)</label>
                     <input type="text" id="dfat" value="28">
                     <button class="btn-round" id="btnCalendar"><span class="mdi mdi-calendar-range"></span></button>
                     <label for="AlqIssSN">Alíq. ISS</label>
-                    <input type="text" id="AlqIssSN" onkeyup="valFloat(this)">
+                    <input type="text" id="AlqIssSN" class="campo" onkeyup="valFloat(this)">
                 </div>
                 <div class="inline">
                     <label for="cmbLocal">Local Exec.</label>
-                    <select id="cmbLocal">
+                    <select id="cmbLocal" class="campo">
                         <option value="TOM" selected>No Cliente</option>
                         <option value="PRE">Na Empresa</option>
                     </select>
                     <label for="cmbRetFont">ISS Retido na Fonte</label>
-                    <select id="cmbRetFont">
+                    <select id="cmbRetFont" class="campo">
                         <option value="SIM">Sim</option>
                         <option value="NAO" selected>Não</option>
                     </select>
                 </div>
                 <fieldset>
                     <legend>Dedução / Outras Informações</legend>
-                    <textarea id="DiscrDed" cols="30" rows="15">Serviço aprovado conforme Pedido:</textarea>
+                    <textarea id="DiscrDed" cols="30" rows="15" class="campo">Serviço aprovado conforme Pedido:</textarea>
                 </fieldset>
                 <button id="brnGeraNFs">Gerar NFs</button>
             </div>
@@ -212,11 +211,6 @@ function startPage(){
         pageScreen.querySelector('#edtIni').value =  today.iniMonth()
         pageScreen.querySelector('#edtFin').value =  today.finMonth()
         pageScreen.querySelector('#dtEmit').value = today.getFormatDate()
-/*        
-        pageScreen.querySelector('#DefRPS').value = pageData.NFs.CONF.DefRPS
-        pageScreen.querySelector('#numNFS').value = parseInt(pageData.NFs.CONF.numNFS) + 1
-        pageScreen.querySelector('#AlqIssSN').value = pageData.NFs.CONF.AlqIssSN.replace(',','.')
-*/
 
         listNF('../NF/NFs/xml','xml')
 
@@ -231,6 +225,8 @@ function startPage(){
                     pageData.CONF = JSON.parse(txt) == null ? {} : JSON.parse(txt)
                     fillForms(pageData.CONF,'CONF')
                     fillForms(pageData.CONF,'20')
+                    pageScreen.querySelector('#numNFS').value = Number(pageScreen.querySelector('#numNFS').value) + 1
+
                 })
             } 
         })
@@ -260,6 +256,38 @@ function startPage(){
             }
         }
     }
+
+    function getForms(obj,grupo){
+        for(const key in obj){
+            const id_grupo = isNaN(Number(grupo)) ? grupo : 'G-'+grupo
+            const field = pageScreen.querySelector(`#${id_grupo}`).querySelector(`#${key}`)
+            if(field != undefined){
+                obj[key] = field.value
+                try{
+                    field.onkeyup()
+                }catch{null}
+            }
+        }
+    }
+
+    function fillNFs(grupo){
+        console.log(pageData.NFs)
+        const id_grupo = isNaN(Number(grupo)) ? grupo : 'G-'+grupo
+        const fields = pageScreen.querySelector(`#${id_grupo}`).querySelectorAll('.campo')
+        for(let i=0; i<fields.length; i++){
+            console.log(fields[i].id)
+            console.log(fields[i].value)
+
+        }
+/*
+        if(field != undefined){
+            console.log(field)
+
+        }
+*/
+
+    }
+
 
     function saveNFs(){
         saveFile(pageData.NFs.rules,nf_file)
@@ -365,26 +393,28 @@ function startPage(){
             }
         }
         pageData.NFs.import(pageScreen.querySelector('#G-20'), obj)
+        pageScreen.querySelector('#tab-cliente').click()
     }
 
     pageScreen.querySelector('#btnSaveEmit').addEventListener('click',()=>{
-        saveFile(JSON.stringify(pageData.data),'/../config/data.json')
-//        saveNFs()      
-    })
-
-    pageScreen.querySelector('#btnSaveCli').addEventListener('click',()=>{
-        saveNFs()       
+        getForms(pageData.CONF,'CONF')
+        saveFile(JSON.stringify(pageData.CONF),'/../config/data.json')
     })
 
     pageScreen.querySelector('#brnGeraNFs').addEventListener('click',()=>{
-        saveNFs()
-        const xml = pageData.NFs.exportXML(pageData.NFs)
-        console.log(xml)
-//        const txt = pageData.NFs.export('10,20,90')
-        const filename = 'NFs-'+(pageData.NFs.CONF.numNFS).padStart(6,'0')
-//        uploadNFs(txt, filename) 
-        uploadNfsXML(xml, filename) 
+        getForms(pageData.CONF,'20')
+        saveFile(JSON.stringify(pageData.CONF),'/../config/data.json')
+        fillNFs('20')
 
+//        saveNFs()
+/*
+        const xml = pageData.NFs.viewXML()
+        const filename = 'NFs-'+(pageScreen.querySelector('#numNFS').value).padStart(6,'0')
+console.log(xml)
+console.log(filename)        
+        uploadNfsXML(xml, filename) 
+        pageScreen.querySelector('#tab-export').click()
+*/
     })
 
     pageScreen.querySelector('#xmlFiles').addEventListener('dblclick',()=>{
@@ -492,12 +522,15 @@ console.log(rows[i].data)
 
     pageScreen.querySelector('#btnCalendar').addEventListener('click',()=>{
         const fat = getFat()
+        let Vfat = Number(pageScreen.querySelector('#VlNFS').value)
+        let parc = (Vfat/fat.length).toFixed(2)
 
         let out = ''
         for(let i=0; i<fat.length; i++){
             const day = new Date()
             day.change(parseInt(fat[i]))
-            out += `Parcela ${i+1} - ${day.getFormatBR()}\n`
+            out += `Parcela ${i+1} - ${day.getFormatBR()} -> R$${i<fat.length-1?parc:Vfat.toFixed(2)}\n`
+            Vfat -= Number(parc)
         }        
         alert(out)
     })   
