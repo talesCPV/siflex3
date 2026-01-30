@@ -97,7 +97,7 @@
 
         <div id="G-20" class="grupo">
 
-            <div id="cliente" class="tab">
+            <div id="cliente" class="tab" path="Sdt_ProcessarpsIns/SDTRPS/Reg20/Reg20Item/">
                     <div class="inline">
                         <label> Razão Social *</label>
                         <input type="text" id="RazSocTom" class="campo" maxlength="60" path="" readonly/>
@@ -144,7 +144,7 @@
                 </fieldset>
             </div>
 
-            <div id="fatura" class="tab grupo">
+            <div id="fatura" class="tab grupo" path="Sdt_ProcessarpsIns/SDTRPS/Reg20/Reg20Item/">
                 <div class="inline">
                     <label for="numNFS">Num NFs</label>
                     <input type="text" id="numNFS" class="campo" onkeyup="valInt(this)">
@@ -227,6 +227,8 @@ function startPage(){
                     fillForms(pageData.CONF,'20')
                     pageScreen.querySelector('#numNFS').value = Number(pageScreen.querySelector('#numNFS').value) + 1
 
+                    setPath('cliente')
+                    setPath('fatura')
                 })
             } 
         })
@@ -250,11 +252,23 @@ function startPage(){
             const field = pageScreen.querySelector(`#${id_grupo}`).querySelector(`#${key}`)
             if(field != undefined){
                 field.value = obj[key]
+//                field.path = field_path!=undefined ? field_path+key : ''
                 try{
                     field.onkeyup()
                 }catch{null}
             }
         }
+    }
+
+    function setPath(id_grupo){
+        const grupo = pageScreen.querySelector(`#${id_grupo}`)
+        const fields = grupo.querySelectorAll('.campo')
+        const path = grupo.getAttribute('path')
+
+        fields.forEach(element => {
+            element.path = path+element.id
+        })
+
     }
 
     function getForms(obj,grupo){
@@ -271,12 +285,25 @@ function startPage(){
     }
 
     function fillNFs(grupo){
+/*
+        function setValue(path,value){
+            const path = path.split('/')
+
+            console.log(path)
+
+//            pageData.NFs.rules
+
+
+        }
+
+*/
         console.log(pageData.NFs)
         const id_grupo = isNaN(Number(grupo)) ? grupo : 'G-'+grupo
         const fields = pageScreen.querySelector(`#${id_grupo}`).querySelectorAll('.campo')
         for(let i=0; i<fields.length; i++){
             console.log(fields[i].id)
             console.log(fields[i].value)
+            console.log(fields[i].path)
 
         }
 /*
@@ -383,10 +410,12 @@ function startPage(){
     }
 
     function addCliente(obj){
+        const field_path = pageScreen.querySelector('#cliente').getAttribute('path')
         for(const key in obj){
             const field = pageScreen.querySelector(`#G-20`).querySelector(`#${key}`)
             if(field != undefined){
                 field.value =  obj[key]
+                field.path = field_path!=undefined ? field_path+key : ''
                 try{
                     field.onkeyup()
                 }catch{null}
@@ -498,7 +527,6 @@ console.log(filename)
             info.innerHTML = rows.length > 2 ? 'Serviço aprovado conforme Pedidos:' : 'Serviço aprovado conforme Pedido:'
             addCliente(rows[1].data)
             for(let i=1; i<rows.length; i++){
-console.log(rows[i].data)                
                 serv.innerHTML += `\nCARRO:${rows[i].data.num_carro}\n` + rows[i].data.obs +'\n'
                 pageScreen.querySelector('#VlNFS').value =  (parseFloat(pageScreen.querySelector('#VlNFS').value)+parseFloat(rows[i].data.valor)).toFixed(2)
                 info.innerHTML += pedidos.includes(rows[i].data.pedido.trim()) ? '' : rows[i].data.pedido.trim()+' '
