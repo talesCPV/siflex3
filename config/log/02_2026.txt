@@ -1,0 +1,8 @@
+02/02/2026 14:30 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$236 dia 2026-02-02
+02/02/2026 14:31 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$230 dia 2026-02-02
+02/02/2026 14:32 tales@flexibus.com.br : Contas A Pagar Editada MENSALIDADE VENCIDA DOS ANDAIMES, Valor 720, Venc. dia 2026-02-03
+02/02/2026 14:33 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$720 dia 2026-02-03
+02/02/2026 14:35 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$1033.03 dia 2026-02-13
+02/02/2026 14:57 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$692.65 dia 2026-02-02
+02/02/2026 14:59 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$305 dia 2026-02-02
+02/02/2026 15:00 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$1213.6 dia 2026-02-16

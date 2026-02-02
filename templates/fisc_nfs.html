@@ -24,7 +24,7 @@
     </div>
     
     <div class="tab-screen">        
-        <div id="emitente" class="tab">
+        <div id="emitente" class="tab" path="Sdt_ProcessarpsIns/SDTRPS/Reg20/Reg20Item/">
             <div id="CONF" class="grupo">
                 <div class="inline">
                     <label for="RazSocPre"> Razão Social *</label>
@@ -100,11 +100,11 @@
             <div id="cliente" class="tab" path="Sdt_ProcessarpsIns/SDTRPS/Reg20/Reg20Item/">
                     <div class="inline">
                         <label> Razão Social *</label>
-                        <input type="text" id="RazSocTom" class="campo" maxlength="60" path="" readonly/>
+                        <input type="text" id="RazSocTom" class="campo" maxlength="60" readonly/>
                     </div>
                     <div class="inline">
                         <label> CNPJ </label>
-                        <input type="text" id="CpfCnpjTom" class="campo" maxlength="18" onkeyup="valCNPJ(this)" readonly/>
+                        <input type="text" id="CpfCnpTom" class="campo" maxlength="18" onkeyup="valCNPJ(this)" readonly/>
                         <label> Insc. MUn. </label>
                         <input type="text" id="IMTom" class="campo" maxlength="18" onkeyup="valInt(this)" readonly/>
                     </div>
@@ -215,7 +215,9 @@ function startPage(){
         listNF('../NF/NFs/xml','xml')
 
         getFile(nf_file).then((json)=>{
+            console.log(JSON.parse(json))
             pageData.NFs = new NFs(JSON.parse(json))
+            fillForms2('emitente')
         })
 
         loadData().then(function (response){
@@ -223,10 +225,11 @@ function startPage(){
                 response.text()
                 .then((txt)=>{
                     pageData.CONF = JSON.parse(txt) == null ? {} : JSON.parse(txt)
-                    fillForms(pageData.CONF,'CONF')
+//                    fillForms(pageData.CONF,'CONF')
                     fillForms(pageData.CONF,'20')
                     pageScreen.querySelector('#numNFS').value = Number(pageScreen.querySelector('#numNFS').value) + 1
-
+                    
+                    setPath('emitente')
                     setPath('cliente')
                     setPath('fatura')
                 })
@@ -260,6 +263,28 @@ function startPage(){
         }
     }
 
+    function fillForms2(id_grupo){        
+        const path =  pageScreen.querySelector(`#${id_grupo}`).getAttribute('path')
+        const fields = pageScreen.querySelector(`#${id_grupo}`).querySelectorAll(`.campo`)
+
+        console.log(path)
+        if(path != undefined){
+            for(let i=0; i<fields.length; i++){
+                console.log(fields[i].id)
+                console.log(pageData.NFs.getValue(path+fields[i].id))
+    /*            
+                if(fields[i] != undefined){
+                    field.value = obj[key]
+        //                field.path = field_path!=undefined ? field_path+key : ''
+                    try{
+                        field.onkeyup()
+                    }catch{null}
+                }
+    */
+            }
+        }
+    }
+
     function setPath(id_grupo){
         const grupo = pageScreen.querySelector(`#${id_grupo}`)
         const fields = grupo.querySelectorAll('.campo')
@@ -285,119 +310,52 @@ function startPage(){
     }
 
     function fillNFs(grupo){
-/*
-        function setValue(path,value){
-            const path = path.split('/')
 
-            console.log(path)
+                        
+        function setParam(field){
 
-//            pageData.NFs.rules
+            function getArr(arr,field){
+                for(let i=0; i<arr.length; i++){
+                    if(arr[i].tag == field){
+                        if(arr[i].itens.length){
+                            return arr[i].itens
+                        }else{                            
+                            return arr[i]
+                        }
 
+                    }
+                }
+                return {};
+            }
+            
+            const path = field.path.split('/')
 
+            let obj = pageData.NFs.rules
+            for(let i=0; i<path.length; i++){
+                obj = getArr(obj, path[i])
+            }
+            if(obj.hasOwnProperty('valor')){   
+                obj.valor.def = field.value
+//                console.log(obj)
+            }else{
+                console.log(field.id)
+            }
+            
         }
 
-*/
         console.log(pageData.NFs)
         const id_grupo = isNaN(Number(grupo)) ? grupo : 'G-'+grupo
         const fields = pageScreen.querySelector(`#${id_grupo}`).querySelectorAll('.campo')
         for(let i=0; i<fields.length; i++){
-            console.log(fields[i].id)
-            console.log(fields[i].value)
-            console.log(fields[i].path)
-
+            setParam(fields[i])
         }
-/*
-        if(field != undefined){
-            console.log(field)
-
-        }
-*/
-
+        pageData.NFs.reloadXML()
     }
 
 
     function saveNFs(){
         saveFile(pageData.NFs.rules,nf_file)
-/*        
-        const out = new Object
-        const grupo = pageScreen.querySelectorAll('.grupo')
-        for(let g=0; g<grupo.length; g++){
-            grupo[g].id = grupo[g].id.substring(0,2) == 'G-' ? grupo[g].id.substring(2,99) : grupo[g].id
-            out[grupo[g].id] = new Object
-            const campo = grupo[g].querySelectorAll('.campo')
-            for(let c=0; c<campo.length; c++){
-                out[grupo[g].id][campo[c].id] = campo[c].value
-            }
-        }
-
-        saveFiscal()
-        pageData.NFs.import(out)
-        pageData.NFs.saveRules()
-*/
     }
-
-/*
-    function saveFiscal(){
-
-        const fat =  getFat()
-        const vNF = parseFloat(pageScreen.querySelector('#VlNFS').value)
-
-        let fatura = ''
-        let sum = 0
-        for(let i=0; i<fat.length; i++){
-            const day = new Date()
-            day.change(parseInt(fat[i]))
-       
-            const pgto = new Object            
-                pgto.ref =  (i+1).toString().padStart(2,"0") +'/'+ (fat.length).toString().padStart(2,"0")
-                pgto.val = i != (fat.length-1) ? (vNF/fat.length).toFixed(2) : (vNF-sum).toFixed(2)
-            
-                fatura += `\\\\Pgto ${pgto.ref} Venc.${day.getFormatBR()} Valor R$${pgto.val}`
-                sum += parseFloat(pgto.val)
-        }  
-        fatura += '\\\\**Tributado pelo ANEXO III Simples Nacional Conforme LC 123/2006'
-
-        pageData.NFs.CONF.AlqIssSN = pageScreen.querySelector('#AlqIssSN').value.replace('.',',')
-        pageData.NFs.CONF.DefRPS = pageScreen.querySelector('#DefRPS').value
-        pageData.NFs.CONF.numNFS = pageScreen.querySelector('#numNFS').value
-        pageData.NFs['10'].AlqIssSN_IP = pageData.NFs.CONF.AlqIssSN
-        pageData.NFs['20'].AlqIss = pageData.NFs.CONF.AlqIssSN
-        pageData.NFs.CONF.LocalTom = pageScreen.querySelector('#cmbLocal').value
-
-        pageData.NFs['10'].DtIni = pageScreen.querySelector('#dtEmit').value.date()
-        pageData.NFs['10'].DtFin = pageScreen.querySelector('#dtEmit').value.date()
-        pageData.NFs['20'].DtEmi = pageScreen.querySelector('#dtEmit').value.date()
-
-        const vISS = vNF * (parseFloat(pageData.NFs.CONF.AlqIssSN)/100)
-        const nRPS = (parseInt(pageData.NFs.CONF.numNFS)-parseInt(pageData.NFs.CONF.DefRPS)).toString().padStart(9,'0')
- 
-        const local = pageData.NFs.CONF.LocalTom
-        const retido = pageScreen.querySelector('#cmbRetFont').value
-
-        pageData.NFs['20'].NumRPS = nRPS
-        pageData.NFs['20'].VlNFS = vNF.toFixed(2)
-        pageData.NFs['20'].VlBasCalc = vNF.toFixed(2)
-        pageData.NFs['20'].VlIss = vISS.toFixed(2).replace('.',',')
-        pageData.NFs['20'].DiscrSrv = pageScreen.querySelector('#DiscrSrv').value.replaceAll('\n', '\\\\')
-        pageData.NFs['20'].DiscrDed = pageScreen.querySelector('#DiscrDed').value.replaceAll('\n', '\\\\') + fatura
-        pageData.NFs['20'].RetFonte = retido
-        pageData.NFs['20'].TipoLogLocPre = local=='TOM' ? '.' : ''
-        pageData.NFs['20'].LogLocPre = local=='TOM' ? pageData.NFs['20'].LogTom : ''
-        pageData.NFs['20'].NumEndLocPre = local=='TOM' ? pageData.NFs['20'].NumEndTom : ''
-        pageData.NFs['20'].ComplEndLocPre = local=='TOM' ? pageData.NFs['20'].ComplEndTom : ''
-        pageData.NFs['20'].BairroLocPre = local=='TOM' ? pageData.NFs['20'].BairroTom : ''
-        pageData.NFs['20'].MunLocPre = local=='TOM' ? pageData.NFs['20'].MunTom : ''
-        pageData.NFs['20'].SiglaUFLocpre = local=='TOM' ? pageData.NFs['20'].SiglaUFTom : ''
-        pageData.NFs['20'].CepLocPre = local=='TOM' ? pageData.NFs['20'].CepTom : ''
-        pageData.NFs['20'].Telefone = local=='TOM' ? getNum(pageScreen.querySelector('#cliente').querySelector('#Telefone').value) : ''
-        pageData.NFs['20'].VlIss = retido=='SIM' ? '0,00' : vISS.toFixed(2).replace('.',',')
-        pageData.NFs['20'].VlIssRet = retido=='SIM' ? vISS.toFixed(2).replace('.',',') : '0,00'
-        pageData.NFs['90'].ValorNFS = pageScreen.querySelector('#VlNFS').value.replace('.',',')
-        pageData.NFs['90'].ValorISS = retido=='SIM' ? '0,00' : vISS.toFixed(2).replace('.',',')
-        pageData.NFs['90'].ValorIssRetTom = retido=='SIM' ? vISS.toFixed(2).replace('.',',') : '0,00'
-      
-    }
-*/
 
     function downloadFile(path){
         const link = document.createElement("a")
@@ -432,18 +390,18 @@ function startPage(){
 
     pageScreen.querySelector('#brnGeraNFs').addEventListener('click',()=>{
         getForms(pageData.CONF,'20')
-        saveFile(JSON.stringify(pageData.CONF),'/../config/data.json')
+//        saveFile(JSON.stringify(pageData.CONF),'/../config/data.json')
         fillNFs('20')
 
 //        saveNFs()
-/*
+
         const xml = pageData.NFs.viewXML()
         const filename = 'NFs-'+(pageScreen.querySelector('#numNFS').value).padStart(6,'0')
 console.log(xml)
 console.log(filename)        
-        uploadNfsXML(xml, filename) 
+//        uploadNfsXML(xml, filename) 
         pageScreen.querySelector('#tab-export').click()
-*/
+
     })
 
     pageScreen.querySelector('#xmlFiles').addEventListener('dblclick',()=>{

@@ -1,0 +1,15 @@
+1	Aviso	10	Mês Informado (2) inválido. Precisa estar contido no período (19/01/2026-19/01/2026)
+2	Aviso	20	Necessário Informar o Código CTN
+2	Aviso	20	Necessário Informar o Código NBS
+2	Aviso	20	Contribuinte do Simples Nacional. Necessário Informar o Código CNAE
+2	Aviso	20	Contribuinte do Simples Nacional. Necessário Informar o Número do Anexo
+2	Aviso	90	O valor total dos Tributos (855,50) do registro 90 não corresponde ao total de valor dos tributos informado nos registros 30 (0,00).
+
+<CodSrv>NN.NN.NN</CodSrv> (Até 10 caracteres, conforme estrutura definida pela prefeitura)
+Código do Serviço
+Regras:
+● Conforme lista de serviços do município. Incluir formatação de acordo com o cadastro da prefeitura.
+O código do serviço deve fazer parte da lista de serviços declarados pelo prestador.
+● Referente aos dados do serviço, novas informações são necessárias e estas devem ser informadas
+no registro 40 com as siglas que se iniciam com o termo: SRV. São elas: SRV_CNAE,
+SRV_ANEXOSN, SRV_CTN, SRV_NBS

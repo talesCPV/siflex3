@@ -167,13 +167,17 @@ NFe.prototype.saveRules = function(){
 class NFs{
     constructor(rules){        
         this.rules = rules
-        this.makeXML(rules)
+        this.reloadXML()
 /*        
         this.viewXML()     
         const day = new Date()    
         this.date = day.getDate().toString().padStart(2,0)+'/'+(day.getMonth()+1).toString().padStart(2,0)+'/'+day.getFullYear()
 */
     }
+}
+
+NFs.prototype.reloadXML = function(){
+    this.makeXML(this.rules)
 }
 
 NFs.prototype.makeXML = function(arr,parent=null){
@@ -211,7 +215,35 @@ NFs.prototype.viewXML = function(){
     return xmlString;
 }
 
-NFs.prototype.fillNFs = function(){
+NFs.prototype.getRule = function(path){
+    let arr = this.rules
+    path = path.split('/')
+    let out = {}
+    function getObj(arr,key){
+        for(let i=0; i<arr.length; i++){
+            if(arr[i].tag == key){
+                return arr[i]
+            }
+        }
+        return 0
+    }
+
+    for(let i=0; i<path.length; i++){        
+        const obj = getObj(arr,path[i])
+        out = obj
+        if(obj.itens){            
+            arr = obj.itens
+        }
+    }
+    return out
+}
+
+NFs.prototype.getValue = function(path){
+    const out = this.getRule(path)
+    return out ? out.valor.def : out
+}
+
+NFs.prototype.setValue = function(path,value){
     console.log(this.rules)
 }
 
