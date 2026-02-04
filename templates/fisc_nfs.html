@@ -300,8 +300,24 @@
         pageData.NFs.setTagValue('VlIss',Number(pageScreen.querySelector('#VlNFS').value) * (Number(pageScreen.querySelector('#AlqIssSN_IP').value) / 100) ,1)
         pageData.NFs.setTagValue('VlIssRet',pageScreen.querySelector('#cmbRetFont').value=='SIM' ? Number(pageScreen.querySelector('#VlNFS').value) * Number(pageScreen.querySelector('#AlqIssSN_IP').value) / 100 : 0,1)
 
-// Reg90
+        const noCliente = pageScreen.querySelector('#cmbLocal').value == 'TOM'
 
+        pageData.NFs.setTagValue('TipoLogLocPre', noCliente ? pageData.NFs.getTagValue('TipoLogtom') : '' )
+        pageData.NFs.setTagValue('LogLocPre', noCliente ? pageData.NFs.getTagValue('LogTom') : pageScreen.querySelector('#LogPre').value )
+        pageData.NFs.setTagValue('NumEndLocPre', noCliente ? pageData.NFs.getTagValue('NumEndTom') : pageScreen.querySelector('#NumEndPre').value )
+        pageData.NFs.setTagValue('ComplEndLocPre', noCliente ? pageData.NFs.getTagValue('ComplEndTom') : pageScreen.querySelector('#ComplEndPre').value )
+        pageData.NFs.setTagValue('BairroLocPre', noCliente ? pageData.NFs.getTagValue('BairroTom') : pageScreen.querySelector('#BairroPre').value )
+        pageData.NFs.setTagValue('MunLocPre', noCliente ? pageData.NFs.getTagValue('MunTom') : pageScreen.querySelector('#MunPre').value )
+        pageData.NFs.setTagValue('SiglaUFLocpre', noCliente ? pageData.NFs.getTagValue('SiglaUFTom') : pageScreen.querySelector('#SiglaUFPre').value )
+        pageData.NFs.setTagValue('CepLocPre', noCliente ? pageData.NFs.getTagValue('CepTom') : pageScreen.querySelector('#CepPre').value )
+
+// Reg90
+        pageData.NFs.setTagValue('ValorNFS',pageData.NFs.getTagValue('VlNFS'))
+        pageData.NFs.setTagValue('ValorISS',pageData.NFs.getTagValue('VlIss'))
+        pageData.NFs.setTagValue('ValorDed',pageData.NFs.getTagValue('VlDed'))
+        pageData.NFs.setTagValue('ValorIssRetTom',pageData.NFs.getTagValue('VlIssRet'))
+        pageData.NFs.setTagValue('ValorTributos',pageData.NFs.getTagValue('VlIss'))
+        
         pageData.NFs.viewXML()
 
     }
