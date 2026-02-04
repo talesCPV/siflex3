@@ -252,7 +252,6 @@ NFs.prototype.getTag = function(path){
 
 NFs.prototype.getTagValue = function(path){
     const tag = this.getTag(path)
-    console.log(tag)
     return tag.innerHTML
 }
 

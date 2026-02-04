@@ -255,14 +255,9 @@
         const path =  pageScreen.querySelector(`#${id_grupo}`).getAttribute('path')
         const fields = pageScreen.querySelector(`#${id_grupo}`).querySelectorAll(`.campo`)
 
-        console.log(path)
         if(path != undefined){
-            for(let i=0; i<fields.length; i++){
-                console.log(fields[i].id)
-                console.log()
-                
+            for(let i=0; i<fields.length; i++){                
                 if(fields[i] != undefined){
-                    console.log(pageData.NFs.getTagValue(path+fields[i].id))
                     fields[i].value = pageData.NFs.getTagValue(path+fields[i].id)
                     try{
                         fields[i].onkeyup()
