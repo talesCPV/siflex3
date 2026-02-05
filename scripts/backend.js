@@ -287,12 +287,13 @@ function uploadNFs(txt, filename){
     })
 }
 
+/*
 function uploadNfsXML(xml, filename){
 
     saveFile(xml,path=`/../../NF/NFs/xml/${filename}.xml`).then(()=>{
         alert('XML da NFs exportado com sucesso!!')
         listNF('../NF/NFs/xml','xml')
-/*
+
         if (confirm(`Deseja lançar od boletos?`)) {
 
             for(let i=0; i<pageData.NFs.fatura.length; i++){
@@ -300,10 +301,11 @@ function uploadNfsXML(xml, filename){
             }
 
         }
-*/
+
         document.querySelector('#tab-export').click()
     })
 }
+*/
 
 function uploadFile(file,path,filename){
 

@@ -282,6 +282,13 @@
 
     function fillNFs(){
 
+        const fat = getFat()
+        let finan = ''
+        for(let i=0; i<fat.length; i++){
+            finan += `\\\Pgto ${fat[i].parcela}-${fat.length} Venc.${fat[i].dia} Valor R$${fat[i].valor}\n`
+        } 
+        finan += '\\\**Tributado pelo ANEXO III Simples Nacional'
+
 // Reg20Item
         pageData.NFs.setTagValue('NumRps',Number(pageScreen.querySelector('#numNFS').value)-Number(pageScreen.querySelector('#DefRPS').value),1)
         pageData.NFs.setTagValue('DtEmi',pageData.NFs.date)
@@ -289,7 +296,7 @@
         pageData.NFs.setTagValue('DiscrSrv',pageScreen.querySelector('#DiscrSrv').value)
         pageData.NFs.setTagValue('VlNFS',pageScreen.querySelector('#VlNFS').value,1)
         pageData.NFs.setTagValue('VlDed',pageScreen.querySelector('#cmbRetFont').value=='SIM' ? (Number(pageScreen.querySelector('#VlNFS').value) * Number(pageScreen.querySelector('#AlqIssSN_IP').value) / 100 ): 0,1)
-        pageData.NFs.setTagValue('DiscrDed',pageScreen.querySelector('#DiscrDed').value)        
+        pageData.NFs.setTagValue('DiscrDed',pageScreen.querySelector('#DiscrDed').value +finan)        
         pageData.NFs.setTagValue('VlBasCalc',pageScreen.querySelector('#VlNFS').value,1)
         pageData.NFs.setTagValue('AlqIss',pageScreen.querySelector('#AlqIssSN_IP').value,1)
         pageData.NFs.setTagValue('VlIss',Number(pageScreen.querySelector('#VlNFS').value) * (Number(pageScreen.querySelector('#AlqIssSN_IP').value) / 100) ,1)
@@ -321,6 +328,15 @@
         saveFile(pageData.NFs.rules,nf_file)
     }
 
+    function uploadNfsXML(xml, filename){
+
+        saveFile(xml,path=`/../../NF/NFs/xml/${filename}.xml`).then(()=>{
+            alert('XML da NFs exportado com sucesso!!')
+            listNF('../NF/NFs/xml','xml')
+            document.querySelector('#tab-export').click()
+        })
+    }
+
     function downloadFile(path){
         const link = document.createElement("a")
         link.download = path.split('/')[path.split('/').length-1]
@@ -331,12 +347,11 @@
         delete link
     }
 
-    function addCliente(obj){
+    function addCliente(obj){        
         const field_path = pageScreen.querySelector('#cliente').getAttribute('path')
         for(const key in obj){
             const field = pageScreen.querySelector(`#cliente`).querySelector(`#${key}`)
             if(field != undefined){
-
                 pageData.NFs.setTagValue(key,obj[key])
                 field.value =  obj[key]
                 try{
@@ -353,19 +368,14 @@
     })
 
     pageScreen.querySelector('#brnGeraNFs').addEventListener('click',()=>{
-//        getForms(pageData.CONF,'20')
-//        saveFile(JSON.stringify(pageData.CONF),'/../config/data.json')
         fillNFs()
-
+        getForms(pageData.CONF,'fatura')
+        saveFile(JSON.stringify(pageData.CONF),'/../config/data.json')
 //        saveNFs()
-
         const xml = pageData.NFs.viewXML()
         const filename = 'NFs-'+(pageScreen.querySelector('#numNFS').value).padStart(6,'0')
-console.log(xml)
-console.log(filename)        
-//        uploadNfsXML(xml, filename) 
-//        pageScreen.querySelector('#tab-export').click()
-
+        uploadNfsXML(xml, filename) 
+        pageScreen.querySelector('#tab-export').click()
     })
 
     pageScreen.querySelector('#xmlFiles').addEventListener('dblclick',()=>{
@@ -417,6 +427,7 @@ console.log(filename)
                     addCliente(data)          
                     serv.innerHTML = `CARRO:${data.num_carro}\n` + data.obs +'\n'
                     pageScreen.querySelector('#VlNFS').value = data.valor
+                    pageScreen.querySelector('#DiscrDed').value = `Serviço aprovado conforme Pedido: ${data.pedido} \n` 
                 }else if (confirm(`Adicionar o carro ${data.num_carro} a NFs atual?`)){
                     serv.innerHTML += `\nCARRO:${data.num_carro}\n` + data.obs +'\n'
                     pageScreen.querySelector('#VlNFS').value =  (parseFloat(pageScreen.querySelector('#VlNFS').value)+parseFloat(data.valor)).toFixed(2)
@@ -447,6 +458,25 @@ console.log(filename)
     })
 
     function getFat(){
+        const fat = getDays()
+        let Vfat = Number(pageScreen.querySelector('#VlNFS').value)
+        let parc = (Vfat/fat.length).toFixed(2)
+        let out = []
+        for(let i=0; i<fat.length; i++){
+            const obj = new Object
+            const day = new Date()
+            day.change(parseInt(fat[i]))
+            obj.parcela = i+1
+            obj.data = day.getFormatDate()
+            obj.dia = day.getFormatBR()
+            obj.valor = i<fat.length-1?parc:Vfat.toFixed(2)
+            out.push(obj)
+            Vfat -= Number(parc)
+        }        
+        return out
+    }
+
+    function getDays(){
         const fat = pageScreen.querySelector('#fatura').querySelector('#dfat').value.split('/')
         
         for(let i=fat.length-1; i>=0; i--){
@@ -458,19 +488,15 @@ console.log(filename)
         return fat
     }
 
-    pageScreen.querySelector('#btnCalendar').addEventListener('click',()=>{
+    pageScreen.querySelector('#btnCalendar').addEventListener('click',()=>{  
         const fat = getFat()
-        let Vfat = Number(pageScreen.querySelector('#VlNFS').value)
-        let parc = (Vfat/fat.length).toFixed(2)
-
         let out = ''
         for(let i=0; i<fat.length; i++){
-            const day = new Date()
-            day.change(parseInt(fat[i]))
-            out += `Parcela ${i+1} - ${day.getFormatBR()} -> R$${i<fat.length-1?parc:Vfat.toFixed(2)}\n`
-            Vfat -= Number(parc)
-        }        
+            out += `Parcela ${fat[i].parcela} - ${fat[i].dia} -> R$${fat[i].valor}\n`
+        } 
         alert(out)
     })   
+
+
 
 </script>
