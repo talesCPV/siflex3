@@ -63,7 +63,6 @@
 
     pageFunc.createTree = (path='')=>{
         path = path.split('/')
-console.log(path)        
         const tree = pageScreen.querySelector('#nfs-itens')
         tree.innerHTML = ''
         getTagItem(tree,pageData.nfs_rules)
