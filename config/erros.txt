@@ -1,9 +1,6 @@
-1	Aviso	10	Mês Informado (2) inválido. Precisa estar contido no período (19/01/2026-19/01/2026)
-2	Aviso	20	Necessário Informar o Código CTN
-2	Aviso	20	Necessário Informar o Código NBS
-2	Aviso	20	Contribuinte do Simples Nacional. Necessário Informar o Código CNAE
-2	Aviso	20	Contribuinte do Simples Nacional. Necessário Informar o Número do Anexo
-2	Aviso	90	O valor total dos Tributos (855,50) do registro 90 não corresponde ao total de valor dos tributos informado nos registros 30 (0,00).
+4   Aviso	20	Reg40 - Sigla (SRV_NBS) # Necessário Informar o Conteúdo.
+4	Aviso	90	O valor total dos Tributos (425,00) do registro 90 não corresponde ao total de valor dos tributos informado nos registros 30 (0,00).
+4	Aviso	90	A Quantidade de Reg40 () no Registro 90 não Corresponde a Quantidade Lida nos Registros 40 (2).
 
 <CodSrv>NN.NN.NN</CodSrv> (Até 10 caracteres, conforme estrutura definida pela prefeitura)
 Código do Serviço

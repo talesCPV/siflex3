@@ -1,0 +1,74 @@
+<Sdt_ProcessarpsIns>
+    <Login>
+        <CodigoUsuario>609612c6-c072-4818-8e89-5490482d7f8545av18ap9305acac000-ed12-o1i</CodigoUsuario>
+        <CodigoContribuinte>54e52fdb-c30b-4236-9565-b9ef226086f012av10ap0050acac398-ed15-o4i</CodigoContribuinte>
+    </Login>
+    <SDTRPS>
+        <Ano>2026</Ano>
+        <Mes>2</Mes>
+        <CPFCNPJ>00519547000106</CPFCNPJ>
+        <DTIni>06/02/2026</DTIni>
+        <DTFin>06/02/2026</DTFin>
+        <TipoTrib>4</TipoTrib>
+        <DtAdeSN />
+        <AlqIssSN_IP />
+        <RegApTribSN />
+        <TribTpSusp />
+        <TribProcSusp />
+        <Versao>4.00</Versao>
+        <Reg20>
+            <Reg20Item>
+                <TipoNFS>RPS</TipoNFS>
+                <NumRps>1011,00</NumRps>
+                <SerRps />
+                <DtEmi>06/02/2026</DtEmi>
+                <RetFonte>NAO</RetFonte>
+                <CodSrv>14.01</CodSrv>
+                <DiscrSrv>
+                    CARRO:61542 04 TROCA DE SANFONA INTERNA BRT REMANUFATURADA R$ 2.185,00 CADA INCLUSO PINTURA E MÃO DE OBRA
+                </DiscrSrv>
+                <VlNFS>8740,00</VlNFS>
+                <VlDed>0,00</VlDed>
+                <DiscrDed>
+                    Serviço aprovado conforme Pedido: \Pgto 1-1 Venc.06/03/2026 Valor R$8740.00 \**Tributado pelo ANEXO III Simples Nacional
+                </DiscrDed>
+                <VlBasCalc>8740,00</VlBasCalc>
+                <AlqIss>0,00</AlqIss>
+                <VlIss>0,00</VlIss>
+                <VlIssRet>0,00</VlIssRet>
+                <CpfCnpTom>32238981000104</CpfCnpTom>
+                <RazSocTom>VIACAO GRAJAU S A</RazSocTom>
+                <TipoLogtom />
+                <LogTom>R ELISIA GONCALVES BARSELOS</LogTom>
+                <NumEndTom>93</NumEndTom>
+                <ComplEndTom />
+                <BairroTom>VILA BRASILIA (ZONA SUL)</BairroTom>
+                <MunTom>SÃO PAULO</MunTom>
+                <SiglaUFTom>SP</SiglaUFTom>
+                <CepTom>04.845-280</CepTom>
+                <Telefone>(11)2545-2959</Telefone>
+                <InscricaoMunicipal />
+                <TipoLogLocPre />
+                <LogLocPre>R ELISIA GONCALVES BARSELOS</LogLocPre>
+                <NumEndLocPre>93</NumEndLocPre>
+                <ComplEndLocPre />
+                <BairroLocPre>VILA BRASILIA (ZONA SUL)</BairroLocPre>
+                <MunLocPre>SÃO PAULO</MunLocPre>
+                <SiglaUFLocpre>SP</SiglaUFLocpre>
+                <CepLocPre>04.845-280</CepLocPre>
+                <Email1 />
+                <Email2 />
+                <Email3 />
+            </Reg20Item>
+        </Reg20>
+        <Reg90>
+            <QtdRegNormal />
+            <ValorNFS>8740,00</ValorNFS>
+            <ValorISS>0,00</ValorISS>
+            <ValorDed>0,00</ValorDed>
+            <ValorIssRetTom>0,00</ValorIssRetTom>
+            <QtdReg30>0</QtdReg30>
+            <ValorTributos>0,00</ValorTributos>
+        </Reg90>
+    </SDTRPS>
+</Sdt_ProcessarpsIns>

@@ -23,3 +23,6 @@
 04/02/2026 18:59 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$1438.51 dia 2026-02-25
 04/02/2026 19:12 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$250 dia 2026-02-04
 05/02/2026 18:33 tales@flexibus.com.br : Empresa Editada undefined -> VALE S.A.
+06/02/2026 15:22 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$1877.5 dia 2026-02-05
+06/02/2026 15:23 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$317.17 dia 2026-02-10
+06/02/2026 15:25 tales@flexibus.com.br : Contas A Pagar Deletada CONTA DE AGUA NÂ° 2.220, Valor 304.94, Venc. dia 2028-10-12

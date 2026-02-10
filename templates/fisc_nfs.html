@@ -289,8 +289,12 @@
         } 
         finan += '\\\**Tributado pelo ANEXO III Simples Nacional'
 
+// SDTRPS
+        pageData.NFs.setTagValue('AlqIssSN_IP',Number(pageScreen.querySelector('#AlqIssSN_IP').value).toFixed(2))
+
+        
 // Reg20Item
-        pageData.NFs.setTagValue('NumRps',Number(pageScreen.querySelector('#numNFS').value)-Number(pageScreen.querySelector('#DefRPS').value),1)
+        pageData.NFs.setTagValue('NumRps',Number(pageScreen.querySelector('#numNFS').value)-Number(pageScreen.querySelector('#DefRPS').value))
         pageData.NFs.setTagValue('DtEmi',pageData.NFs.date)
         pageData.NFs.setTagValue('RetFonte',pageScreen.querySelector('#cmbRetFont').value)
         pageData.NFs.setTagValue('DiscrSrv',pageScreen.querySelector('#DiscrSrv').value)
@@ -304,6 +308,9 @@
 
         const noCliente = pageScreen.querySelector('#cmbLocal').value == 'TOM'
 
+        pageData.NFs.setTagValue('CepTom', getNum(pageData.NFs.getTagValue('CepTom')))
+
+
         pageData.NFs.setTagValue('TipoLogLocPre', noCliente ? pageData.NFs.getTagValue('TipoLogtom') : '' )
         pageData.NFs.setTagValue('LogLocPre', noCliente ? pageData.NFs.getTagValue('LogTom') : pageScreen.querySelector('#LogPre').value )
         pageData.NFs.setTagValue('NumEndLocPre', noCliente ? pageData.NFs.getTagValue('NumEndTom') : pageScreen.querySelector('#NumEndPre').value )
@@ -313,12 +320,16 @@
         pageData.NFs.setTagValue('SiglaUFLocpre', noCliente ? pageData.NFs.getTagValue('SiglaUFTom') : pageScreen.querySelector('#SiglaUFPre').value )
         pageData.NFs.setTagValue('CepLocPre', noCliente ? pageData.NFs.getTagValue('CepTom') : pageScreen.querySelector('#CepPre').value )
 
+
+// Reg30
+        pageData.NFs.setTagValue('TributoValor',pageData.NFs.getTagValue('VlIss'))
+
 // Reg90
         pageData.NFs.setTagValue('ValorNFS',pageData.NFs.getTagValue('VlNFS'))
         pageData.NFs.setTagValue('ValorISS',pageData.NFs.getTagValue('VlIss'))
         pageData.NFs.setTagValue('ValorDed',pageData.NFs.getTagValue('VlDed'))
         pageData.NFs.setTagValue('ValorIssRetTom',pageData.NFs.getTagValue('VlIssRet'))
-        pageData.NFs.setTagValue('ValorTributos',pageData.NFs.getTagValue('VlIss'))
+        pageData.NFs.setTagValue('ValorTributos',0,1)
         
         pageData.NFs.viewXML()
 
