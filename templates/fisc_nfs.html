@@ -285,9 +285,9 @@
         const fat = getFat()
         let finan = ''
         for(let i=0; i<fat.length; i++){
-            finan += `\\\Pgto ${fat[i].parcela}-${fat.length} Venc.${fat[i].dia} Valor R$${fat[i].valor}\n`
+            finan += `\\Pgto ${fat[i].parcela}-${fat.length} Venc.${fat[i].dia} Valor R$${fat[i].valor}\n`
         } 
-        finan += '\\\**Tributado pelo ANEXO III Simples Nacional'
+        finan += '\\**Tributado pelo ANEXO III Simples Nacional'
 
 // SDTRPS
         pageData.NFs.setTagValue('AlqIssSN_IP',Number(pageScreen.querySelector('#AlqIssSN_IP').value).toFixed(2))
