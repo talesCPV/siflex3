@@ -109,11 +109,11 @@
 
         let out = ''
 
-        out += `${situacao.options[situacao.selectedIndex].text}\n`
-        out += Number(latdir) ? `Troca de ${latdir} Laterais Direitas\n` : ''
-        out += Number(latesq) ?`Troca de ${latesq} Laterais Esquerdas\n` : ''
-        out += Number(teto) ? `Troca de ${teto} Tetos\n` : ''
-        out += Number(teto) ? `Troca de :${teto} Zipers\n` : ''
+        out += `${situacao.options[situacao.selectedIndex].text}\n\n`
+        out += Number(latdir) ? `Troca de ${latdir} ${latdir=='1' ? 'Lateral' : 'Laterais'}  Direita\n` : ''
+        out += Number(latesq) ?`Troca de ${latesq} ${latesq=='1' ? 'Lateral' : 'Laterais'} Esquerda\n` : ''
+        out += Number(teto) ? `Troca de ${teto} ${teto=='1' ? 'Teto' : 'Tetos'}\n` : ''
+        out += Number(ziper) ? `Troca de ${ziper} ${ziper=='1' ? 'Ziper' : 'Zipers'}\n` : ''
         out += chao ? 'Troca do Chão\n' : ''
         out += haste ? 'Troca da Haste do Pórtico\n' : ''
         out += obs.trim().length ? `\nObs:${obs}` : ''
