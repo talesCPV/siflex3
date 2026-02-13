@@ -66,6 +66,11 @@
         "ANA-0" => 'CALL sp_view_analise_frota(@access,@hash,"x00","x01","x02","x03","x04","x05");', // FIELD,SIGNAL, VALUE, EXEC, DT_INI, DT_FIN
         "ANA-1" => 'CALL sp_set_analise_frota(@access, @hash, x00, x01,"x02","x03",x04,"x05","x06","x07","x08");', // ID,ID_EMP,DATA_ANALISE,NUM_CARRO,EXEC,FUNC,LOCAL,VALOR,OBS
         "ANA-2" => 'CALL sp_del_analise_frota(@access,@hash,x00);', // ID
+        "ANA-3" => 'SELECT * FROM tb_tipo_serv ORDER BY id;',
+        "ANA-4" => 'CALL sp_set_tipo_serv(@access,@hash,x00,"x01","x02");', // ID, Serviço, Valor
+
+
+
 
         /* SERVIÇO EXECUTADO */
         "SERV-0" => 'CALL sp_view_serv_exec(@access,@hash,"x00","x01","x02","x03","x04");', // FIELD,SIGNAL, VALUE, DT_INI, DT_FIN

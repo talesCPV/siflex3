@@ -1,0 +1,196 @@
+<template>
+    <link rel="stylesheet" href="style/tree.css">
+    <style>
+
+    </style>
+        <fieldset>
+            <legend>Arquivos</legend>
+            <div class="inline">
+                <label for="cmbFiles">File</label>
+                <select id="cmbFiles"></select>
+                <button id="btnAdd" class="btn-round"><span class="mdi mdi-plus"></span></button>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Layout</legend>
+            <ul class="tree">
+                <li>
+                <details open>
+                    <summary id="main-summary">File</summary>
+                    <ul id="file-itens"></ul>
+                </details>
+                </li>
+            </ul>
+        </fieldset>
+
+</template>
+<script>
+    const pageData = main_data.sys_json_data.data
+    const pageFunc = main_data.sys_json_data.func
+    const pageScreen = document.querySelector('#card-sys_json_data')
+    const path_file = '/../config/data/'
+    var main_group = 0
+
+    function pageStart(){
+        showJsonFiles()
+    }
+
+    function showJsonFiles(){
+        showFiles('config/data/','','json').then((response)=>{
+            const files = JSON.parse(response)
+            const cmb = pageScreen.querySelector('#cmbFiles')
+            cmb.innerHTML = ''
+            for(let i=0; i<files.length; i++){
+                const opt =  document.createElement('option')
+                opt.value = files[i]
+                opt.innerHTML = files[i].split('.')[0]
+                cmb.appendChild(opt)
+            }
+            openJsonFile(cmb.value)
+        })
+    }
+
+    function openJsonFile(file){
+        pageScreen.querySelector('#main-summary').innerHTML = file
+        getFile(path_file+file).then((json)=>{
+            pageData.json_data = JSON.parse(json)
+            pageFunc.createTree()
+
+        })
+    }
+
+    function newObj(arr){
+        const tag = prompt('Digite o nome da Tag:')
+        if(tag){
+            const val = prompt('Digite o valor:')
+            if(val){
+                const obj = new Object
+                obj[tag] = val
+                arr.push(obj)
+                saveRules()
+//                saveFile('[]',`${path_file}${filename}.json`)
+                showJsonFiles()
+            
+            }
+        }    
+    }
+
+    function newArr(arr){
+        arr.push([])
+    }
+
+    pageScreen.querySelector('#cmbFiles').addEventListener('change',()=>{
+        const file = pageScreen.querySelector('#cmbFiles').value
+        openJsonFile(file)
+    })
+
+    pageScreen.querySelector('#main-summary').addEventListener('contextmenu',(e)=>{
+        e.preventDefault()
+        const tbl = []
+
+        const obj = new Object
+        obj.label = 'Adicionar novo Objeto'
+        obj.link = ()=>{
+            newObj(pageData.json_data)
+        }
+        tbl.push(obj)
+
+        const ar = new Object
+        ar.label = 'Adicionar novo Array'
+        ar.link = ()=>{
+            newArr(pageData.json_data)
+        }
+        tbl.push(ar)
+
+        menuContext(tbl,e)          
+    })
+
+    pageFunc.createTree = (path='')=>{
+        path = path.split('/')
+        const tree = pageScreen.querySelector('#file-itens')
+        tree.innerHTML = ''
+        getTagItem(tree,pageData.json_data)
+
+        function getTagItem(div,arr){
+            
+            for(const i in arr){
+                console.log(i,typeof(arr[i]),arr[i])        
+
+                    const li_grupo = document.createElement('li')                
+                    const details_grupo = document.createElement('details')
+                    details_grupo.open = path.includes(arr[i].innerHTML) ? 1 : 0
+                    const summary_grupo = document.createElement('summary')
+                    summary_grupo.innerHTML = i
+                    arr[i].div = li_grupo
+                    
+                    details_grupo.appendChild(summary_grupo)
+                    const ul_grupo = document.createElement('ul')
+                    if(typeof(arr[i])==='object' && !(arr[i] instanceof HTMLElement)){
+                        console.log(ul_grupo,(arr[i].div))
+                        getTagItem(ul_grupo,arr[i])
+                    }else{
+                        summary_grupo.className = 'last'
+                        details_grupo.open ? summary_grupo.focus() : null
+                        summary_grupo.addEventListener('click',()=>{
+                            alert(arr[i])
+                        })
+                    }
+
+                    summary_grupo.addEventListener('contextmenu',(e)=>{
+                        e.preventDefault()
+                        const tbl = []
+                        const obj = new Object
+                        obj.label = 'Adicionar nova Tag'
+                        obj.link = ()=>{
+//                            newTag(arr[i])
+                            console.log(i,arr[i])
+                        }
+                        tbl.push(obj)
+                        menuContext(tbl,e)          
+                    })
+
+
+                    details_grupo.appendChild(ul_grupo)
+                    li_grupo.appendChild(details_grupo)
+                    div.appendChild(li_grupo)
+            }    
+        }     
+    }
+
+    pageScreen.querySelector('#btnAdd').addEventListener('click',()=>{
+        const filename = prompt('Digite o nome do Arquivo:')
+        if(filename){
+            saveFile('[]',`${path_file}${filename}.json`)
+            showJsonFiles()
+        }
+    })
+
+    pageFunc.getPath = (div)=>{
+        let out = ''
+        while(div.class != 'tree' && div.id != 'file-itens'){
+            if(div.tagName == 'LI'){
+                out = div.querySelector('summary').innerHTML+ (out!='' ?'/'+out : '')  
+            }
+            div = div.parentNode
+        }
+        return out
+    }
+
+    pageFunc.saveRules = (path,file)=>{
+        const file_rules = JSON.stringify(pageData.json_data)
+        saveFile(file_rules,path_file+file)
+        pageFunc.createTree(path)
+    }
+
+    pageFunc.bubble = (grupo,campo)=>{
+        const i = Number(campo)
+        if(i>0){
+            grupo.splice(i-1,0,new Object)
+            grupo[i-1] = grupo[i+1]
+            grupo.splice(i+1,1)
+        }
+    }
+
+    pageStart()
+
+</script>

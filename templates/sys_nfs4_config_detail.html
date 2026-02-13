@@ -126,19 +126,6 @@
         pageScreen.querySelector('#edtVal').value = ''
         pageScreen.querySelector('#edtOpt').value = ''
     }
-/*
-    function getPath(){
-        let out = ''
-        let dv = pageData.div
-        while(dv.class != 'tree' && dv.id != 'nfs-itens'){
-            if(dv.tagName == 'LI'){
-                out = dv.querySelector('summary').innerHTML+ (out!='' ?'/'+out : '')  
-            }
-            dv = dv.parentNode
-        }
-        return out
-    }
-*/
 
     pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
         if(confirm(`Deseja salvar estes valores como padrão para o este campo?`)){

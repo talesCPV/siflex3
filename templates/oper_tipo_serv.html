@@ -1,0 +1,68 @@
+<template>
+    <style> </style>
+  
+    <table id="tblTipoServ"></table>
+
+
+    <div class="inline">
+        <label for="edtTipoServ">Serviço</label>
+        <input type="text" id="edtTipoServ">
+        <label for="edtValor">Valor R$</label>
+        <input type="text" id="edtValor" inputmode="decimal" value="0" onkeyup="return valFloat(this)" style="max-width: 100px;">
+        <button id="btnSave" class="btn-round"><span class="mdi mdi-content-save-outline"></span></button> 
+    </div>
+
+</template>
+<script>
+    const pageData = main_data.oper_tipo_serv.data
+    const pageFunc = main_data.oper_tipo_serv.func
+    const pageScreen = document.querySelector('#card-oper_tipo_serv')
+
+    function startPage(){
+        viewServ()
+    }
+
+    function viewServ(){
+        const tbl = pageScreen.querySelector('#tblTipoServ')
+        tbl.innerHTML = ''
+
+        const myPromisse = queryDB({},'ANA-3');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
+            tbl.head('Serviço, Valor')
+            for(let i=0; i<json.length;i++){
+                tbl.plot(json[i],'servico,valor','Upp,R$.')
+            }   
+        })
+    }
+
+    pageFunc.setServ = (id=0, del=0)=>{
+        const params = new Object
+        params.id = id
+        params.serv = del ? '' : pageScreen.querySelector('#edtTipoServ').value
+        params.valor = pageScreen.querySelector('#edtValor').value
+
+        const myPromisse = queryDB(params,'ANA-4');
+        myPromisse.then((resolve)=>{
+            viewServ()             
+        })
+    }
+
+    pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
+        pageFunc.setServ()
+    })
+
+    pageScreen.querySelector('#tblTipoServ').addEventListener('click',(e)=>{        
+        data = e.target.parentNode.data
+        if(data != undefined){    
+            if(confirm('Deletar este serviço?')){
+                pageFunc.setServ(data.id,1)
+            }
+        }
+    })
+
+
+    startPage()
+
+</script>

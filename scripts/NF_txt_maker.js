@@ -166,19 +166,15 @@ NFe.prototype.saveRules = function(){
 
 class NFs{
     constructor(rules){        
-        const day = new Date()    
-        
+        const day = new Date()
         this.Ano = day.getFullYear()
         this.Mes = day.getMonth()+1
         this.date = day.getDate().toString().padStart(2,0)+'/'+this.Mes.toString().padStart(2,0)+'/'+this.Ano
         this.rules = rules
         this.makeXML(this.rules)
         this.formatFields()
-
-
     }
 }
-
 
 NFs.prototype.makeXML = function(arr,parent=null){
 
@@ -266,27 +262,10 @@ NFs.prototype.formatComa = function(val,dec=2){
 }
 
 NFs.prototype.formatFields  = function(){
-
     this.setTagValue('Ano',this.Ano)
     this.setTagValue('Mes',this.Mes)
     this.setTagValue('DTIni',this.date)
     this.setTagValue('DTFin',this.date)
-
-
-/*    
-    this[10].AlqIssSN_IP    = this['CONF'].AlqIssSN
-    this[20].VlNFS          = this.formatComa(this[20].VlNFS.toString())
-    this[20].VlDed          = this.formatComa(this[20].VlDed.toString())
-    this[20].VlBasCalc      = this.formatComa(this[20].VlBasCalc)
-    this[20].AlqIss         = this['CONF'].AlqIssSN
-    this[20].VlIss          = this.formatComa(this[20].VlIss)
-    this[20].VlIssRet       = this.formatComa(this[20].VlIssRet)
-    this[90].ValorNFS       = this.formatComa(this[90].ValorNFS)
-    this[90].ValorISS       = this.formatComa(this[90].ValorISS)
-    this[90].ValorDed       = this.formatComa(this[90].ValorDed)
-    this[90].ValorIssRetTom = this.formatComa(this[90].ValorIssRetTom)
-    this[90].ValTrib        = this.formatComa(this[90].ValTrib)
-*/    
 }
 
 /****** FUNÇÔES *******/
@@ -366,10 +345,6 @@ function onlyNum(V){
 
 function onlyAlpha(V){    
     return V.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-}
-
-function dateBR(DT){
-    return DT.substring(8,10)+'/'+DT.substring(5,7)+'/'+DT.substring(0,4)
 }
 
 function IBGE_cMun(C,E){

@@ -6,6 +6,12 @@
             display: none;
         }
 
+        .rigth{
+            justify-content: end;
+            display: flex;
+            margin-right: 10px;
+        }
+
     </style>
 
     <fieldset>
@@ -26,6 +32,9 @@
         <div class="inline">
             <label for="edtDetal">Detalhamento *</label>
             <textarea id="edtDetal" cols="30" rows="10"></textarea>
+        </div>
+        <div class="rigth">
+            <button id="btnDetail" class="btn-round"><span class="mdi mdi-format-list-checks"></span></button>
         </div>
         <div class="inline">
             <label for="edtTecnico">Técnico *</label>
@@ -88,6 +97,13 @@
         openHTML('busca_emp.html','pop-up','Selecione o Cliente',{'org':'oper_view_ana_frota'},600)
     })
 
+    pageScreen.querySelector('#btnDetail').addEventListener('click',()=>{
+        const data = new Object
+        data.detail = pageScreen.querySelector('#edtDetal')
+        data.valor =  pageScreen.querySelector('#edtValor')
+
+        openHTML('oper_ana_frota_detail.html','pop-up','Checklist',data,600)
+    })
 
     pageScreen.querySelector('#btnCad').addEventListener('click',()=>{
 
@@ -130,31 +146,10 @@
             })
         }        
     })
-
 /*
-
-    const params = new Object;
-        params.hash = localStorage.getItem('hash');
-        params.field = 'tipo'
-        params.signal = '='
-        params.value = 'CLI'
-
-    fillCombo('cmbCli',params,11,['id','cod_nome'],typeof main_data.viewAnaFrota.data === 'object' ? main_data.viewAnaFrota.data.id_emp :'' )
-
-    if(typeof main_data.viewAnaFrota.data === 'object'){
-        document.querySelector('#edtData').value = main_data.viewAnaFrota.data.data_analise
-        document.querySelector('#edtNumCarro').value = main_data.viewAnaFrota.data.num_carro
-        document.querySelector('#edtTecnico').value = main_data.viewAnaFrota.data.func
-        document.querySelector('#cmbLocal').value = main_data.viewAnaFrota.data.local
-        document.querySelector('#edtValor').value = parseFloat(main_data.viewAnaFrota.data.valor).toFixed(2)
-        document.querySelector('#edtDetal').value = main_data.viewAnaFrota.data.obs
-        document.querySelector('#cmbExe').value = main_data.viewAnaFrota.data.exec
-        document.querySelector('#btnDel').style.display = 'block'
-        document.querySelector('#btnCad').innerHTML = 'Salvar'     
+    pageFunc.loadData = (detail='',valor=0)=>{
+        pageScreen.querySelector('#edtDetal').value = detail
+        pageScreen.querySelector('#edtValor').value = valor
     }
-
-
-
 */
-
 </script>

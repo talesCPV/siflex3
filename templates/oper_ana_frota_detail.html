@@ -1,0 +1,130 @@
+
+<template>
+    <style>
+
+
+        #btnDel{
+            display: none;
+        }
+
+        .center{
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        .rigth{
+            justify-content: end;
+            display: flex;
+            margin-right: 10px;
+        }
+
+    </style>
+
+    <fieldset>
+        <legend>Marque as opções desejadas</legend>
+
+        <div class="inline">
+            <label for="cmbSitua">Situação</label>
+            <select id="cmbSitua"></select>           
+        </div>
+        <div class="inline">
+            <label for="edtLatDir">Lat. Direita</label>
+            <input type="text" id="edtLatDir" inputmode="numeric" value="0" onkeyup="return valFloat(this)">           
+        </div>
+        <div class="inline">
+            <label for="edtLatEsq">Lat. Esquerda</label>
+            <input type="text" id="edtLatEsq" inputmode="numeric" value="0" onkeyup="return valFloat(this)">           
+        </div>
+        <div class="inline">
+            <label for="edtTeto">Teto</label>
+            <input type="text" id="edtTeto" inputmode="numeric" value="0" onkeyup="return valFloat(this)">           
+        </div>
+        <div class="center">
+            <label for="ckbHaste">Troca de Haste</label>
+            <input type="checkbox" id="ckbHaste">
+        </div>
+        <div class="inline">
+            <label for="edtZiper">Ziper</label>
+            <input type="text" id="edtZiper" inputmode="numeric" value="0" onkeyup="return valFloat(this)">           
+        </div>
+        <div class="center">
+            <label for="ckbChao">Troca de Chão</label>
+            <input type="checkbox" id="ckbChao">
+        </div>
+
+        <div class="inline">
+            <label for="edtObs">Obs:</label>
+            <textarea id="edtObs" cols="30" rows="10"></textarea>
+        </div>
+      
+        <div class="line">
+            <button id="btnOk">Ok</button>
+        </div>
+
+    </fieldset>
+
+
+</template>
+<script>
+
+    const pageData = main_data.oper_ana_frota_detail.data
+    const pageFunc = main_data.oper_ana_frota_detail.func
+    const pageScreen = document.querySelector('#card-oper_ana_frota_detail')
+
+    function startPage(){
+        fillServ()
+    }
+
+
+    function fillServ(){
+
+        const sel = pageScreen.querySelector("#cmbSitua")
+        sel.innerHTML = ''
+
+        const myPromisse = queryDB({},'ANA-3');
+            myPromisse.then((resolve)=>{
+                const json = JSON.parse(resolve)
+                for(let i=0; i<json.length; i++){
+                    const opt = document.createElement('option')
+                    opt.value = json[i].valor
+                    opt.innerHTML = json[i].servico.toUpperCase()
+                    sel.appendChild(opt)
+                }
+            })
+    }
+
+    pageScreen.querySelector('#btnOk').addEventListener('click',()=>{
+        const situacao = pageScreen.querySelector('#cmbSitua')
+        const latdir = pageScreen.querySelector('#edtLatDir').value
+        const latesq = pageScreen.querySelector('#edtLatEsq').value
+        const teto = pageScreen.querySelector('#edtTeto').value
+        const chao = pageScreen.querySelector('#ckbChao').checked
+        const haste = pageScreen.querySelector('#ckbHaste').checked
+        const ziper = pageScreen.querySelector('#edtZiper').value
+        const obs = pageScreen.querySelector('#edtObs').value
+
+
+        
+
+        let out = ''
+
+        out += `${situacao.options[situacao.selectedIndex].text}\n`
+        out += Number(latdir) ? `Troca de ${latdir} Laterais Direitas\n` : ''
+        out += Number(latesq) ?`Troca de ${latesq} Laterais Esquerdas\n` : ''
+        out += Number(teto) ? `Troca de ${teto} Tetos\n` : ''
+        out += Number(teto) ? `Troca de :${teto} Zipers\n` : ''
+        out += chao ? 'Troca do Chão\n' : ''
+        out += haste ? 'Troca da Haste do Pórtico\n' : ''
+        out += obs.trim().length ? `\nObs:${obs}` : ''
+
+        pageData.detail.value = out
+        pageData.valor.value = situacao.value
+
+        closeModal('oper_ana_frota_detail')
+    })
+
+
+    startPage()
+
+</script>

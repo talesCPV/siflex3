@@ -2285,3 +2285,29 @@ DELIMITER ;
 
 /* FIM BOLETOS */
 
+
+ DROP PROCEDURE sp_set_tipo_serv;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_tipo_serv(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Iid int(11),
+		IN Iservico varchar(70),
+		IN Ivalor double
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN	
+			IF(Iid = 0)THEN
+				INSERT INTO tb_tipo_serv (servico,valor) VALUES (Iservico,Ivalor);
+            ELSE
+				IF(Iservico="")THEN
+					DELETE FROM tb_tipo_serv WHERE id=Iid;
+                ELSE
+					UPDATE tb_tipo_serv SET servico=Iservico, valor=Ivalor;
+                END IF;
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;
+

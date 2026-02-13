@@ -394,3 +394,11 @@ CREATE TABLE tb_boletos (
     quitado boolean DEFAULT 0,
     PRIMARY KEY (cod_pgto)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+ DROP TABLE tb_tipo_serv;
+CREATE TABLE tb_tipo_serv (
+	id int(11) NOT NULL AUTO_INCREMENT,
+    servico varchar(70) NOT NULL,
+    valor double NOT NULL DEFAULT 0,
+    PRIMARY KEY (id)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;

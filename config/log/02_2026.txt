@@ -26,3 +26,7 @@
 06/02/2026 15:22 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$1877.5 dia 2026-02-05
 06/02/2026 15:23 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$317.17 dia 2026-02-10
 06/02/2026 15:25 tales@flexibus.com.br : Contas A Pagar Deletada CONTA DE AGUA NÂ° 2.220, Valor 304.94, Venc. dia 2028-10-12
+11/02/2026 15:19 tales@flexibus.com.br : Menu Incluido (Json Data)
+11/02/2026 15:22 tales@flexibus.com.br : Menu Alterado (Json Data, sys_json_data.html, pop-up, Dados Complementares)
+13/02/2026 14:08 tales@flexibus.com.br : Menu Incluido (Tipo de Servico)
+13/02/2026 14:10 tales@flexibus.com.br : Menu Alterado (Tipo de Servico, oper_tipo_serv.html, pop-up, Tipo de Servicos executados)
