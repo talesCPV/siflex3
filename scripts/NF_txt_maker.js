@@ -211,6 +211,18 @@ NFs.prototype.viewXML = function(){
     return xmlString;
 }
 
+NFs.prototype.getCobranca = function(){
+    const cob = new Object
+    cob.CNPJ = this.getTagValue('CpfCnpTom')
+    cob.cliente = this.getTagValue('RazSocTom')
+    cob.data = this.getTagValue('DTIni')
+    cob.nf = this.getTagValue('NumRps')
+    cob.parcelas = []
+    cob.tipo = 'NFs'
+    cob.valor = this.getTagValue('ValorNFS')
+    return cob
+}
+
 NFs.prototype.getRule = function(path){
     let arr = this.rules
     path = path.split('/')

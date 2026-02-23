@@ -1,0 +1,51 @@
+<template>
+    <style>
+        th,td{
+            text-align: center;
+        }    
+    </style>
+  
+    <fieldset>
+        <legend>Arquivos</legend>
+        <table id="tblCob"></table>
+
+    </fieldset>
+
+
+
+
+
+
+</template>
+<script>
+    const pageData = main_data.fin_cobrancas.data
+    const pageFunc = main_data.fin_cobrancas.func
+    const pageScreen = document.querySelector('#card-fin_cobrancas')
+
+    function startPage(){
+
+        getFile('/../../NF/cobranca.json').then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const tbl = pageScreen.querySelector('#tblCob')
+            tbl.head('Registro,NF,Cliente,Valor,Parc.')
+            for(let i=0; i<json.length; i++){
+                tbl.plot(json[i],`data,${json[i].tipo} ${json[i].nf},cliente,valor,${json[i].parcelas.length}`,'dat,let,Upp,R$.,let')              
+            }
+        })
+
+
+    }
+
+
+    pageScreen.querySelector('#tblCob').addEventListener('click',(e)=>{
+
+        const data = e.target.parentNode.data
+        console.log(data)
+        data != undefined ? openHTML('fin_cob_detail.html','pop-up','Detalhe da Cobrança', data) : null
+    })
+
+
+    
+    startPage()
+
+</script>

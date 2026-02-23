@@ -163,7 +163,7 @@
                 let div = day.overday(-1 * day.getDay()).substr(8,2)+'/'+day.overday(-1 * day.getDay()).substr(5,2)
 
                 if(pageScreen.querySelector('#rbtMes').checked){
-                    div = meses[Number(json[i].venc.substr(5,2))]
+                    div = meses[Number(json[i].venc.substr(5,2))-1]
                 }
 
                 if(!pageData.entsai.some(A => A[0] === div) ){  

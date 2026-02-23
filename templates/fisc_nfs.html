@@ -373,6 +373,35 @@
         pageScreen.querySelector('#tab-cliente').click()
     }
 
+    function addCobranca(){
+        const cob = pageData.NFs.getCobranca()
+console.log(cob)        
+        cob.nf = pageScreen.querySelector('#numNFS').value
+        cob.data = pageScreen.querySelector('#dtEmi').value
+        cob.CNPJ = getCNPJ(cob.CNPJ)
+        cob.parcelas = []
+        const fat = getFat()
+        for(let i=0; i<fat.length; i++){
+            const parc = new Object
+            parc.desc = `${cob.nf} ${fat[i].parcela}-${fat.length}`
+            parc.venc = fat[i].data
+            parc.valor = fat[i].valor
+            cob.parcelas.push(parc)
+        } 
+
+        getFile('/../../NF/cobranca.json').then((resolve)=>{
+            const json = JSON.parse(resolve)
+            json.push(cob)
+            console.log(json)
+            saveFile(json,'/../../NF/cobranca.json')
+        })
+
+
+//        console.log(cob)
+
+
+    }
+
     pageScreen.querySelector('#btnSaveEmit').addEventListener('click',()=>{
         getForms(pageData.CONF,'CONF')
         saveFile(JSON.stringify(pageData.CONF),'/../config/data.json')
@@ -386,6 +415,7 @@
         const xml = pageData.NFs.viewXML()
         const filename = 'NFs-'+(pageScreen.querySelector('#numNFS').value).padStart(6,'0')
         uploadNfsXML(xml, filename) 
+        addCobranca()
         pageScreen.querySelector('#tab-export').click()
     })
 

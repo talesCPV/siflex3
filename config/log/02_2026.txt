@@ -30,3 +30,12 @@
 11/02/2026 15:22 tales@flexibus.com.br : Menu Alterado (Json Data, sys_json_data.html, pop-up, Dados Complementares)
 13/02/2026 14:08 tales@flexibus.com.br : Menu Incluido (Tipo de Servico)
 13/02/2026 14:10 tales@flexibus.com.br : Menu Alterado (Tipo de Servico, oper_tipo_serv.html, pop-up, Tipo de Servicos executados)
+18/02/2026 15:04 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$86.39 dia 2026-02-18
+18/02/2026 15:04 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$8986.71 dia 2026-02-19
+18/02/2026 15:05 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$6888.8 dia 2026-02-20
+18/02/2026 15:06 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$50 dia 2026-02-18
+18/02/2026 15:07 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$50 dia 2026-02-18
+18/02/2026 15:08 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2026-02-18
+18/02/2026 15:09 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2026-02-18
+23/02/2026 14:36 tales@flexibus.com.br : Menu Incluido (Cobrancas)
+23/02/2026 14:39 tales@flexibus.com.br : Menu Alterado (Cobrancas, fin_cobrancas.html, pop-up, Cobrancas)

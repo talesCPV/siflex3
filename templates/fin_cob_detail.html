@@ -1,0 +1,38 @@
+<template>
+    <style>
+        th,td{
+            text-align: center;
+        }    
+    </style>
+  
+    <table id="tblParc"></table>
+
+
+
+
+
+
+</template>
+<script>
+    const pageData = main_data.fin_cob_detail.data
+    const pageFunc = main_data.fin_cob_detail.func
+    const pageScreen = document.querySelector('#card-fin_cob_detail')
+
+    function startPage(){
+
+        const tbl = pageScreen.querySelector('#tblParc')
+            tbl.head('Parcela,Venc.,Valor')
+            for(let i=0; i<pageData.parcelas.length; i++){
+                console.log(pageData.parcelas[i])
+                tbl.plot(pageData.parcelas[i],`desc,venc,valor`,'str,dat,R$.')         
+            }
+
+
+
+    }
+
+
+    
+    startPage()
+
+</script>
