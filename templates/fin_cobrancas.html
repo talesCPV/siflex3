@@ -24,7 +24,7 @@
 
     function startPage(){
 
-        getFile('/../../NF/cobranca.json').then((resolve)=>{
+        getFile(`/../../NF/Cobrancas/cob_${today.getFullYear()}.json`).then((resolve)=>{
             const json = JSON.parse(resolve)
             const tbl = pageScreen.querySelector('#tblCob')
             tbl.head('Registro,NF,Cliente,Valor,Parc.')
@@ -41,7 +41,7 @@
 
         const data = e.target.parentNode.data
         console.log(data)
-        data != undefined ? openHTML('fin_cob_detail.html','pop-up','Detalhe da Cobrança', data) : null
+        data != undefined ? openHTML('fin_cob_detail.html','pop-up',`${data.tipo} ${data.nf}`, data) : null
     })
 
 

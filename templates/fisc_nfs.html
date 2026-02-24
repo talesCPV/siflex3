@@ -375,7 +375,6 @@
 
     function addCobranca(){
         const cob = pageData.NFs.getCobranca()
-console.log(cob)        
         cob.nf = pageScreen.querySelector('#numNFS').value
         cob.data = pageScreen.querySelector('#dtEmi').value
         cob.CNPJ = getCNPJ(cob.CNPJ)
@@ -383,22 +382,17 @@ console.log(cob)
         const fat = getFat()
         for(let i=0; i<fat.length; i++){
             const parc = new Object
-            parc.desc = `${cob.nf} ${fat[i].parcela}-${fat.length}`
+            parc.desc = `${fat[i].parcela}-${fat.length}`
             parc.venc = fat[i].data
             parc.valor = fat[i].valor
             cob.parcelas.push(parc)
         } 
 
-        getFile('/../../NF/cobranca.json').then((resolve)=>{
-            const json = JSON.parse(resolve)
+        getFile(`/../../NF/Cobrancas/cob_${today.getFullYear()}.json`).then((resolve)=>{
+            const json = JSON.parse(resolve) == null ? [] : JSON.parse(resolve)
             json.push(cob)
-            console.log(json)
-            saveFile(json,'/../../NF/cobranca.json')
+            saveFile(JSON.stringify(json),`/../../NF/Cobrancas/cob_${today.getFullYear()}.json`)
         })
-
-
-//        console.log(cob)
-
 
     }
 
