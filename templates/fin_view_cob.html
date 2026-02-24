@@ -1,0 +1,111 @@
+<template>
+    <style> </style>
+  
+    <div class="inline">
+        <label for="edtCliente">Cliente</label>
+        <input type="text" id="edtCliente" readonly>
+        <label for="edtCNPJ">CNPJ</label>
+        <input type="text" id="edtCNPJ" readonly style="max-width: 320px;">
+        <button id="btnCliente" class="btn-round"><span class="mdi mdi-magnify"></span>
+    </div>
+
+    <div class="inline">
+        <label for="edtData">Data</label>
+        <input type="date" id="edtData" style="max-width: 150px;">
+        <label for="edtNF">NF</label>
+        <input type="text" id="edtNF" onkeyup="valInt(this)" style="max-width: 150px;">
+
+        <label for="cmbTipo">Tipo NF</label>
+        <select id="cmbTipo">
+            <option value="NFs">NF de Serviço</option>
+            <option value="NFe">NF de Venda</option>
+        </select>
+    </div>
+
+    <div class="inline">
+        <label for="edtValor">Valor R$</label>
+        <input type="text" id="edtValor" onkeyup="valFloat(this)">
+        <label for="dfat">Dias entre Parcelas (separar por /)</label>
+        <input type="text" id="dfat" value="28">
+    </div>
+
+    <div class="line">
+        <button id="btnNew">Cadastrar</button>
+    </div>
+
+
+</template>
+<script>
+    const pageData = main_data.fin_view_cob.data
+    const pageFunc = main_data.fin_view_cob.func
+    const pageScreen = document.querySelector('#card-fin_view_cob')
+
+    function startPage(){
+        pageScreen.querySelector('#edtData').value = today.getFormatDate()
+    }
+
+    function getFat(){
+        const fat = getDays()
+        let Vfat = Number(pageScreen.querySelector('#edtValor').value)
+        let parc = (Vfat/fat.length).toFixed(2)
+        let out = []
+        for(let i=0; i<fat.length; i++){
+            const obj = new Object
+            const day = new Date()
+            day.change(parseInt(fat[i]))
+            obj.desc = `${i+1}-${fat.length}`
+            obj.venc = day.getFormatDate()
+            obj.valor = i<fat.length-1?parc:Vfat.toFixed(2)
+            out.push(obj)
+            Vfat -= Number(parc)
+        }        
+        return out
+    }
+
+    function getDays(edt){
+        const fat = pageScreen.querySelector('#dfat').value.split('/')
+        
+        for(let i=fat.length-1; i>=0; i--){
+            fat[i] = getNum(fat[i])
+            if(fat[i] == ''){
+                fat.splice(i,1)
+            }
+        }
+        return fat
+    }
+
+    pageScreen.querySelector('#btnCliente').addEventListener('click',()=>{
+        openHTML('busca_emp.html','pop-up','Selecione o Cliente',{"org":"fin_view_cob"})
+
+    })
+
+    pageFunc.buscaEmp = (data)=>{
+        pageScreen.querySelector('#edtCliente').data = data
+        pageScreen.querySelector('#edtCliente').value = data.nome
+        pageScreen.querySelector('#edtCNPJ').value = getCNPJ(data.cnpj)
+    }
+
+    pageScreen.querySelector('#btnNew').addEventListener('click',()=>{
+        if(checkField(['edtCliente','edtNF','edtValor','edtData'])){
+            const fat = new Object
+            fat.CNPJ = pageScreen.querySelector('#edtCNPJ').value
+            fat.cliente = pageScreen.querySelector('#edtCliente').value
+            fat.data = pageScreen.querySelector('#edtData').value
+            fat.nf = pageScreen.querySelector('#edtNF').value
+            fat.parcelas = getFat()
+            fat.tipo = pageScreen.querySelector('#cmbTipo').value
+            fat.valor = pageScreen.querySelector('#edtValor').value
+
+            addArrObj(`/../../NF/Cobrancas/cob_${fat.data.substr(0,4)}.json`,fat)
+            .then((resolve)=>{
+                main_data.fin_cobrancas.func.fillCob()
+                closeModal('fin_view_cob')
+            })
+
+
+        }
+    })
+
+    startPage()
+
+</script>

@@ -197,6 +197,48 @@ function getFile(path){
     }); 
 }
 
+function addArrObj(path,obj){
+    const data = new URLSearchParams();        
+        data.append("path", path);
+        data.append("obj", JSON.stringify(obj));
+    const myRequest = new Request("backend/addArrObj.php",{
+        method : "POST",
+        body : data
+    });
+
+    return new Promise((resolve,reject) =>{
+        fetch(myRequest)
+        .then(function (response){
+            if (response.status === 200) {                 
+                resolve(response.text());                    
+            } else { 
+                reject(new Error("Houve algum erro na comunicação com o servidor"));                    
+            } 
+        });
+    }); 
+}
+
+function delArrObj(path,line){
+    const data = new URLSearchParams();        
+        data.append("path", path);
+        data.append("line", line);
+    const myRequest = new Request("backend/delArrObj.php",{
+        method : "POST",
+        body : data
+    });
+
+    return new Promise((resolve,reject) =>{
+        fetch(myRequest)
+        .then(function (response){
+            if (response.status === 200) {                 
+                resolve(response.text());                    
+            } else { 
+                reject(new Error("Houve algum erro na comunicação com o servidor"));                    
+            } 
+        });
+    }); 
+}
+
 function NFeConf(file){
     file = JSON.stringify(file)
     saveFile(file,path='/../../NF/NFe/json/NFe.json')

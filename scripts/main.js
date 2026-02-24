@@ -198,3 +198,6 @@ function loadExternalScript(src,scriptId) {
     const d2 = new Date(date2);
     return Math.round((Math.abs(d2.getTime() - d1.getTime())) / (1000 * 60 * 60 * 24))
   }
+
+/** Nota Fiscal  **/
+

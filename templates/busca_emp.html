@@ -6,6 +6,10 @@
             overflow-y: scroll;
         }
 
+        #tblBuscaEmp td, #tblBuscaEmp th{
+            text-align: start;
+        }
+
     </style>
 
     <fieldset class="fds-busca buscaEmp">
@@ -69,8 +73,8 @@
                 data = e.target.parentNode.data
                 data != undefined ?  main_data[pageData.org].func.buscaEmp(data) : null               
             }
-            closeModal('busca_emp')
        }catch{}
+       closeModal('busca_emp')
         
     })
     

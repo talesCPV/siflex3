@@ -2,9 +2,9 @@
 
 
         $out = [];
-        if (IsSet($_POST["path"]) && IsSet($_POST["obj"])){
+        if (IsSet($_POST["path"]) && IsSet($_POST["line"])){
                 $path = getcwd().$_POST["path"];
-                $obj = json_decode($_POST["obj"]);
+                $line = $_POST["line"];
 //echo $path;                
                 if (file_exists($path)) {
                         $fp = fopen($path, "r");
@@ -14,17 +14,11 @@
                         }
                         fclose($fp);
                         $out = json_decode($resp);
-                }else{
 
-                        $folder = $path;
-                        echo strlen($folder);
-                        while($folder[-1] != '/' && strlen($folder)>0 ){
-                                $folder = substr($folder, 0, -1);
-                        }
-                        mkdir($folder, 0755, true);
                 }
 
-                array_push($out,$obj);
+                unset($out[$line]);
+
                 $fp = fopen($path, "w");
                 fwrite($fp,json_encode($out));
                 fclose($fp);

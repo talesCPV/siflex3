@@ -8,6 +8,10 @@
     <fieldset>
         <legend>Arquivos</legend>
         <table id="tblCob"></table>
+        <div class="line">
+            <button id="btnAdd">Adicionar</button>
+        </div>
+
 
     </fieldset>
 
@@ -24,6 +28,11 @@
 
     function startPage(){
 
+        pageFunc.fillCob()
+
+    }
+
+    pageFunc.fillCob = ()=>{
         getFile(`/../../NF/Cobrancas/cob_${today.getFullYear()}.json`).then((resolve)=>{
             const json = JSON.parse(resolve)
             const tbl = pageScreen.querySelector('#tblCob')
@@ -32,20 +41,45 @@
                 tbl.plot(json[i],`data,${json[i].tipo} ${json[i].nf},cliente,valor,${json[i].parcelas.length}`,'dat,let,Upp,R$.,let')              
             }
         })
-
-
     }
-
 
     pageScreen.querySelector('#tblCob').addEventListener('click',(e)=>{
 
         const data = e.target.parentNode.data
         console.log(data)
-        data != undefined ? openHTML('fin_cob_detail.html','pop-up',`${data.tipo} ${data.nf}`, data) : null
+
+        const tbl = []
+
+        const detail = new Object
+        detail.label = 'Ver Detalhes'
+        detail.link = ()=>{
+            data != undefined ? openHTML('fin_cob_detail.html','pop-up',`${data.tipo} ${data.nf}`, data) : null
+        }
+        tbl.push(detail)
+
+        const del = new Object
+        del.label = 'Deletar Cobrança'
+        del.link = ()=>{
+            if(confirm('Deseja remover definitivamente este registro?')){
+                const indexline = e.target.closest('tr').rowIndex - 1
+                console.log(indexline)
+                delArrObj(`/../../NF/Cobrancas/cob_2026.json`,indexline)
+                .then(()=>{
+                    pageFunc.fillCob()
+                })
+            }
+        }
+        tbl.push(del)
+
+        menuContext(tbl,e)  
+
+
     })
 
+    pageScreen.querySelector('#btnAdd').addEventListener('click',()=>{
+        openHTML('fin_view_cob.html','pop-up','Nova Cobrança',{},800)
+    })
 
-    
     startPage()
 
 </script>

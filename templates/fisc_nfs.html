@@ -388,11 +388,7 @@
             cob.parcelas.push(parc)
         } 
 
-        getFile(`/../../NF/Cobrancas/cob_${today.getFullYear()}.json`).then((resolve)=>{
-            const json = JSON.parse(resolve) == null ? [] : JSON.parse(resolve)
-            json.push(cob)
-            saveFile(JSON.stringify(json),`/../../NF/Cobrancas/cob_${today.getFullYear()}.json`)
-        })
+        addArrObj(`/../../NF/Cobrancas/cob_${today.getFullYear()}.json`,cob)
 
     }
 
