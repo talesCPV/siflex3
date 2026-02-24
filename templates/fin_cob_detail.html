@@ -24,7 +24,7 @@
             tbl.head('Parcela,Venc.,Valor')
             for(let i=0; i<pageData.parcelas.length; i++){
                 console.log(pageData.parcelas[i])
-                tbl.plot(pageData.parcelas[i],`${i+1}-${pageData.parcelas.length},venc,valor`,'let,dat,R$.')         
+                tbl.plot(pageData.parcelas[i],`desc,venc,valor`,'str,dat,R$.')         
             }
 
 

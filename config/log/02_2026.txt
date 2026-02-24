@@ -39,3 +39,4 @@
 18/02/2026 15:09 tales@flexibus.com.br : Pagamento a FORNECEDOR SEM REGISTRO Efetuado, Valor R$25 dia 2026-02-18
 23/02/2026 14:36 tales@flexibus.com.br : Menu Incluido (Cobrancas)
 23/02/2026 14:39 tales@flexibus.com.br : Menu Alterado (Cobrancas, fin_cobrancas.html, pop-up, Cobrancas)
+24/02/2026 02:48 tales@flexibus.com.br : Alteracao de usuario, email:sec@flexibus.com.br -> sec@flexibus.com.br, acesso:5 -> 1
