@@ -50,6 +50,16 @@
         const data = e.target.parentNode.data
         const tbl = []
 
+        const arq = new Object
+        arq.label = 'Arquivos'
+        arq.link = ()=>{
+            const obj = new Object
+            obj.path = `../NF/Cobrancas/${data.tipo}_${data.nf}/`
+            obj.ext = 'pdf'
+            openHTML('sys_files.html','pop-up',`Arquivos ${data.tipo} ${data.nf}`, obj,800)
+        }
+        tbl.push(arq)
+
         const detail = new Object
         detail.label = 'Vencimentos'
         detail.link = ()=>{
@@ -75,7 +85,7 @@
         edit.label = 'Editar'
         edit.link = ()=>{
             data.indexline = e.target.closest('tr').rowIndex - 1
-            data != undefined ? openHTML('fin_view_cob.html','pop-up',`${data.tipo} ${data.nf}`, data) : null
+            data != undefined ? openHTML('fin_view_cob.html','pop-up',`${data.tipo} ${data.nf}`, data,800) : null
         }
         tbl.push(edit)
 

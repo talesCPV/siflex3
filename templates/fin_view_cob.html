@@ -52,6 +52,7 @@
             pageScreen.querySelector('#cmbTipo').value = pageData.tipo
             pageScreen.querySelector('#edtValor').value = pageData.valor
             pageScreen.querySelector('#dfat').value = pageData.fatura
+            valFloat(pageScreen.querySelector('#edtValor'))
         }
 
     }
@@ -63,8 +64,8 @@
         let out = []
         for(let i=0; i<fat.length; i++){
             const obj = new Object
-            const day = new Date()
-            day.change(parseInt(fat[i]))
+            const day = new Date(pageScreen.querySelector('#edtData').value)
+            day.change(parseInt(fat[i])+1)
             obj.desc = `${i+1}-${fat.length}`
             obj.venc = day.getFormatDate()
             obj.valor = i<fat.length-1?parc:Vfat.toFixed(2)

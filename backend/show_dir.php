@@ -2,7 +2,7 @@
 
     if (IsSet($_POST["dir"])){
         $path = getcwd().'/../'.$_POST["dir"];
-//echo $path;        
+//echo $path;
         $files = scandir($path);
         $resp = json_encode($files);
         if(IsSet($_POST["ext"]) || IsSet($_POST["filename"])){

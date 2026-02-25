@@ -1,0 +1,37 @@
+<template>
+    <style>
+        .fds-files{
+            display: flex;
+            justify-content: space-around;
+        }
+    </style>
+
+    <div id="frm-files"></div>
+    <fieldset>
+        <legend>Enviar</legend>
+        <input type="file">
+        <button>Upload</button>
+    </fieldset>
+
+
+</template>
+<script>
+    const pageData = main_data.sys_files.data
+    const pageFunc = main_data.sys_files.func
+    const pageScreen = document.querySelector('#card-sys_files')
+
+    function startPage(){
+        console.log(pageData)
+
+        showFiles(pageData.path).then((resolve)=>{
+            console.log(resolve)
+        })
+
+
+    }
+
+
+    
+    startPage()
+
+</script>
