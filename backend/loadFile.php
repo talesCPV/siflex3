@@ -15,6 +15,15 @@
 //echo $resp;          
           $out = json_decode($resp);
       }else{
+
+        $folder = $path;
+//        echo strlen($folder);
+        while($folder[-1] != '/' && strlen($folder)>0 ){
+                $folder = substr($folder, 0, -1);
+        }
+//echo $folder;        
+        mkdir($folder, 0755, true);
+
         $fp = fopen($path, "a");
         fwrite($fp,json_encode($out));
         fclose($fp);

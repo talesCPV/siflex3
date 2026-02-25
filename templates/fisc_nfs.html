@@ -379,6 +379,7 @@
         cob.data = pageScreen.querySelector('#dtEmi').value
         cob.CNPJ = getCNPJ(cob.CNPJ)
         cob.parcelas = []
+        cob.fatura = pageScreen.querySelector('#dfat').value
         const fat = getFat()
         for(let i=0; i<fat.length; i++){
             const parc = new Object

@@ -1,17 +1,7 @@
 <template>
     <style> </style>
-  
-    <div class="inline">
-        <label for="edtCliente">Cliente</label>
-        <input type="text" id="edtCliente" readonly>
-        <label for="edtCNPJ">CNPJ</label>
-        <input type="text" id="edtCNPJ" readonly style="max-width: 320px;">
-        <button id="btnCliente" class="btn-round"><span class="mdi mdi-magnify"></span>
-    </div>
 
     <div class="inline">
-        <label for="edtData">Data</label>
-        <input type="date" id="edtData" style="max-width: 150px;">
         <label for="edtNF">NF</label>
         <input type="text" id="edtNF" onkeyup="valInt(this)" style="max-width: 150px;">
 
@@ -20,6 +10,16 @@
             <option value="NFs">NF de Serviço</option>
             <option value="NFe">NF de Venda</option>
         </select>
+        <label for="edtData">Data</label>
+        <input type="date" id="edtData" style="max-width: 150px;">
+    </div>
+
+    <div class="inline">
+        <label for="edtCliente">Cliente</label>
+        <input type="text" id="edtCliente" readonly>
+        <label for="edtCNPJ">CNPJ</label>
+        <input type="text" id="edtCNPJ" readonly style="max-width: 320px;">
+        <button id="btnCliente" class="btn-round"><span class="mdi mdi-magnify"></span>
     </div>
 
     <div class="inline">
@@ -30,7 +30,7 @@
     </div>
 
     <div class="line">
-        <button id="btnNew">Cadastrar</button>
+        <button id="btnSave">Salvar</button>
     </div>
 
 
@@ -39,9 +39,21 @@
     const pageData = main_data.fin_view_cob.data
     const pageFunc = main_data.fin_view_cob.func
     const pageScreen = document.querySelector('#card-fin_view_cob')
+    const newReg = Object.keys(pageData).length ? 0 : 1
 
     function startPage(){
-        pageScreen.querySelector('#edtData').value = today.getFormatDate()
+        if(newReg){
+            pageScreen.querySelector('#edtData').value = today.getFormatDate()
+        }else{
+            pageScreen.querySelector('#edtCliente').value = pageData.cliente
+            pageScreen.querySelector('#edtCNPJ').value = pageData.CNPJ
+            pageScreen.querySelector('#edtData').value = pageData.data
+            pageScreen.querySelector('#edtNF').value = pageData.nf
+            pageScreen.querySelector('#cmbTipo').value = pageData.tipo
+            pageScreen.querySelector('#edtValor').value = pageData.valor
+            pageScreen.querySelector('#dfat').value = pageData.fatura
+        }
+
     }
 
     function getFat(){
@@ -85,7 +97,7 @@
         pageScreen.querySelector('#edtCNPJ').value = getCNPJ(data.cnpj)
     }
 
-    pageScreen.querySelector('#btnNew').addEventListener('click',()=>{
+    pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
         if(checkField(['edtCliente','edtNF','edtValor','edtData'])){
             const fat = new Object
             fat.CNPJ = pageScreen.querySelector('#edtCNPJ').value
@@ -95,12 +107,22 @@
             fat.parcelas = getFat()
             fat.tipo = pageScreen.querySelector('#cmbTipo').value
             fat.valor = pageScreen.querySelector('#edtValor').value
+            fat.fatura = pageScreen.querySelector('#dfat').value
 
-            addArrObj(`/../../NF/Cobrancas/cob_${fat.data.substr(0,4)}.json`,fat)
-            .then((resolve)=>{
-                main_data.fin_cobrancas.func.fillCob()
-                closeModal('fin_view_cob')
-            })
+            if(newReg){
+                addArrObj(`/../../NF/Cobrancas/cob_${fat.data.substr(0,4)}.json`,fat)
+                .then((resolve)=>{
+                    main_data.fin_cobrancas.func.fillCob()
+                    closeModal('fin_view_cob')
+                })
+            }else{
+                edtArrObj(`/../../NF/Cobrancas/cob_${fat.data.substr(0,4)}.json`,pageData.indexline,fat)
+                .then((resolve)=>{
+                    main_data.fin_cobrancas.func.fillCob()
+                    closeModal('fin_view_cob')
+                })
+            }
+
 
 
         }

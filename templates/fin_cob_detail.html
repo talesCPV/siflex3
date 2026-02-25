@@ -23,7 +23,7 @@
         const tbl = pageScreen.querySelector('#tblParc')
             tbl.head('Parcela,Venc.,Valor')
             for(let i=0; i<pageData.parcelas.length; i++){
-                console.log(pageData.parcelas[i])
+//                console.log(pageData.parcelas[i])
                 tbl.plot(pageData.parcelas[i],`desc,venc,valor`,'str,dat,R$.')         
             }
 

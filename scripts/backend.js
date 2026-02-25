@@ -239,6 +239,28 @@ function delArrObj(path,line){
     }); 
 }
 
+function edtArrObj(path,line,obj){
+    const data = new URLSearchParams();        
+        data.append("path", path);
+        data.append("line", line);
+        data.append("obj", JSON.stringify(obj));
+    const myRequest = new Request("backend/edtArrObj.php",{
+        method : "POST",
+        body : data
+    });
+
+    return new Promise((resolve,reject) =>{
+        fetch(myRequest)
+        .then(function (response){
+            if (response.status === 200) {                 
+                resolve(response.text());                    
+            } else { 
+                reject(new Error("Houve algum erro na comunicação com o servidor"));                    
+            } 
+        });
+    }); 
+}
+
 function NFeConf(file){
     file = JSON.stringify(file)
     saveFile(file,path='/../../NF/NFe/json/NFe.json')
