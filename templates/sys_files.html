@@ -1,17 +1,56 @@
 <template>
     <style>
-        .fds-files{
+        #frm-files{
             display: flex;
-            justify-content: space-around;
+            min-height: 100px;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
         }
+
+        #up_file{
+            display: none;
+        }
+
+        #btnUpload{
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+            align-items: center;
+            padding: 0 10px;
+        }
+
+        #btnUpload span{
+            font-size: 1.5em;
+        }
+
+        .file-box{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 120px;
+            border: solid 1px;
+            border-radius: 10px;
+            padding: 5px;
+            overflow: scroll;
+            white-space: nowrap;
+            font-size: 0.7em;
+            cursor: pointer;
+        }
+
+        .file-box img{
+            height: 100%;
+        }
+
     </style>
 
     <div id="frm-files"></div>
-    <fieldset>
-        <legend>Enviar</legend>
-        <input type="file">
-        <button>Upload</button>
-    </fieldset>
+    <div class="line">
+        <input  name="up_file" id="up_file" type="file" accept=".jpg,.jpeg,.png">
+        <button id="btnUpload"><span class="mdi mdi-content-save-outline"></span>Upload</button>
+    </div>
 
 
 </template>
@@ -21,16 +60,100 @@
     const pageScreen = document.querySelector('#card-sys_files')
 
     function startPage(){
-        console.log(pageData)
+        pageScreen.querySelector('#up_file').accept =  pageData.ext
+        fillFiles()
+    }
 
+    function fillFiles(){
         showFiles(pageData.path).then((resolve)=>{
-            console.log(resolve)
-        })
+            const json = JSON.parse(resolve)            
+            if(json){
+                const files = pageScreen.querySelector('#frm-files')
+                files.innerHTML = ''
+                for(let i=2; i<json.length; i++){
+                    const box = document.createElement('div')
+                    box.className = 'file-box'
+                    files.appendChild(box)
 
+                    const icon = document.createElement('img')
+                    icon.src = 'assets/icons/pdf.png'
+                    box.appendChild(icon)
+
+                    const label = document.createElement('label')
+                    label.innerHTML = json[i]
+                    box.appendChild(label)
+
+                    box.addEventListener('click',(e)=>{
+
+                        const tbl = []
+
+                        const open = new Object
+                        open.label = 'Abrir'
+                        open.link = ()=>{
+                            const url = window.location.href + pageData.path+ json[i]
+                            window.open(url, '_blank')
+                        }
+                        tbl.push(open)
+
+                        const del = new Object
+                        del.label = 'Deletar'
+                        del.link = ()=>{
+                            if(confirm('Deseja remover este arquivo?')){
+                                const path = '/../'+pageData.path+ json[i]
+                                delFile(path).then(()=>{
+                                    fillFiles()
+                                })
+                            }
+                        }
+                        tbl.push(del)
+
+                        menuContext(tbl,e)
+
+
+                    })
+                }
+            }else{
+                console.log('Diretorio Vazio')
+            }
+        })
 
     }
 
 
+    pageFunc.uploadFile = ()=>{
+        const up_data = new FormData()
+            up_data.append("up_file",  pageScreen.querySelector('#up_file').files[0])
+            up_data.append("path", pageData.path)
+            up_data.append("filename", '')
+
+        const myRequest = new Request("backend/upload.php",{
+            method : "POST",
+            body : up_data
+        });
+
+        return myPromisse = new Promise((resolve,reject) =>{
+            fetch(myRequest)
+            .then(function (response){
+                if (response.status === 200){
+                    resolve(response.text())
+//                    main_data[pageData.org].func.uploadCallBack(myPromisse) 
+                }else{
+                    reject(new Error("Houve algum erro na comunicação com o servidor"))
+                }                 
+                closeModal('tool_upload_file')
+            })
+        })
+    }
+
+    pageScreen.querySelector('#up_file').addEventListener('change',()=>{
+        pageFunc.uploadFile().then((resolve)=>{
+            fillFiles()
+        })
+    })
+
+    pageScreen.querySelector('#btnUpload').addEventListener('click',()=>{
+        pageScreen.querySelector('#up_file').click()
+    })
     
     startPage()
 

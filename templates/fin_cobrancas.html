@@ -55,7 +55,7 @@
         arq.link = ()=>{
             const obj = new Object
             obj.path = `../NF/Cobrancas/${data.tipo}_${data.nf}/`
-            obj.ext = 'pdf'
+            obj.ext = 'application/pdf'
             openHTML('sys_files.html','pop-up',`Arquivos ${data.tipo} ${data.nf}`, obj,800)
         }
         tbl.push(arq)
