@@ -103,7 +103,7 @@
         "FIN-3" => 'CALL sp_view_pedido(@access,@hash,"x00","x01","x02","x03","x04");',
         "FIN-4" => 'CALL sp_view_item_ped(@access,@hash,x00);', // ID_PED
         "FIN-5" => 'CALL sp_view_contas_a_pagar(@access,@hash,"x00","x01","x02","x03","x04");', // FIELD,SIGNAL, VALUE,dt_ini, dt_fin
-        "FIN-6" => 'CALL sp_set_contas_a_pagar(@access,@hash,x00,x01,"x02","x03","x04","x05","x06","x07","x08",x09);', // id,id_cli,nome,beneficiario,venc,valor,codigo_pgto,tipo,centro_custo,pago
+        "FIN-6" => 'CALL sp_set_contas_a_pagar(@access,@hash,x00,x01,"x02","x03","x04","x05","x06","x07","x08","x09");', // id,id_cli,nome,beneficiario,venc,valor,codigo_pgto,tipo,centro_custo,pago
         "FIN-7" => 'CALL sp_check_pagamento(@access,@hash,x00,x01,"x02","x03","x04");', // ID,pago,pago_dia,tipo,obs
         "FIN-8" => 'CALL sp_view_pix(@access,@hash,"x00","x01","x02");', // FIELD,SIGNAL, VALUE
         "FIN-9" => 'CALL sp_set_pix(@access,@hash,x00,"x01","x02","x03","x04",x05);', // id,nome,cidade,chave,org_ref,id_ref

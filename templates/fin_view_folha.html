@@ -39,7 +39,7 @@
         <div class="inline">
             <label for="cmbBenef">Beneficiário</label>
             <select id="cmbBenef" class="only-view" disabled>
-                <option value="TODOS" selected>Todos</option>
+                <option value="0" selected>Todos</option>
             </select>
     
         </div>
@@ -49,9 +49,10 @@
             <input type="text" class="only-view" id="edtVal" inputmode="decimal" onkeyup="valFloat(this)" disabled>
             <label for="edtVenc">Vencimento</label>
             <input type="date" class="only-view" id="edtVenc" disabled>
+            <label for="ckbQuit">Pago</label>
+            <input type="checkbox" id="ckbQuit" class="only-view" checked disabled>
         </div>
 
-        
         <div class="inline">
             <label for="edtDesc">Descrição</label>
             <input type="text" class="only-view" id="edtDesc" maxlength="128" disabled>
@@ -78,14 +79,17 @@
             openFields(1)
             pageScreen.querySelector('#btnDel').disabled = 1
             pageScreen.querySelector('#btnEdit').disabled = 1
-            pageScreen.querySelector('#edtVenc').value =  today.getFormatDate()
-            pageData.tipo = 'BOLETO'
+            pageScreen.querySelector('#edtVenc').value =  today.getFormatDate()            
+            pageData.tipo = 'DEP. BANCARIO'
+            setDescricao()
+            fillFunc()
         }else{
             pageScreen.querySelector('#edtDesc').value = pageData.nome
-            pageScreen.querySelector('#cmbBenef').value = pageData.beneficiario
+            pageScreen.querySelector("#cmbBenef").innerHTML = `<option>${pageData.beneficiario}</option>`
             pageScreen.querySelector('#edtVal').value = pageData.valor
             pageScreen.querySelector('#edtVenc').value = pageData.venc
             pageScreen.querySelector('#cmbTipoPg').value = pageData.tipo
+            pageScreen.querySelector('#ckbQuit').checked = Number(pageData.pgto) ? 1 : 0   
         }
     }
 
@@ -96,19 +100,49 @@
         }
     }
 
+    function setDescricao(){
+        const day = new Date(pageScreen.querySelector('#edtVenc').value)
+        day.change(1)
+        const cmb = pageScreen.querySelector('#cmbTipoPg')
+        pageScreen.querySelector('#edtDesc').value = `Pagamento ${cmb.value}, ${meses[day.getMonth()]} de ${day.getFullYear()}`
+    }
+
+    function fillFunc(){
+        const params = new Object;
+            params.field = 'nome'
+            params.signal = 'LIKE'
+            params.value = "'%%'"
+            params.ativo = 1
+        const myPromisse = queryDB(params,'FUN-0');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            pageData.func = json
+            const cmb = pageScreen.querySelector('#cmbBenef')
+            for(let i=0; i<json.length; i++){
+                const opt = document.createElement('option')
+                opt.value = json[i].id
+                opt.innerHTML = json[i].nome
+                opt.data = json[i]
+                cmb.appendChild(opt)
+            }            
+        })
+    }
+
  // id,id_cli,nome,beneficiario,venc,valor,codigo_pgto,tipo,centro_custo,pago
     pageFunc.setPgto = (del=0)=>{
+        var sel = pageScreen.querySelector("#cmbBenef");
+
         const params = new Object;
             params.id = newPgto ? 0 : pageData.id
             params.id_cliente = 0
             params.nome = del ? '' : pageScreen.querySelector('#edtDesc').value.trim()
-            params.beneficiario = pageScreen.querySelector('#cmbBenef').value
+            params.beneficiario = sel.options[sel.selectedIndex].text
             params.venc = pageScreen.querySelector('#edtVenc').value
             params.valor = pageScreen.querySelector('#edtVal').value
             params.cod_pgto = ''
             params.tipo = pageScreen.querySelector('#cmbTipoPg').value
             params.custo = 'MAO_DE_OBRA'
-            params.pgto = 1
+            params.pgto = pageScreen.querySelector('#ckbQuit').checked
             const myPromisse = queryDB(params,'FIN-6');
         myPromisse.then((resolve)=>{
             setLog(`Folha de Pgto. ${newPgto?'Cadastrada': del ? 'Deletada' : 'Editada'} ${del? pageData.nome : params.nome }, Valor ${params.valor}, Venc. dia ${params.venc}`)
@@ -121,6 +155,10 @@
             closeModal('fin_view_folha')
         })
     }
+
+    pageScreen.querySelector('#cmbTipoPg').addEventListener('change',()=>{
+        setDescricao()
+    })
 
     pageScreen.querySelector('#btnSave').addEventListener('click',()=>{
         pageFunc.setPgto()

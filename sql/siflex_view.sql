@@ -53,7 +53,7 @@ DROP VIEW vw_serv_exec;
         COALESCE(EMP.im,"") AS IMTom,
         COALESCE(EMP.email,"") AS EMail_1,
         COALESCE(EMP.tel,"") AS Telefone,
-        COALESCE(EMP.cnpj,"") AS CpfCnpjTom,
+        COALESCE(EMP.cnpj,"") AS CpfCnpTom,
         COALESCE(EMP.num,"") AS NumEndTom,
         COALESCE(EMP.cidade,"") AS MunTom,
         COALESCE(EMP.estado,"") AS SiglaUFTom
@@ -297,7 +297,7 @@ SELECT * FROM vw_prod;
  LEFT JOIN tb_empresa AS EMP
  ON CPG.id_cli = EMP.id;
  
- SELECT * FROM vw_contas_a_pagar;
+ SELECT * FROM vw_contas_a_pagar ORDER BY pgto;
  
  
  -- DROP VIEW IF EXISTS vw_a_receber;

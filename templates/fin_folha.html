@@ -62,7 +62,6 @@
         const myPromisse = queryDB(params,'FIN-5')
         myPromisse.then((resolve)=>{
             const json = JSON.parse(resolve)       
-console.log(json)            
             tbl.style.display = json.length > 0 ? 'inline-table' : 'none'
             tbl.head('Cedente,Ref., Venc.,Valor,Pgto')
             let tot = 0
@@ -74,6 +73,7 @@ console.log(json)
         })
     }
 
+    
     pageScreen.querySelector('#btnBusca-pgto').addEventListener('click',()=>{
         pageFunc.fillPag()
     })

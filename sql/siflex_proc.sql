@@ -1938,7 +1938,7 @@ DELIMITER $$
 	BEGIN
 		CALL sp_allow(Iallow,Ihash);
 		IF(@allow)THEN
-			SET @quer =CONCAT('SELECT * FROM vw_contas_a_pagar WHERE ',Ifield,' ',Isignal,' ',Ivalue,' AND venc BETWEEN "',Idt_ini,'" AND "',Idt_fin,'" ORDER BY venc;');
+			SET @quer =CONCAT('SELECT * FROM vw_contas_a_pagar WHERE ',Ifield,' ',Isignal,' ',Ivalue,' AND venc BETWEEN "',Idt_ini,'" AND "',Idt_fin,'" ORDER BY pgto, venc;');
 			PREPARE stmt1 FROM @quer;
 			EXECUTE stmt1;
         END IF;
@@ -1972,7 +1972,7 @@ DELIMITER $$
 					DELETE FROM tb_contas_a_pagar WHERE id=Iid;  
                 ELSE
 					UPDATE tb_contas_a_pagar SET 
-						id_cli=Iid_cli, nome=Inome, beneficiario=Ibeneficiario, venc=Ivenc, valor=Ivalor, cod_pgto=Icod_pgto, tipo=Itipo, centro_custo=Icentro_custo
+						id_cli=Iid_cli, nome=Inome, beneficiario=Ibeneficiario, venc=Ivenc, valor=Ivalor, cod_pgto=Icod_pgto, tipo=Itipo, centro_custo=Icentro_custo, pgto=Ipgto
 					WHERE id=Iid;                
                 END IF;
             END IF;
