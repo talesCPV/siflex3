@@ -402,3 +402,16 @@ CREATE TABLE tb_tipo_serv (
     valor double NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+ DROP TABLE tb_cobranca;
+CREATE TABLE tb_cobranca (
+	id int(11) unsigned NOT NULL AUTO_INCREMENT,
+    nf varchar(10) DEFAULT NULL,
+    servico boolean DEFAULT 0,
+    cliente varchar(25) NOT NULL,
+    valor double NOT NULL,
+    venc date NOT NULL,
+    pgto date DEFAULT NULL,
+    quitado boolean DEFAULT 0,
+    PRIMARY KEY (id)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
