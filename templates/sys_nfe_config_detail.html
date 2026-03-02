@@ -90,7 +90,6 @@
             pageData.rule.ocor = pageScreen.querySelector('#cmbOcor').value
             pageData.rule.dec = pageScreen.querySelector('#edtDec').value
             pageData.save(pageData.grupo)
-//            main_data.sys_nfe_config.func.saveRules(pageData.grupo)
             closeModal('sys_nfe_config_detail')
         }
     })
@@ -99,6 +98,7 @@
         const opt = new Object
         opt.val = pageScreen.querySelector('#edtVal').value
         opt.txt = pageScreen.querySelector('#edtOpt').value
+        pageData.rule.opt = !pageData.rule.hasOwnProperty('opt') ? [] : pageData.rule.opt
         pageData.rule.opt.push(opt)
         pageData.save(pageData.grupo)
         fillOpt()

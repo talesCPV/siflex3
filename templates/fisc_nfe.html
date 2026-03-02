@@ -562,6 +562,9 @@
     }
 
     function fatura(){
+
+console.log(getFat())
+
         const fat = pageScreen.querySelector('#W').querySelector('#dfat').value.split('/')
         const obj = new Object
         
@@ -611,6 +614,59 @@
             params.value = `'${UF.toUpperCase().trim()}'`
 
         return queryDB(params,'FIN-1')
+    }
+
+    function addCobranca(){
+        const cob = new Object
+        cob.CNPJ = pageScreen.querySelector('#E02').querySelector('#CNPJ').value
+        cob.cliente = pageScreen.querySelector('#cliente').querySelector('#xNome').value
+        cob.data = pageScreen.querySelector('#dhEmi').value
+        cob.nf = pageScreen.querySelector('#nNF').value
+        cob.parcelas = []
+        const fat = getFat()
+        for(let i=0; i<fat.length; i++){
+            const parc = new Object
+            parc.desc = `${fat[i].parcela}-${fat.length}`
+            parc.venc = fat[i].data
+            parc.valor = fat[i].valor
+            cob.parcelas.push(parc)
+        }        
+        cob.tipo = 'NFe'
+        cob.valor = Number(pageScreen.querySelector('#vNF').value).toFixed(2)
+        cob.fatura = pageScreen.querySelector('#dfat').value        
+
+        addArrObj(`/../../NF/Cobrancas/cob_${today.getFullYear()}.json`,cob)
+
+    }
+
+    function getFat(){
+        const fat = getDays()
+        let Vfat = Number(pageScreen.querySelector('#vNF').value)
+        let parc = (Vfat/fat.length).toFixed(2)
+        let out = []
+        for(let i=0; i<fat.length; i++){
+            const obj = new Object
+            const day = new Date()
+            day.change(parseInt(fat[i]))
+            obj.parcela = i+1
+            obj.data = day.getFormatDate()
+            obj.dia = day.getFormatBR()
+            obj.valor = i<fat.length-1?parc:Vfat.toFixed(2)
+            out.push(obj)
+            Vfat -= Number(parc)
+        }        
+        return out
+    }
+
+    function getDays(){
+        const fat = pageScreen.querySelector('#dfat').value.split('/')
+        for(let i=fat.length-1; i>=0; i--){
+            fat[i] = getNum(fat[i])
+            if(fat[i] == ''){
+                fat.splice(i,1)
+            }
+        }
+        return fat
     }
 
 /* FUNÇÕES GLOBAIS */    
@@ -679,6 +735,13 @@
     })
 
     pageScreen.querySelector('#btnCalendar').addEventListener('click',()=>{
+        const fat = getFat()
+        let out = ''
+        for(let i=0; i<fat.length; i++){
+            out += `Parcela ${fat[i].parcela} - ${fat[i].dia} -> R$${fat[i].valor}\n`
+        } 
+        alert(out)
+/*        
         const fat = pageScreen.querySelector('#W').querySelector('#dfat').value.split('/')
         let out = ''
         
@@ -696,13 +759,14 @@
         }        
 
         alert(out)
-
+*/
     })    
 
     pageScreen.querySelector('#btnGeraNFe').addEventListener('click',()=>{
         if(confirm('Deseja gerar esta NFe?')){
             saveNFe()
             fatura()
+            addCobranca()
             pageData.NFe.geraChave()
             const txt = pageData.NFe.geraTXT()
             const filename = 'NFe-'+(pageData.NFe.B.nNF).padStart(6,'0')
