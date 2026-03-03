@@ -937,7 +937,7 @@ DELIMITER $$
 		IN Ihash varchar(64),
 		IN Ifield varchar(30),
         IN Isignal varchar(4),
-		IN Ivalue varchar(50),
+		IN Ivalue varchar(255),
         IN Iexec varchar(3),
         IN Idt_ini date,
         IN Idt_fin date

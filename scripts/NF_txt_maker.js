@@ -208,7 +208,10 @@ NFs.prototype.makeXML = function(arr,parent=null){
 NFs.prototype.viewXML = function(){
     const serializer = new XMLSerializer();
     const xmlString = serializer.serializeToString(this.xmlDoc);
-    return xmlString;
+
+    return this.identation(xmlString)
+
+//    return xmlString;
 }
 
 NFs.prototype.getCobranca = function(){
@@ -278,6 +281,36 @@ NFs.prototype.formatFields  = function(){
     this.setTagValue('Mes',this.Mes)
     this.setTagValue('DTIni',this.date)
     this.setTagValue('DTFin',this.date)
+}
+
+NFs.prototype.identation  = function(xml){
+
+    let out = ''
+    let tab = 0
+    const space = 3
+    let in_tag = 0
+    let tag_type = ''
+
+    for(let i=0; i<xml.length; i++){
+        out += xml[i]
+        if(xml[i]=='<'){
+            in_tag = 1
+            tag_type = xml[i+1]!='/' ? 'open' : 'close'
+        } 
+        if(xml[i]=='>' && in_tag){
+            tab += tag_type == 'open' ? space : space * -1
+            tag_type = ''
+            in_tag = 0
+            out += '\r' + '    '
+        }
+        
+    }
+
+    return out
+
+//    console.log(xml)
+
+
 }
 
 /****** FUNÇÔES *******/
