@@ -1,11 +1,277 @@
-<Sdt_ProcessarpsIns><Login><CodigoUsuario>609612c6-c072-4818-8e89-5490482d7f8545av18ap9305acac000-ed12-o1i</CodigoUsuario><CodigoContribuinte>54e52fdb-c30b-4236-9565-b9ef226086f012av10ap0050acac398-ed15-o4i</CodigoContribuinte></Login><SDTRPS><Ano>2026</Ano><Mes>3</Mes><CPFCNPJ>00519547000106</CPFCNPJ><DTIni>03/03/2026</DTIni><DTFin>03/03/2026</DTFin><TipoTrib>4</TipoTrib><DtAdeSN>01/07/2007</DtAdeSN><AlqIssSN_IP>5.00</AlqIssSN_IP><RegApTribSN>2</RegApTribSN><TribTpSusp></TribTpSusp><TribProcSusp></TribProcSusp><Versao>4.00</Versao><Reg20><Reg20Item><TipoNFS>RPS</TipoNFS><NumRps>1239</NumRps><SerRps></SerRps><DtEmi>03/03/2026</DtEmi><RetFonte>NAO</RetFonte><CodSrv>14.01</CodSrv><DiscrSrv>CARRO:32783
-TROCA DO PAR DE SANFONA BRT ELEVADA, REVISADA, PINTADA E INSTALADA: R$ 7.250,00 PAR 
-
-* DESCONTO DE R$ 500,00 REFERENTE A SANFONINHA INTERNA.
-
-OBSERVAÇÃO: AINDA NÃO EXECUTADO.
-</DiscrSrv><VlNFS>6750,00</VlNFS><VlDed>0,00</VlDed><DiscrDed>Serviço aprovado conforme Pedido:  
-\Pgto 1-3 Venc.02/04/2026 Valor R$2250.00
-\Pgto 2-3 Venc.02/05/2026 Valor R$2250.00
-\Pgto 3-3 Venc.01/06/2026 Valor R$2250.00
-\**Tributado pelo ANEXO III Simples Nacional</DiscrDed><VlBasCalc>6750,00</VlBasCalc><AlqIss>5,00</AlqIss><VlIss>337,50</VlIss><VlIssRet>0,00</VlIssRet><CpfCnpTom>46090221000794</CpfCnpTom><RazSocTom>TRANSPORTES CAPELLINI LTDA ME      </RazSocTom><TipoLogtom></TipoLogtom><LogTom>AVENIDA SANTANA       </LogTom><NumEndTom>1000 </NumEndTom><ComplEndTom/><BairroTom>JARDIM AMANDA      </BairroTom><MunTom>HORTOLâNDIA      </MunTom><SiglaUFTom>SP</SiglaUFTom><CepTom>13188000</CepTom><Telefone>(19)9.8850-1488</Telefone><InscricaoMunicipal></InscricaoMunicipal><TipoLogLocPre/><LogLocPre>AVENIDA SANTANA       </LogLocPre><NumEndLocPre>1000 </NumEndLocPre><ComplEndLocPre/><BairroLocPre>JARDIM AMANDA      </BairroLocPre><MunLocPre>HORTOLâNDIA      </MunLocPre><SiglaUFLocpre>SP</SiglaUFLocpre><CepLocPre>13188000</CepLocPre><Email1></Email1><Email2></Email2><Email3></Email3><Reg30></Reg30><Reg40><Reg40Item><SiglaCpoAdc>SRV_CNAE</SiglaCpoAdc><ConteudoCpoAdc>4520-0/01</ConteudoCpoAdc></Reg40Item><Reg40Item><SiglaCpoAdc>SRV_CTN</SiglaCpoAdc><ConteudoCpoAdc>14.01.01.000</ConteudoCpoAdc></Reg40Item><Reg40Item><SiglaCpoAdc>SRV_NBS</SiglaCpoAdc><ConteudoCpoAdc>1.2001.31.10</ConteudoCpoAdc></Reg40Item><Reg40Item><SiglaCpoAdc>SRV_ANEXOSN</SiglaCpoAdc><ConteudoCpoAdc>III</ConteudoCpoAdc></Reg40Item></Reg40><Reg50></Reg50><Reg60_RTC><Finalidade>0</Finalidade><IndConsFin>SIM</IndConsFin><IndDest></IndDest><IndOpeOne>NAO</IndOpeOne><IndCodOpe></IndCodOpe><VlReeRepRes></VlReeRepRes><gIBSCBS><CST>000</CST><CClassTrib>000001</CClassTrib><CCodCredPres></CCodCredPres></gIBSCBS></Reg60_RTC></Reg20Item></Reg20><Reg90><QtdRegNormal>1</QtdRegNormal><ValorNFS>6750,00</ValorNFS><ValorISS>337,50</ValorISS><ValorDed>0,00</ValorDed><ValorIssRetTom>0,00</ValorIssRetTom><QtdReg30>0</QtdReg30><ValorTributos>0,00</ValorTributos><QtdReg40>4</QtdReg40></Reg90></SDTRPS></Sdt_ProcessarpsIns>
+<Sdt_ProcessarpsIns>
+    <Login>
+        <CodigoUsuario>
+            609612c6-c072-4818-8e89-5490482d7f8545av18ap9305acac000-ed12-o1i
+        </CodigoUsuario>
+        <CodigoContribuinte>
+            54e52fdb-c30b-4236-9565-b9ef226086f012av10ap0050acac398-ed15-o4i
+        </CodigoContribuinte>
+        
+    </Login>
+    <SDTRPS>
+        <Ano>
+            2026
+        </Ano>
+        <Mes>
+            3
+        </Mes>
+        <CPFCNPJ>
+            00519547000106
+        </CPFCNPJ>
+        <DTIni>
+            04/03/2026
+        </DTIni>
+        <DTFin>
+            04/03/2026
+        </DTFin>
+        <TipoTrib>
+            4
+        </TipoTrib>
+        <DtAdeSN>
+            01/07/2007
+        </DtAdeSN>
+        <AlqIssSN_IP>
+            0.00
+        </AlqIssSN_IP>
+        <RegApTribSN>
+            2
+        </RegApTribSN>
+        <TribTpSusp>
+            
+        </TribTpSusp>
+        <TribProcSusp>
+            
+        </TribProcSusp>
+        <Versao>
+            4.00
+        </Versao>
+        <Reg20>
+            <Reg20Item>
+                <TipoNFS>
+                    RPS
+                </TipoNFS>
+                <NumRps>
+                    1238
+                </NumRps>
+                <SerRps>
+                    
+                </SerRps>
+                <DtEmi>
+                    04/03/2026
+                </DtEmi>
+                <RetFonte>
+                    NAO
+                </RetFonte>
+                <CodSrv>
+                    14.01
+                </CodSrv>
+                <DiscrSrv>
+                    CARRO:32783
+                    TROCA DO PAR DE SANFONA BRT ELEVADA, REVISADA, PINTADA E INSTALADA: R$ 7.250,00 PAR 
+                    
+                    * DESCONTO DE R$ 500,00 REFERENTE A SANFONINHA INTERNA.
+                    
+                    OBSERVAÇÃO: AINDA NÃO EXECUTADO.
+                    
+                </DiscrSrv>
+                <VlNFS>
+                    6750,00
+                </VlNFS>
+                <VlDed>
+                    0,00
+                </VlDed>
+                <DiscrDed>
+                    Serviço aprovado conforme Pedido:  
+                    Pgto 1-3 Venc.07/03/2026 Valor R$2250.00
+                    Pgto 2-3 Venc.03/05/2026 Valor R$2250.00
+                    Pgto 3-3 Venc.02/06/2026 Valor R$2250.00
+                    **Tributado pelo ANEXO III Simples Nacional
+                </DiscrDed>
+                <VlBasCalc>
+                    6750,00
+                </VlBasCalc>
+                <AlqIss>
+                    0,00
+                </AlqIss>
+                <VlIss>
+                    0,00
+                </VlIss>
+                <VlIssRet>
+                    0,00
+                </VlIssRet>
+                <CpfCnpTom>
+                    46090221000794
+                </CpfCnpTom>
+                <RazSocTom>
+                    TRANSPORTES CAPELLINI LTDA ME      
+                </RazSocTom>
+                <TipoLogtom>
+                    
+                </TipoLogtom>
+                <LogTom>
+                    AVENIDA SANTANA       
+                </LogTom>
+                <NumEndTom>
+                    1000 
+                </NumEndTom>
+                <ComplEndTom/>
+                <BairroTom>
+                    JARDIM AMANDA      
+                </BairroTom>
+                <MunTom>
+                    HORTOLâNDIA      
+                </MunTom>
+                <SiglaUFTom>
+                    SP
+                </SiglaUFTom>
+                <CepTom>
+                    13188000
+                </CepTom>
+                <Telefone>
+                    (19)9.8850-1488
+                </Telefone>
+                <InscricaoMunicipal>
+                    
+                </InscricaoMunicipal>
+                <TipoLogLocPre/>
+                <LogLocPre>
+                    AVENIDA SANTANA       
+                </LogLocPre>
+                <NumEndLocPre>
+                    1000 
+                </NumEndLocPre>
+                <ComplEndLocPre/>
+                <BairroLocPre>
+                    JARDIM AMANDA      
+                </BairroLocPre>
+                <MunLocPre>
+                    HORTOLâNDIA      
+                </MunLocPre>
+                <SiglaUFLocpre>
+                    SP
+                </SiglaUFLocpre>
+                <CepLocPre>
+                    13188000
+                </CepLocPre>
+                <Email1>
+                    
+                </Email1>
+                <Email2>
+                    
+                </Email2>
+                <Email3>
+                    
+                </Email3>
+                <Reg30>
+                    
+                </Reg30>
+                <Reg40>
+                    <Reg40Item>
+                        <SiglaCpoAdc>
+                            SRV_CNAE
+                        </SiglaCpoAdc>
+                        <ConteudoCpoAdc>
+                            4520-0/01
+                        </ConteudoCpoAdc>
+                        
+                    </Reg40Item>
+                    <Reg40Item>
+                        <SiglaCpoAdc>
+                            SRV_CTN
+                        </SiglaCpoAdc>
+                        <ConteudoCpoAdc>
+                            14.01.01.000
+                        </ConteudoCpoAdc>
+                        
+                    </Reg40Item>
+                    <Reg40Item>
+                        <SiglaCpoAdc>
+                            SRV_NBS
+                        </SiglaCpoAdc>
+                        <ConteudoCpoAdc>
+                            1.2001.31.10
+                        </ConteudoCpoAdc>
+                        
+                    </Reg40Item>
+                    <Reg40Item>
+                        <SiglaCpoAdc>
+                            SRV_ANEXOSN
+                        </SiglaCpoAdc>
+                        <ConteudoCpoAdc>
+                            III
+                        </ConteudoCpoAdc>
+                        
+                    </Reg40Item>
+                    
+                </Reg40>
+                <Reg50>
+                    
+                </Reg50>
+                <Reg60_RTC>
+                    <Finalidade>
+                        0
+                    </Finalidade>
+                    <IndConsFin>
+                        SIM
+                    </IndConsFin>
+                    <IndDest>
+                        
+                    </IndDest>
+                    <IndOpeOne>
+                        NAO
+                    </IndOpeOne>
+                    <IndCodOpe>
+                        
+                    </IndCodOpe>
+                    <VlReeRepRes>
+                        
+                    </VlReeRepRes>
+                    <gIBSCBS>
+                        <CST>
+                            000
+                        </CST>
+                        <CClassTrib>
+                            000001
+                        </CClassTrib>
+                        <CCodCredPres>
+                            
+                        </CCodCredPres>
+                        
+                    </gIBSCBS>
+                    
+                </Reg60_RTC>
+                
+            </Reg20Item>
+            
+        </Reg20>
+        <Reg90>
+            <QtdRegNormal>
+                1
+            </QtdRegNormal>
+            <ValorNFS>
+                6750,00
+            </ValorNFS>
+            <ValorISS>
+                0,00
+            </ValorISS>
+            <ValorDed>
+                0,00
+            </ValorDed>
+            <ValorIssRetTom>
+                0,00
+            </ValorIssRetTom>
+            <QtdReg30>
+                0
+            </QtdReg30>
+            <ValorTributos>
+                0,00
+            </ValorTributos>
+            <QtdReg40>
+                4
+            </QtdReg40>
+            
+        </Reg90>
+        
+    </SDTRPS>
+    
+</Sdt_ProcessarpsIns>

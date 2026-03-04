@@ -209,7 +209,7 @@ NFs.prototype.viewXML = function(){
     const serializer = new XMLSerializer();
     const xmlString = serializer.serializeToString(this.xmlDoc);
 
-    return this.identation(xmlString)
+    return this.indentation(xmlString)
 
 //    return xmlString;
 }
@@ -283,27 +283,43 @@ NFs.prototype.formatFields  = function(){
     this.setTagValue('DTFin',this.date)
 }
 
-NFs.prototype.identation  = function(xml){
+NFs.prototype.indentation  = function(xml){
 
+    const tab = 4
+    let tags = 0
     let out = ''
-    let tab = 0
-    const space = 3
-    let in_tag = 0
-    let tag_type = ''
+
+    function addText(){
+        out += '\r'+''.padStart(tab*tags)        
+    }
 
     for(let i=0; i<xml.length; i++){
-        out += xml[i]
-        if(xml[i]=='<'){
-            in_tag = 1
-            tag_type = xml[i+1]!='/' ? 'open' : 'close'
-        } 
-        if(xml[i]=='>' && in_tag){
-            tab += tag_type == 'open' ? space : space * -1
-            tag_type = ''
-            in_tag = 0
-            out += '\r' + '    '
-        }
         
+        if(xml[i]=="\n"){
+            addText()
+        }else{
+            
+            if(xml[i]=='<'){
+                if(xml[i+1]=='/'){
+                    tags --
+                    addText()
+                }
+                else{
+                    tags++
+                }
+                out += xml[i]
+            }else if(xml[i]=='>'){
+                out += xml[i]
+                addText()
+            }else{
+                out += xml[i]
+            }
+
+
+        
+
+        }
+
     }
 
     return out
