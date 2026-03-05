@@ -209,9 +209,9 @@ NFs.prototype.viewXML = function(){
     const serializer = new XMLSerializer();
     const xmlString = serializer.serializeToString(this.xmlDoc);
 
-    return this.indentation(xmlString)
+//    return this.indentation(xmlString)
 
-//    return xmlString;
+    return xmlString;
 }
 
 NFs.prototype.getCobranca = function(){
@@ -309,6 +309,7 @@ NFs.prototype.indentation  = function(xml){
                 }
                 out += xml[i]
             }else if(xml[i]=='>'){
+                tags -= xml[i-1]=='/' ? 1 : 0
                 out += xml[i]
                 addText()
             }else{

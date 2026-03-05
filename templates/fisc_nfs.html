@@ -404,14 +404,14 @@
         saveFile(JSON.stringify(pageData.CONF),'/../config/data.json')
 //        saveNFs()
         const xml = pageData.NFs.viewXML()
-        console.log(xml)
+//        console.log(xml)
 
-/*        
+
         const filename = 'NFs-'+(pageScreen.querySelector('#numNFS').value).padStart(6,'0')
         uploadNfsXML(xml, filename) 
         addCobranca()
         pageScreen.querySelector('#tab-export').click()
-*/
+
     })
 
     pageScreen.querySelector('#xmlFiles').addEventListener('dblclick',()=>{
