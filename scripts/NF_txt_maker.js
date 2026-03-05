@@ -209,9 +209,8 @@ NFs.prototype.viewXML = function(){
     const serializer = new XMLSerializer();
     const xmlString = serializer.serializeToString(this.xmlDoc);
 
-//    return this.indentation(xmlString)
-
-    return xmlString;
+    return this.indentation(xmlString)
+//    return xmlString;
 }
 
 NFs.prototype.getCobranca = function(){
@@ -285,49 +284,60 @@ NFs.prototype.formatFields  = function(){
 
 NFs.prototype.indentation  = function(xml){
 
-    const tab = 4
-    let tags = 0
-    let out = ''
+    const tab_space = 4
+    let tags = []
+    let open = 0
+    let out_xml = ''
+    let tag = ''
+    let in_tag = 0
+    let txt = ''
 
-    function addText(){
-        out += '\r'+''.padStart(tab*tags)        
+    function addTag(full=0,close=0){
+        const tabs = tags.length-1
+        out_xml += '\r'+''.padStart(tab_space*tabs)
+        out_xml += `<${close?'/':''}${tags[tabs]}>`
     }
 
     for(let i=0; i<xml.length; i++){
         
-        if(xml[i]=="\n"){
-            addText()
-        }else{
-            
-            if(xml[i]=='<'){
-                if(xml[i+1]=='/'){
-                    tags --
-                    addText()
+        if(xml[i]=='<'){
+            in_tag = 1
+            if(xml[i+1]=='/'){
+                if(!open){
+                    addTag(0,1)
                 }
-                else{
-                    tags++
-                }
-                out += xml[i]
-            }else if(xml[i]=='>'){
-                tags -= xml[i-1]=='/' ? 1 : 0
-                out += xml[i]
-                addText()
-            }else{
-                out += xml[i]
+                open = 0
             }
+            else{
+                open = 1
+                tag = ''
+            }
+        }else if(xml[i]=='>'){
+            if(open){
+                if(xml[i-1]=='/'){
+                    out_xml += '\r'+''.padStart(tab_space*tags.length-1)
+                    out_xml += `<${tag}>`
+                }else{
+                    tags.push(tag)
+                    addTag() 
+                }
 
-
-        
-
+            }else{
+                const close_tag = out_xml.split('\r')[out_xml.split('\r').length-1].trim().split('/').length
+                out_xml += txt + (close_tag == 1 ? `</${tags[tags.length-1]}>` : '' ) 
+                txt = ''
+                tags.splice(-1, 1)
+            }
+            in_tag = 0
+        }else{
+            if(in_tag){
+                tag += xml[i]
+            }else{
+                txt += xml[i]
+            }
         }
-
     }
-
-    return out
-
-//    console.log(xml)
-
-
+    return out_xml
 }
 
 /****** FUNÇÔES *******/
