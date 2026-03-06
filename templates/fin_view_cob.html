@@ -30,6 +30,7 @@
     </div>
 
     <div class="line">
+        <button id="btnDel" disabled>Deletar</button>
         <button id="btnSave">Salvar</button>
     </div>
 
@@ -44,7 +45,9 @@
     function startPage(){
         if(newReg){
             pageScreen.querySelector('#edtData').value = today.getFormatDate()
+            pageScreen.querySelector('#btnDel').disabled = true
         }else{
+            pageScreen.querySelector('#btnDel').disabled = false
             pageScreen.querySelector('#edtCliente').value = pageData.cliente
             pageScreen.querySelector('#edtCNPJ').value = pageData.CNPJ
             pageScreen.querySelector('#edtData').value = pageData.data
@@ -123,9 +126,16 @@
                     closeModal('fin_view_cob')
                 })
             }
+        }
+    })
 
-
-
+    pageScreen.querySelector('#btnDel').addEventListener('click',()=>{
+        if(confirm('Deseja remover definitivamente este registro?')){
+            delArrObj(`/../../NF/Cobrancas/cob_2026.json`,pageData.indexline)
+            .then(()=>{
+                main_data.fin_cobrancas.func.fillCob()
+                closeModal('fin_view_cob')
+            })
         }
     })
 

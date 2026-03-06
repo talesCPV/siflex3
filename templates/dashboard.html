@@ -148,6 +148,36 @@
             }
             tbl.push(config)
 
+            const icons = new Object
+            icons.label = 'Organizar Icones'
+            icons.link = ()=>{
+
+                const shortcuts = main_data.dashboard.data.shortcut
+                const width = window.innerWidth
+
+                let y = 10
+                for(let i=0; i<shortcuts.length; i++){
+                    console.log(shortcuts[i])
+                }
+
+                console.log(window.innerHeight)
+                shortcuts[0].x = 90
+                shortcuts[0].y = 10
+
+                shortcuts[1].x = 190
+                shortcuts[1].y = 10
+
+                shortcuts[2].x = 90
+                shortcuts[2].y = 100
+
+
+                setConfig('shortcut' , JSON.stringify(shortcuts)).then(()=>{
+                    addShortcut()
+                })
+
+            }
+            tbl.push(icons)
+
             menuContext(tbl,e)
 
         }
