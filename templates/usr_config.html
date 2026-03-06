@@ -73,6 +73,11 @@
     </div>
 
 
+    <div class="inline">
+        <label for="rngIcon">Desktop Grid</label>
+        <input id="rngIcon" type="range" min="0" max="100" step="1" value="25">
+    </div>
+
 <!--    <button id="btnUserUp">Salvar</button>-->
 
   </fieldset>
@@ -125,6 +130,8 @@
     const pageScreen = document.querySelector('#card-usr_config')
     const dashboard = main_data.dashboard.data
     const styleSheet = document.styleSheets[0].cssRules[2].style
+
+    pageScreen.querySelector('#rngIcon').value = dashboard.icon_space
 
     pageScreen.querySelector('#edtBarColor').value = dashboard.colors.bar_back_color.substr(0,7)
     pageScreen.querySelector('#edtBarFontColor').value = dashboard.colors.bar_font_color.substr(0,7)
@@ -227,6 +234,17 @@
         }catch{
             console.log('Error!!')
         } 
+    })
+
+    pageScreen.querySelector('#rngIcon').addEventListener('input',()=>{
+        const icon_space = Number(pageScreen.querySelector('#rngIcon').value)
+        icon_grid(icon_space)
+    })
+
+    pageScreen.querySelector('#rngIcon').addEventListener('change',()=>{
+        const icon_space = Number(pageScreen.querySelector('#rngIcon').value)
+        main_data.dashboard.data.icon_space = icon_space
+        setConfig('icon_space' , icon_space)
     })
 
 </script>

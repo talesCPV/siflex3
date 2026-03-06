@@ -37,7 +37,11 @@ function openMenu(){
             menu.innerHTML = ''//usr_menu
             pushMenu(menu, menu_data)
             checkUserMail()
-            addShortcut()
+            getConfig('shortcut').then((resolve)=>{
+                const json = JSON.parse(JSON.parse(resolve))
+//                main_data.dashboard.data.icon_grid = 
+                addShortcut(json)
+            })
             document.querySelector('#user-name').innerHTML = localStorage.getItem('nome')
             document.querySelector('#user-email').innerHTML = localStorage.getItem('email')
         }catch{            
@@ -143,7 +147,7 @@ function openMenu(){
                             json.push(shortcut)
                             setConfig('shortcut' , JSON.stringify(json))
                             .then((resolve)=>{
-                                addShortcut()
+                                addShortcut(json)
                                 main_data.dashboard.data.shortcut = json.shortcut
                             })
                         })
@@ -157,12 +161,12 @@ function openMenu(){
     }
 }
 
-function addShortcut(){
-    const myConfig = getConfig('shortcut')
-    myConfig.then((response)=>{
+function addShortcut(json){
+//    const myConfig = getConfig('shortcut')
+//    myConfig.then((response)=>{
         const main = document.querySelector('#main-screen')
         const icones = document.querySelectorAll('.icone')
-        const json = response != '' ? JSON.parse(JSON.parse(response)) : new Object
+//        const json = response != '' ? JSON.parse(JSON.parse(response)) : new Object
         main_data.dashboard.data.shortcut = json
         
         for(let i=0; i<icones.length; i++){
@@ -231,7 +235,7 @@ function addShortcut(){
                         if(sc[j].link == json[i].link){
                             sc.splice(i,1)
                             setConfig('shortcut' , JSON.stringify(sc))
-                            addShortcut()
+                            addShortcut(sc)
                         }
                     }
                     div.style.left = '0'
@@ -244,5 +248,41 @@ function addShortcut(){
             div.style.top = json[i].y + 'px'
             main.appendChild(div)
         }
+//    })
+}
+
+function icon_grid(space=-1){
+
+    if(space<0){
+        space = main_data.dashboard.data.icon_space
+
+/*        
+        getConfig('icon_space').then((resolve)=>{
+            const N = Number(JSON.parse(resolve))
+            main_data.dashboard.data.icon_space = N
+            icon_grid(N)
+        })
+*/
+    }
+
+    const icon_size = 80 + space                    
+    const shortcuts = main_data.dashboard.data.shortcut
+    const heigth = window.innerHeight
+
+    let y = Math.floor(space/2)
+    let x = 90 + Math.floor(space/2)
+    for(let i=0; i<shortcuts.length; i++){
+        shortcuts[i].x = x
+        shortcuts[i].y = y
+        y += icon_size
+        if(y>=heigth-space - 10 ){
+            y =  Math.floor(space/2)
+            x+= icon_size
+        }
+    }
+
+    setConfig('shortcut' , JSON.stringify(shortcuts)).then(()=>{
+        addShortcut(shortcuts)
     })
+
 }
