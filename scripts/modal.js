@@ -210,7 +210,7 @@ function menuContext(tbl,e){
         mod_card.style.margin = '0 auto'
         mod_card.style.top = e.clientY+'px'
         mod_card.style.left = e.clientX+'px'
-        mod_card.style.overflow = 'auto'
+//        mod_card.style.overflow = 'auto'
 
     const mod_content = document.createElement('table')
         mod_content.classList = 'modal-text'
