@@ -192,7 +192,7 @@ NFs.prototype.makeXML = function(arr,parent=null){
         item.appendChild(this.xmlDoc.createTextNode(arr[i].valor.def))
     
         for(let j=0; j<arr[i].atrib.length; j++){
-            item.setAttribute(arr[i].atrib[j].txt, arr[i].atrib[j].val);
+            item.setAttribute(arr[i].atrib[j].txt, arr[i].atrib[j].val)
         }
         
         if(arr[i].itens.length){

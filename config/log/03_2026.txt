@@ -1,0 +1,4 @@
+12/03/2026 15:19 tales@flexibus.com.br : Contas A Receber Cadastrada NFs1257 - 2-2, 4267.50, Venc. dia 2026-05-11
+12/03/2026 15:19 tales@flexibus.com.br : Contas A Receber Cadastrada NFs1257 - 1-2, 4267.50, Venc. dia 2026-04-11
+12/03/2026 15:21 tales@flexibus.com.br : Contas A Receber Deletada NFs1257 - 1-2, Valor 4267.5, Venc. dia 2026-04-11
+12/03/2026 15:21 tales@flexibus.com.br : Contas A Receber Deletada NFs1257 - 2-2, Valor 4267.5, Venc. dia 2026-05-11

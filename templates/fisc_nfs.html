@@ -358,7 +358,8 @@
         delete link
     }
 
-    function addCliente(obj){        
+    function addCliente(obj){
+        pageData.cliente = obj
         const field_path = pageScreen.querySelector('#cliente').getAttribute('path')
         for(const key in obj){
             const field = pageScreen.querySelector(`#cliente`).querySelector(`#${key}`)
@@ -374,6 +375,25 @@
     }
 
     function addCobranca(){
+
+        function add_a_receber(parc){
+
+            const params = new Object;
+                params.id = 0
+                params.id_cliente = pageData.cliente.id_emp
+                params.desc = `NFs ${pageScreen.querySelector('#numNFS').value} - ${parc.desc}`
+                params.venc = parc.venc
+                params.valor = parc.valor
+                params.tipo = 'BOLETO'
+                params.nf = pageScreen.querySelector('#numNFS').value
+                params.obs = ''
+                params.pgto = 0
+                const myPromisse = queryDB(params,'FIN-11');
+            myPromisse.then((resolve)=>{
+                setLog(`Contas A Receber Cadastrada ${params.desc}, ${params.valor}, Venc. dia ${params.venc}`)
+            })
+        }
+
         const cob = pageData.NFs.getCobranca()
         cob.nf = pageScreen.querySelector('#numNFS').value
         cob.data = pageScreen.querySelector('#dtEmi').value
@@ -387,6 +407,7 @@
             parc.venc = fat[i].data
             parc.valor = fat[i].valor
             cob.parcelas.push(parc)
+            add_a_receber(parc)
         } 
 
         addArrObj(`/../../NF/Cobrancas/cob_${today.getFullYear()}.json`,cob)

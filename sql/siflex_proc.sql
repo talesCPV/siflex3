@@ -2148,7 +2148,7 @@ DELIMITER $$
     )
 	BEGIN
 		UPDATE tb_post SET views=views+1;
-		SELECT * FROM vw_posts ORDER BY data_hora ASC LIMIT Istart,Iend;
+		SELECT * FROM vw_posts ORDER BY data_hora DESC LIMIT Istart,Iend;
 	END $$
 DELIMITER ;
 
