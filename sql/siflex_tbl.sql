@@ -340,8 +340,11 @@ CREATE TABLE tb_a_receber (
     nf varchar(10) DEFAULT NULL,
     obs varchar(256) DEFAULT NULL,
     FOREIGN KEY (id_cli) REFERENCES tb_empresa(id),
+    UNIQUE KEY (nf,venc),
     PRIMARY KEY (id)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+-- ALTER TABLE tb_a_receber ADD UNIQUE KEY (nf,venc);
 
  DROP TABLE tb_pix;
 CREATE TABLE tb_pix (
