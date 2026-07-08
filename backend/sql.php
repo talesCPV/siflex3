@@ -69,9 +69,6 @@
         "ANA-3" => 'SELECT * FROM tb_tipo_serv ORDER BY id;',
         "ANA-4" => 'CALL sp_set_tipo_serv(@access,@hash,x00,"x01","x02");', // ID, Serviço, Valor
 
-
-
-
         /* SERVIÇO EXECUTADO */
         "SERV-0" => 'CALL sp_view_serv_exec(@access,@hash,"x00","x01","x02","x03","x04");', // FIELD,SIGNAL, VALUE, DT_INI, DT_FIN
         "SERV-1" => 'CALL sp_set_serv_exec(@access, @hash, x00, x01,"x02","x03","x04","x05","x06","x07","x08");', // ID,ID_EMP,DATA_ANALISE,NUM_CARRO,NF,FUNC,PEDIDO,VALOR,OBS
@@ -80,6 +77,11 @@
         /* TOOLS */
         "TOOL-0" => 'CALL sp_view_pcp(@access, @hash, "x00");', // data
         "TOOL-1" => 'CALL sp_set_pcp(@access, @hash, "x00",x01,"x02");', // data, id_setor, valor
+        "TOOL-2" => 'CALL sp_set_proj(@access, @hash, x00,"x01");', // id, nome
+        "TOOL-3" => 'CALL sp_view_proj(@access, @hash);', //
+        "TOOL-4" => 'CALL sp_view_tbl(@access, @hash,"x00");', // tbl_name
+        "TOOL-5" => 'CALL sp_set_proj_setor(@access, @hash, x00,x01,"x02");', // id_projeto, id_setor, tempo
+        "TOOL-6" => 'CALL sp_view_proj_setor(@access, @hash,x00);', // id_projeto
 
         /* COTAÇÕES */
         "COT-0" => 'CALL sp_view_cotacao(@access,@hash,"x00","x01","x02","x03","x04");', // FIELD,SIGNAL, VALUE, DT_INI, DT_FIN

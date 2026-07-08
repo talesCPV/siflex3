@@ -2304,10 +2304,105 @@ DELIMITER $$
 				IF(Iservico="")THEN
 					DELETE FROM tb_tipo_serv WHERE id=Iid;
                 ELSE
-					UPDATE tb_tipo_serv SET servico=Iservico, valor=Ivalor;
+					UPDATE tb_tipo_serv SET servico=Iservico, valor=Ivalor WHERE id=Iid;
                 END IF;
             END IF;
         END IF;
 	END $$
 DELIMITER ;
 
+/* PROJETOS */
+
+ DROP PROCEDURE sp_set_proj;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_proj(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Iid int(11),
+		IN Inome varchar(50)
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN	
+			IF(Iid = 0)THEN
+				INSERT INTO tb_projetos (nome) VALUES (Inome);
+            ELSE
+				IF(Inome="")THEN
+					DELETE FROM tb_projetos WHERE id=Iid;
+                    DELETE FROM tb_proj_setor WHERE id_proj=Iid;
+                ELSE
+					UPDATE tb_projetos SET nome=Inome WHERE id=Iid;
+                END IF;
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;
+
+ DROP PROCEDURE sp_view_proj;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_proj(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64)
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN	
+			SELECT * FROM vw_proj;
+        END IF;
+	END $$
+DELIMITER ;
+
+ DROP PROCEDURE sp_view_tbl;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_tbl(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Itable varchar(60)
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN	
+			SET @sql = CONCAT('SELECT * FROM ', Itable, ' ORDER BY 2 ASC;');
+			PREPARE stmt FROM @sql;
+			EXECUTE stmt;
+			DEALLOCATE PREPARE stmt;
+        END IF;
+	END $$
+DELIMITER ;
+
+ DROP PROCEDURE sp_set_proj_setor;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_proj_setor(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Iid_proj int(11),
+        IN Iid_setor int(11),
+        IN Itempo double
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN	
+			IF(Itempo < 0)THEN
+				DELETE FROM tb_proj_setor WHERE id_proj=Iid_proj AND id_setor=Iid_setor;
+            ELSE
+				INSERT INTO tb_proj_setor (id_proj, id_setor, tempo) VALUES(Iid_proj, Iid_setor, Itempo)
+                ON DUPLICATE KEY UPDATE tempo=IF(Itempo = 0, tempo, Itempo);
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;
+
+-- DROP PROCEDURE sp_view_proj_setor;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_proj_setor(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Iid_proj int(11)
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN	
+			SELECT * FROM vw_proj_setor WHERE id_proj=Iid_proj;
+        END IF;
+	END $$
+DELIMITER ;

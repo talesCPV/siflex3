@@ -90,6 +90,20 @@
         return fat
     }
 
+    function sortDatas(ano){
+        getFile(`/../../NF/Cobrancas/cob_${ano}.json`).then((resolve)=>{
+            const json = JSON.parse(resolve)
+            json.sort((a, b) => b.data.toString().localeCompare(a.data.toString()));
+            
+            saveFile(JSON.stringify(json),`/../../NF/Cobrancas/cob_${ano}.json`)
+            .then((resolve)=>{
+                console.log('save sort array')
+                main_data.fin_cobrancas.func.fillCob()
+                closeModal('fin_view_cob')
+            })
+        })
+    }
+
     pageScreen.querySelector('#btnCliente').addEventListener('click',()=>{
         openHTML('busca_emp.html','pop-up','Selecione o Cliente',{"org":"fin_view_cob"})
 
@@ -116,14 +130,13 @@
             if(newReg){
                 addArrObj(`/../../NF/Cobrancas/cob_${fat.data.substr(0,4)}.json`,fat)
                 .then((resolve)=>{
-                    main_data.fin_cobrancas.func.fillCob()
-                    closeModal('fin_view_cob')
+                    sortDatas(fat.data.substr(0,4))
+                    
                 })
             }else{
                 edtArrObj(`/../../NF/Cobrancas/cob_${fat.data.substr(0,4)}.json`,pageData.indexline,fat)
                 .then((resolve)=>{
-                    main_data.fin_cobrancas.func.fillCob()
-                    closeModal('fin_view_cob')
+                    sortDatas(fat.data.substr(0,4))
                 })
             }
         }

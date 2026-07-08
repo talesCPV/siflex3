@@ -6,6 +6,12 @@
     $servidor = decrip('k0kn-k5F)()f,/kyo*klqmC-0k#(LzAuAtHA_k1n!k*J%2/('); // 108.179.253.230
     $banco = decrip('5Ynq0n83)3/=/2n!r,not/,/3n)+3"L;ww!8]n4q%n/z@5/0'); // flexib52_db_estoque
     $conexao = new mysqli($servidor, $usuario, $senha, $banco);
+
+    API SANTANDER
+
+    ClientID: 5P8skdRxn44iqJRbxcvtTZyaiFFDGago
+    Client Secret: UxBspeUN1od9mCqh
+
 */
     $conexao = new mysqli("108.179.253.230", "flexib52_tales", "Xspider0", "flexib52_db_estoque");
     if (!$conexao){

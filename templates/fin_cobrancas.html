@@ -31,10 +31,19 @@
 
         getFile(`/../../NF/Cobrancas/cob_${today.getFullYear()}.json`).then((resolve)=>{
             const json = JSON.parse(resolve)
+/*            
+            json.sort((a, b) => b.data.toString().localeCompare(a.data.toString()));
+            
+            saveFile(JSON.stringify(json),`/../../NF/Cobrancas/cob_${today.getFullYear()}.json`)
+            .then((resolve)=>{
+                console.log('save sort array')
+            })
+*/
+
             const tbl = pageScreen.querySelector('#tblCob')
             pageData.cob = json
             tbl.head('Registro,NF,Cliente,Valor,Parc.')
-            for(let i=json.length-1; i>=0; i--){
+            for(let i=0; i<json.length-1; i++){
                 tbl.plot(json[i],`data,${json[i].tipo} ${json[i].nf},cliente,valor,${json[i].parcelas.length}`,'dat,let,Upp,R$.,let')              
             }
         })
@@ -66,7 +75,7 @@
             const edit = new Object
             edit.label = 'Editar'
             edit.link = ()=>{
-                data.indexline =  (pageData.cob.length -  e.target.closest('tr').rowIndex)
+                data.indexline =  e.target.closest('tr').rowIndex -1
                 data != undefined ? openHTML('fin_view_cob.html','pop-up',`${data.tipo} ${data.nf}`, data,800) : null
             }
             tbl.push(edit)

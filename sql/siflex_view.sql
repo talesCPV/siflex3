@@ -348,7 +348,6 @@ DROP VIEW IF EXISTS vw_analytics;
     
 SELECT * FROM vw_analytics;
 
-
 DROP VIEW IF EXISTS vw_posts;
  CREATE VIEW vw_posts AS
 	SELECT PST.*, USR.email,
@@ -359,3 +358,28 @@ DROP VIEW IF EXISTS vw_posts;
 	ORDER BY data_hora ASC ;
     
     SELECT * FROM vw_posts;
+    
+    /* PROJETOS */
+    
+-- DROP VIEW IF EXISTS vw_proj;
+-- CREATE VIEW vw_proj AS
+	SELECT PROJ.*, COALESCE(SUM(SETOR.tempo),0) AS horas,
+    (SELECT GROUP_CONCAT(id_setor SEPARATOR ",") FROM tb_proj_setor WHERE id_proj=PROJ.id) AS id_setores
+    FROM tb_projetos AS PROJ
+    LEFT JOIN tb_proj_setor AS SETOR
+    ON SETOR.id_proj=PROJ.id
+    GROUP BY PROJ.id;
+    
+    SELECT * FROM vw_proj;
+    
+-- DROP VIEW IF EXISTS vw_proj_setor;
+ CREATE VIEW vw_proj_setor AS    
+    SELECT PJS.id_proj, PROJ.nome AS projeto,PJS.id_setor, SETOR.nome AS setor, PJS.tempo AS horas
+    FROM tb_proj_setor AS PJS
+    INNER JOIN tb_setores AS SETOR
+    INNER JOIN tb_projetos AS PROJ
+    ON PJS.id_setor=SETOR.id
+    AND PJS.id_proj = PROJ.id;
+    
+        
+    SELECT * FROM vw_proj_setor;

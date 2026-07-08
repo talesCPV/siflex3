@@ -21,7 +21,6 @@ CREATE TABLE tb_usr_perm_perfil (
     PRIMARY KEY (id)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
-
  DROP TABLE tb_funcionario;
 CREATE TABLE tb_funcionario (
     id int(11) NOT NULL AUTO_INCREMENT,
@@ -417,4 +416,21 @@ CREATE TABLE tb_cobranca (
     pgto date DEFAULT NULL,
     quitado boolean DEFAULT 0,
     PRIMARY KEY (id)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+/* Planejamento */
+
+ DROP TABLE tb_projetos;
+CREATE TABLE tb_projetos (
+	id int(11) unsigned NOT NULL AUTO_INCREMENT,
+    nome varchar(50) DEFAULT NULL,
+    PRIMARY KEY (id)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+ DROP TABLE tb_proj_setor;
+CREATE TABLE tb_proj_setor (
+	id_proj int(11) NOT NULL,
+	id_setor int(11) NOT NULL,
+    tempo double DEFAULT 0,
+    PRIMARY KEY (id_proj,id_setor)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;

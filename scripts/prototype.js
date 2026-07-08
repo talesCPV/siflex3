@@ -134,7 +134,7 @@ Date.prototype.getCod = function(){
 }
 
 /* TABLE */
-HTMLTableElement.prototype.plot = function(obj, fields,type='',file=false, mark=false , green=false){
+HTMLTableElement.prototype.plot = function(obj, fields,type='',file=false, mark='' , green=false){
 
     fields = fields.split(',')
     type = type=='' ? '' : type.split(',')
@@ -241,8 +241,9 @@ HTMLTableElement.prototype.plot = function(obj, fields,type='',file=false, mark=
         tr.appendChild(td)
     }
     tr.data = obj
-    if(mark){
-        tr.classList.add(green ? 'green' : 'red')
+    if(mark.length){
+//        tr.classList.add(green ? 'green' : 'red')
+        tr.classList.add(mark)
     }
     this.appendChild(tr)
 }

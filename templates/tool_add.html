@@ -1,0 +1,83 @@
+<template>
+    <style>
+        .mark{
+            background-color: rgb(255, 187, 185)!important;
+        }
+    </style>
+
+    <div class="add-form">
+        <h2 id="add-label"></h2>
+        <table id="add-table"></table>
+        <div class="line">
+            <button id="btn-ok">OK</button>
+        </div>
+    </div>
+
+</template>
+<script>
+    const pageData = main_data.tool_add.data
+    const pageFunc = main_data.tool_add.func
+    const pageScreen = document.querySelector('#card-tool_add')
+
+    function startPage(){
+        fillTable()
+        pageScreen.querySelector('#btn-ok').style.display = pageData.multiple ? 'block' : 'none'
+    }
+
+
+    function fillTable(){
+        const params = new Object;
+        params.tbl_name = pageData.tbl_name
+
+        const myPromisse = queryDB(params,'TOOL-4');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const tbl = pageScreen.querySelector('#add-table')
+            tbl.head(pageData.tbl_head)
+            for(let i=0; i<json.length; i++){
+                const mark = pageData.mark==null ? '' : pageData.mark.split(',').includes(json[i].id)?'mark':'1'
+                tbl.plot(json[i],pageData.tbl_fields,pageData.tbl_field_type,0, mark)
+            }
+        })
+
+    }
+
+    pageScreen.querySelector('#add-table').addEventListener('click',(e)=>{
+        if(pageData.multiple){
+            e.target.parentNode.classList.toggle('mark')
+        }else{
+            const data = e.target.parentNode.data
+            if(data!=undefined && pageData.hasOwnProperty('callback')){
+                pageData.callback(data)
+                closeModal('tool_add')
+            }
+        }
+    })
+
+    pageScreen.querySelector('#btn-ok').addEventListener('click',()=>{
+        const tbl = pageScreen.querySelector('#add-table')
+        
+        const out = new Object
+        out.select = []
+        out.unselect = []
+                
+        for(let i=0; i<tbl.rows.length; i++){       
+            if(tbl.rows[i].data != undefined){
+                if(Array.from(tbl.rows[i].classList).includes('mark')){
+                    out.select.push(tbl.rows[i].data)
+                }else{
+                    out.unselect.push(tbl.rows[i].data)
+                }
+            }
+        }
+
+        if(pageData.hasOwnProperty('callback')){
+            pageData.callback(out)
+            closeModal('tool_add')
+        }
+    })
+
+
+    startPage()
+
+</script>

@@ -28,18 +28,16 @@
   
   .modal-content {
     position: relative;
-/*    left: 20vw;*/
     background-color: var(--white);
     border-radius: 10px;
     margin: 20px auto;
     border: 1px solid #888;
     width: auto;
     max-width: 1200px ; 
-    height: auto;
     padding: 10px;
-/*    opacity: 95%;    */
+    max-height: 100%;
   }
-  
+
   .modal-title{
       display: flex;
       font-weight: 600;
@@ -48,7 +46,6 @@
       padding-left: 5px;
       align-items: center;
       width: 100%;
-      /*height: auto;*/
       height: 32px;    
       justify-content: space-between;
   }
@@ -76,7 +73,6 @@
   .modal-title:active{
     cursor: grabbing;
     background-color: var(--top-bar);
-    /*rgba(198, 235, 195, 0.8);*/
   }
 
   .modal-resize {

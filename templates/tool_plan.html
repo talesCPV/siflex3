@@ -1,0 +1,227 @@
+<template>
+    <style>
+
+        legend .btn-round{
+            border: unset;
+            font-size: 2em;
+        }
+
+        .twin-div{
+            container-type: inline-size;
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .twin-div h2{
+            width: 100%;
+            text-align: center;
+        }
+
+        .fds-setores{
+            display: none;
+        }
+
+/*
+        .twin-div div{
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @container(max-width : 768px) {
+            .twin-div div{
+                width: 100%;
+            }
+        }
+*/
+
+    </style>
+  
+    <fieldset>
+        <legend>Projetos
+            <button class="btn-round" id="btn-new_proj"><span class="mdi mdi-plus-circle"></span></button>
+        </legend>
+        <table id="tbl-proj"></table>
+    </fieldset>
+
+    <fieldset class="fds-setores">
+        <legend>Setores
+            <button class="btn-round" id="btn-new_setor"><span class="mdi mdi-plus-circle"></span></button>
+        </legend>
+        <div class="twin-div">
+                <h2 class="proj-label"></h2>
+                <table id="tbl_hora_proj"></table>
+        </div>
+
+    </fieldset>
+
+
+</template>
+<script>
+    const pageData = main_data.tool_plan.data
+    const pageFunc = main_data.tool_plan.func
+    const pageScreen = document.querySelector('#card-tool_plan')
+
+    function startPage(){
+        fillProj()
+    }
+
+    function addSetor(data){
+        const opt = new Object
+            opt.tbl_name = 'tb_setores'
+            opt.tbl_head = 'Nome'
+            opt.tbl_fields = 'nome'
+            opt.tbl_field_type = 'Upp'
+            opt.multiple = 1
+            opt.mark = data.id_setores
+            opt.callback = (set_data)=>{
+
+                for(let i=0; i<set_data.select.length; i++){
+                    setProjSetor(data.id,set_data.select[i].id)
+                }
+                for(let i=0; i<set_data.unselect.length; i++){
+                    setProjSetor(data.id,set_data.unselect[i].id,-1)
+                }                
+            }
+
+            openHTML('tool_add.html','pop-up',`Selecione os setores para o projeto ${data.nome}`,opt,800)
+    }
+
+    function fillProj(){
+        const params = new Object;
+        const myPromisse = queryDB(params,'TOOL-3');
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const tbl = pageScreen.querySelector('#tbl-proj')
+            tbl.head('Nome,Horas(conj.)')
+
+            let tot_horas = 0
+            for(let i=0; i<json.length; i++){
+                tot_horas += Number(json[i].horas)
+                tbl.plot(json[i],'nome,horas','Upp,int')
+            }
+            const tr = document.createElement('tr')
+            tr.innerHTML = `<th>Total</th><th>${tot_horas}</th>`
+            tbl.appendChild(tr)
+        })
+    }
+
+    function subMenu(e,data){
+        const tbl = []
+/*
+        const setores = new Object
+        setores.label = 'Setores'
+        setores.link = ()=>{
+            addSetor(data)
+        }            
+        tbl.push(setores)
+*/
+        const rename = new Object
+        rename.label = 'Renomear'
+        rename.link = ()=>{               
+            const name = prompt('Digite um novo nome para o Projeto:',data.nome)
+            if(name !=null && name.trim().length){
+                setProj(data.id,name)
+            }
+        }            
+        tbl.push(rename)
+
+        const del = new Object
+        del.label = 'Deletar'
+        del.link = ()=>{
+            if(confirm('Deseja realmente deletar este projeto?')){
+                setProj(data.id,'')
+            }
+        }            
+        tbl.push(del)
+        menuContext(tbl,e)
+    }
+    
+    function setProj(id,name){
+        const params = new Object;
+                params.id = id
+                params.nome = name
+            const myPromisse = queryDB(params,'TOOL-2');
+            myPromisse.then((resolve)=>{
+                fillProj()
+            })
+    }
+
+    function setProjSetor(id_proj, id_setor,tempo=0){
+        const params = new Object;
+                params.id_proj = id_proj
+                params.id_setor = id_setor
+                params.tempo = tempo
+            const myPromisse = queryDB(params,'TOOL-5');
+            myPromisse.then((resolve)=>{
+                fillProj()
+                fillProjSetor()
+            })
+    }
+
+    function fillProjSetor(){
+        const id_proj = pageScreen.querySelector('.proj-label').data.id
+        const params = new Object;
+                params.id_proj = id_proj
+            const myPromisse = queryDB(params,'TOOL-6');
+            myPromisse.then((resolve)=>{
+                const json = JSON.parse(resolve)
+                const tbl = pageScreen.querySelector('#tbl_hora_proj')
+                tbl.head('Setor,Horas')
+                for(let i=0; i<json.length; i++){
+                    tbl.plot(json[i],'setor,horas','Upp,flo')
+                }
+            })
+    }
+
+    pageScreen.querySelector('#tbl-proj').addEventListener('contextmenu',(e)=>{
+        e.preventDefault()
+        const data = e.target.parentNode.data
+        if(data!=undefined){
+            subMenu(e,data)
+        }
+    })
+
+    pageScreen.querySelector('#tbl-proj').addEventListener('click',(e)=>{
+        const label = pageScreen.querySelector('.proj-label')
+        label.data = e.target.parentNode.data
+        if(label.data!=undefined){
+            label.innerHTML = `Projeto ${label.data.nome}`
+            fillProjSetor()
+            pageScreen.querySelector('.fds-setores').style.display = 'block'
+        }else{
+            label.innerHTML = ''
+            pageScreen.querySelector('.fds-setores').style.display = 'none'
+            pageScreen.querySelector('#tbl_hora_proj').innerHTML = ''
+        }
+    })
+
+    pageScreen.querySelector('#tbl_hora_proj').addEventListener('click',(e)=>{
+        const data = e.target.parentNode.data
+        const horas = prompt(`Para concluir um conjunto do projeto ${data.projeto} se gasta quantas horas no setor ${data.setor}`,data.horas)
+        if(horas!=null){
+            setProjSetor(data.id_proj,data.id_setor,horas)
+        }
+
+    })
+
+    pageScreen.querySelector('#btn-new_proj').addEventListener('click',()=>{
+        const name = prompt('Digite um nome para o Projeto:')
+        if(name !=null && name.trim().length){
+            setProj(0,name)
+        }
+    })
+
+    pageScreen.querySelector('#btn-new_setor').addEventListener('click',()=>{
+        const data = pageScreen.querySelector('.proj-label').data
+        addSetor(data)
+    })
+
+
+    
+    startPage()
+
+</script>
