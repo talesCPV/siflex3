@@ -56,13 +56,17 @@
         }
     }
 
-/* DOM */
-
-    pageScreen.querySelector('#btn-workspace-refresh').addEventListener('click',()=>{
+    function refresh(){
         getWorkspaces().then((response)=>{
             pageData.workspaces = JSON.parse(response)            
             saveWorkspace()
         })
+    }
+
+/* DOM */
+
+    pageScreen.querySelector('#btn-workspace-refresh').addEventListener('click',()=>{
+        refresh()
     })
 
     pageScreen.querySelector('#btn-workspace-add').addEventListener('click',()=>{
@@ -98,7 +102,9 @@
             del.label = 'Deletar'
             del.link = ()=>{
                 if(confirm('Deseja excluir esta workspace e todos seus dados?')){
-                    delWorkspaces(data.id)
+                    delWorkspaces(data.id).then((resolve)=>{
+                        refresh()
+                    })
                 }
             }
             tbl.push(del)
