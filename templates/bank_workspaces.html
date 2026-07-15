@@ -1,0 +1,226 @@
+<template>
+    <style> </style>
+  
+    <fieldset>
+        <legend>Workspaces</legend>
+        <table id="tbl-workspaces"></table>
+        <div class="line">
+            <button id="btn-workspace-refresh" class="btn-round"><span class="mdi mdi-refresh"></span></button>
+            <button id="btn-workspace-add" class="btn-round"><span class="mdi mdi-plus"></span></button>
+        </div>
+    </fieldset>
+
+
+
+</template>
+<script>
+    const pageData = main_data.bank_workspaces.data
+    const pageFunc = main_data.bank_workspaces.func
+    const pageScreen = document.querySelector('#card-bank_workspaces')
+
+    function startPage(){
+        getFile('/../config/workspaces.json').then((response)=>{
+            pageData.workspaces = JSON.parse(response)
+            fillWorkspaces(pageData.workspaces.content)
+        })
+    }
+
+    function fillWorkspaces(workspaces){
+        const tbl = pageScreen.querySelector('#tbl-workspaces')
+        tbl.head('Nome,Status,Tipo,ID,In Use')
+        for(let i=0; i<workspaces.length; i++){            
+            if(!workspaces[i].hasOwnProperty('select')){
+                workspaces[i].select = 0
+            }
+            tbl.plot(workspaces[i],'description,status,type,id,select','Upp,str,str,str,chk')
+        }
+    }
+
+    function selWorkspace(workspace_id){
+        for(let i=0; i<pageData.workspaces.content.length; i++){
+            pageData.workspaces.content[i].select = pageData.workspaces.content[i].id == workspace_id ? 1 : 0
+        }
+        saveFile(JSON.stringify(pageData.workspaces),'/../config/workspaces.json')
+        fillWorkspaces(pageData.workspaces.content)
+    }
+
+    function saveWorkspace(){
+        try{
+            if(pageData.workspaces.content.length){
+                pageData.workspaces.content[0].select = 1
+            }
+            saveFile(JSON.stringify(pageData.workspaces),'/../config/workspaces.json')
+            fillWorkspaces(pageData.workspaces.content)
+        }catch{
+            console.error('Houve algum erro de comunicação com o servidor!')
+        }
+    }
+
+/* DOM */
+
+    pageScreen.querySelector('#btn-workspace-refresh').addEventListener('click',()=>{
+        getWorkspaces().then((response)=>{
+            pageData.workspaces = JSON.parse(response)            
+            saveWorkspace()
+        })
+    })
+
+    pageScreen.querySelector('#btn-workspace-add').addEventListener('click',()=>{
+        const nome = prompt('Digite um Nome para o Workspace:')
+        if(nome!=null){
+            setWorkspaces(nome).then((response)=>{
+                pageData.workspaces = JSON.parse(response)
+                saveWorkspace()
+            })
+        }
+    })
+
+    pageScreen.querySelector('#tbl-workspaces').addEventListener('click',(e)=>{
+        const data = e.target.parentNode.data
+        if(data!=undefined){
+            const tbl = []
+            const about = new Object
+            about.label = 'Sobre...'
+            about.link = ()=>{
+                console.log(data)
+                showWorkspaces(data.id)
+            }
+            tbl.push(about)
+
+            const select = new Object
+            select.label = 'Selecionar'
+            select.link = ()=>{
+                selWorkspace(data.id)
+            }
+            tbl.push(select)
+
+            const del = new Object
+            del.label = 'Deletar'
+            del.link = ()=>{
+                if(confirm('Deseja excluir esta workspace e todos seus dados?')){
+                    delWorkspaces(data.id)
+                }
+            }
+            tbl.push(del)
+
+            const webhook = new Object
+            webhook.label = 'Webhook'
+            webhook.link = ()=>{
+                const hook = prompt('Digite a URL do seu Webhook:','https://www.flexibus.com.br/webhooks/cobranca.php')
+                if(hook!=null){
+                    addWebhook(data.id,hook)
+                }
+            }
+            tbl.push(webhook)            
+            menuContext(tbl,e)  
+        }
+
+    })
+
+/* WORKSPACE */
+
+
+    function setWorkspaces(name){
+
+        const data = new URLSearchParams();        
+        data.append("nome", name);
+        const myRequest = new Request("backend/bank/set_workspace.php",{        
+            method : "POST",
+            body : data
+        });
+
+        return new Promise((resolve,reject) =>{
+            fetch(myRequest)
+            .then(function (response){
+                if (response.status === 200) { 
+                    resolve(response.text());                    
+                } else { 
+                    reject(new Error("Houve algum erro na comunicação com o servidor"));                    
+                } 
+            });
+        });   
+    }
+
+    function getWorkspaces(){
+        const myRequest = new Request("backend/bank/get_workspaces.php",{
+            method : "POST"
+        });
+        return new Promise((resolve,reject) =>{
+            fetch(myRequest)
+            .then(function (response){
+                if (response.status === 200) { 
+                    resolve(response.text());                    
+                } else { 
+                    reject(new Error("Houve algum erro na comunicação com o servidor"));                    
+                } 
+            });
+        });   
+    }
+
+    function delWorkspaces(workspace_id){
+
+        const data = new URLSearchParams();        
+        data.append("id", workspace_id);
+        const myRequest = new Request("backend/bank/del_workspace.php",{        
+            method : "POST",
+            body : data
+        });
+
+        return new Promise((resolve,reject) =>{
+            fetch(myRequest)
+            .then(function (response){
+                if (response.status === 200) { 
+                    resolve(response.text());                    
+                } else { 
+                    reject(new Error("Houve algum erro na comunicação com o servidor"));                    
+                } 
+            });
+        });   
+    }
+
+    function showWorkspaces(workspace_id){
+
+        const data = new URLSearchParams();        
+        data.append("id", workspace_id);
+        const myRequest = new Request("backend/bank/show_workspace.php",{        
+            method : "POST",
+            body : data
+        });
+
+        return new Promise((resolve,reject) =>{
+            fetch(myRequest)
+            .then(function (response){
+                if (response.status === 200) { 
+                    resolve(response.text());                    
+                } else { 
+                    reject(new Error("Houve algum erro na comunicação com o servidor"));                    
+                } 
+            });
+        });   
+    }
+
+    function addWebhook(workspace_id,webhook){
+        const data = new URLSearchParams();        
+            data.append("workspace_id", workspace_id);
+            data.append("webhook_url", webhook);
+        const myRequest = new Request("backend/bank/add_webhook.php",{
+            method : "POST",
+            body : data
+        });
+
+        return new Promise((resolve,reject) =>{
+            fetch(myRequest)
+            .then(function (response){
+                if (response.status === 200 || response.status === 201) { 
+                    resolve(response.text());                    
+                } else { 
+                    reject(new Error("Houve algum erro na comunicação com o servidor"));                    
+                } 
+            });
+        });   
+    }
+
+    
+    startPage()
+
+</script>

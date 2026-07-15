@@ -1,0 +1,57 @@
+<template>
+    <style> </style>
+
+    <fieldset>
+        <legend>Busca</legend>
+        <div class="inline">
+            <select id="cmbRange">
+                <option value="DUE">VENCIMENTO</option>
+                <option value="PAY">DATA DE PGTO.</option>
+                <option value="REG">DATA DE REGISTRO</option>
+            </select>
+            <label>de</label>
+            <input type="date" id="dt-ini" value="2026-07-01">
+            <label>até</label>
+            <input type="date" id="dt-fin" value="2026-07-03">
+            <label>Status:</label>
+            <select id="cmbStatus">
+                <option value="LIQUIDADO">LIQUIDADO</option>
+                <option value="EM_ABERTO">EM ABERTO</option>
+                <option value="BAIXADO">BAIXADO</option>
+            </select>
+            <button id="get-bills" class="btn-round" ><span class="mdi mdi-magnify"></span></button>
+        </div>
+
+    </fieldset>
+
+
+</template>
+<script>
+    const pageData = main_data.bank_cobrancas.data
+    const pageFunc = main_data.bank_cobrancas.func
+    const pageScreen = document.querySelector('#card-bank_cobrancas')
+
+    function startPage(){
+        getFile('/../config/workspaces.json').then((response)=>{
+            pageData.workspace = 0
+        
+            const json = JSON.parse(response).content
+
+            for(let i=0; i<json.length; i++){
+                if(json[i].select){
+                    pageData.workspace = json[i]
+                }
+            }
+            if(!pageData.workspace){
+                alert('Nenhum workspace selecionado! Vá para menu Bancário|Workspaces.')
+                closeModal('bank_cobrancas')
+            }
+
+        })
+    }
+
+
+    
+    startPage()
+
+</script>

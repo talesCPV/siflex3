@@ -1,2 +1,24 @@
 07/07/2026 13:46 tales@flexibus.com.br : Menu Incluido (Planejamento)
 07/07/2026 13:47 tales@flexibus.com.br : Menu Alterado (Planejamento, tool_plan.html, pop-up, Planejamento)
+15/07/2026 14:46 tales@flexibus.com.br : Menu Incluido (null)
+15/07/2026 14:46 tales@flexibus.com.br : Menu Incluido (Bancario)
+15/07/2026 14:46 tales@flexibus.com.br : Menu Alterado (Bancario, menu, pop-up, Bancario)
+15/07/2026 14:47 tales@flexibus.com.br : Menu Incluido (Workspace)
+15/07/2026 14:48 tales@flexibus.com.br : Menu Alterado (Workspace, bank_workspace.html, pop-up, Workspaces)
+15/07/2026 14:49 tales@flexibus.com.br : Menu Alterado (Workspace, bank_workspaces.html, pop-up, Workspaces)
+15/07/2026 16:49 tales@flexibus.com.br : Folha de Pgto. Cadastrada Pgto ADTO, Julho de 2026, Valor 66.20, Venc. dia 2026-07-16
+15/07/2026 16:49 tales@flexibus.com.br : Folha de Pgto. Cadastrada Pgto ADTO, Julho de 2026, Valor 310, Venc. dia 2026-07-16
+15/07/2026 16:49 tales@flexibus.com.br : Folha de Pgto. Cadastrada Pgto ADTO, Julho de 2026, Valor 1880, Venc. dia 2026-07-16
+15/07/2026 16:50 tales@flexibus.com.br : Folha de Pgto. Cadastrada Pgto ADTO, Julho de 2026, Valor 965, Venc. dia 2026-07-16
+15/07/2026 16:50 tales@flexibus.com.br : Folha de Pgto. Cadastrada Pgto ADTO, Julho de 2026, Valor 718, Venc. dia 2026-07-16
+15/07/2026 16:50 tales@flexibus.com.br : Folha de Pgto. Cadastrada Pgto ADTO, Julho de 2026, Valor 850, Venc. dia 2026-07-16
+15/07/2026 16:51 tales@flexibus.com.br : Folha de Pgto. Cadastrada Pgto ADTO, Julho de 2026, Valor 920, Venc. dia 2026-07-16
+15/07/2026 16:51 tales@flexibus.com.br : Folha de Pgto. Cadastrada Pgto ADTO, Julho de 2026, Valor 1100, Venc. dia 2026-07-16
+15/07/2026 16:51 tales@flexibus.com.br : Folha de Pgto. Cadastrada Pgto ADTO, Julho de 2026, Valor 1145, Venc. dia 2026-07-16
+15/07/2026 16:51 tales@flexibus.com.br : Folha de Pgto. Cadastrada Pgto ADTO, Julho de 2026, Valor 915, Venc. dia 2026-07-16
+15/07/2026 16:52 tales@flexibus.com.br : Folha de Pgto. Cadastrada Pgto ADTO, Julho de 2026, Valor 965, Venc. dia 2026-07-16
+15/07/2026 16:52 tales@flexibus.com.br : Folha de Pgto. Cadastrada Pgto ADTO, Julho de 2026, Valor 1096.11, Venc. dia 2026-07-16
+15/07/2026 16:53 tales@flexibus.com.br : Folha de Pgto. Cadastrada Pgto ADTO, Julho de 2026, Valor 948, Venc. dia 2026-07-16
+15/07/2026 16:53 tales@flexibus.com.br : Folha de Pgto. Cadastrada Pgto FOLHA, Julho de 2026, Valor 5190, Venc. dia 2026-07-16
+15/07/2026 21:37 tales@flexibus.com.br : Menu Incluido (Cobrancas)
+15/07/2026 21:39 tales@flexibus.com.br : Menu Alterado (Cobrancas, bank_cobrancas.html, pop-up, Cobrancas)

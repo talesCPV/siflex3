@@ -3,7 +3,7 @@
         $path = getcwd().$_POST["path"];
 //echo $path;        
         $file = json_decode($_POST["file"]);
-echo $file;
+//echo $file;
         $fp = fopen($path, "w");
         fwrite($fp,$file);
         fclose($fp); 
