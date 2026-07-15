@@ -2,7 +2,7 @@
     <style> </style>
 
     <fieldset>
-        <legend>Busca</legend>
+        <legend>Filtro</legend>
         <div class="inline">
             <select id="cmbRange">
                 <option value="DUE">VENCIMENTO</option>
@@ -32,6 +32,10 @@
     const pageScreen = document.querySelector('#card-bank_cobrancas')
 
     function startPage(){
+
+        pageScreen.querySelector('#dt-ini').value = today.iniMonth()
+        pageScreen.querySelector('#dt-fin').value = today.finMonth()
+
         getFile('/../config/workspaces.json').then((response)=>{
             pageData.workspace = 0
         
