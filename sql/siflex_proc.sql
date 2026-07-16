@@ -2406,3 +2406,59 @@ DELIMITER $$
         END IF;
 	END $$
 DELIMITER ;
+
+/* SANTANDER */
+
+ DROP PROCEDURE sp_set_cobranca;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_cobranca(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN InsuCode int(11),
+        IN InsuDate date,
+        IN Ienvironment varchar(8),
+        IN IcovenantCode int,
+        IN Ipayer_documentType varchar(4),
+		IN Ipayer_documentNumber varchar(14),
+		IN Ipayer_name varchar(40),
+		IN Ipayer_address varchar(40),
+		IN Ipayer_neighborhood varchar(30),
+		IN Ipayer_city varchar(20),
+		IN Ipayer_state varchar(2),
+		IN Ipayer_zipCode varchar(9),
+		IN IbankNumber varchar(3),
+		IN IclientNumber varchar(15),
+		IN IdueDate date,
+        IN InominalValue double,
+		IN IdocumentKind varchar(25),
+        IN IprotestType varchar (17),
+		IN IprotestQuantityDays int,		
+		IN IpaymentType varchar(10),
+		IN Imessages varchar(100)
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN	
+			IF(InsuCode=0)THEN
+				INSERT INTO tb_cobranca (nsuDate,environment,covenantCode,payer_documentType,
+                payer_documentNumber,payer_name,payer_address,payer_neighborhood,payer_city,payer_state,payer_zipCode,
+                bankNumber,clientNumber,dueDate,nominalValue,documentKind,protestType,protestQuantityDays,paymentType,messages) 
+                VALUES(InsuDate,Ienvironment,IcovenantCode,Ipayer_documentType,
+                Ipayer_documentNumber,Ipayer_name,Ipayer_address,Ipayer_neighborhood,Ipayer_city,Ipayer_state,Ipayer_zipCode,
+                IbankNumber,IclientNumber,IdueDate,InominalValue,IdocumentKind,IprotestType,IprotestQuantityDays,IpaymentType,Imessages);
+            ELSE
+				IF(Ipayer_name="")THEN
+					DELETE FROM tb_cobranca WHERE nsuCode=InsuCode;
+                ELSE
+					UPDATE tb_cobranca 
+					SET nsuDate=InsuDate,environment=Ienvironment,covenantCode=IcovenantCode,payer_documentType=Ipayer_documentType,
+					payer_documentNumber=Ipayer_documentNumber,payer_name=Ipayer_name,payer_address=Ipayer_address,payer_neighborhood=Ipayer_neighborhood,
+					payer_city=Ipayer_city,payer_state=Ipayer_state,payer_zipCode=Ipayer_zipCode,bankNumber=IbankNumber,clientNumber=IclientNumber,
+					dueDate=IdueDate,nominalValue=InominalValue,documentKind=IdocumentKind,protestType=IprotestType,protestQuantityDays=IprotestQuantityDays,
+					paymentType=IpaymentType,messages=Imessages
+					WHERE nsuCode=InsuCode;
+                END IF;
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;

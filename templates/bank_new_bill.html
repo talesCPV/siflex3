@@ -1,0 +1,258 @@
+<template>
+    <style> </style>
+  
+    <div class="tab-bar">
+        <div class="tab-item" id="tab-cliente"  onclick="pictab(this)">Cliente     </div>            
+        <div class="tab-item" id="tab-fatura"   onclick="pictab(this)">Fatura </div>
+    </div>
+
+    <div class="tab-screen">        
+        <div id="cliente" class="tab">
+            <div class="inline">
+                <label> Razão Social *</label>
+                <input type="text" id="edt-RazSoc" class="campo" maxlength="60" disabled/>
+                <button id="btn-cliente" class="btn-round"><span class="mdi mdi-magnify"></span>
+            </div>            
+            <div class="inline">
+                <select id="payer_documentType" class="campo bill" style="max-width: 100px; margin: 0;" disabled>
+                    <option value="CPF">CPF</option>
+                    <option value="CNPJ" selected>CNPJ</option>
+                </select>
+                <input type="text" id="payer_documentNumber" class="campo bill" maxlength="18" onkeyup="valCNPJ(this)" disabled/>
+                <label> Insc. Est. </label>
+                <input type="text" id="edt-ie" class="campo" maxlength="18" onkeyup="valInt(this)" disabled/>
+            </div>
+            <div class="inline">
+                <label> Endereço </label>
+                <input type="text" id="payer_address" class="campo bill" maxlength="60" disabled/>
+            </div>
+            <div class="inline">
+                <label> Bairro </label>
+                <input type="text" id="payer_neighborhood" class="campo bill" maxlength="60" disabled/>
+                <label> Complemento </label>
+                <input type="text" id="edt-compl" class="campo" maxlength="60" style="max-width: 200px;" disabled/>
+            </div>
+            <div class="inline">
+                <label> Municipio</label>
+                <input type="text" id="payer_city" class="campo bill" maxlength="60" disabled/>
+                <label> Sigla da UF </label>
+                <input type="text" id="payer_state" class="campo bill" maxlength="2" style="max-width: 50px;" disabled/>
+            </div>
+            <div class="inline">
+                <label> CEP </label>
+                <input type="text" id="payer_zipCode" class="campo bill" maxlength="8" onkeyup="valCEP(this)" disabled/>
+                <label for="Telefone">Fone</label>
+                <input type="text" id="edt-fone" class="campo" onkeyup="phone(this)" maxlength="15" disabled>
+            </div>
+            <div class="inline">
+                <label> Email </label>
+                <input type="text" id="edt-email" class="campo" class="campo" maxlength="50" onkeyup="validaEmail(this)" disabled/>
+            </div>   
+            <div class="line">
+                <button id="btn-edt-cliente">Editar</button>
+            </div>
+
+
+        </div>
+        <div id="fatura" class="tab">
+            <div class="inline">
+                <label>Cliente</label>
+                <input type="text" class="bill" id="payer_name" readonly>
+            </div>
+                <div class="inline">
+                    <label>Data</label>
+                    <input type="date" class="bill" id="nsuDate">
+                    <label>Ambiente</label>
+                    <select class="bill" id="environment">
+                        <option value="TESTE">TESTE</option>
+                        <option value="PRODUCAO">PRODUCAO</option>
+                    </select>
+                    <label>Cod. Convênio.</label>
+                    <input type="text" class="bill" id="covenantCode" value="1226029">
+
+                </div>
+
+                <div class="inline">        
+                    <label>Valor R$</label>
+                    <input type="text" class="bill" id="nominalValue" onkeyup="valFloat(this)">
+                    <label>Data Venc.</label>
+                    <input type="date" class="bill" id="dueDate">
+                </div>
+                <div class="inline">
+                    <label>Nosso Num.</label>
+                    <input type="text" class="bill" id="bankNumber">
+                    <label>Seu Num.</label>
+                    <input type="text" class="bill" id="clientNumber">
+                </div>
+                <div class="inline">
+                    <label>Tipo Boleto</label>
+                    <select class="bill" id="documentKind">
+                        <option value="DUPLICATA_MERCANTIL" selected>DUPLICATA MERCANTIL</option>
+                        <option value="DUPLICATA_SERVICO">DUPLICATA SERVICO</option>
+                        <option value="NOTA_PROMISSORIA">NOTA PROMISSORIA</option>
+                        <option value="NOTA_PROMISSORIA_RURAL">NOTA PROMISSORIA RURAL</option>
+                        <option value="RECIBO">RECIBO</option>
+                        <option value="APOLICE_SEGURO">APOLICE DE SEGURO</option>
+                        <option value="BOLETO_CARTAO_CREDITO">BOLETO CARTAO DE CREDITO</option>
+                        <option value="BOLETO_PROPOSTA">BOLETO PROPOSTA</option>
+                        <option value="BOLETO_DEPOSITO_APORTE">BOLETO DEPOSITO APORTE</option>
+                        <option value="CHEQUE">CHEQUE</option>
+                        <option value="NOTA_PROMISSORIA_DIRETA">NOTA PROMISSORIA DIRETA</option>
+                        <option value="OUTROS">OUTROS</option>
+                    </select>
+                    <label>Tipo Pgto.</label>
+                    <select class="bill" id="paymentType">
+                        <option value="REGISTRO" selected>REGISTRO</option>
+                        <option value="DIVERGENTE">DIVERGENTE</option>
+                        <option value="PARCIAL">PARCIAL</option>
+                    </select>
+
+                </div>
+                <div class="inline">
+                    <label>Protesto</label>
+                    <select class="bill" id="protestType">
+                        <option value="SEM_PROTESTO" selected>SEM PROTESTO</option>
+                        <option value="DIAS_CORRIDOS">DIAS_CORRIDOS</option>
+                        <option value="DIAS_UTEIS">DIAS UTEIS</option>
+                        <option value="CADASTRO_CONVENIO">CADASTRO CONVENIO</option>
+                    </select>
+                    <label>Dias</label>
+                    <input type="text" class="bill" id="protestQuantityDays" onkeyup="valInt(this)" value="0">
+                </div>
+                <div class="inline">
+                    <label>Mensagem</label>
+                    <textarea class="bill" id="messages"></textarea>
+                </div>
+                <div class="line">
+                    <button id="set-bills">Gerar</button>    
+                </div>
+            </div>        
+
+    </div>
+
+</template>
+<script>
+    const pageData = main_data.bank_new_bill.data
+    const pageFunc = main_data.bank_new_bill.func
+    const pageScreen = document.querySelector('#card-bank_new_bill')
+
+    function startPage(){
+        pageScreen.querySelector('#tab-cliente').click()
+        pageScreen.querySelector('#nsuDate').value = today.getFormatDate()
+        today.change(30)
+        pageScreen.querySelector('#dueDate').value = today.getFormatDate()
+        today.change(-30)
+
+    }
+
+/* */
+
+    function openFields(open=1){
+        const view = pageScreen.querySelectorAll('.campo')
+        for(let i=0; i<view.length; i++){
+            view[i].disabled = !open
+        }
+    }
+
+    pageFunc.buscaEmp = (data)=>{
+        pageScreen.querySelector('#payer_name').value = data.nome
+        pageScreen.querySelector('#edt-RazSoc').value = data.nome
+        pageScreen.querySelector('#payer_documentNumber').value = getCNPJ(data.cnpj)
+        pageScreen.querySelector('#edt-ie').value = getIE(data.ie)
+        pageScreen.querySelector('#payer_address').value = data.endereco+', '+data.num
+        pageScreen.querySelector('#payer_neighborhood').value = data.bairro
+        pageScreen.querySelector('#edt-compl').value = data.comp
+        pageScreen.querySelector('#payer_city').value = data.cidade
+        pageScreen.querySelector('#payer_state').value = data.estado
+        pageScreen.querySelector('#payer_zipCode').value = data.cep
+        pageScreen.querySelector('#edt-fone').value = data.tel
+        pageScreen.querySelector('#edt-email').value = data.email
+        pageScreen.querySelector('#tab-fatura').click()
+    }
+
+/* DOM */    
+
+    pageScreen.querySelector('#btn-cliente').addEventListener('click',()=>{
+        openHTML('busca_emp.html','pop-up','Selecione o Cliente',{"org":"bank_new_bill"})
+    })
+/*
+    pageScreen.querySelector('#cmb-cpfcnpj').addEventListener('change',()=>{
+        const status = pageScreen.querySelector('#cmb-cpfcnpj')
+        const edt = pageScreen.querySelector('#edt-CpfCnpj')
+        if(status.value == 'CNPJ'){
+            edt.removeEventListener('keyup', valCPF);
+//            edt.addEventListener('keyup', valCNPJ(this));
+//            edt.value = valCNPJ(edt.value)
+        }else{
+            console.log(1)
+            edt.removeEventListener('keyup', valCNPJ);
+//            edt.addEventListener('keyup', valCPF(this));
+//            edt.value = valCPF(edt.value)
+        }
+    })
+*/
+    pageScreen.querySelector('#btn-edt-cliente').addEventListener('click',()=>{
+        if(confirm('Abrir registro para edição?')){
+            openFields(1)
+        }
+    })
+
+    pageScreen.querySelector('#set-bills').addEventListener('click',()=>{
+        saveBill()
+    })
+    
+
+/* COBRANÇAS */
+    
+    function saveBill(){
+
+        const fields = pageScreen.querySelectorAll('.bill')
+        const obj = new Object
+        for(let i=0; i<fields.length; i++){
+            const key = fields[i].id.split('_')
+            
+            let field = obj[key[0]]
+
+            for(let j=0; j<key.length; j++){
+                if(typeof field != 'object'){
+                    field = new Object
+                }
+                field = field[key[j]]
+            }
+
+            field = fields[i].value
+
+//            obj[fields[i].id] = fields[i].value
+        }
+
+
+        const nsuCode = 0
+        const nsuDate = 1
+        const environment = 1
+        const covenantCode = 1
+        const payer_documentType = 1
+        const payer_documentNumber = 1
+        const payer_name = 1
+        const payer_address = 1
+        const payer_neighborhood = 1
+        const payer_city = 1
+        const payer_state = 1
+        const payer_zipCode = 1
+        const bankNumber = 1
+        const clientNumber = 1
+        const dueDate = 1
+        const nominalValue = 1
+        const documentKind = 1
+        const protestType = 1
+        const protestQuantityDays = 1
+        const paymentType = 1
+        const messages = 1
+
+        console.log(obj)
+
+    }
+
+
+    startPage()
+
+</script>

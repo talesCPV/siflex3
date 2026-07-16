@@ -22,3 +22,5 @@
 15/07/2026 16:53 tales@flexibus.com.br : Folha de Pgto. Cadastrada Pgto FOLHA, Julho de 2026, Valor 5190, Venc. dia 2026-07-16
 15/07/2026 21:37 tales@flexibus.com.br : Menu Incluido (Cobrancas)
 15/07/2026 21:39 tales@flexibus.com.br : Menu Alterado (Cobrancas, bank_cobrancas.html, pop-up, Cobrancas)
+16/07/2026 14:27 tales@flexibus.com.br : Menu Incluido (Novo Boleto)
+16/07/2026 14:28 tales@flexibus.com.br : Menu Alterado (Novo Boleto, bank_new_bill.html, pop-up, Novo Boleto)
