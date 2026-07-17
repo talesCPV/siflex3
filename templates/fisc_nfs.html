@@ -333,7 +333,42 @@
         
         pageData.NFs.viewXML()
 
+        console.log(pageData.NFs)
+
     }
+/*
+    function saveBoleto(valor,venc,qtdFat=1,numFat=1){
+        const params = new Object;
+        params.nsuCode = 0
+        params.nsuDate = pageData.NFs.date
+        params.environment = pageData.CONF.environment // PRODUCAO
+        params.covenantCode = pageData.CONF.covenantCode //'1226029'
+        params.payer_documentType = pageData.CONF.payer_documentType//'CNPJ'
+        params.payer_documentNumber = pageData.cliente.CpfCnpTom
+        params.payer_name =  pageData.cliente.RazSocTom
+        params.payer_address = pageData.cliente.endereco+', '+pageData.cliente.num
+        params.payer_neighborhood = pageData.cliente.bairro
+        params.payer_city = pageData.cliente.cidade
+        params.payer_state = pageData.cliente.estado
+        params.payer_zipCode = getNum(pageData.cliente.cep)
+        params.clientNumber = 'NFs'+pageScreen.querySelector('#numNFS').value.trim()+` ${qtdFat}/${numFat}`
+        params.dueDate = venc
+        params.nominalValue = valor
+        params.documentKind = pageData.CONF.documentKind
+        params.protestType = pageData.CONF.protestType
+        params.protestQuantityDays = pageData.CONF.protestQuantityDays
+        params.paymentType = pageData.CONF.paymentType
+        params.messages = ``
+          
+        const myPromisse = queryDB(params,'BANK-1');
+        return myPromisse.then((resolve)=>{
+            setLog(`BOLETO REGISTRADO: ${params.nsuDate} - ${params.payer_name} R$${params.nominalValue} Venc.${params.dueDate} Nosso Num: ${params.clientNumber}`)
+            fillBills()
+            alert('Cadastrado efetuado!')
+        })
+    
+    }
+*/
 
     function saveNFs(){
         saveFile(pageData.NFs.rules,nf_file)

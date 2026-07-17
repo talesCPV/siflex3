@@ -454,7 +454,7 @@ CREATE TABLE tb_cobranca (
     beneficiary_documentType varchar(4) DEFAULT NULL,
     beneficiary_documentNumber varchar(14) DEFAULT NULL,
     beneficiary_name varchar(40) DEFAULT NULL,    
-    bankNumber varchar(3) NOT NULL DEFAULT "033",
+    bankNumber int NOT NULL,
     clientNumber varchar(15) DEFAULT NULL,
     dueDate date NOT NULL,
     issueDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

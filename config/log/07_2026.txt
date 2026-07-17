@@ -30,3 +30,9 @@
 17/07/2026 15:45 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-17 -  R$ Venc.2026-08-16 Nosso Num: 
 17/07/2026 15:46 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-17 - Adere R$123 Venc.2026-08-16 Nosso Num: 
 17/07/2026 15:46 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-17 -  R$123 Venc.2026-08-16 Nosso Num: 
+17/07/2026 19:27 tales@flexibus.com.br : Contas A Receber Cadastrada NFs 1260 - 2-2, 5891.00, Venc. dia 2026-09-15
+17/07/2026 19:27 tales@flexibus.com.br : Contas A Receber Cadastrada NFs 1260 - 1-2, 5891.00, Venc. dia 2026-08-16
+17/07/2026 19:55 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-17 - ABC SISTEMA DE TRANSPORTE SPE S.A R$1500 Venc.2026-08-16 Nosso Num: NFs-12345
+17/07/2026 20:18 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-17 - ABC SISTEMA DE TRANSPORTE SPE S.A R$200 Venc.2026-08-11 Nosso Num: 123AS
+17/07/2026 20:20 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-17 - ABC SISTEMA DE TRANSPORTE SPE S.A R$1 Venc.2026-08-16 Nosso Num: 1
+17/07/2026 20:36 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-17 - BRT RIO S.A R$1 Venc.2026-08-16 Nosso Num: NFs1234 1/1

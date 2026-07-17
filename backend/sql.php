@@ -146,8 +146,8 @@
 
         /* BANCÁRIO*/
         "BANK-0" => 'CALL sp_view_cobranca(@access,@hash,x00);', // covenantCode | 0-ALL
-        // nsuCode,nsuDate,environment,covenantCode,payer_documentType,payer_documentNumber,payer_name,payer_address,payer_neighborhood,payer_city,payer_state,payer_zipCode,bankNumber,clientNumber,dueDate,nominalValue,documentKind,protestType,protestQuantityDays,paymentType,messages        
-        "BANK-1" => 'CALL sp_set_cobranca(@access,@hash,x00,"x01","x02","x03","x04","x05","x06","x07","x08","x09","x10","x11","x12","x13","x14","x15","x16","x17","x18","x19","x20");', 
+        // nsuCode,nsuDate,environment,covenantCode,payer_documentType,payer_documentNumber,payer_name,payer_address,payer_neighborhood,payer_city,payer_state,payer_zipCode,clientNumber,dueDate,nominalValue,documentKind,protestType,protestQuantityDays,paymentType,messages        
+        "BANK-1" => 'CALL sp_set_cobranca(@access,@hash,x00,"x01","x02","x03","x04","x05","x06","x07","x08","x09","x10","x11","x12","x13","x14","x15","x16","x17","x18","x19");', 
                 
 
     );

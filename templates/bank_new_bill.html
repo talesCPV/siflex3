@@ -69,7 +69,7 @@
                     <option value="PRODUCAO">PRODUCAO</option>
                 </select>
                 <label>Cod. Convênio.</label>
-                <input type="text" class="bill" id="covenantCode" value="1226029">
+                <input type="text" class="bill" id="covenantCode" readonly>
             </div>
             <div class="inline">        
                 <label>Valor R$</label>
@@ -78,8 +78,6 @@
                 <input type="date" class="bill" id="dueDate">
             </div>
             <div class="inline">
-                <label>Nosso Num.</label>
-                <input type="text" class="bill" id="bankNumber">
                 <label>Seu Num.</label>
                 <input type="text" class="bill" id="clientNumber">
             </div>
@@ -160,6 +158,7 @@
 
         })
 
+        loadData()
 
         fillBills()
     }
@@ -201,8 +200,15 @@
         }
     })
 
+    pageScreen.querySelector('#environment').addEventListener('change',()=>{
+        const cmb = pageScreen.querySelector('#environment')
+        pageScreen.querySelector('#covenantCode').value = cmb.value ==='PRODUCAO' ? '1226029' : '00334455'
+    })
+
     pageScreen.querySelector('#set-bills').addEventListener('click',()=>{
-        saveBill()
+        if(checkField(['payer_name','nominalValue','clientNumber'])){
+            saveBill()
+        }
     })
     
     pageScreen.querySelector('#tbl-bills').addEventListener('click',(e)=>{
@@ -212,7 +218,6 @@
             const reg = new Object
             reg.label = 'Registrar no banco'
             reg.link = ()=>{
-//                console.log(data)
                 const obj = new Object
                 Object.entries(data).forEach(([key, value]) => {
                     if(key=='nsuCode'){
@@ -266,6 +271,27 @@
         return obj;
     };
 
+    function loadData(){
+        const data = new URLSearchParams()
+        data.append("path",'/../config/data.json' )
+
+        const myRequest = new Request("backend/loadFile.php",{
+            method : "POST",
+            body : data
+        })
+        fetch(myRequest).then((response)=>{
+            response.text().then((txt)=>{
+                const json = JSON.parse(txt)
+                pageScreen.querySelector('#environment').value = json.hasOwnProperty('environment') ? json.environment : 'TESTE'
+                pageScreen.querySelector('#covenantCode').value = json.hasOwnProperty('covenantCode') ? json.covenantCode : '00334455'
+                pageScreen.querySelector('#documentKind').value = json.hasOwnProperty('documentKind') ? json.documentKind : 'DUPLICATA_MERCANTIL'
+                pageScreen.querySelector('#paymentType').value = json.hasOwnProperty('paymentType') ? json.paymentType : 'REGISTRO'
+                pageScreen.querySelector('#protestType').value = json.hasOwnProperty('protestType') ? json.protestType : 'SEM_PROTESTO'
+                pageScreen.querySelector('#protestQuantityDays').value = json.hasOwnProperty('protestQuantityDays') ? json.protestQuantityDays : '0'
+            })
+        })
+    }
+
     function fillBills(){
         const params = new Object;
         params.covenantCode = 0
@@ -295,7 +321,6 @@
         params.payer_city = pageScreen.querySelector('#payer_city').value.trim()
         params.payer_state = pageScreen.querySelector('#payer_state').value.trim()
         params.payer_zipCode = getNum(pageScreen.querySelector('#payer_zipCode').value)
-        params.bankNumber = pageScreen.querySelector('#bankNumber').value.trim()
         params.clientNumber = pageScreen.querySelector('#clientNumber').value.trim()
         params.dueDate = pageScreen.querySelector('#dueDate').value.trim()
         params.nominalValue = pageScreen.querySelector('#nominalValue').value.trim()
@@ -304,14 +329,14 @@
         params.protestQuantityDays = pageScreen.querySelector('#protestQuantityDays').value.trim()
         params.paymentType = pageScreen.querySelector('#paymentType').value.trim()
         params.messages = pageScreen.querySelector('#messages').value.trim()
-          
+
         const myPromisse = queryDB(params,'BANK-1');
         return myPromisse.then((resolve)=>{
             setLog(`BOLETO REGISTRADO: ${params.nsuDate} - ${params.payer_name} R$${params.nominalValue} Venc.${params.dueDate} Nosso Num: ${params.clientNumber}`)
             fillBills()
             alert('Cadastrado efetuado!')
-        })
-    
+            pageScreen.querySelector('#tab-bank').click()
+        })    
     }
 
     function objBill(){

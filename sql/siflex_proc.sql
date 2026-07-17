@@ -2445,7 +2445,6 @@ DELIMITER $$
 		IN Ipayer_city varchar(20),
 		IN Ipayer_state varchar(2),
 		IN Ipayer_zipCode varchar(9),
-		IN IbankNumber varchar(3),
 		IN IclientNumber varchar(15),
 		IN IdueDate date,
         IN InominalValue double,
@@ -2464,7 +2463,8 @@ DELIMITER $$
                 bankNumber,clientNumber,dueDate,nominalValue,documentKind,protestType,protestQuantityDays,paymentType,messages) 
                 VALUES(InsuDate,Ienvironment,IcovenantCode,Ipayer_documentType,
                 Ipayer_documentNumber,Ipayer_name,Ipayer_address,Ipayer_neighborhood,Ipayer_city,Ipayer_state,Ipayer_zipCode,
-                IbankNumber,IclientNumber,IdueDate,InominalValue,IdocumentKind,IprotestType,IprotestQuantityDays,IpaymentType,Imessages);
+                (SELECT (COALESCE(MAX(b.bankNumber), 0) + 1) FROM tb_cobranca b),
+                IclientNumber,IdueDate,InominalValue,IdocumentKind,IprotestType,IprotestQuantityDays,IpaymentType,Imessages);
             ELSE
 				IF(Ipayer_name="")THEN
 					DELETE FROM tb_cobranca WHERE nsuCode=InsuCode;
