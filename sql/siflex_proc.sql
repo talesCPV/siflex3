@@ -2409,6 +2409,25 @@ DELIMITER ;
 
 /* SANTANDER */
 
+-- DROP PROCEDURE sp_view_cobranca;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_cobranca(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN IcovenantCode int
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN
+			IF(IcovenantCode=0)THEN
+				SELECT * FROM tb_cobranca;
+            ELSE
+				SELECT * FROM tb_cobranca WHERE covenantCode=IcovenantCode;
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;
+
  DROP PROCEDURE sp_set_cobranca;
 DELIMITER $$
 	CREATE PROCEDURE sp_set_cobranca(

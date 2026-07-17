@@ -4,6 +4,7 @@
     <div class="tab-bar">
         <div class="tab-item" id="tab-cliente"  onclick="pictab(this)">Cliente     </div>            
         <div class="tab-item" id="tab-fatura"   onclick="pictab(this)">Fatura </div>
+        <div class="tab-item" id="tab-bank"     onclick="pictab(this)">Histórico </div>
     </div>
 
     <div class="tab-screen">        
@@ -59,75 +60,74 @@
                 <label>Cliente</label>
                 <input type="text" class="bill" id="payer_name" readonly>
             </div>
-                <div class="inline">
-                    <label>Data</label>
-                    <input type="date" class="bill" id="nsuDate">
-                    <label>Ambiente</label>
-                    <select class="bill" id="environment">
-                        <option value="TESTE">TESTE</option>
-                        <option value="PRODUCAO">PRODUCAO</option>
-                    </select>
-                    <label>Cod. Convênio.</label>
-                    <input type="text" class="bill" id="covenantCode" value="1226029">
-
-                </div>
-
-                <div class="inline">        
-                    <label>Valor R$</label>
-                    <input type="text" class="bill" id="nominalValue" onkeyup="valFloat(this)">
-                    <label>Data Venc.</label>
-                    <input type="date" class="bill" id="dueDate">
-                </div>
-                <div class="inline">
-                    <label>Nosso Num.</label>
-                    <input type="text" class="bill" id="bankNumber">
-                    <label>Seu Num.</label>
-                    <input type="text" class="bill" id="clientNumber">
-                </div>
-                <div class="inline">
-                    <label>Tipo Boleto</label>
-                    <select class="bill" id="documentKind">
-                        <option value="DUPLICATA_MERCANTIL" selected>DUPLICATA MERCANTIL</option>
-                        <option value="DUPLICATA_SERVICO">DUPLICATA SERVICO</option>
-                        <option value="NOTA_PROMISSORIA">NOTA PROMISSORIA</option>
-                        <option value="NOTA_PROMISSORIA_RURAL">NOTA PROMISSORIA RURAL</option>
-                        <option value="RECIBO">RECIBO</option>
-                        <option value="APOLICE_SEGURO">APOLICE DE SEGURO</option>
-                        <option value="BOLETO_CARTAO_CREDITO">BOLETO CARTAO DE CREDITO</option>
-                        <option value="BOLETO_PROPOSTA">BOLETO PROPOSTA</option>
-                        <option value="BOLETO_DEPOSITO_APORTE">BOLETO DEPOSITO APORTE</option>
-                        <option value="CHEQUE">CHEQUE</option>
-                        <option value="NOTA_PROMISSORIA_DIRETA">NOTA PROMISSORIA DIRETA</option>
-                        <option value="OUTROS">OUTROS</option>
-                    </select>
-                    <label>Tipo Pgto.</label>
-                    <select class="bill" id="paymentType">
-                        <option value="REGISTRO" selected>REGISTRO</option>
-                        <option value="DIVERGENTE">DIVERGENTE</option>
-                        <option value="PARCIAL">PARCIAL</option>
-                    </select>
-
-                </div>
-                <div class="inline">
-                    <label>Protesto</label>
-                    <select class="bill" id="protestType">
-                        <option value="SEM_PROTESTO" selected>SEM PROTESTO</option>
-                        <option value="DIAS_CORRIDOS">DIAS_CORRIDOS</option>
-                        <option value="DIAS_UTEIS">DIAS UTEIS</option>
-                        <option value="CADASTRO_CONVENIO">CADASTRO CONVENIO</option>
-                    </select>
-                    <label>Dias</label>
-                    <input type="text" class="bill" id="protestQuantityDays" onkeyup="valInt(this)" value="0">
-                </div>
-                <div class="inline">
-                    <label>Mensagem</label>
-                    <textarea class="bill" id="messages"></textarea>
-                </div>
-                <div class="line">
-                    <button id="set-bills">Gerar</button>    
-                </div>
-            </div>        
-
+            <div class="inline">
+                <label>Data</label>
+                <input type="date" class="bill" id="nsuDate">
+                <label>Ambiente</label>
+                <select class="bill" id="environment">
+                    <option value="TESTE">TESTE</option>
+                    <option value="PRODUCAO">PRODUCAO</option>
+                </select>
+                <label>Cod. Convênio.</label>
+                <input type="text" class="bill" id="covenantCode" value="1226029">
+            </div>
+            <div class="inline">        
+                <label>Valor R$</label>
+                <input type="text" class="bill" id="nominalValue" onkeyup="valFloat(this)">
+                <label>Data Venc.</label>
+                <input type="date" class="bill" id="dueDate">
+            </div>
+            <div class="inline">
+                <label>Nosso Num.</label>
+                <input type="text" class="bill" id="bankNumber">
+                <label>Seu Num.</label>
+                <input type="text" class="bill" id="clientNumber">
+            </div>
+            <div class="inline">
+                <label>Tipo Boleto</label>
+                <select class="bill" id="documentKind">
+                    <option value="DUPLICATA_MERCANTIL" selected>DUPLICATA MERCANTIL</option>
+                    <option value="DUPLICATA_SERVICO">DUPLICATA SERVICO</option>
+                    <option value="NOTA_PROMISSORIA">NOTA PROMISSORIA</option>
+                    <option value="NOTA_PROMISSORIA_RURAL">NOTA PROMISSORIA RURAL</option>
+                    <option value="RECIBO">RECIBO</option>
+                    <option value="APOLICE_SEGURO">APOLICE DE SEGURO</option>
+                    <option value="BOLETO_CARTAO_CREDITO">BOLETO CARTAO DE CREDITO</option>
+                    <option value="BOLETO_PROPOSTA">BOLETO PROPOSTA</option>
+                    <option value="BOLETO_DEPOSITO_APORTE">BOLETO DEPOSITO APORTE</option>
+                    <option value="CHEQUE">CHEQUE</option>
+                    <option value="NOTA_PROMISSORIA_DIRETA">NOTA PROMISSORIA DIRETA</option>
+                    <option value="OUTROS">OUTROS</option>
+                </select>
+                <label>Tipo Pgto.</label>
+                <select class="bill" id="paymentType">
+                    <option value="REGISTRO" selected>REGISTRO</option>
+                    <option value="DIVERGENTE">DIVERGENTE</option>
+                    <option value="PARCIAL">PARCIAL</option>
+                </select>
+            </div>
+            <div class="inline">
+                <label>Protesto</label>
+                <select class="bill" id="protestType">
+                    <option value="SEM_PROTESTO" selected>SEM PROTESTO</option>
+                    <option value="DIAS_CORRIDOS">DIAS_CORRIDOS</option>
+                    <option value="DIAS_UTEIS">DIAS UTEIS</option>
+                    <option value="CADASTRO_CONVENIO">CADASTRO CONVENIO</option>
+                </select>
+                <label>Dias</label>
+                <input type="text" class="bill" id="protestQuantityDays" onkeyup="valInt(this)" value="0">
+            </div>
+            <div class="inline">
+                <label>Mensagem</label>
+                <textarea class="bill" id="messages"></textarea>
+            </div>
+            <div class="line">
+                <button id="set-bills">Gerar</button>    
+            </div>
+        </div>        
+        <div id="bank" class="tab">
+            <table id="tbl-bills"></table>
+        </div>
     </div>
 
 </template>
@@ -143,6 +143,25 @@
         pageScreen.querySelector('#dueDate').value = today.getFormatDate()
         today.change(-30)
 
+        getFile('/../config/workspaces.json').then((response)=>{
+            pageData.workspace = 0
+        
+            const json = JSON.parse(response).content
+
+            for(let i=0; i<json.length; i++){
+                if(json[i].select){
+                    pageData.workspace = json[i]
+                }
+            }
+            if(!pageData.workspace){
+                alert('Nenhum workspace selecionado! Vá para menu Bancário|Workspaces.')
+                closeModal('bank_new_bill')
+            }
+
+        })
+
+
+        fillBills()
     }
 
 /* */
@@ -175,22 +194,7 @@
     pageScreen.querySelector('#btn-cliente').addEventListener('click',()=>{
         openHTML('busca_emp.html','pop-up','Selecione o Cliente',{"org":"bank_new_bill"})
     })
-/*
-    pageScreen.querySelector('#cmb-cpfcnpj').addEventListener('change',()=>{
-        const status = pageScreen.querySelector('#cmb-cpfcnpj')
-        const edt = pageScreen.querySelector('#edt-CpfCnpj')
-        if(status.value == 'CNPJ'){
-            edt.removeEventListener('keyup', valCPF);
-//            edt.addEventListener('keyup', valCNPJ(this));
-//            edt.value = valCNPJ(edt.value)
-        }else{
-            console.log(1)
-            edt.removeEventListener('keyup', valCNPJ);
-//            edt.addEventListener('keyup', valCPF(this));
-//            edt.value = valCPF(edt.value)
-        }
-    })
-*/
+
     pageScreen.querySelector('#btn-edt-cliente').addEventListener('click',()=>{
         if(confirm('Abrir registro para edição?')){
             openFields(1)
@@ -201,55 +205,145 @@
         saveBill()
     })
     
+    pageScreen.querySelector('#tbl-bills').addEventListener('click',(e)=>{
+        const data = e.target.parentNode.data
+        if(data!=undefined){
+            const tbl = []
+            const reg = new Object
+            reg.label = 'Registrar no banco'
+            reg.link = ()=>{
+//                console.log(data)
+                const obj = new Object
+                Object.entries(data).forEach(([key, value]) => {
+                    if(key=='nsuCode'){
+                        value = data.environment == 'TESTE' ? 'TST'+value : value
+                    }
+                    setNestedValue(obj,key.split('_'),value)
+                });
+
+                if(pageData.workspace){
+                    console.log(obj)
+                    setBill(pageData.workspace.id,JSON.stringify(obj)).then((response)=>{
+                        console.log(response)
+                    })
+
+                }
+
+
+            }
+            tbl.push(reg)
+
+            const del = new Object
+            del.label = 'Deletar'
+            del.link = ()=>{
+                if(confirm('Deseja deletar esta cobrança?')){
+                    saveBill(getNum(data.nsuCode),1).then(()=>{
+                        fillBills()
+                    })
+                }
+            }
+            tbl.push(del)
+          
+            menuContext(tbl,e)  
+        }
+
+    })
+
 
 /* COBRANÇAS */
-    
-    function saveBill(){
 
-        const fields = pageScreen.querySelectorAll('.bill')
+    const setNestedValue = (obj, keys, value) => {
+        if(value != null){
+            const lastKey = keys.pop(); 
+            const lastObject = keys.reduce((acc, key) => {
+                if (!acc[key] || typeof acc[key] !== 'object') {
+                    acc[key] = new Object;
+                }
+                return acc[key];
+            }, obj);
+            lastObject[lastKey] = value;
+        }
+        return obj;
+    };
+
+    function fillBills(){
+        const params = new Object;
+        params.covenantCode = 0
+        const myPromisse = queryDB(params,'BANK-0');
+        const tbl = pageScreen.querySelector('#tbl-bills')
+        tbl.innerHTML = ''
+        tbl.head('Cliente,Nosso Num.,Valor,Venc.')
+        myPromisse.then((resolve)=>{
+            const json = JSON.parse(resolve)
+            for(let i=0; i<json.length; i++){
+                tbl.plot(json[i],'payer_name,clientNumber,nominalValue,dueDate','Upp,Upp,R$.,dat')
+            }
+        })
+    }
+
+    function saveBill(id=0, del=0){
+        const params = new Object;
+        params.nsuCode = id
+        params.nsuDate = pageScreen.querySelector('#nsuDate').value.trim()
+        params.environment = pageScreen.querySelector('#environment').value.trim()
+        params.covenantCode = getNum(pageScreen.querySelector('#covenantCode').value.trim())
+        params.payer_documentType = pageScreen.querySelector('#payer_documentType').value.trim()
+        params.payer_documentNumber = getNum(pageScreen.querySelector('#payer_documentNumber').value.trim())
+        params.payer_name = del ? '' : pageScreen.querySelector('#payer_name').value.trim()
+        params.payer_address = pageScreen.querySelector('#payer_address').value.trim()
+        params.payer_neighborhood = pageScreen.querySelector('#payer_neighborhood').value.trim()
+        params.payer_city = pageScreen.querySelector('#payer_city').value.trim()
+        params.payer_state = pageScreen.querySelector('#payer_state').value.trim()
+        params.payer_zipCode = getNum(pageScreen.querySelector('#payer_zipCode').value)
+        params.bankNumber = pageScreen.querySelector('#bankNumber').value.trim()
+        params.clientNumber = pageScreen.querySelector('#clientNumber').value.trim()
+        params.dueDate = pageScreen.querySelector('#dueDate').value.trim()
+        params.nominalValue = pageScreen.querySelector('#nominalValue').value.trim()
+        params.documentKind = pageScreen.querySelector('#documentKind').value.trim()
+        params.protestType = pageScreen.querySelector('#protestType').value.trim()
+        params.protestQuantityDays = pageScreen.querySelector('#protestQuantityDays').value.trim()
+        params.paymentType = pageScreen.querySelector('#paymentType').value.trim()
+        params.messages = pageScreen.querySelector('#messages').value.trim()
+          
+        const myPromisse = queryDB(params,'BANK-1');
+        return myPromisse.then((resolve)=>{
+            setLog(`BOLETO REGISTRADO: ${params.nsuDate} - ${params.payer_name} R$${params.nominalValue} Venc.${params.dueDate} Nosso Num: ${params.clientNumber}`)
+            fillBills()
+            alert('Cadastrado efetuado!')
+        })
+    
+    }
+
+    function objBill(){
+        const fields = pageScreen.querySelectorAll('.bill')        
         const obj = new Object
         for(let i=0; i<fields.length; i++){
             const key = fields[i].id.split('_')
-            
-            let field = obj[key[0]]
-
-            for(let j=0; j<key.length; j++){
-                if(typeof field != 'object'){
-                    field = new Object
-                }
-                field = field[key[j]]
-            }
-
-            field = fields[i].value
-
-//            obj[fields[i].id] = fields[i].value
+            setNestedValue(obj,key,fields[i].value)
         }
+        return obj
+    }
 
+    function setBill(workspace_id,payload){
 
-        const nsuCode = 0
-        const nsuDate = 1
-        const environment = 1
-        const covenantCode = 1
-        const payer_documentType = 1
-        const payer_documentNumber = 1
-        const payer_name = 1
-        const payer_address = 1
-        const payer_neighborhood = 1
-        const payer_city = 1
-        const payer_state = 1
-        const payer_zipCode = 1
-        const bankNumber = 1
-        const clientNumber = 1
-        const dueDate = 1
-        const nominalValue = 1
-        const documentKind = 1
-        const protestType = 1
-        const protestQuantityDays = 1
-        const paymentType = 1
-        const messages = 1
+        const data = new URLSearchParams();        
+        data.append("workspace_id", workspace_id);
+        data.append("payload", payload);
+        const myRequest = new Request("backend/bank/set_bills.php",{        
+            method : "POST",
+            body : data
+        });
 
-        console.log(obj)
-
+        return new Promise((resolve,reject) =>{
+            fetch(myRequest)
+            .then(function (response){
+                if (response.status === 200 || response.status === 201) { 
+                    resolve(response.text());                    
+                } else { 
+                    reject(new Error("Houve algum erro na comunicação com o servidor"));                    
+                } 
+            });
+        });   
     }
 
 

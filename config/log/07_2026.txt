@@ -24,3 +24,9 @@
 15/07/2026 21:39 tales@flexibus.com.br : Menu Alterado (Cobrancas, bank_cobrancas.html, pop-up, Cobrancas)
 16/07/2026 14:27 tales@flexibus.com.br : Menu Incluido (Novo Boleto)
 16/07/2026 14:28 tales@flexibus.com.br : Menu Alterado (Novo Boleto, bank_new_bill.html, pop-up, Novo Boleto)
+17/07/2026 14:52 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-17 - ABC SISTEMA DE TRANSPORTE SPE S.A R$1500 Venc.2026-08-16 Nosso Num456
+17/07/2026 15:31 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-17 - ABC SISTEMA DE TRANSPORTE SPE S.A R$1520.36 Venc.2026-09-12 Nosso Num: 456
+17/07/2026 15:35 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-17 - COMPANHIA CARRIS PORTO ALEGRENSE R$120 Venc.2026-08-16 Nosso Num: NFs12345
+17/07/2026 15:45 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-17 -  R$ Venc.2026-08-16 Nosso Num: 
+17/07/2026 15:46 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-17 - Adere R$123 Venc.2026-08-16 Nosso Num: 
+17/07/2026 15:46 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-17 -  R$123 Venc.2026-08-16 Nosso Num: 
