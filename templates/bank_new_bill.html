@@ -212,7 +212,19 @@
     })
     
     pageScreen.querySelector('#tbl-bills').addEventListener('click',(e)=>{
-        const data = e.target.parentNode.data
+        const limparTexto = (texto) => {
+            if (!texto) return texto;
+            // Decodifica possíveis problemas de encoding antes de limpar
+            try {
+            texto = decodeURIComponent(escape(texto));
+            } catch (e) {
+            // Se falhar, segue com o texto original para a remoção de acentos
+            }
+            // Remove acentos e caracteres especiais
+            return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
+        };
+
+        const data = e.target.parentNode.data        
         if(data!=undefined){
             const tbl = []
             const reg = new Object
@@ -227,7 +239,29 @@
                 });
 
                 if(pageData.workspace){
+
+                    obj.nsuCode = obj.nsuCode.padStart(12,0)
+                    obj.issueDate = obj.issueDate.split(' ')[0]
+                    obj.nominalValue = Number(obj.nominalValue).toFixed(2)
+                    obj.messages = [obj.messages]
+
+
+                    if (obj.payer) {
+                        obj.payer.name = limparTexto(obj.payer.name);
+                        obj.payer.address = limparTexto(obj.payer.address);
+                        obj.payer.neighborhood = limparTexto(obj.payer.neighborhood);
+                        obj.payer.city = limparTexto(obj.payer.city);
+                        obj.payer.zipCode = getNum(obj.payer.zipCode).substr(0,5)+'-'+getNum(obj.payer.zipCode).substr(5,3)
+                    }
+
+                    if (['DIAS_CORRIDOS','DIAS_UTEIS'].includes(obj.protestType)) {
+                        obj.protestQuantityDays = parseInt(obj.protestQuantityDays, 10);
+                    }else{
+                        delete(obj.protestQuantityDays)
+                    }
+
                     console.log(obj)
+                    
                     setBill(pageData.workspace.id,JSON.stringify(obj)).then((response)=>{
                         console.log(response)
                     })
@@ -336,9 +370,9 @@
             fillBills()
             alert('Cadastrado efetuado!')
             pageScreen.querySelector('#tab-bank').click()
-        })    
+        })
     }
-
+    
     function objBill(){
         const fields = pageScreen.querySelectorAll('.bill')        
         const obj = new Object

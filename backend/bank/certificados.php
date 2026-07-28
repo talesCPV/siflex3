@@ -1,7 +1,7 @@
 <?php
 
-    // API MODE : SANDBOX || PRODUCAO
-    $api_mode = 'SANDBOX'/*'PRODUCAO'*/;
+//     API MODE : SANDBOX || PRODUCAO
+    $api_mode = /*'SANDBOX'*/'PRODUCAO';
 
     // DADOS BANCÁRIOS
     define('CC_NUM', '130011898'); // 

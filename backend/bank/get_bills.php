@@ -9,12 +9,27 @@ require_once __DIR__ . '/token.php';
 $workspace_id = $_GET['workspace_id'] ?? null;
 $dataInicio = $_GET['data_inicio'] ?? null;
 $dataFim    = $_GET['data_fim'] ?? null;
-$statusBusca = isset($_GET['status']) ? strtoupper(trim($_GET['status'])) : 'LIQUIDADO'; // Padrão se omitido
+$statusBusca =  isset($_GET['status']) ? strtoupper(trim($_GET['status'])) : 'LIQUIDADO'; // Padrão se omitido
 $pagina     = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 $limite     = isset($_GET['limite']) ? (int)$_GET['limite'] : 50;
 
-$dataIniTipo = isset($_GET['data_range']) ? ($_GET['data_range']=='REG'?'registrationDateInitial':($_GET['data_range']=='DUE'?'dueDateInitial':'paymentDateInitial')):'dueDateInitial'; // Registro(REG), Vencimento(DUE), Pagamento(PAY)
-$dataFinTipo = isset($_GET['data_range']) ? ($_GET['data_range']=='REG'?'registrationDateFinal'  :($_GET['data_range']=='DUE'?'dueDateFinal'  :'paymentDateFinal'  )):'dueDateFinal'; // Registro(REG), Vencimento(DUE), Pagamento(PAY)
+//$dataIniTipo = isset($_GET['data_range']) ? ($_GET['data_range']=='REG'?'registrationDateInitial':($_GET['data_range']=='DUE'?'dueDateInitial':'paymentDateInitial')):'dueDateInitial'; // Registro(REG), Vencimento(DUE), Pagamento(PAY)
+//$dataFinTipo = isset($_GET['data_range']) ? ($_GET['data_range']=='REG'?'registrationDateFinal'  :($_GET['data_range']=='DUE'?'dueDateFinal'  :'paymentDateFinal'  )):'dueDateFinal'; // Registro(REG), Vencimento(DUE), Pagamento(PAY)
+if (isset($_GET['data_range'])) {
+    $dataIniTipo = $_GET['data_range'] == 'REG' ? 'registrationDateInitial' : ($_GET['data_range'] == 'DUE' ? 'dueDateInitial' : 'paymentDateInitial');
+    $dataFinTipo = $_GET['data_range'] == 'REG' ? 'registrationDateFinal'   : ($_GET['data_range'] == 'DUE' ? 'dueDateFinal'   : 'paymentDateFinal');
+} else {
+    // Se o cliente não passou data_range, define o tipo com base no Status de busca
+    if ($statusBusca === 'LIQUIDADO' || $statusBusca === 'BAIXADO') {
+        $dataIniTipo = 'paymentDateInitial';
+        $dataFinTipo = 'paymentDateFinal';
+    } else {
+        $dataIniTipo = 'dueDateInitial';
+        $dataFinTipo = 'dueDateFinal';
+    }
+}
+
+
 
 if (!$dataInicio || !$dataFim) {
     http_response_code(400);
@@ -26,17 +41,29 @@ if (!$dataInicio || !$dataFim) {
 }
 
 try {
-    // Parâmetros de data aceitos na rota de lote do barramento de Workspaces do Santander
-    $queryParams = http_build_query([
-        'covenantCode'       => defined('CONVENIO_NUM') ? trim(CONVENIO_NUM) : '1226029',
-        $dataIniTipo  => trim($dataInicio),
-        $dataFinTipo  => trim($dataFim),
-        'status'      => $statusBusca,
-        'page'        => (int)(($pagina > 1) ? ($pagina - 1) : 0),
-        'size'        => (int)$limite
-    ]);
+    // 1. Configura os parâmetros corretos exigidos pelo barramento do Santander
+    $statusOficial = 'EM_ABERTO'; // Termo correto para títulos em aberto/pendentes
+    $chaveDataInicio = 'dueDateInitial'; // Exigido pelo banco para status EM_ABERTO
+    $chaveDataFim    = 'dueDateFinal';    // Exigido pelo banco para status EM_ABERTO
+
+    // 2. Monta o array de forma limpa, sem variáveis fantasmas
+    $params = [
+        'covenantCode'   => defined('CONVENIO_NUM') ? trim(CONVENIO_NUM) : '1226029',
+        'status'         => $statusOficial,
+        $chaveDataInicio => trim($dataInicio),
+        $chaveDataFim    => trim($dataFim),
+        'page'           => (int)(($pagina > 1) ? ($pagina - 1) : 0),
+        'size'           => (int)$limite
+    ];
+
+//var_dump($params);
+//exit;
+
+    // Gera a Query String perfeita para a URL
+    $queryParams = http_build_query($params);
 
     $urlSondaGlobal = rtrim(URL_WORKSPACES, '/') . '/' . $workspace_id . '/bank_slips?' . $queryParams;
+
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $urlSondaGlobal);
@@ -48,7 +75,9 @@ try {
 
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'Authorization: Bearer ' . TOKEN,
-        'X-Application-Key: ' . CLIENT_ID,
+        'X-Application-Key: ' . trim(CLIENT_ID),
+        'x-santander-client-id: ' . trim(CLIENT_ID),
+        'workspaceId: ' . trim($workspace_id),
         'Content-Type: application/json',
         'Accept: application/json'
     ]);

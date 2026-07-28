@@ -12,6 +12,7 @@
 
     $workspaceId = $input['workspace_id'] ?? null;
     $payload = json_decode($input['payload']) ?? null;         
+    
 
 //    var_dump($payload);
 //    exit;
@@ -41,7 +42,8 @@
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         "Authorization: Bearer " . trim(TOKEN),
         "x-santander-client-id: " . trim(CLIENT_ID),
-        "X-Application-Key: " . trim(CLIENT_ID), // Adicionado para garantir o vínculo da aplicação
+        "X-Application-Key: " . trim(CLIENT_ID),
+        "workspaceId: " . trim($workspaceId),
         "Content-Type: application/json",
         "Accept: application/json"
     ]);
@@ -52,6 +54,8 @@
     curl_setopt($ch, CURLOPT_SSLKEY, KEY_FILE);
 
     // Ignora validação local de CA (ideal para ambiente Localhost)
+//    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $api_mode =='PRODUCAO' ? true : false);
+//    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $api_mode =='PRODUCAO' ? 2    : false);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 

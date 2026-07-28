@@ -61,6 +61,25 @@
         const dt_fin = pageScreen.querySelector('#edt-fin').value
         const status = pageScreen.querySelector('#cmb-status').value
         const range  = pageScreen.querySelector('#cmb-range').value
+        getNsuCode(pageData.workspace.id,'000000000008').then((resolve)=>{
+            const json = JSON.parse(resolve)
+console.log(json)            
+            const tbl = pageScreen.querySelector('#tbl-bills')
+            tbl.innerHTML = ''
+            if(json.sucesso){
+                tbl.head('Cliente,Valor,Vencimento,Status')
+                for(let i=0; i<json.boletos.length; i++){
+                    console.log(json.boletos[i])
+                    tbl.plot(json.boletos[i],`${json.boletos[i].payer.name},nominalValue,dueDate,status`,'let,R$.,dat,Upp')
+                }
+
+            }else{
+                alert(json.erro)
+            }
+
+
+        })
+/*
         getBills(pageData.workspace.id,dt_ini,dt_fin,status,range).then((resolve)=>{
             const json = JSON.parse(resolve)
             const tbl = pageScreen.querySelector('#tbl-bills')
@@ -78,6 +97,7 @@
 
 
         })
+ */   
     })
 
 /* COBRANÇA */
@@ -111,7 +131,31 @@
         });   
     }
 
+    function getNsuCode(workspace_id,nsuCode) {
+        const params = new URLSearchParams();
+        params.append("workspace_id", workspace_id);
+        params.append("nsu_code", nsuCode);
 
+        const url_params = "backend/bank/buscaNSU.php?" + params.toString();
+
+        const myRequest = new Request(url_params, {
+            method: "GET"
+        });
+
+        return new Promise((resolve, reject) => {
+            fetch(myRequest)
+            .then(function (response) {
+//                if (response.status === 200) { 
+                    resolve(response.text());                    
+//                } else { 
+//                    reject(new Error("Houve algum erro na comunicação com o servidor. Status: " + response.status));                    
+//                } 
+            })
+            .catch(function (error) {
+                reject(error); // Captura erros de rede ou conexão
+            });
+        });   
+    }
     
     startPage()
 
