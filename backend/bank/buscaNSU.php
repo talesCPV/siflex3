@@ -6,10 +6,12 @@ header("Access-Control-Allow-Methods: GET");
 
 require_once __DIR__ . '/token.php';
 
-$workspace_id = $_GET['workspace_id'] ?? null;
-$nsuCode      = $_GET['nsu_code'] ?? null; // Vamos buscar pelo identificador do boleto
+$workspace_id   = $_GET['workspace_id'] ?? null;
+$nsuCode        = $_GET['nsuCode'] ?? null;
+$nsuDate        = $_GET['nsuDate'] ?? null;
+$bank_number    = $_GET['bankNumber'] ?? null;
 
-if (!$workspace_id || !$nsuCode) {
+if (!$workspace_id || !$nsuCode || !$nsuDate  || !$bank_number) {
     http_response_code(400);
     echo json_encode([
         "sucesso" => false,
@@ -19,10 +21,9 @@ if (!$workspace_id || !$nsuCode) {
 }
 
 try {
+    $environment  = defined('ENVIRONMENT')  ? trim(ENVIRONMENT)  : 'PRODUCAO';
     $covenantCode = defined('CONVENIO_NUM') ? trim(CONVENIO_NUM) : '1226029';
-
-    // 1. Monta os parâmetros de consulta unitária para o boleto em aberto
-    // O Santander permite buscar um título específico usando filtros dedicados na query string
+/*    
     $params = [
         'covenantCode' => $covenantCode,
         'status' => 'EM_ABERTO',
@@ -30,18 +31,18 @@ try {
         'paymentDateFinal'   => '2026-08-31',
         'nsuCode'      => str_pad($nsuCode, 12, "0", STR_PAD_LEFT) // "000000000010"
     ];
-
+*/
 //var_dump($params);
 //exit;
 
-    $queryParams = http_build_query($params);
+    $queryParams = $nsuCode.'.'.$nsuDate.'.'.$environment.'.'.$covenantCode.'.'.$bank_number;
 
     // 2. Aponta para a rota base correta do barramento de Workspaces
     $urlSondaUnitária = rtrim(URL_WORKSPACES, '/') . '/' . $workspace_id . '/bank_slips?' . $queryParams;
 
-echo $urlSondaUnitária;
-exit;
-
+//echo $urlSondaUnitária;
+//exit;
+// https://trust-open.api.santander.com.br/collection_bill_management/v2/workspaces/366cec67-a0a5-4d4f-b537-4bc280e062df/bank_slips?10.2026-07-28.PRODUCAO.1226029.9
     // Caso a sua URL_WORKSPACES já mude dependendo da versão, use a rota padrão mapeada do manual:
     // $urlSondaUnitária = "https://santander.com.br{$workspace_id}/bank_slips/{$nsuFormatado}?covenantCode={$covenantCode}";
 

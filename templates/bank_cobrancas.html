@@ -131,10 +131,12 @@ console.log(json)
         });   
     }
 
-    function getNsuCode(workspace_id,nsuCode) {
+    function getNsuCode(workspace_id,nsuCode,nsuDate,bankNumber) {
         const params = new URLSearchParams();
         params.append("workspace_id", workspace_id);
-        params.append("nsu_code", nsuCode);
+        params.append("nsuCode", nsuCode)
+        params.append("nsuDate", nsuDate)
+        params.append("bankNumber", bankNumber)
 
         const url_params = "backend/bank/buscaNSU.php?" + params.toString();
 

@@ -6,7 +6,8 @@
     // DADOS BANCÁRIOS
     define('CC_NUM', '130011898'); // 
     define('BANK_NUM', '033'); // 
-    define('CONVENIO_NUM', $api_mode == 'PRODUCAO' ?'1226029':'00334455'); // SANDBOX:00334455 | PRODUÇAO:1226029
+    define('CONVENIO_NUM', $api_mode == 'PRODUCAO' ?'1226029' :'00334455'); // SANDBOX:00334455 | PRODUÇAO:1226029
+    define('ENVIRONMENT',  $api_mode == 'PRODUCAO' ?'PRODUCAO':'TESTE'); 
 
     // CLIENT ID
     define('CLIENT_ID', $api_mode == 'PRODUCAO' ? '2jg0FdFoeVwQQsT7Wum3t3K7gh3nkG4B':'5P8skdRxn44iqJRbxcvtTZyaiFFDGago');

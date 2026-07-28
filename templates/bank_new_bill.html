@@ -283,6 +283,14 @@
             }
             tbl.push(del)
           
+            const query = new Object
+            query.label = 'Consultar no Banco'
+            query.link = ()=>{
+console.log(data)
+                getNsuCode(pageData.workspace.id,data.nsuCode,data.nsuDate,data.bankNumber)
+            }
+            tbl.push(query)
+
             menuContext(tbl,e)  
         }
 
@@ -401,6 +409,34 @@
                 } else { 
                     reject(new Error("Houve algum erro na comunicação com o servidor"));                    
                 } 
+            });
+        });   
+    }
+
+    function getNsuCode(workspace_id,nsuCode,nsuDate,bankNumber) {
+        const params = new URLSearchParams();
+        params.append("workspace_id", workspace_id);
+        params.append("nsuCode", nsuCode)
+        params.append("nsuDate", nsuDate)
+        params.append("bankNumber", bankNumber)
+
+        const url_params = "backend/bank/buscaNSU.php?" + params.toString();
+
+        const myRequest = new Request(url_params, {
+            method: "GET"
+        });
+
+        return new Promise((resolve, reject) => {
+            fetch(myRequest)
+            .then(function (response) {
+//                if (response.status === 200) { 
+                    resolve(response.text());                    
+//                } else { 
+//                    reject(new Error("Houve algum erro na comunicação com o servidor. Status: " + response.status));                    
+//                } 
+            })
+            .catch(function (error) {
+                reject(error); // Captura erros de rede ou conexão
             });
         });   
     }
