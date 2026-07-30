@@ -286,15 +286,46 @@
             const query = new Object
             query.label = 'Consultar no Banco'
             query.link = ()=>{
-                getNsuCode(pageData.workspace.id,data.nsuCode,data.nsuDate,data.bankNumber)
+                return getNsuCode(pageData.workspace.id,data.nsuCode,data.nsuDate,data.bankNumber).then((resolve)=>{
+                    const json = JSON.parse(resolve).boleto
+                    console.log(json)
+                    addDigitableLine(json.nsuCode,json.digitableLine)
+                })
             }
             tbl.push(query)
 
             const pdf = new Object
             pdf.label = 'Imprimir Boleto'
             pdf.link = ()=>{
-console.log(data)
-                printBill(data.payer_documentNumber)
+                if(data.digitableLine != null){
+                    console.log(data)
+                    printBill(data.clientNumber,data.digitableLine,data.payer_documentNumber).then((resolve)=>{
+                        console.log(resolve)
+                    })
+                }else{
+                    query.link.then((resolve)=>{
+                        console.log(resolve)
+//                        pdf.link()
+                    })
+                }
+
+/*
+                    printBill('teste',data.digitableLine,data.payer_documentNumber).then((resolve)=>{
+                        console.log(resolve)
+                    })
+
+/*
+
+                getNsuCode(pageData.workspace.id,data.nsuCode,data.nsuDate,data.bankNumber).then((resolve)=>{
+                    
+
+                    const filename = 'bol-'+json.clientNumber
+                    printBill(filename,json.digitableLine,json.payer.documentNumber).then((resolve)=>{
+                        console.log(resolve)
+                    })
+
+                })
+*/
             }
             tbl.push(pdf)
 
@@ -389,6 +420,18 @@ console.log(data)
         })
     }
     
+    function addDigitableLine(nsuCode,digitableLine){
+        const params = new Object;
+        params.nsuCode = nsuCode
+        params.digitableLine = digitableLine
+
+        const myPromisse = queryDB(params,'BANK-2');
+        return myPromisse.then((resolve)=>{
+            setLog(`Linha digitavel adicionada ao boleto: ${params.nsuCode} - ${params.digitableLine}`)
+            fillBills()
+        })
+    }
+
     function objBill(){
         const fields = pageScreen.querySelectorAll('.bill')        
         const obj = new Object
@@ -445,10 +488,11 @@ console.log(data)
         });   
     }
 
-    function printBill(payer_documentNumber){
-
-        const data = new URLSearchParams();        
-        data.append("documentNumber", payer_documentNumber);
+    function printBill(filename,digitableLine,payerDocumentNumber){
+        const data = new URLSearchParams();
+        data.append("filename", filename);
+        data.append("digitableLine", digitableLine);
+        data.append("payerDocumentNumber", payerDocumentNumber);
         const myRequest = new Request("backend/bank/viewPDF.php",{        
             method : "POST",
             body : data
@@ -457,7 +501,6 @@ console.log(data)
         return new Promise((resolve,reject) =>{
             fetch(myRequest)
             .then(function (response){
-console.log(response)
                 if (response.status === 200 || response.status === 201) { 
                     resolve(response.text());                    
                 } else { 

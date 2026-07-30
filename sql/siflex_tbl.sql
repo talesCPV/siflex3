@@ -487,5 +487,8 @@ CREATE TABLE tb_cobranca (
     key_dictKey varchar(77) DEFAULT "00519547000106",
     txId varchar(35) DEFAULT NULL,
     messages varchar(100) DEFAULT NULL,
+    digitableLine varchar(47) DEFAULT NULL,
     PRIMARY KEY (nsuCode)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+ALTER TABLE tb_cobranca ADD COLUMN digitableLine varchar(47) DEFAULT NULL;

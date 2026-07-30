@@ -2481,3 +2481,23 @@ DELIMITER $$
         END IF;
 	END $$
 DELIMITER ;
+
+ DROP PROCEDURE sp_set_digitableLine;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_digitableLine(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN InsuCode int(11),
+        IN IdigitableLine varchar(47)
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN	
+			IF(InsuCode>0)THEN
+					UPDATE tb_cobranca 
+					SET digitableLine=IdigitableLine
+					WHERE nsuCode=InsuCode;
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;

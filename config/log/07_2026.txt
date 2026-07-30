@@ -44,3 +44,6 @@
 28/07/2026 16:04 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-28 - FLEXIBUS SANFONADOS R$1 Venc.2026-08-31 Nosso Num: A5
 28/07/2026 16:05 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-28 -  R$1 Venc.2026-08-31 Nosso Num: A5
 28/07/2026 16:05 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-28 - FLEXIBUS SANFONADOS R$1 Venc.2026-08-31 Nosso Num: A5
+30/07/2026 21:41 tales@flexibus.com.br : Linha digitavel adicionada ao boleto: 000000000010 - 03399122630290000000700000901017915550000000100
+30/07/2026 22:05 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-30 -  R$ Venc.2026-08-29 Nosso Num: 
+30/07/2026 22:05 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-30 -  R$ Venc.2026-08-29 Nosso Num: 

@@ -23,37 +23,20 @@ if (!$workspace_id || !$nsuCode || !$nsuDate  || !$bank_number) {
 try {
     $environment  = defined('ENVIRONMENT')  ? trim(ENVIRONMENT)  : 'P';
     $covenantCode = defined('CONVENIO_NUM') ? trim(CONVENIO_NUM) : '1226029';
-/*    
-    $params = [
-        'covenantCode' => $covenantCode,
-        'status' => 'EM_ABERTO',
-        'paymentDateInitial' => '2026-07-28',
-        'paymentDateFinal'   => '2026-08-31',
-        'nsuCode'      => str_pad($nsuCode, 12, "0", STR_PAD_LEFT) // "000000000010"
-    ];
-*/
-//var_dump($params);
-//exit;
-
     $bank_slip = str_pad($nsuCode, 12, "0", STR_PAD_LEFT).'.'.$nsuDate.'.'.$environment.'.'.$covenantCode.'.'.$bank_number;
 
-    // 2. Aponta para a rota base correta do barramento de Workspaces
-    $urlSondaUnitária = str_replace('{WORKSPACE_ID}',$workspace_id,URL_COB_VIEW);
-    $urlSondaUnitária = str_replace('{BANK_SLIP_ID}',$bank_slip,$urlSondaUnitária);
-//    $urlSondaUnitária = 'https://trust-open.api.santander.com.br/collection_bill_management/v2/workspaces/366cec67-a0a5-4d4f-b537-4bc280e062df/bank_slips/000000000010.2026-07-28.P.1226029.9';
-
-//echo $urlSondaUnitária;
-//exit;
-// https://trust-open.api.santander.com.br/collection_bill_management/v2/workspaces/366cec67-a0a5-4d4f-b537-4bc280e062df/bank_slips/000000000010.2026-07-28.P.1226029.9
-// https://trust-open.api.santander.com.br/collection_bill_management/v2/workspaces/{WORKSPACE_ID}/bank_slips/{BANK_SLIP_ID}
+    $url = str_replace('{WORKSPACE_ID}',$workspace_id,URL_COB_VIEW);
+    $url = str_replace('{BANK_SLIP_ID}',$bank_slip,$url);
 
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $urlSondaUnitária);
+    curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPGET, true);
-
     curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) FlexibusApp/2.0');
-
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($ch, CURLOPT_SSLCERT, CERT_FILE);
+    curl_setopt($ch, CURLOPT_SSLKEY, KEY_FILE);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'Authorization: Bearer ' . trim(TOKEN),
         'X-Application-Key: ' . trim(CLIENT_ID),
@@ -62,13 +45,7 @@ try {
         'Content-Type: application/json',
         'Accept: application/json'
     ]);
-
-    // Ignora emissor local por estar em Localhost
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-    curl_setopt($ch, CURLOPT_SSLCERT, CERT_FILE);
-    curl_setopt($ch, CURLOPT_SSLKEY, KEY_FILE);
-
+    
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 

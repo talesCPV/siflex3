@@ -39,7 +39,7 @@
     // POST e PATCH: registro e alteração de Boletos
     define('URL_COBRANCAS'    ,$url_matrix."/collection_bill_management/v2/workspaces/WORKSPACE_ID/bank_slips");
     // POST: geração da imagem do boleto em PDF
-    define('URL_COB_PDF'      ,$url_matrix."/collection_bill_management/v2/bills/{bankNumber}.{covenantCode}/bank_slips");
+    define('URL_COB_PDF'      ,$url_matrix."/collection_bill_management/v2/bills/{digitableLine}/bank_slips");
     // GET (SONDA): consulta de boletos registrados via API
     define('URL_COB_VIEW'     ,$url_matrix."/collection_bill_management/v2/workspaces/{WORKSPACE_ID}/bank_slips/{BANK_SLIP_ID}");
     // GET: consulta detalhes de boleto registrado no convênio – Nosso Número:
@@ -48,7 +48,7 @@
     define('URL_COB_SN'       ,$url_matrix."/collection_bill_management/v2/bills?beneficiaryCode=1234567 &clientNumber=123456789012345&dueDate=2023-01-01&nominalValue=3.45");
     // GET: consulta detalhes de um boleto registrado no convênio, por Tipo:
     define('URL_BILL_ID'      ,$url_matrix."/collection_bill_management/v2/bills/{bill_id}?tipoConsulta=default");
-    // POST: geração da imagem do boleto em PDF:
+    // GET: geração da imagem do boleto em PDF:
     define('URL_BOL_PDF'      ,$url_matrix."/collection_bill_management/v2/bills/{bill_id}/bank_slips");
 
 

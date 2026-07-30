@@ -6,28 +6,24 @@ header("Access-Control-Allow-Methods: POST");
 
 require_once __DIR__ . '/token.php';
 
-$payer_documentNumber   = $_POST['documentNumber'] ?? null;
+$filename            = $_POST['filename'] ?? null;
+$digitableLine          = '03399122630290000000700000901017915550000000100'; //$_POST['digitableLine'] ?? null;
+$payerDocumentNumber   = $_POST['payerDocumentNumber'] ?? null;
 
 
-if (!$payer_documentNumber) {
+if (!$filename || !$digitableLine || !$payerDocumentNumber) {
     http_response_code(400);
     echo json_encode([
         "sucesso" => false,
-        "erro" => "Os parâmetros 'payer_documentNumber' é obrigatório para busca do título."
+        "erro" => "Os parâmetros 'filename', 'digitableLine' e 'payerDocumentNumber' são obrigatórios para busca do título."
     ], JSON_UNESCAPED_UNICODE);
     exit;
 }
 
 try {
-    // 1. ALTERE A SUA URL_BOL_PDF PARA O ENDPOINT CORRETO DE IMPRESSÃO DO WORKSPACE:
-    // Formato oficial: https://trust-open.api.santander.com.br/collection_bill_management/v2/workspaces/{seu_workspace_id}/bank_slips/impressao
-    // (Substitua a string abaixo pelo seu Workspace ID real)
-    $url = "https://santander.com.br";
+    $url =  str_replace('{digitableLine}',$digitableLine,URL_COB_PDF);  // 
 
-    // 2. Monte o corpo passando o Nosso Número / ID dentro de um array
-    $payloadData = json_encode([
-        "nossosNumeros" => [ $payer_documentNumber ] // O número do boleto vai aqui dentro
-    ]);
+    $payload = json_encode(["payerDocumentNumber" => $payerDocumentNumber]);
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -35,7 +31,7 @@ try {
     
     // DEFINA COMO POST (O endpoint de impressão exige POST)
     curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $payloadData);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
 
     curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) FlexibusApp/2.0');
 
@@ -45,7 +41,7 @@ try {
         'x-santander-client-id: ' . trim(CLIENT_ID),
         'Content-Type: application/json',
         'Accept: application/json',
-        'Content-Length: ' . strlen($payloadData)
+        'Content-Length: ' . strlen($payload)
     ]);
 
     // Ignora emissor local
@@ -62,21 +58,47 @@ try {
     }
     curl_close($ch);
 
+//var_dump($response);
+//exit;
     $dadosBanco = json_decode($response, true);
 
     if ($httpCode === 200) {
         // O Santander retorna o PDF em Base64 na chave 'conteudoBase64' ou 'documentoBase64'
-        $chavePdf = isset($dadosBanco['conteudoBase64']) ? 'conteudoBase64' : (isset($dadosBanco['documentoBase64']) ? 'documentoBase64' : null);
+//        $chavePdf = isset($dadosBanco['conteudoBase64']) ? 'conteudoBase64' : (isset($dadosBanco['documentoBase64']) ? 'documentoBase64' : null);
 
-        if ($chavePdf && isset($dadosBanco[$chavePdf])) {
-            $pdfBinario = base64_decode($dadosBanco[$chavePdf]);
+        if (isset($dadosBanco['link'])) {
+            $urlPdfSantander = $dadosBanco['link'];
+            $pdfBinario = file_get_contents($urlPdfSantander);
+
+
+            if ($pdfBinario === false) {
+                throw new Exception("Falha ao baixar o PDF do link fornecido pelo banco.");
+            }
+
+            // 2. DEFINE O CAMINHO (PATH) ONDE O ARQUIVO SERÁ SALVO
+            // Substitua '/caminho/da/sua/pasta/' pelo diretório real no seu servidor (ex: __DIR__ . '/boletos/')
+            // Garanta que essa pasta tenha permissão de escrita (Chmod 775 ou 777)
+            $diretorioSalvamento = __DIR__ . '/../../boletos/';
             
+            // Cria a pasta automaticamente se ela não existir
+            if (!is_dir($diretorioSalvamento)) {
+                mkdir($diretorioSalvamento, 0755, true);
+            }
+
+            $nomeArquivo =  $filename . ".pdf";
+            $pathCompleto = $diretorioSalvamento . $nomeArquivo;
+
+            // 3. SALVA O ARQUIVO NO PATH DEFINIDO
+            file_put_contents($pathCompleto, $pdfBinario);
+
+
+/*            
             if (ob_get_contents()) ob_end_clean();
-            
             header("Content-Type: application/pdf");
-            header("Content-Disposition: inline; filename=\"boleto_{$payer_documentNumber}.pdf\"");
-            echo $pdfBinario;
+            header("Content-Disposition: inline; filename=\"boleto_{$bankNumber}.pdf\"");
+            echo json_encode(["sucesso" => true, "boleto" => $dadosBanco], JSON_UNESCAPED_UNICODE);
             exit;
+*/
         }
 
         http_response_code(200);
