@@ -21,7 +21,7 @@ if (!$workspace_id || !$nsuCode || !$nsuDate  || !$bank_number) {
 }
 
 try {
-    $environment  = defined('ENVIRONMENT')  ? trim(ENVIRONMENT)  : 'PRODUCAO';
+    $environment  = defined('ENVIRONMENT')  ? trim(ENVIRONMENT)  : 'P';
     $covenantCode = defined('CONVENIO_NUM') ? trim(CONVENIO_NUM) : '1226029';
 /*    
     $params = [
@@ -35,16 +35,17 @@ try {
 //var_dump($params);
 //exit;
 
-    $queryParams = $nsuCode.'.'.$nsuDate.'.'.$environment.'.'.$covenantCode.'.'.$bank_number;
+    $bank_slip = str_pad($nsuCode, 12, "0", STR_PAD_LEFT).'.'.$nsuDate.'.'.$environment.'.'.$covenantCode.'.'.$bank_number;
 
     // 2. Aponta para a rota base correta do barramento de Workspaces
-    $urlSondaUnitária = rtrim(URL_WORKSPACES, '/') . '/' . $workspace_id . '/bank_slips?' . $queryParams;
+    $urlSondaUnitária = str_replace('{WORKSPACE_ID}',$workspace_id,URL_COB_VIEW);
+    $urlSondaUnitária = str_replace('{BANK_SLIP_ID}',$bank_slip,$urlSondaUnitária);
+//    $urlSondaUnitária = 'https://trust-open.api.santander.com.br/collection_bill_management/v2/workspaces/366cec67-a0a5-4d4f-b537-4bc280e062df/bank_slips/000000000010.2026-07-28.P.1226029.9';
 
 //echo $urlSondaUnitária;
 //exit;
-// https://trust-open.api.santander.com.br/collection_bill_management/v2/workspaces/366cec67-a0a5-4d4f-b537-4bc280e062df/bank_slips?10.2026-07-28.PRODUCAO.1226029.9
-    // Caso a sua URL_WORKSPACES já mude dependendo da versão, use a rota padrão mapeada do manual:
-    // $urlSondaUnitária = "https://santander.com.br{$workspace_id}/bank_slips/{$nsuFormatado}?covenantCode={$covenantCode}";
+// https://trust-open.api.santander.com.br/collection_bill_management/v2/workspaces/366cec67-a0a5-4d4f-b537-4bc280e062df/bank_slips/000000000010.2026-07-28.P.1226029.9
+// https://trust-open.api.santander.com.br/collection_bill_management/v2/workspaces/{WORKSPACE_ID}/bank_slips/{BANK_SLIP_ID}
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $urlSondaUnitária);

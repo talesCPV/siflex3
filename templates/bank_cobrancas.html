@@ -79,25 +79,7 @@ console.log(json)
 
 
         })
-/*
-        getBills(pageData.workspace.id,dt_ini,dt_fin,status,range).then((resolve)=>{
-            const json = JSON.parse(resolve)
-            const tbl = pageScreen.querySelector('#tbl-bills')
-            tbl.innerHTML = ''
-            if(json.sucesso){
-                tbl.head('Cliente,Valor,Vencimento,Status')
-                for(let i=0; i<json.boletos.length; i++){
-                    console.log(json.boletos[i])
-                    tbl.plot(json.boletos[i],`${json.boletos[i].payer.name},nominalValue,dueDate,status`,'let,R$.,dat,Upp')
-                }
 
-            }else{
-                alert(json.erro)
-            }
-
-
-        })
- */   
     })
 
 /* COBRANÇA */
