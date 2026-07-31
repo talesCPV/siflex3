@@ -3,7 +3,18 @@
     if (IsSet($_POST["dir"])){
         $path = getcwd().'/../'.$_POST["dir"];
 //echo $path;
-        $files = scandir($path);
+
+        $files = array_diff(scandir($path), array('.', '..'));
+
+        usort($files, function($a, $b) use ($path) {
+            // Para do MAIS NOVO para o MAIS ANTIGO (Decrescente)
+            return filemtime($path . '/' . $b) <=> filemtime($path . '/' . $a);            
+            // Para do MAIS ANTIGO para o MAIS NOVO (Crescente), mude para:
+            // return filemtime($dir . '/' . $a) <=> filemtime($dir . '/' . $b);
+        });
+
+//var_dump($files);
+//exit;
         $resp = json_encode($files);
         if(IsSet($_POST["ext"]) || IsSet($_POST["filename"])){
             $out = array();

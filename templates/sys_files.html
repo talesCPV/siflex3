@@ -70,7 +70,7 @@
             if(json){
                 const files = pageScreen.querySelector('#frm-files')
                 files.innerHTML = ''
-                for(let i=2; i<json.length; i++){
+                for(let i=0; i<json.length; i++){
                     const box = document.createElement('div')
                     box.className = 'file-box'
                     files.appendChild(box)

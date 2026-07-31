@@ -10,6 +10,7 @@
         <div class="tab-item" id="tab-cliente"  onclick="pictab(this)">Cliente     </div>            
         <div class="tab-item" id="tab-fatura"   onclick="pictab(this)">Fatura </div>
         <div class="tab-item" id="tab-bank"     onclick="pictab(this)">Histórico </div>
+        <div class="tab-item" id="tab-pdf"      onclick="pictab(this)">Boletos </div>
     </div>
 
     <div class="tab-screen">        
@@ -131,6 +132,9 @@
         <div id="bank" class="tab">
             <table id="tbl-bills"></table>
         </div>
+        <div id="pdf" class="tab">
+            <table id="tbl-pdf"></table>
+        </div>
     </div>
 
 </template>
@@ -164,8 +168,8 @@
         })
 
         loadData()
-
         fillBills()
+        fillPDF()
     }
 
     function openFields(open=1){
@@ -295,7 +299,7 @@
             tbl.push(query)
 
             const pdf = new Object
-            pdf.label = 'Imprimir Boleto'
+            pdf.label = 'Gerar Boleto'
             pdf.link = ()=>{
                 if(data.digitableLine != null){
                     printBill(data.clientNumber,data.digitableLine,data.payer_documentNumber).then((resolve)=>{
@@ -310,12 +314,24 @@
             }
             tbl.push(pdf)
 
+            const bol = new Object
+            bol.label = 'Imprimir Boleto'
+            bol.link = ()=>{
+                console.log(data)
+                const url = `boletos/${data.clientNumber}.pdf`
+                ifFileExist(url).then((resolve)=>{
+                    if(resolve.statusText=='Not Found'){
+                        alert('Boleto ainda não gerado no sistema!')
+                    }else{
+                        window.open(url, '_blank')
+                    }
+                })
+            }
+            tbl.push(bol)
 
             menuContext(tbl,e)  
         }
-
     })
-
 
 /* COBRANÇAS */
 
@@ -363,9 +379,28 @@
         tbl.head('Cliente,Nosso Num.,Valor,Venc.,Reg.|center')
         myPromisse.then((resolve)=>{
             const json = JSON.parse(resolve)
-console.log(json)            
             for(let i=0; i<json.length; i++){
                 tbl.plot(json[i],'payer_name,clientNumber,nominalValue,dueDate,digitableLine|center','Upp,Upp,R$.,dat,nul')
+            }
+        })
+    }
+
+    function fillPDF(){
+        showFiles('boletos').then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const tbl = pageScreen.querySelector('#tbl-pdf')
+            tbl.innerHTML = ''
+            tbl.head('Boletos')            
+            for(let i=0; i< json.length; i++){
+                const tr = document.createElement('tr')
+                tr.data = json[i]
+                tr.innerHTML = `<td>${json[i]}</td>`
+                tr.addEventListener('click',()=>{
+                    console.log(json[i])
+                    const url = `boletos/${json[i]}`
+                    window.open(url, '_blank')
+                })
+                tbl.appendChild(tr)
             }
         })
     }

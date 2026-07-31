@@ -43,7 +43,7 @@
         myPromisse.then((txt)=>{
             const json = JSON.parse(txt)
             const combo = document.querySelector('#cmbLog')
-            for(let i=json.length-1; i>=2; i--){
+            for(let i=0; i<json.length; i++){
                 const opt = document.createElement('option')
                 opt.value = json[i]
                 opt.innerHTML = json[i]

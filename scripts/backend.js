@@ -144,9 +144,17 @@ function showFiles(path,filename='',ext=''){
                 reject(new Error("Houve algum erro na comunicação com o servidor"));                    
             } 
         })
-    })  
-
+    })
 }
+
+async function ifFileExist(url) {
+    try {
+      return fetch(url, { method: 'HEAD' });
+    } catch (erro) {
+      console.log('Erro na requisição ou arquivo inexistente.');
+      return false;
+    }
+  }
 
 function delFile(path){
 
