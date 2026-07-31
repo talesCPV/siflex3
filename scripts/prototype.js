@@ -230,7 +230,10 @@ HTMLTableElement.prototype.plot = function(obj, fields,type='',file=false, mark=
                 case 'pad': // pasStart ou padEnd: " "start ou end" "num casas" "valor a preencher
                     op = `'${obj[arr[0]]}'.${type[i].replaceAll('.',',')}` 
                     html = eval(op)
-                    break;                                                            
+                    break;
+                case 'nul': //if null x else v
+                    html = obj[arr[0]] != null ? '<span class="mdi mdi-check"></span>' : '<span class="mdi mdi-close"></span>'
+                    break; 
                 default:
                   html = obj[arr[0]] != null ? obj[arr[0]] :''
             }            

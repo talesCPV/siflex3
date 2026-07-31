@@ -2409,7 +2409,7 @@ DELIMITER ;
 
 /* SANTANDER */
 
--- DROP PROCEDURE sp_view_cobranca;
+ DROP PROCEDURE sp_view_cobranca;
 DELIMITER $$
 	CREATE PROCEDURE sp_view_cobranca(
 		IN Iallow varchar(80),
@@ -2422,7 +2422,9 @@ DELIMITER $$
 			IF(IcovenantCode=0)THEN
 				SELECT * FROM tb_cobranca;
             ELSE
-				SELECT * FROM tb_cobranca WHERE covenantCode=IcovenantCode;
+				SELECT * FROM tb_cobranca 
+                WHERE covenantCode=IcovenantCode
+                ORDER BY dueDate DESC;
             END IF;
         END IF;
 	END $$
