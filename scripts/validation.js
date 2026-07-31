@@ -54,6 +54,13 @@ function checkRepass(fields){
     return true
 }
 
+function alfanumerico(texto) {
+    return texto
+    .normalize('NFD')                      // Separa os acentos das letras
+    .replace(/[\u0300-\u036f]/g, '')       // Remove os acentos
+    .replace(/[^a-zA-Z0-9 ]/g, '');
+}
+
 function valInt(edt){
     edt.value = getNum(edt.value)
 }

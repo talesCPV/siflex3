@@ -47,3 +47,27 @@
 30/07/2026 21:41 tales@flexibus.com.br : Linha digitavel adicionada ao boleto: 000000000010 - 03399122630290000000700000901017915550000000100
 30/07/2026 22:05 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-30 -  R$ Venc.2026-08-29 Nosso Num: 
 30/07/2026 22:05 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-30 -  R$ Venc.2026-08-29 Nosso Num: 
+31/07/2026 14:12 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-31 -  R$ Venc.2026-08-30 Nosso Num: 
+31/07/2026 14:18 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-31 -  R$ Venc.2026-08-30 Nosso Num: 
+31/07/2026 14:21 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-31 -  R$ Venc.2026-08-30 Nosso Num: 
+31/07/2026 14:21 tales@flexibus.com.br : Boleto Deletado: nsuCode: 3
+31/07/2026 14:27 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-31 -  R$ Venc.2026-08-30 Nosso Num: 
+31/07/2026 14:27 tales@flexibus.com.br : Boleto Deletado: Nosso Num:NFs-12345, Pagador: ABC SISTEMA DE TRANSPORTE SPE S.A, R$1500, Venc:2026-08-16
+31/07/2026 14:27 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-31 -  R$ Venc.2026-08-30 Nosso Num: 
+31/07/2026 14:27 tales@flexibus.com.br : Boleto Deletado: Nosso Num:A4, Pagador: FLEXIBUS SANFONADOS, R$1, Venc:2026-08-27
+31/07/2026 14:27 tales@flexibus.com.br : BOLETO REGISTRADO: 2026-07-31 -  R$ Venc.2026-08-30 Nosso Num: 
+31/07/2026 14:27 tales@flexibus.com.br : Boleto Deletado: Nosso Num:123AS, Pagador: ABC SISTEMA DE TRANSPORTE SPE S.A, R$200, Venc:2026-08-11
+31/07/2026 14:30 tales@flexibus.com.br : BOLETO DELETADO: 2026-07-31 - ABC SISTEMA DE TRANSPORTE SPE S.A R$5690 Venc.2026-08-28 Nosso Num: NFs1289-1
+31/07/2026 14:31 tales@flexibus.com.br : BOLETO DELETADO: 2026-07-31 - ABC SISTEMA DE TRANSPORTE SPE S.A R$5690 Venc.2026-09-27 Nosso Num: NFs1289-2
+31/07/2026 14:31 tales@flexibus.com.br : BOLETO DELETADO: 2026-07-31 - ABC SISTEMA DE TRANSPORTE SPE S.A R$5690 Venc.2026-10-27 Nosso Num: NFs1289-3
+31/07/2026 14:40 tales@flexibus.com.br : Linha digitavel adicionada ao boleto: 000000000011 - 03399122630290000000700001001015615520000569000
+31/07/2026 14:52 tales@flexibus.com.br : Linha digitavel adicionada ao boleto: 000000000012 - 03399122630290000000700001101013415820000569000
+31/07/2026 14:52 tales@flexibus.com.br : Linha digitavel adicionada ao boleto: 000000000013 - 03399122630290000000700001201011116120000569000
+31/07/2026 15:47 tales@flexibus.com.br : BOLETO CADASTRADO: 31/07/2026 - BERNATRANS TRANSPORTES URBANO SA R$2845.00 Venc.2026-08-15 Nosso Num: NFs1261P01T03
+31/07/2026 15:47 tales@flexibus.com.br : Contas A Receber Cadastrada NFs 1261 - 1-3, 2845.00, Venc. dia 2026-08-15
+31/07/2026 15:47 tales@flexibus.com.br : Contas A Receber Cadastrada NFs 1261 - 2-3, 2845.00, Venc. dia 2026-08-30
+31/07/2026 15:47 tales@flexibus.com.br : BOLETO CADASTRADO: 31/07/2026 - BERNATRANS TRANSPORTES URBANO SA R$2845.00 Venc.2026-08-30 Nosso Num: NFs1261P02T03
+31/07/2026 15:47 tales@flexibus.com.br : Contas A Receber Cadastrada NFs 1261 - 3-3, 2845.00, Venc. dia 2026-09-14
+31/07/2026 15:47 tales@flexibus.com.br : BOLETO CADASTRADO: 31/07/2026 - BERNATRANS TRANSPORTES URBANO SA R$2845.00 Venc.2026-09-14 Nosso Num: NFs1261P03T03
+31/07/2026 15:56 tales@flexibus.com.br : BOLETO CADASTRADO: 31/07/2026 - BERNATRANS TRANSPORTES URBANO SA R$4267.50 Venc.2026-09-29 Nosso Num: NFs1262P02T02
+31/07/2026 15:56 tales@flexibus.com.br : BOLETO CADASTRADO: 31/07/2026 - BERNATRANS TRANSPORTES URBANO SA R$4267.50 Venc.2026-08-30 Nosso Num: NFs1262P01T02

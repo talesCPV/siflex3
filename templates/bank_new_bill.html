@@ -267,8 +267,6 @@
                     })
 
                 }
-
-
             }
             tbl.push(reg)
 
@@ -277,7 +275,7 @@
             del.link = ()=>{
                 if(confirm('Deseja deletar esta cobrança?')){
                     saveBill(getNum(data.nsuCode),1).then(()=>{
-                        fillBills()
+                        setLog(`Boleto Deletado: Nosso Num:${data.clientNumber}, Pagador: ${data.payer_name}, R$${data.nominalValue}, Venc:${data.dueDate}`)
                     })
                 }
             }
@@ -304,7 +302,8 @@
                     })
                 }else{
                     query.link.then((resolve)=>{
-                        console.log(resolve)
+                        const json = JSON.parse(resolve)
+                        console.log(json)
 //                        pdf.link()
                     })
                 }
@@ -382,6 +381,7 @@
         tbl.head('Cliente,Nosso Num.,Valor,Venc.')
         myPromisse.then((resolve)=>{
             const json = JSON.parse(resolve)
+console.log(json)            
             for(let i=0; i<json.length; i++){
                 tbl.plot(json[i],'payer_name,clientNumber,nominalValue,dueDate','Upp,Upp,R$.,dat')
             }
@@ -396,24 +396,24 @@
         params.covenantCode = getNum(pageScreen.querySelector('#covenantCode').value.trim())
         params.payer_documentType = pageScreen.querySelector('#payer_documentType').value.trim()
         params.payer_documentNumber = getNum(pageScreen.querySelector('#payer_documentNumber').value.trim())
-        params.payer_name = del ? '' : pageScreen.querySelector('#payer_name').value.trim()
-        params.payer_address = pageScreen.querySelector('#payer_address').value.trim()
-        params.payer_neighborhood = pageScreen.querySelector('#payer_neighborhood').value.trim()
-        params.payer_city = pageScreen.querySelector('#payer_city').value.trim()
-        params.payer_state = pageScreen.querySelector('#payer_state').value.trim()
+        params.payer_name = del ? '' : alfanumerico(pageScreen.querySelector('#payer_name').value)
+        params.payer_address = alfanumerico(pageScreen.querySelector('#payer_address').value)
+        params.payer_neighborhood = alfanumerico(pageScreen.querySelector('#payer_neighborhood').value)
+        params.payer_city = alfanumerico(pageScreen.querySelector('#payer_city').value)
+        params.payer_state = alfanumerico(pageScreen.querySelector('#payer_state').value)
         params.payer_zipCode = getNum(pageScreen.querySelector('#payer_zipCode').value)
-        params.clientNumber = pageScreen.querySelector('#clientNumber').value.trim()
+        params.clientNumber = alfanumerico(pageScreen.querySelector('#clientNumber').value)
         params.dueDate = pageScreen.querySelector('#dueDate').value.trim()
         params.nominalValue = pageScreen.querySelector('#nominalValue').value.trim()
         params.documentKind = pageScreen.querySelector('#documentKind').value.trim()
         params.protestType = pageScreen.querySelector('#protestType').value.trim()
         params.protestQuantityDays = pageScreen.querySelector('#protestQuantityDays').value.trim()
         params.paymentType = pageScreen.querySelector('#paymentType').value.trim()
-        params.messages = pageScreen.querySelector('#messages').value.trim()
+        params.messages = alfanumerico(pageScreen.querySelector('#messages').value)
 
         const myPromisse = queryDB(params,'BANK-1');
         return myPromisse.then((resolve)=>{
-            setLog(`BOLETO REGISTRADO: ${params.nsuDate} - ${params.payer_name} R$${params.nominalValue} Venc.${params.dueDate} Nosso Num: ${params.clientNumber}`)
+            setLog(`BOLETO ${del?'REGISTRADO':'DELETADO'}: ${params.nsuDate} - ${params.payer_name} R$${params.nominalValue} Venc.${params.dueDate} Nosso Num: ${params.clientNumber}`)
             fillBills()
             alert('Cadastrado efetuado!')
             pageScreen.querySelector('#tab-bank').click()

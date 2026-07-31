@@ -336,39 +336,6 @@
         console.log(pageData.NFs)
 
     }
-/*
-    function saveBoleto(valor,venc,qtdFat=1,numFat=1){
-        const params = new Object;
-        params.nsuCode = 0
-        params.nsuDate = pageData.NFs.date
-        params.environment = pageData.CONF.environment // PRODUCAO
-        params.covenantCode = pageData.CONF.covenantCode //'1226029'
-        params.payer_documentType = pageData.CONF.payer_documentType//'CNPJ'
-        params.payer_documentNumber = pageData.cliente.CpfCnpTom
-        params.payer_name =  pageData.cliente.RazSocTom
-        params.payer_address = pageData.cliente.endereco+', '+pageData.cliente.num
-        params.payer_neighborhood = pageData.cliente.bairro
-        params.payer_city = pageData.cliente.cidade
-        params.payer_state = pageData.cliente.estado
-        params.payer_zipCode = getNum(pageData.cliente.cep)
-        params.clientNumber = 'NFs'+pageScreen.querySelector('#numNFS').value.trim()+` ${qtdFat}/${numFat}`
-        params.dueDate = venc
-        params.nominalValue = valor
-        params.documentKind = pageData.CONF.documentKind
-        params.protestType = pageData.CONF.protestType
-        params.protestQuantityDays = pageData.CONF.protestQuantityDays
-        params.paymentType = pageData.CONF.paymentType
-        params.messages = ``
-          
-        const myPromisse = queryDB(params,'BANK-1');
-        return myPromisse.then((resolve)=>{
-            setLog(`BOLETO REGISTRADO: ${params.nsuDate} - ${params.payer_name} R$${params.nominalValue} Venc.${params.dueDate} Nosso Num: ${params.clientNumber}`)
-            fillBills()
-            alert('Cadastrado efetuado!')
-        })
-    
-    }
-*/
 
     function saveNFs(){
         saveFile(pageData.NFs.rules,nf_file)
@@ -429,6 +396,37 @@
             })
         }
 
+        function saveBoleto(valor,venc,qtdFat=1,numFat=1){
+            const params = new Object;
+            params.nsuCode = 0
+            params.nsuDate = pageData.NFs.date
+            params.environment = pageData.CONF.environment // PRODUCAO
+            params.covenantCode = pageData.CONF.covenantCode //'1226029'
+            params.payer_documentType = alfanumerico(pageData.CONF.payer_documentType)//'CNPJ'
+            params.payer_documentNumber = getNum(pageData.cliente.CpfCnpTom)
+            params.payer_name =  alfanumerico(pageData.cliente.RazSocTom)
+            params.payer_address = alfanumerico(pageData.cliente.endereco)+', '+alfanumerico(pageData.cliente.num)
+            params.payer_neighborhood = alfanumerico(pageData.cliente.bairro)
+            params.payer_city = alfanumerico(pageData.cliente.cidade)
+            params.payer_state = alfanumerico(pageData.cliente.estado)
+            params.payer_zipCode = getNum(pageData.cliente.cep)
+            params.clientNumber = 'NFs'+alfanumerico(pageScreen.querySelector('#numNFS').value)+`P${numFat.toString().padStart(2,0)}T${qtdFat.toString().padStart(2,0)}`
+            params.dueDate = venc
+            params.nominalValue = valor
+            params.documentKind = pageData.CONF.documentKind
+            params.protestType = pageData.CONF.protestType
+            params.protestQuantityDays = pageData.CONF.protestQuantityDays
+            params.paymentType = pageData.CONF.paymentType
+            params.messages = ` Pgto ${numFat}-${qtdFat} ref. NFs${pageScreen.querySelector('#numNFS').value}`
+            
+            const myPromisse = queryDB(params,'BANK-1');
+            return myPromisse.then((resolve)=>{
+                setLog(`BOLETO CADASTRADO: ${params.nsuDate} - ${params.payer_name} R$${params.nominalValue} Venc.${params.dueDate} Nosso Num: ${params.clientNumber}`)
+    //            alert('Cadastrado efetuado!')
+            })
+        
+        }
+
         const cob = pageData.NFs.getCobranca()
         cob.nf = pageScreen.querySelector('#numNFS').value
         cob.data = pageScreen.querySelector('#dtEmi').value
@@ -442,7 +440,8 @@
             parc.venc = fat[i].data
             parc.valor = fat[i].valor
             cob.parcelas.push(parc)
-            add_a_receber(parc)
+//            add_a_receber(parc)
+            saveBoleto(parc.valor,parc.venc,fat.length,fat[i].parcela)
         } 
 
         addArrObj(`/../../NF/Cobrancas/cob_${today.getFullYear()}.json`,cob)

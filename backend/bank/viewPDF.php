@@ -7,7 +7,7 @@ header("Access-Control-Allow-Methods: POST");
 require_once __DIR__ . '/token.php';
 
 $filename            = $_POST['filename'] ?? null;
-$digitableLine          = '03399122630290000000700000901017915550000000100'; //$_POST['digitableLine'] ?? null;
+$digitableLine          = $_POST['digitableLine'] ?? null;
 $payerDocumentNumber   = $_POST['payerDocumentNumber'] ?? null;
 
 
