@@ -26,6 +26,12 @@
 
     $jsonPayload = json_encode($payload);
 
+//var_dump($jsonPayload);
+//exit;
+// string(601) "{"nsuCode":"000000000050","nsuDate":"2026-08-03","environment":"PRODUCAO","covenantCode":"1226029","payer":{"documentType":"CNPJ","documentNumber":"00519547000106","name":"FLEXIBUS SANFONADOS","address":"AV DR ROSALVO DE ALMEIDA TELLES 2070","neighborhood":"NOVA CACAPAVA","city":"CACAPAVA","state":"SP","zipCode":"12283-020"},"bankNumber":"14","clientNumber":"A7","dueDate":"2026-09-02","issueDate":"2026-08-03","nominalValue":"1.00","documentKind":"BOLETO_DEPOSITO_APORTE","protestType":"SEM_PROTESTO","paymentType":"REGISTRO","key":{"type":"CNPJ","dictKey":"00519547000106"},"messages":["Teste 7"]}"
+// string(668) "{"nsuCode":"000000000010","nsuDate":"2026-07-28","environment":"PRODUCAO","covenantCode":"1226029","payer":{"documentType":"CNPJ","documentNumber":"00519547000106","name":"FLEXIBUS SANFONADOS","address":"AV. DR. ROSALVO DE ALMEIDA TELLES,270 NO","neighborhood":"NOVA CACAPAVA","city":"CACAPAVA","state":"SP","zipCode":"12283-020"},"bankNumber":"9","clientNumber":"A5","dueDate":"2026-08-31","issueDate":"2026-07-28","nominalValue":"1.00","documentKind":"BOLETO_DEPOSITO_APORTE","protestType":"SEM_PROTESTO","paymentType":"REGISTRO","key":{"type":"CNPJ","dictKey":"00519547000106"},"messages":["Teste"],"digitableLine":"03399122630290000000700000901017915550000000100"}"
+// string(601) "{"nsuCode":"000000000058","nsuDate":"2026-08-03","environment":"PRODUCAO","covenantCode":"1226029","payer":{"documentType":"CNPJ","documentNumber":"00519547000106","name":"FLEXIBUS SANFONADOS","address":"AV DR ROSALVO DE ALMEIDA TELLES 2070","neighborhood":"NOVA CACAPAVA","city":"CACAPAVA","state":"SP","zipCode":"12283-020"},"bankNumber":"13","clientNumber":"A8","dueDate":"2026-09-02","issueDate":"2026-08-03","nominalValue":"1.00","documentKind":"BOLETO_DEPOSITO_APORTE","protestType":"SEM_PROTESTO","paymentType":"REGISTRO","key":{"type":"CNPJ","dictKey":"00519547000106"},"messages":["Teste 8"]}"
+
     $url = str_replace("WORKSPACE_ID",$workspaceId,URL_COBRANCAS);
 
     // 4. Executa a chamada POST via cURL com os parâmetros de segurança corrigidos anteriormente

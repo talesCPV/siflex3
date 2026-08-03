@@ -2430,7 +2430,7 @@ DELIMITER $$
 	END $$
 DELIMITER ;
 
- DROP PROCEDURE sp_set_cobranca;
+-- DROP PROCEDURE sp_set_cobranca;
 DELIMITER $$
 	CREATE PROCEDURE sp_set_cobranca(
 		IN Iallow varchar(80),
@@ -2458,8 +2458,9 @@ DELIMITER $$
     )
 	BEGIN
 		CALL sp_allow(Iallow,Ihash);
-		IF(@allow)THEN	
+		IF(@allow)THEN
 			IF(InsuCode=0)THEN
+				SET @nsuCode = (SELECT MAX(nsuCode) FROM tb_cobranca);
 				INSERT INTO tb_cobranca (nsuDate,environment,covenantCode,payer_documentType,
                 payer_documentNumber,payer_name,payer_address,payer_neighborhood,payer_city,payer_state,payer_zipCode,
                 bankNumber,clientNumber,dueDate,nominalValue,documentKind,protestType,protestQuantityDays,paymentType,messages) 
@@ -2467,17 +2468,32 @@ DELIMITER $$
                 Ipayer_documentNumber,Ipayer_name,Ipayer_address,Ipayer_neighborhood,Ipayer_city,Ipayer_state,Ipayer_zipCode,
                 (SELECT (COALESCE(MAX(b.bankNumber), 0) + 1) FROM tb_cobranca b),
                 IclientNumber,IdueDate,InominalValue,IdocumentKind,IprotestType,IprotestQuantityDays,IpaymentType,Imessages);
+                SET @last_nsuCode = (SELECT MAX(nsuCode) FROM tb_cobranca);
+                SET @bankNumber = (SELECT bankNumber FROM tb_cobranca WHERE nsuCode=@last_nsuCode);
+                IF(@last_nsuCode>@nsuCode)THEN
+					SELECT 1 as sucess, @last_nsuCode as nsuCode, @bankNumber as bankNumber, "INSERT" as oper, "Registro adicionado com sucesso" as message;
+                ELSE
+					SELECT 0 as sucess, @last_nsuCode as nsuCode, @bankNumber as bankNumber, "INSERT" as oper, "Erro na inclusão do registro" as message;
+                END IF;
             ELSE
 				IF(Ipayer_name="")THEN
+					SET @qtd_ini = (SELECT COUNT(*) FROM tb_cobranca);
 					DELETE FROM tb_cobranca WHERE nsuCode=InsuCode;
+					SET @qtd_fin = (SELECT COUNT(*) FROM tb_cobranca);
+					IF(@qtd_fin<@qtd_ini)THEN
+						SELECT 1 as sucess, "DELETE" as oper, "Registro deletado com sucesso" as message;
+					ELSE
+						SELECT 0 as sucess, "DELETE" as oper, "Erro na exclusão do registro" as message;
+					END IF;
                 ELSE
 					UPDATE tb_cobranca 
-					SET nsuDate=InsuDate,environment=Ienvironment,covenantCode=IcovenantCode,payer_documentType=Ipayer_documentType,
-					payer_documentNumber=Ipayer_documentNumber,payer_name=Ipayer_name,payer_address=Ipayer_address,payer_neighborhood=Ipayer_neighborhood,
-					payer_city=Ipayer_city,payer_state=Ipayer_state,payer_zipCode=Ipayer_zipCode,bankNumber=IbankNumber,clientNumber=IclientNumber,
-					dueDate=IdueDate,nominalValue=InominalValue,documentKind=IdocumentKind,protestType=IprotestType,protestQuantityDays=IprotestQuantityDays,
-					paymentType=IpaymentType,messages=Imessages
-					WHERE nsuCode=InsuCode;
+						SET nsuDate=InsuDate,environment=Ienvironment,covenantCode=IcovenantCode,payer_documentType=Ipayer_documentType,
+						payer_documentNumber=Ipayer_documentNumber,payer_name=Ipayer_name,payer_address=Ipayer_address,payer_neighborhood=Ipayer_neighborhood,
+						payer_city=Ipayer_city,payer_state=Ipayer_state,payer_zipCode=Ipayer_zipCode,bankNumber=IbankNumber,clientNumber=IclientNumber,
+						dueDate=IdueDate,nominalValue=InominalValue,documentKind=IdocumentKind,protestType=IprotestType,protestQuantityDays=IprotestQuantityDays,
+						paymentType=IpaymentType,messages=Imessages
+						WHERE nsuCode=InsuCode;
+					SELECT 1 as sucess, "EDIT" as oper, "Registro alterado com sucesso" as message;
                 END IF;
             END IF;
         END IF;

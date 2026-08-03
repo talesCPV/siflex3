@@ -426,3 +426,37 @@ function uploadFile(file,path,filename){
 
     return myPromisse
 }
+
+/* SANTANDER */
+
+function novoBoleto(workspaceId,params){
+    let access = -1
+    try{
+        access = main_data.dashboard.data.access
+    }catch{
+        access = -1
+    }
+
+    const hash = localStorage.getItem('hash') == undefined ? 0 : localStorage.getItem('hash')
+    const data = new URLSearchParams()
+        data.append("access", access)
+        data.append("hash", hash)
+        data.append("workspaceId", workspaceId)
+        data.append("params", JSON.stringify(params))
+
+    const myRequest = new Request("backend/bank/novoBoleto.php",{
+        method : "POST",
+        body : data
+    });
+
+    return new Promise((resolve,reject) =>{
+        fetch(myRequest)
+        .then(function (response){
+            if (response.status === 200) { 
+                resolve(response.text())        
+            } else { 
+                reject(new Error("Houve algum erro na comunicação com o servidor"));
+            } 
+        });
+    });      
+}

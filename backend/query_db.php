@@ -1,9 +1,11 @@
 <?php
-
+//echo 1;
+//exit;
     if (IsSet($_POST["cod"]) && IsSet($_POST["params"]) && IsSet($_POST["access"]) && IsSet($_POST["hash"])){
 
         include_once "connect.php";
         include_once "crip.php";
+        include_once "sql.php";
 
         $cod = $_POST["cod"];
         $params = json_decode($_POST["params"],true);
@@ -17,8 +19,6 @@
                 $access = $access. ','.$val;
             }
         }
-
-        include_once "sql.php";
 
         $query = $query_db[$_POST["cod"]];
         $query = str_replace('@access','"('.$access.')"',$query); // put mod access allow
@@ -35,7 +35,7 @@
         }
 
 //    echo $query; 
-
+//    exit;
             $result = mysqli_query($conexao, $query);
             if(is_object($result)){
                 if($result->num_rows > 0){			
@@ -45,8 +45,9 @@
                 }        
             }
 
-	    $conexao->close();        
+	    $conexao->close();
 
+        header('Content-Type: application/json');
         print json_encode($rows);
     }
 

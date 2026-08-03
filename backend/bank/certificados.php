@@ -50,6 +50,7 @@
     define('URL_BILL_ID'      ,$url_matrix."/collection_bill_management/v2/bills/{bill_id}?tipoConsulta=default");
     // GET: geração da imagem do boleto em PDF:
     define('URL_BOL_PDF'      ,$url_matrix."/collection_bill_management/v2/bills/{bill_id}/bank_slips");
-
-
+    // PATCH: alteração de um boleto já gerado
+    define('URL_ALTER'        ,$url_matrix."/collection_bill_management/v2/workspaces/{WORKSPACE_ID}/bank_slips");
+    
 ?>
