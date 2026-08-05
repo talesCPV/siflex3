@@ -40,7 +40,6 @@
         "Accept: application/json"
     ]);
 
-    // Como o cURL padrão lida com GET/POST, forçamos o método PATCH
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PATCH");
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -70,7 +69,7 @@
             "success" => false,
             "message" => "Erro ao processar boleto. Codigo HTTP: " . $httpCode,
             "curl_error_code" => $curlErrorNo,
-            "curl_error_message" => $curlErrorMsg, // ESTA LINHA VAI DIZER O MOTIVO REAL DO 0
+            "curl_error_message" => $curlErrorMsg,
             "details" => json_decode($resposta, true) ?: $resposta 
         ]);
     }

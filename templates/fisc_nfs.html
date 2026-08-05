@@ -318,7 +318,7 @@
         pageData.NFs.setTagValue('BairroLocPre', noCliente ? pageData.NFs.getTagValue('BairroTom') : pageScreen.querySelector('#BairroPre').value )
         pageData.NFs.setTagValue('MunLocPre', noCliente ? pageData.NFs.getTagValue('MunTom') : pageScreen.querySelector('#MunPre').value )
         pageData.NFs.setTagValue('SiglaUFLocpre', noCliente ? pageData.NFs.getTagValue('SiglaUFTom') : pageScreen.querySelector('#SiglaUFPre').value )
-        pageData.NFs.setTagValue('CepLocPre', noCliente ? pageData.NFs.getTagValue('CepTom') : pageScreen.querySelector('#CepPre').value )
+        pageData.NFs.setTagValue('CepLocPre', noCliente ? getNum(pageData.NFs.getTagValue('CepTom')) : getNum(pageScreen.querySelector('#CepPre').value ))
 
 
 // Reg30
@@ -440,7 +440,7 @@
             parc.venc = fat[i].data
             parc.valor = fat[i].valor
             cob.parcelas.push(parc)
-//            add_a_receber(parc)
+            add_a_receber(parc)
             saveBoleto(parc.valor,parc.venc,fat.length,fat[i].parcela)
         } 
 

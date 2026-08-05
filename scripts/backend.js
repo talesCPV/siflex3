@@ -201,7 +201,7 @@ function listNF(path,ext='txt'){
         const list = JSON.parse(txt)
         const sel = document.querySelector(`#${ext}Files`)
         sel.innerHTML=''
-        for(let i=list.length-1; i>=0;  i--){
+        for(let i=0; i<list.length; i++){
             sel.innerHTML += `<option value="${list[i]}">${list[i]}</option>`
         }
     })
