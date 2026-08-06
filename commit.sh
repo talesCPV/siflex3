@@ -6,6 +6,8 @@ echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
 
+    cp  backend/bank/certificados ~/Documentos/Flexibus/
+    rm -rf backend/bank/certificados
     cp ~/Documentos/SQL/siflex/*.sql sql/
 
     git init
