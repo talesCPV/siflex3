@@ -7,7 +7,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]
 then
 
     cp  -r backend/bank/certificados ~/Documentos/Flexibus/
-    rm -rf backend/bank/certificados
+    rm -rf backend/bank/certificados/*
     cp ~/Documentos/SQL/siflex/*.sql sql/
 
     git init
@@ -29,7 +29,7 @@ then
     git remote set-url origin git@github.com:talesCPV/siflex3.git
 
     git push -u -f origin main
-    cp  -r ~/Documentos/Flexibus/certificados/ backend/bank/
+#    cp  -r ~/Documentos/Flexibus/certificados/ backend/bank/
 
 
 fi
