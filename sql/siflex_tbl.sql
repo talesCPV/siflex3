@@ -434,6 +434,23 @@ CREATE TABLE tb_proj_setor (
     tempo double DEFAULT 0,
     PRIMARY KEY (id_proj,id_setor)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+/* Relatório Fotográfico */
+
+ DROP TABLE tb_relat_foto;
+CREATE TABLE tb_relat_foto (
+	id int(11) unsigned NOT NULL AUTO_INCREMENT,
+	issueDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    title     varchar(60) NOT NULL,
+    client    varchar(60) NOT NULL,
+    prod      varchar(60) NOT NULL,
+    qtd       int NOT NULL DEFAULT 1,
+    serie     varchar(20) NOT NULL,
+    dateIni   date NOT NULL,
+    dateFin   date NOT NULL,
+    about     varchar(512) DEFAULT NULL,
+    itens     varchar(512) DEFAULT NULL,
+    PRIMARY KEY (id)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 /* SANTANDER */
 

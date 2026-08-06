@@ -2406,6 +2406,60 @@ DELIMITER $$
         END IF;
 	END $$
 DELIMITER ;
+/* RELATÓRIO FOTOGRAFICO */
+
+DROP PROCEDURE sp_set_relat_foto;
+DELIMITER $$
+	CREATE PROCEDURE sp_set_relat_foto(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+        IN Iid int(11),
+		IN Ititle varchar(60),
+		IN Iclient varchar(60),
+		IN Iprod varchar(60),
+		IN Iqtd int,
+		IN Iserie varchar(20),
+		IN IdateIni date,
+		IN IdateFin date,
+		IN Iabout varchar(512),
+		IN Iitens varchar(512)
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN	
+			IF(Iid = 0)THEN
+				INSERT INTO tb_relat_foto (title,client,prod,qtd,serie,dateIni,dateFin,about,itens) 
+                VALUES(Ititle,Iclient,Iprod,Iqtd,Iserie,IdateIni,IdateFin,Iabout,Iitens);				
+            ELSE
+				IF(Ititle="")THEN
+					DELETE FROM tb_relat_foto WHERE id=Iid;
+				ELSE
+					UPDATE tb_relat_foto
+                    SET title=Ititle, client=Iclient, prod=Iprod, serie=Iserie,
+                    dateIni=IdateIni, dateFin=IdateFin, about=Iabout, itens=Iitens;
+                END IF;
+            END IF;
+        END IF;
+	END $$
+DELIMITER ;
+
+ DROP PROCEDURE sp_view_relat_foto;
+DELIMITER $$
+	CREATE PROCEDURE sp_view_relat_foto(
+		IN Iallow varchar(80),
+		IN Ihash varchar(64),
+		IN IdateIni date,
+		IN IdateFin date
+    )
+	BEGIN
+		CALL sp_allow(Iallow,Ihash);
+		IF(@allow)THEN	
+			SELECT * FROM tb_relat_foto 
+            WHERE dateIni>= IdateIni AND dateFin<=IdateFin
+            ORDER BY id DESC;
+        END IF;
+	END $$
+DELIMITER ;
 
 /* SANTANDER */
 

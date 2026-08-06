@@ -1,0 +1,162 @@
+<template>
+    <style> </style>
+  
+    <div class="tab-bar">
+        <div class="tab-item" id="tab-new"  onclick="pictab(this)">Novo        </div>            
+        <div class="tab-item" id="tab-relat"   onclick="pictab(this)">Relatórios</div>
+    </div>
+
+    <div class="tab-screen">        
+        <div id="new" class="tab">
+            <fieldset>
+                <legend>Novo Relatório</legend>
+                <div class="inline">
+                    <label for="edtTitle">Título</label>
+                    <input type="text" id="edtTitle" maxlength="60">            
+                </div>
+                <div class="inline">
+                    <label for="edtCliente">Cliente</label>
+                    <input type="text" id="edtCliente" maxlength="60">
+                    <button id="btn-cliente" class="btn-round"><span class="mdi mdi-magnify"></span>
+                </div>
+                <div class="inline">
+                    <label for="edtProd">Produto</label>
+                    <input type="text" id="edtProd" maxlength="60">
+                    <label for="edtQtd">Qtd.</label>
+                    <input type="text" id="edtQtd" style="max-width: 10%;" onkeyup="valInt(this)" value="0">
+                </div>
+                <div class="inline">
+                    <label for="edtSerie">Modelo</label>
+                    <input type="text" id="edtSerie" maxlength="20">            
+                </div>
+                <div class="inline">
+                    <label for="edtTitle">Data Vigente</label>
+                    <input type="date" id="edtDataIni">
+                    <label for="edtDataFin">até</label>
+                    <input type="date" id="edtDataFin">
+                </div>
+                <div class="inline">
+                    <label for="edtServ">Serviço Exec.</label>
+                    <textarea id="edtServ" rows="15" maxlength="512"></textarea>            
+                </div>
+                <div class="inline">
+                    <label for="edtCod">Serial Num.</label>
+                    <textarea id="edtCod" rows="5" maxlength="512"></textarea>            
+                </div>
+                <div class="line">
+                    <button id="btnGerar">Gerar</button>
+                </div>
+            </fieldset>
+        </div>
+        <div id="relat" class="tab">
+            <table id="tbl-relat"></table>
+        </div>
+    </div>
+    
+
+</template>
+<script>
+    const pageData = main_data.tool_relat_foto.data
+    const pageFunc = main_data.tool_relat_foto.func
+    const pageScreen = document.querySelector('#card-tool_relat_foto')
+
+    function startPage(){
+        pageScreen.querySelector('#tab-new').click()
+        pageScreen.querySelector('#edtDataIni').value = today.iniMonth()
+        pageScreen.querySelector('#edtDataFin').value = today.finMonth()
+        fillRelat()
+    }
+
+    function saveRelat(id=0, del=0){
+        const params = new Object;
+        params.id = id
+        params.title = del ? '' : pageScreen.querySelector('#edtTitle').value.trim()
+        params.client = pageScreen.querySelector('#edtCliente').value.trim()
+        params.prod = pageScreen.querySelector('#edtProd').value.trim()
+        params.qtd = pageScreen.querySelector('#edtQtd').value.trim()
+        params.serie = pageScreen.querySelector('#edtSerie').value.trim()
+        params.dateIni = pageScreen.querySelector('#edtDataIni').value
+        params.dateFin = pageScreen.querySelector('#edtDataFin').value
+        params.about = pageScreen.querySelector('#edtServ').value.trim()
+        params.itens = pageScreen.querySelector('#edtCod').value.trim()
+        const myPromisse = queryDB(params,'TOOL-8').then((resolve)=>{
+            alert('Cadastrado efetuado!')
+            pageScreen.querySelector('#tab-relat').click()
+            pageScreen.querySelector('#btnGerar').innerHTML = 'Gerar'
+            fillRelat()
+        })
+    }
+
+    function fillRelat(dtIni='0000-01-01', dtFin='9999-12-31'){
+        const params = new Object;
+        params.dtIni = dtIni
+        params.dtFin = dtFin
+        const myPromisse = queryDB(params,'TOOL-7').then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const tbl = pageScreen.querySelector('#tbl-relat')
+            tbl.innerHTML = ''
+            tbl.head('Gerado dia,Cliente,Título')            
+            for(let i=0; i< json.length; i++){
+                tbl.plot(json[i],'issueDate,client,title','dat,Upp,Upp')
+            }
+        })
+    }
+
+    pageFunc.buscaEmp = (data)=>{
+        console.log(data)
+        pageScreen.querySelector('#edtCliente').value = data.fantasia
+    }
+
+    pageScreen.querySelector('#btnGerar').addEventListener('click',()=>{
+        pageData.edit_id = pageScreen.querySelector('#btnGerar').innerHTML == 'Gerar' ? 0 : pageData.edit_id
+        saveRelat(pageData.edit_id)
+    })
+
+    pageScreen.querySelector('#btn-cliente').addEventListener('click',()=>{
+        openHTML('busca_emp.html','pop-up','Selecione o Cliente',{"org":"tool_relat_foto"})
+    })
+
+    pageScreen.querySelector('#tbl-relat').addEventListener('click',(e)=>{
+        const data = e.target.parentNode.data  
+        if(data!=undefined){
+            const tbl = []
+            const edit = new Object
+            edit.label = 'Editar'
+            edit.link = ()=>{
+                pageScreen.querySelector('#edtTitle').value = data.title
+                pageScreen.querySelector('#edtCliente').value = data.client
+                pageScreen.querySelector('#edtProd').value = data.prod
+                pageScreen.querySelector('#edtQtd').value = data.qtd
+                pageScreen.querySelector('#edtSerie').value = data.serie
+                pageScreen.querySelector('#edtDataIni').value = data.dateIni
+                pageScreen.querySelector('#edtDataFin').value = data.dateFin
+                pageScreen.querySelector('#edtServ').value = data.about
+                pageScreen.querySelector('#edtCod').value = data.itens
+                pageScreen.querySelector('#btnGerar').innerHTML = 'Salvar'
+                pageData.edit_id = data.id
+                pageScreen.querySelector('#tab-new').click()
+            }
+            tbl.push(edit)
+
+            const foto = new Object
+            foto.label = 'Adicionar Fotos'
+            foto.link = ()=>{
+                openHTML('tool_view_fotos.html','pop-up','Adicionar Fotos ao Relatório',data)
+            }
+            tbl.push(foto)
+
+            const pdf = new Object
+            pdf.label = 'Visualizar PDF'
+            pdf.link = ()=>{
+                console.log(data)
+            }
+            tbl.push(pdf)
+            
+            menuContext(tbl,e)  
+
+        }
+    })  
+    
+    startPage()
+
+</script>

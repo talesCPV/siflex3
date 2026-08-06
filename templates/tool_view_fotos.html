@@ -1,0 +1,85 @@
+<template>
+    <style> 
+
+        .pic{
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            justify-content: center;
+            align-items: center;
+        }
+        #cnvImg{
+            border: solid 1px;
+            border-radius: 10px;
+            max-width: 500px;
+        }
+
+        #edtHora{
+            min-width: 140px;
+        }
+
+    </style>
+
+    <div class="old-fotos"></div>    
+
+    <div class="pic">
+        <canvas id="cnvImg"></canvas>
+        <input  name="up_file" id="up_file" type="file" accept=".jpg,.jpeg" class="only-view">
+        <div class="inline">
+            <label for="edtSetor">Setor</label>
+            <input type="text" id="edtSetor">
+        </div>
+        <div class="inline">
+            <label for="edtLocal">Local</label>
+            <input type="text" id="edtLocal" value="Av. Dr. Rosalvo de Almeida Telles, 2070 - Caçapava-SP">
+        </div>
+        <div class="inline">
+            <label for="edtData">Data e Hora</label>
+            <input type="date" id="edtData">
+            <input type="time" id="edtHora">
+        </div>
+
+        <button id="btn-save">Salvar</button>
+    </div>
+
+
+</template>
+<script>
+    const pageData = main_data.tool_view_fotos.data
+    const pageFunc = main_data.tool_view_fotos.func
+    const pageScreen = document.querySelector('#card-tool_view_fotos')
+
+    function startPage(){
+        console.log(pageData)
+        showFiles(`../relat-fotos/${pageData.id}/`).then((resolve)=>{
+            const json = JSON.parse(resolve)
+            console.log(json)
+        })
+        pageScreen.querySelector('#edtData').value = today.getFormatDate()
+        pageScreen.querySelector('#edtHora').value = today.getFullDateTime().substr(11,8)
+
+        
+    }
+
+    pageScreen.querySelector('#btn-save').addEventListener('click',()=>{
+
+        const up = uploadImage('up_file',`../relat-fotos/${pageData.id}/`,`perfil.jpg`)
+        up.then((resp)=>{
+            setLog(` Imagem Alterada -> Perfil Usuário: ${localStorage.getItem('email')}`)
+        })
+
+    })
+
+    pageScreen.querySelector('#up_file').addEventListener('change',()=>{        
+        showFile()
+
+    })
+
+/* 
+    fazer um random  e adicionar os minutos na hora sempre que postar uma foto nova para simular naturalidade
+
+*/
+    
+    startPage()
+
+</script>

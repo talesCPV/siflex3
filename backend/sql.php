@@ -82,6 +82,8 @@
         "TOOL-4" => 'CALL sp_view_tbl(@access, @hash,"x00");', // tbl_name
         "TOOL-5" => 'CALL sp_set_proj_setor(@access, @hash, x00,x01,"x02");', // id_projeto, id_setor, tempo
         "TOOL-6" => 'CALL sp_view_proj_setor(@access, @hash,x00);', // id_projeto
+        "TOOL-7" => 'CALL sp_view_relat_foto(@access, @hash,"x00","x01");', // dtIni, dtFin
+        "TOOL-8" => 'CALL sp_set_relat_foto(@access, @hash,x00, "x01","x02","x03",x04,"x05","x06","x07","x08","x09");', // id,title,client,prod,qtd,serie,dateIni,dateFin,about,itens
 
         /* COTAÇÕES */
         "COT-0" => 'CALL sp_view_cotacao(@access,@hash,"x00","x01","x02","x03","x04");', // FIELD,SIGNAL, VALUE, DT_INI, DT_FIN
