@@ -52,5 +52,10 @@
     define('URL_BOL_PDF'      ,$url_matrix."/collection_bill_management/v2/bills/{bill_id}/bank_slips");
     // PATCH: alteração de um boleto já gerado
     define('URL_ALTER'        ,$url_matrix."/collection_bill_management/v2/workspaces/{WORKSPACE_ID}/bank_slips");
+    // POST: iniciar um pagamento de uma transferência pix
+    define('URL_PIX'         ,$url_matrix."/management_payments_partners/v1/workspaces/{workspace_id}/pix_payments");
+  
     
+    
+
 ?>

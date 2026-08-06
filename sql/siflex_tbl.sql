@@ -455,7 +455,7 @@ CREATE TABLE tb_cobranca (
     beneficiary_documentNumber varchar(14) DEFAULT NULL,
     beneficiary_name varchar(40) DEFAULT NULL,    
     bankNumber int NOT NULL,
-    clientNumber varchar(15) DEFAULT NULL,
+    clientNumber varchar(15) DEFAULT NULL UNIQUE,
     dueDate date NOT NULL,
     issueDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     participantCode varchar(25) DEFAULT NULL,
@@ -492,3 +492,4 @@ CREATE TABLE tb_cobranca (
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 ALTER TABLE tb_cobranca ADD COLUMN digitableLine varchar(47) DEFAULT NULL;
+ALTER TABLE tb_cobranca ADD UNIQUE (clientNumber);
