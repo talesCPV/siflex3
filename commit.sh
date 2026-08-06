@@ -29,5 +29,7 @@ then
     git remote set-url origin git@github.com:talesCPV/siflex3.git
 
     git push -u -f origin main
+    cp  -r ~/Documentos/Flexibus/certificados/ backend/bank/
+
 
 fi
