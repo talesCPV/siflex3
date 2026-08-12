@@ -1,5 +1,14 @@
 <template>
     <style> 
+        .frm{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .old-fotos{
+            width: 40%;
+        }
 
         .pic{
             display: flex;
@@ -20,27 +29,36 @@
 
     </style>
 
-    <div class="old-fotos"></div>    
-
-    <div class="pic">
-        <canvas id="cnvImg"></canvas>
-        <input  name="up_file" id="up_file" type="file" accept=".jpg,.jpeg" class="only-view">
-        <div class="inline">
-            <label for="edtSetor">Setor</label>
-            <input type="text" id="edtSetor">
+    <div class="frm">
+        <div class="old-fotos">
+            <table id="tbl-fotos"></table>
+        </div>    
+    
+        <div class="pic">
+            <canvas id="cnvImg"></canvas>
+            <input  name="up_file" id="up_file" type="file" accept=".jpg,.jpeg" class="only-view">
+            <div class="inline">
+                <label for="edtSetor">Setor</label>
+                <input type="text" id="edtSetor">
+            </div>
+            <div class="inline">
+                <label for="edtLocal">Local</label>
+                <input type="text" id="edtLocal" value="Av. Dr. Rosalvo de Almeida Telles, 2070 | Caçapava-SP">
+            </div>
+            <div class="inline">
+                <label for="edtData">Data e Hora</label>
+                <input type="date" id="edtData">
+                <input type="time" id="edtHora">
+            </div>
+            <div class="line">
+                <button id="btn-save">Salvar</button>
+                <button id="btn-texto">Aplicar Texto</button>
+            </div>
+    
         </div>
-        <div class="inline">
-            <label for="edtLocal">Local</label>
-            <input type="text" id="edtLocal" value="Av. Dr. Rosalvo de Almeida Telles, 2070 - Caçapava-SP">
-        </div>
-        <div class="inline">
-            <label for="edtData">Data e Hora</label>
-            <input type="date" id="edtData">
-            <input type="time" id="edtHora">
-        </div>
-
-        <button id="btn-save">Salvar</button>
+    
     </div>
+
 
 
 </template>
@@ -51,34 +69,122 @@
 
     function startPage(){
         console.log(pageData)
-        showFiles(`../relat-fotos/${pageData.id}/`).then((resolve)=>{
-            const json = JSON.parse(resolve)
-            console.log(json)
-        })
+        fillPics()
         pageScreen.querySelector('#edtData').value = today.getFormatDate()
         pageScreen.querySelector('#edtHora').value = today.getFullDateTime().substr(11,8)
+    }
 
-        
+    function fillPics(){
+        return showFiles(`../relat-fotos/${pageData.id}/`).then((resolve)=>{
+            pageData.files = JSON.parse(resolve)
+            const tbl = pageScreen.querySelector('#tbl-fotos')
+            tbl.innerHTML = ''
+            tbl.head('Imagem')
+            for(let i=0; i<pageData.files.length; i++){
+                const tr = document.createElement('tr')
+                tr.innerHTML = `<td>${pageData.files[i]}</td>`
+                tr.data = pageData.files[i]
+                tbl.appendChild(tr)
+            }
+
+        })
+    }
+
+    function textToCanvas(texto,x, y, fonte=10) {
+        const ctx = pageScreen.querySelector('#cnvImg').getContext('2d');
+        ctx.font = `bold ${fonte}px Arial`;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = Math.max(2, fonte / 10); // Contorno proporcional ao tamanho do texto
+        ctx.fillStyle = 'white';
+        ctx.strokeText(texto.trim(), x, y);
+        ctx.fillText(texto.trim(), x, y);
     }
 
     pageScreen.querySelector('#btn-save').addEventListener('click',()=>{
 
-        const up = uploadImage('up_file',`../relat-fotos/${pageData.id}/`,`perfil.jpg`)
-        up.then((resp)=>{
-            setLog(` Imagem Alterada -> Perfil Usuário: ${localStorage.getItem('email')}`)
-        })
+        const setor = pageScreen.querySelector('#edtSetor').value.trim()
+        if(setor.length){
+            let files = []
+            let N = 1
+            for(let i=0; i<pageData.files.length; i++){
+                if(pageData.files[i].includes(setor)){
+                    files.push(Number(pageData.files[i].split('_')[1].split('.')[0]))
+                    while(files.includes(N)){
+                        N++
+                    }
+                }
+            }
 
+            const canvas =  pageScreen.querySelector('#cnvImg')
+            saveCanvas( canvas,`/../../relat-fotos/${pageData.id}/`,`${setor}_${N}.jpg`).then(()=>{
+                closeModal('tool_view_fotos')
+            })
+
+        }else{
+            alert('Você deve colocar o nome do setor!')
+            pageScreen.querySelector('#edtSetor').focus()
+        }
+    })
+
+    pageScreen.querySelector('#btn-texto').addEventListener('click',()=>{
+        const bottom =  pageScreen.querySelector('#cnvImg').height
+        const local = pageScreen.querySelector('#edtLocal').value.trim()
+        const dt = new Date(pageScreen.querySelector('#edtData').value)
+        const hr = pageScreen.querySelector('#edtHora').value
+        const data =`${dt.getDate()} de ${meses[dt.getMonth()]} de ${today.getFullYear()} ${hr}`
+
+        textToCanvas(data,5,bottom-40)
+        textToCanvas(local.split('|')[0],5,bottom-25,10)
+        textToCanvas(local.split('|')[1],5,bottom-10)
     })
 
     pageScreen.querySelector('#up_file').addEventListener('change',()=>{        
         showFile()
-
     })
 
-/* 
-    fazer um random  e adicionar os minutos na hora sempre que postar uma foto nova para simular naturalidade
+    pageScreen.querySelector('#tbl-fotos').addEventListener('click',(e)=>{
+        const data = e.target.parentNode.data  
+        if(data!=undefined){
+            const tbl = []
+            const del = new Object
+            del.label = 'Deletar'
+            del.link = ()=>{
+                if(confirm('Deseja remover esta foto do relatório?')){
+                    delFile(`/../../relat-fotos/${pageData.id}/${data}`).then(()=>{
+                        fillPics()
+                    })
+                }
+            }
+            tbl.push(del)
 
-*/
+            const show = new Object
+            show.label = 'Visualizar'
+            show.link = ()=>{
+                console.log(data)
+                window.open(window.location.href+`../relat-fotos/${pageData.id}/${data}`, '_blank');
+            }
+            tbl.push(show)
+
+            const ren = new Object
+            ren.label = 'Trocar Setor'
+            ren.link = ()=>{
+                const setor = prompt('Digite o nome do novo setor',data.split('_')[0])
+                if(setor!=null){
+                    renameFile(`/../../relat-fotos/${pageData.id}/${data}`,`/../../relat-fotos/${pageData.id}/${setor}`).then(()=>{
+                        fillPics()
+                    })
+                }
+
+
+            }
+            tbl.push(ren)
+
+            menuContext(tbl,e)
+        }
+    })
+
     
     startPage()
 

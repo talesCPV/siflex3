@@ -98,6 +98,7 @@ function showFile(idFile='up_file',idCanvas='cnvImg'){
         }
         reader.readAsDataURL(inputFile.files[0]);
     }
+
 }
 
 function loadImg(filename, id='cnvImg',efect='normal') {

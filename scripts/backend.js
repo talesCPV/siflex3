@@ -125,6 +125,38 @@ function uploadImage(fileID,path,filename){
     return myPromisse
 }
 
+async function saveCanvas(canvas, path,filename) {
+    console.log(1)
+    // 1. Converte o canvas para um arquivo Blob (JPEG, qualidade 90%)
+    canvas.toBlob(async (blob) => {
+        if (!blob) {
+            console.error('Falha ao gerar o Blob do canvas.');
+            return 0
+        }
+
+        // 2. Prepara os dados para o envio (POST)
+        const formData = new FormData();
+        formData.append('foto', blob, 'imagem.jpg'); // O arquivo em si
+        formData.append('path', path); // O patch/caminho onde salvar
+        formData.append('filename', filename); // O patch/caminho onde salvar
+
+        try {
+            // 3. Envia os dados para o seu script PHP usando await
+            const resposta = await fetch('backend/saveCanvas.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            return resultado = await resposta.json();
+
+        } catch (erro) {
+            console.error('Erro na requisição HTTP:', erro);
+            return 0
+        }
+    }, 'image/jpeg', 0.9);
+}
+
+
 function showFiles(path,filename='',ext=''){
 
     const data = new URLSearchParams();        
@@ -176,6 +208,27 @@ function delFile(path){
         })
     })  
 
+}
+
+function renameFile(old_name,new_name){
+    const data = new URLSearchParams()
+        data.append("old_name", old_name)
+        data.append("new_name", new_name)
+    const myRequest = new Request("backend/renameFile.php",{
+        method : "POST",
+        body : data
+    })
+
+    return new Promise((resolve,reject) =>{
+        fetch(myRequest)
+        .then(function (response){
+            if (response.status === 200) {                 
+                resolve(response.text())
+            } else { 
+                reject(new Error("Houve algum erro na comunicação com o servidor"))
+            } 
+        })
+    })
 }
 
 function listNF(path,ext='txt'){
