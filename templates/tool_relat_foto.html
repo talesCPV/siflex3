@@ -139,7 +139,7 @@
             tbl.push(edit)
 
             const foto = new Object
-            foto.label = 'Adicionar Fotos'
+            foto.label = 'Fotos'
             foto.link = ()=>{
                 openHTML('tool_view_fotos.html','pop-up','Adicionar Fotos ao Relatório',data,800)
             }
@@ -148,7 +148,7 @@
             const pdf = new Object
             pdf.label = 'Visualizar PDF'
             pdf.link = ()=>{
-                console.log(data)
+                relat_fotografico(data)
             }
             tbl.push(pdf)
             

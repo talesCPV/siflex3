@@ -1323,3 +1323,58 @@ function cracha(func){
 
     openPDF(doc,'cracha.pdf')
 }
+
+function relat_fotografico(data){
+
+    console.log(data)
+
+    doc = new jsPDF();
+    clearTxt(37,5,[210,297])
+    frame()
+    logo([12,10,45,10])    
+    line(25)    
+
+    center_text(data.title,[0,doc.internal.pageSize.getWidth()])
+
+    doc.setFontSize(10)
+
+    addLine(2)
+    doc.setFont(undefined, 'bold')
+    doc.text('Cliente:',10,txt.y)
+    doc.setFont(undefined, 'normal')
+    doc.text(data.client,35,txt.y)
+    addLine(2)
+    doc.setFont(undefined, 'bold')
+    doc.text('Produto:',10,txt.y)
+    doc.setFont(undefined, 'normal')
+    doc.text(data.prod,35,txt.y)
+    addLine(2)
+    doc.setFont(undefined, 'bold')
+    doc.text('Data Vigente:',10,txt.y)
+    doc.setFont(undefined, 'normal')
+    doc.text(`${data.dateIni.date()} - ${data.dateFin.date()}`,35,txt.y)
+    addLine(2)
+
+    doc.setFont(undefined, 'bold')
+    doc.text('Serviço Realizado:',10,txt.y)
+    doc.setFont(undefined, 'normal')
+    addLine()
+    box(data.about,10,txt.y,170,1,false)
+    addLine()
+
+    doc.setFont(undefined, 'bold')
+    doc.text('Ítens:',10,txt.y)
+    doc.setFont(undefined, 'normal')
+    addLine()
+    box(data.itens,10,txt.y,170,1,false)
+
+    doc.setFontSize(8)
+    doc.setFont(undefined, 'normal')
+
+/*
+    center_text('Av. Dr. Rosalvo de Almeida Telles, 2070  Cacapava-SP - CEP 12.283-020 - CNPJ 00.519.547/0001-06')
+    center_text('www.flexibus.com.br | comercial@flexibus.com.br | (12) 3653-2230')
+ */
+
+    openPDF(doc,'relat_fotografico.pdf')
+}

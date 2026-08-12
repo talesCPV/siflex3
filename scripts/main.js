@@ -77,28 +77,47 @@ function aspect_ratio(img,cvw=300, cvh=300){
     return out
 }
 
-function showFile(idFile='up_file',idCanvas='cnvImg'){
-    const inputFile = document.getElementById(idFile)
+function showFile(idFile = 'up_file', idCanvas = 'cnvImg') {
+    const inputFile = document.getElementById(idFile);
     if (inputFile.files && inputFile.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {            
-            var ctx = document.getElementById(idCanvas)
-            if (ctx.getContext) {
-                ctx = ctx.getContext('2d');
-                let preview = new Image();
-                preview.onload = function () {
-                    ar = aspect_ratio(preview,ctx.width,ctx.height) 
-                    ctx.canvas.width = ar[2]
-                    ctx.canvas.height = ar[3]
-                    ctx.clearRect(0, 0, 300,300);
-                    ctx.drawImage(preview, 0, 0,preview.width,preview.height,0,0,ar[2],ar[3]);
-                };
-                preview.src = e.target.result
-            }
-        }
-        reader.readAsDataURL(inputFile.files[0]);
-    }
+        return new Promise((resolve, reject) => {
+            var reader = new FileReader();
+            
+            reader.onload = function (e) {            
+                var canvasElem = document.getElementById(idCanvas);
+                if (canvasElem.getContext) {
+                    var ctx = canvasElem.getContext('2d');
+                    let preview = new Image();
+                    
+                    preview.onload = function () {
+                        let ar = aspect_ratio(preview, ctx.width, ctx.height); 
+                        ctx.canvas.width = ar[2];
+                        ctx.canvas.height = ar[3];
+                        ctx.clearRect(0, 0, 300, 300);
+                        ctx.drawImage(preview, 0, 0, preview.width, preview.height, 0, 0, ar[2], ar[3]);
+                        
+                        // Resolve a promise APÓS a imagem carregar e ser desenhada
+                        resolve(reader.result);
+                    };
+                    
+                    preview.onerror = function (error) {
+                        reject(error);
+                    };
 
+                    preview.src = e.target.result;
+                } else {
+                    reject(new Error("Canvas context not supported"));
+                }
+            };
+            
+            reader.onerror = function (error) {
+                reject(error);
+            };
+
+            reader.readAsDataURL(inputFile.files[0]);
+        });
+    }
+    return Promise.resolve(0); // Mantém o comportamento de retornar 0 (mas em forma de Promise ou valor direto caso não haja arquivo)
 }
 
 function loadImg(filename, id='cnvImg',efect='normal') {

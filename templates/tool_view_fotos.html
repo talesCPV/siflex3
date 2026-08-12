@@ -133,11 +133,13 @@
         const local = pageScreen.querySelector('#edtLocal').value.trim()
         const dt = new Date(pageScreen.querySelector('#edtData').value)
         const hr = pageScreen.querySelector('#edtHora').value
-        const data =`${dt.getDate()} de ${meses[dt.getMonth()]} de ${today.getFullYear()} ${hr}`
+        const data =`${dt.getDate()} de ${meses[dt.getMonth()]} de ${today.getFullYear()}  ${hr}`
 
-        textToCanvas(data,5,bottom-40)
-        textToCanvas(local.split('|')[0],5,bottom-25,10)
-        textToCanvas(local.split('|')[1],5,bottom-10)
+        showFile().then((resolve)=>{
+            textToCanvas(data,5,bottom-40)
+            textToCanvas(local.split('|')[0],5,bottom-25,10)
+            textToCanvas(local.split('|')[1],5,bottom-10)
+        })
     })
 
     pageScreen.querySelector('#up_file').addEventListener('change',()=>{        
@@ -176,8 +178,6 @@
                         fillPics()
                     })
                 }
-
-
             }
             tbl.push(ren)
 
