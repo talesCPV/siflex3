@@ -32,6 +32,14 @@ function addPage(Y=46){
     txt.y = Y 
 }
 
+function checkPage(size=0,margem=5){
+    if((txt.y+size+margem) > txt.dim[1]){
+        addPage()
+        return 1
+    }
+    return 0
+}
+
 function getBarcode(N, pos=[txt.dim[0]-41,txt.dim[1]-30, 36, 25] ){
     const bar = newBarcode(N,70)    
     const image = new Image();
@@ -69,10 +77,31 @@ function logo(pos = [14,7,36,25]){
     doc.addImage(imgData, 'png', pos[0], pos[1], pos[2], pos[3]);
 }
 
-function plotImg(url,x,y,w){
+function plotImg(url,x,y,w,max_h=0){
     var foto = new Image()
     foto.src = url
-    doc.addImage(foto, 'png', x,y,w,0);
+    doc.addImage(foto, 'png', x,y,w,max_h);
+    return foto
+}
+
+
+async function carregarImagens(listaUrls) {
+    // Mapeia cada URL para uma Promise individual de carregamento
+    const promisesDeCarregamento = listaUrls.map(url => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.src = url;
+
+            // Quando a imagem termina de carregar, resolve a promessa passando o objeto de imagem completo
+            img.onload = () => resolve(img);
+
+            // Se houver falha no carregamento (ex: link quebrado), rejeita a promessa com erro
+            img.onerror = () => reject(new Error(`Falha ao carregar a imagem: ${url}`));
+        });
+    });
+
+    // Aguarda em paralelo até que TODAS as imagens estejam carregadas e prontas
+    return await Promise.all(promisesDeCarregamento);
 }
 
 function addLine(N=1, botton=0, top=46){

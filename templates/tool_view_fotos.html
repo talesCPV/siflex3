@@ -1,191 +1,502 @@
 <template>
     <style> 
-        .frm{
+        .frm {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
+            gap: 20px;
         }
 
-        .old-fotos{
+        .old-fotos {
             width: 40%;
+            border-right: 1px solid #ccc;
+            padding-right: 10px;
         }
 
-        .pic{
+        .pic {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 12px;
             justify-content: center;
             align-items: center;
+            width: 60%;
         }
-        #cnvImg{
-            border: solid 1px;
+
+        .container-canvas {
+            position: relative; 
+            display: inline-block;
+            overflow: hidden;
+            background: #eee;
             border-radius: 10px;
+        }
+
+        #cnvImg {
+            border: solid 1px #aaa;
+            border-radius: 10px;
+            max-width: 500px;
+            display: block;
+        }
+
+        #quadradoCrop {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 150px;
+            height: 150px;
+            border: 2px dashed #fff;
+            box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.5); /* Escurece fora da área */
+            cursor: move;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        /* Alça visual de redimensionamento rígido 1:1 */
+        .resizer {
+            width: 14px;
+            height: 14px;
+            background-color: #fff;
+            border: 2px solid #007bff;
+            border-radius: 50%;
+            position: absolute;
+            right: -7px;
+            bottom: -7px;
+            cursor: nwse-resize;
+            z-index: 10;
+        }
+
+        #canvasDestino {
+            border: 1px solid #333;
+            max-width: 300px;
+            border-radius: 5px;
+            background: #fafafa;
+        }
+
+        .inline {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
             max-width: 500px;
         }
 
-        #edtHora{
-            min-width: 140px;
+        .inline label {
+            min-width: 90px;
+            font-weight: bold;
         }
 
+        .inline input {
+            flex: 1;
+            padding: 5px;
+        }
+
+        #edtHora {
+            max-width: 120px;
+        }
+
+        .line {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+
+        /* Classes de utilidade para controle de fluxo visual */
+        .hide {
+            display: none !important;
+        }
     </style>
 
     <div class="frm">
+        <!-- Coluna Esquerda: Listagem -->
         <div class="old-fotos">
             <table id="tbl-fotos"></table>
         </div>    
     
+        <!-- Coluna Direita: Edição e Canvas -->
         <div class="pic">
-            <canvas id="cnvImg"></canvas>
-            <input  name="up_file" id="up_file" type="file" accept=".jpg,.jpeg" class="only-view">
-            <div class="inline">
-                <label for="edtSetor">Setor</label>
-                <input type="text" id="edtSetor">
+            <!-- Container do Canvas de Origem e Seleção -->
+            <div id="area-selecao" class="container-canvas">
+                <canvas id="cnvImg" class="hide"></canvas>
+                <div id="quadradoCrop">
+                    <div class="resizer"></div>
+                </div>
             </div>
-            <div class="inline">
-                <label for="edtLocal">Local</label>
-                <input type="text" id="edtLocal" value="Av. Dr. Rosalvo de Almeida Telles, 2070 | Caçapava-SP">
-            </div>
-            <div class="inline">
-                <label for="edtData">Data e Hora</label>
-                <input type="date" id="edtData">
-                <input type="time" id="edtHora">
-            </div>
+                        
+            <!-- Canvas de Destino inicia oculto -->
+            <canvas id="canvasDestino" class="hide"></canvas>
+
             <div class="line">
-                <button id="btn-save">Salvar</button>
-                <button id="btn-texto">Aplicar Texto</button>
+                <input name="up_file" id="up_file" type="file" accept=".jpg,.jpeg" class="only-view">
+                <button id="btnRecortarNovamente" class="hide">Editar Corte</button>
+                <button id="btnCortar" class="hide">Recortar</button>
             </div>
-    
+            
+            <!-- Formulário de dados inicia oculto e só aparece após o corte -->
+            <div id="form-dados" class="pic hide" style="width: 100%;">
+                <div class="inline">
+                    <label for="edtSetor">Setor</label>
+                    <input type="text" id="edtSetor">
+                </div>
+                <div class="inline">
+                    <label for="edtLocal">Local</label>
+                    <input type="text" id="edtLocal" value="Av. Dr. Rosalvo de Almeida Telles, 2070 | Caçapava-SP">
+                </div>
+                <div class="inline">
+                    <label for="edtData">Data e Hora</label>
+                    <input type="date" id="edtData">
+                    <input type="time" id="edtHora">
+                </div>
+                
+                <div class="line">
+                    <button id="btn-texto">Aplicar Texto</button>
+                    <button id="btn-save" style="background: #28a745; color: white; border: none; border-radius: 4px;">Salvar</button>
+                </div>
+            </div>
         </div>
-    
     </div>
-
-
-
 </template>
+
 <script>
-    const pageData = main_data.tool_view_fotos.data
-    const pageFunc = main_data.tool_view_fotos.func
-    const pageScreen = document.querySelector('#card-tool_view_fotos')
+    const pageData = main_data.tool_view_fotos.data;
+    const pageFunc = main_data.tool_view_fotos.func;
+    const pageScreen = document.querySelector('#card-tool_view_fotos');
+
+    // Elementos mapeados pelo escopo correto da tela
+    const areaSelecao = pageScreen.querySelector('#area-selecao');
+    const canvasOrigem = pageScreen.querySelector('#cnvImg');
+    const ctxOrigem = canvasOrigem.getContext('2d');
+    const canvasDestino = pageScreen.querySelector('#canvasDestino');
+    const ctxDestino = canvasDestino.getContext('2d');
+    const quadradoCrop = pageScreen.querySelector('#quadradoCrop');
+    const resizer = pageScreen.querySelector('.resizer');
+    const btnCortar = pageScreen.querySelector('#btnCortar');
+    const btnRecortarNovamente = pageScreen.querySelector('#btnRecortarNovamente');
+    const formDados = pageScreen.querySelector('#form-dados');
+
+    startPage()
 
     function startPage(){
-        console.log(pageData)
-        fillPics()
-        pageScreen.querySelector('#edtData').value = today.getFormatDate()
-        pageScreen.querySelector('#edtHora').value = today.getFullDateTime().substr(11,8)
+        console.log(pageData);
+        fillPics();
+        pageScreen.querySelector('#edtData').value = today.getFormatDate();
+        pageScreen.querySelector('#edtHora').value = today.getFullDateTime().substr(11,8);
     }
 
     function fillPics(){
         return showFiles(`../relat-fotos/${pageData.id}/`).then((resolve)=>{
-            pageData.files = JSON.parse(resolve)
-            const tbl = pageScreen.querySelector('#tbl-fotos')
-            tbl.innerHTML = ''
-            tbl.head('Imagem')
-            for(let i=0; i<pageData.files.length; i++){
-                const tr = document.createElement('tr')
-                tr.innerHTML = `<td>${pageData.files[i]}</td>`
-                tr.data = pageData.files[i]
-                tbl.appendChild(tr)
-            }
-
-        })
+            pageData.files = JSON.parse(resolve);
+            const tbl = pageScreen.querySelector('#tbl-fotos');
+            tbl.innerHTML = '';
+            if(typeof tbl.head === 'function') tbl.head('Imagem');
+            
+            pageData.files.forEach(file => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${file}</td>`;
+                tr.data = file;
+                tbl.appendChild(tr);
+            });
+        });
     }
 
-    function textToCanvas(texto,x, y, fonte=10) {
-        const ctx = pageScreen.querySelector('#cnvImg').getContext('2d');
-        ctx.font = `bold ${fonte}px Arial`;
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'middle';
-        ctx.strokeStyle = 'black';
-        ctx.lineWidth = Math.max(2, fonte / 10); // Contorno proporcional ao tamanho do texto
-        ctx.fillStyle = 'white';
-        ctx.strokeText(texto.trim(), x, y);
-        ctx.fillText(texto.trim(), x, y);
+    // Aplica o texto dinâmico diretamente no canvasDestino adaptando proporcionalmente a fonte
+    function textToCanvas(texto, x, y, fonte = 14) {
+        // Ajusta dinamicamente a fonte baseado na escala de corte do destino
+        const proporcaoFonte = Math.max(12, (canvasDestino.width / 400) * fonte);
+        ctxDestino.font = `bold ${proporcaoFonte}px Arial`;
+        ctxDestino.textAlign = 'left';
+        ctxDestino.textBaseline = 'middle';
+        ctxDestino.strokeStyle = 'black';
+        ctxDestino.lineWidth = Math.max(2, proporcaoFonte / 8);
+        ctxDestino.fillStyle = 'white';
+        ctxDestino.strokeText(texto.trim(), x, y);
+        ctxDestino.fillText(texto.trim(), x, y);
     }
 
-    pageScreen.querySelector('#btn-save').addEventListener('click',()=>{
+    function carregarImagemNoCanvas(file) {
+        pageScreen.querySelector('#cnvImg').classList.remove('hide')
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const img = new Image();
+            img.onload = function() {
+                canvasOrigem.width = img.width;
+                canvasOrigem.height = img.height;
+                ctxOrigem.drawImage(img, 0, 0);
+                
+                // Reseta visualização ao carregar nova imagem
+                voltarEstadoInicial();
+            };
+            img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
 
-        const setor = pageScreen.querySelector('#edtSetor').value.trim()
-        if(setor.length){
-            let files = []
-            let N = 1
-            for(let i=0; i<pageData.files.length; i++){
-                if(pageData.files[i].includes(setor)){
-                    files.push(Number(pageData.files[i].split('_')[1].split('.')[0]))
-                    while(files.includes(N)){
-                        N++
+    pageScreen.querySelector('#up_file').addEventListener('change', (e) => {        
+        if(e.target.files.length > 0) {
+            carregarImagemNoCanvas(e.target.files[0]);
+        }
+    });
+
+    pageScreen.querySelector('#btn-texto').addEventListener('click', () => {
+        const bottom = canvasDestino.height;
+        const local = pageScreen.querySelector('#edtLocal').value.trim();
+        const dt = new Date(pageScreen.querySelector('#edtData').value);
+        const hr = pageScreen.querySelector('#edtHora').value;
+        
+        // Fix para pegar dia/mês correto local sem fuso
+        const dia = String(dt.getDate() + 1).padStart(2, '0');
+        const data = `${dia} de ${meses[dt.getMonth()]} de ${today.getFullYear()} ${hr}`;
+
+        // Margens dinâmicas baseadas na altura do destino
+        const espacamento = Math.max(15, bottom * 0.05);
+        
+        textToCanvas(data, 15, bottom - (espacamento * 3));
+        
+        if(local.includes('|')) {
+            textToCanvas(local.split('|')[0], 15, bottom - (espacamento * 2), 14);
+            textToCanvas(local.split('|')[1], 15, bottom - espacamento, 14);
+        } else {
+            textToCanvas(local, 15, bottom - espacamento, 14);
+        }
+    });
+
+    pageScreen.querySelector('#btn-save').addEventListener('click', () => {
+        const setor = pageScreen.querySelector('#edtSetor').value.trim();
+        if(setor.length) {
+            let files = [];
+            let N = 1;
+            for(let i = 0; i < pageData.files.length; i++) {
+                if(pageData.files[i].includes(setor)) {
+                    files.push(Number(pageData.files[i].split('_')[1].split('.')[0]));
+                    while(files.includes(N)) {
+                        N++;
                     }
                 }
             }
-
-            const canvas =  pageScreen.querySelector('#cnvImg')
-            saveCanvas( canvas,`/../../relat-fotos/${pageData.id}/`,`${setor}_${N}.jpg`).then(()=>{
-                closeModal('tool_view_fotos')
-            })
-
-        }else{
-            alert('Você deve colocar o nome do setor!')
-            pageScreen.querySelector('#edtSetor').focus()
+            saveCanvas(canvasDestino, `/../../relat-fotos/${pageData.id}/`, `${setor}_${N}.jpg`).then(() => {
+                closeModal('tool_view_fotos');
+            });
+        } else {
+            alert('Você deve colocar o nome do setor!');
+            pageScreen.querySelector('#edtSetor').focus();
         }
-    })
+    });
 
-    pageScreen.querySelector('#btn-texto').addEventListener('click',()=>{
-        const bottom =  pageScreen.querySelector('#cnvImg').height
-        const local = pageScreen.querySelector('#edtLocal').value.trim()
-        const dt = new Date(pageScreen.querySelector('#edtData').value)
-        const hr = pageScreen.querySelector('#edtHora').value
-        const data =`${dt.getDate()} de ${meses[dt.getMonth()]} de ${today.getFullYear()}  ${hr}`
+    pageScreen.querySelector('#tbl-fotos').addEventListener('click', (e) => {
+        const tr = e.target.closest('tr');
+        if(!tr || tr.data === undefined) return;
+        const data = tr.data;
 
-        showFile().then((resolve)=>{
-            textToCanvas(data,5,bottom-40)
-            textToCanvas(local.split('|')[0],5,bottom-25,10)
-            textToCanvas(local.split('|')[1],5,bottom-10)
-        })
-    })
-
-    pageScreen.querySelector('#up_file').addEventListener('change',()=>{        
-        showFile()
-    })
-
-    pageScreen.querySelector('#tbl-fotos').addEventListener('click',(e)=>{
-        const data = e.target.parentNode.data  
-        if(data!=undefined){
-            const tbl = []
-            const del = new Object
-            del.label = 'Deletar'
-            del.link = ()=>{
-                if(confirm('Deseja remover esta foto do relatório?')){
-                    delFile(`/../../relat-fotos/${pageData.id}/${data}`).then(()=>{
-                        fillPics()
-                    })
+        const tbl = [
+            {
+                label: 'Deletar',
+                link: () => {
+                    if(confirm('Deseja remover esta foto do relatório?')){
+                        delFile(`/../../relat-fotos/${pageData.id}/${data}`).then(() => fillPics());
+                    }
+                }
+            },
+            {
+                label: 'Visualizar',
+                link: () => {
+                    window.open(window.location.href + `../relat-fotos/${pageData.id}/${data}`, '_blank');
+                }
+            },
+            {
+                label: 'Trocar Setor',
+                link: () => {
+                    const setor = prompt('Digite o nome do novo setor', data.split('_')[0]);
+                    if(setor != null){
+                        renameFile(`/../../relat-fotos/${pageData.id}/${data}`, `/../../relat-fotos/${pageData.id}/${setor}`).then(() => fillPics());
+                    }
                 }
             }
-            tbl.push(del)
+        ];
+        menuContext(tbl, e);
+    });
 
-            const show = new Object
-            show.label = 'Visualizar'
-            show.link = ()=>{
-                console.log(data)
-                window.open(window.location.href+`../relat-fotos/${pageData.id}/${data}`, '_blank');
-            }
-            tbl.push(show)
+    /* --- LÓGICA DO ARRASTO E REDIMENSIONAMENTO QUADRADO (1:1) --- */
+    let arrastando = false;
+    let redimensionando = false;
+    let startX, startY, startWidth, startHeight, startLeft, startTop;
 
-            const ren = new Object
-            ren.label = 'Trocar Setor'
-            ren.link = ()=>{
-                const setor = prompt('Digite o nome do novo setor',data.split('_')[0])
-                if(setor!=null){
-                    renameFile(`/../../relat-fotos/${pageData.id}/${data}`,`/../../relat-fotos/${pageData.id}/${setor}`).then(()=>{
-                        fillPics()
-                    })
-                }
-            }
-            tbl.push(ren)
+    // Iniciar Arrasto do Bloco
+    quadradoCrop.addEventListener('mousedown', (e) => {
+        if (e.target === resizer) return; // Ignora se clicou no botão de esticar
+        arrastando = true;
+        startX = e.clientX - quadradoCrop.offsetLeft;
+        startY = e.clientY - quadradoCrop.offsetTop;
+        e.preventDefault();
+    });
 
-            menuContext(tbl,e)
+    // Iniciar Redimensionamento Quadrado
+    resizer.addEventListener('mousedown', (e) => {
+        redimensionando = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        startWidth = quadradoCrop.offsetWidth;
+        startHeight = quadradoCrop.offsetHeight;
+        startLeft = quadradoCrop.offsetLeft;
+        startTop = quadradoCrop.offsetTop;
+        e.stopPropagation();
+        e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        const container = quadradoCrop.parentElement;
+        const limiteMaxX = container.clientWidth - quadradoCrop.offsetWidth;
+        const limiteMaxY = container.clientHeight - quadradoCrop.offsetHeight;
+
+        // Movimentando o Bloco
+        if (arrastando) {
+            let novoX = e.clientX - startX;
+            let novoY = e.clientY - startY;
+
+            if (novoX < 0) novoX = 0;
+            if (novoY < 0) novoY = 0;
+            if (novoX > limiteMaxX) novoX = limiteMaxX;
+            if (novoY > limiteMaxY) novoY = limiteMaxY;
+
+            quadradoCrop.style.left = `${novoX}px`;
+            quadradoCrop.style.top = `${novoY}px`;
         }
-    })
 
-    
-    startPage()
+        // Esticando o Bloco Mantendo Formato Quadrado (1:1)
+        if (redimensionando) {
+            const diffX = e.clientX - startX;
+            
+            // Força nova largura e altura a serem idênticas
+            let novoTamanho = startWidth + diffX;
+            
+            // Tamanho mínimo para não sumir o quadrado
+            if (novoTamanho < 40) novoTamanho = 40;
 
+            // Restrição rígida de bordas para não estourar os limites do Canvas
+            if (startLeft + novoTamanho > container.clientWidth) {
+                novoTamanho = container.clientWidth - startLeft;
+            }
+            if (startTop + novoTamanho > container.clientHeight) {
+                novoTamanho = container.clientHeight - startTop;
+            }
+
+            quadradoCrop.style.width = `${novoTamanho}px`;
+            quadradoCrop.style.height = `${novoTamanho}px`;
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        arrastando = false;
+        redimensionando = false;
+    });
+
+    // Suporte para Dispositivos Mobile (Touch)
+    quadradoCrop.addEventListener('touchstart', (e) => {
+        if (e.target === resizer) return;
+        arrastando = true;
+        const touch = e.touches[0];
+        startX = touch.clientX - quadradoCrop.offsetLeft;
+        startY = touch.clientY - quadradoCrop.offsetTop;
+    }, { passive: true });
+
+    resizer.addEventListener('touchstart', (e) => {
+        redimensionando = true;
+        const touch = e.touches[0];
+        startX = touch.clientX;
+        startY = touch.clientY;
+        startWidth = quadradoCrop.offsetWidth;
+        startHeight = quadradoCrop.offsetHeight;
+        startLeft = quadradoCrop.offsetLeft;
+        startTop = quadradoCrop.offsetTop;
+        e.stopPropagation();
+    }, { passive: true });
+
+    document.addEventListener('touchmove', (e) => {
+        if (!arrastando && !redimensionando) return;
+        const touch = e.touches[0];
+        const container = quadradoCrop.parentElement;
+
+        if (arrastando) {
+            let novoX = touch.clientX - startX;
+            let novoY = touch.clientY - startY;
+            const limiteMaxX = container.clientWidth - quadradoCrop.offsetWidth;
+            const limiteMaxY = container.clientHeight - quadradoCrop.offsetHeight;
+
+            if (novoX < 0) novoX = 0;
+            if (novoY < 0) novoY = 0;
+            if (novoX > limiteMaxX) novoX = limiteMaxX;
+            if (novoY > limiteMaxY) novoY = limiteMaxY;
+
+            quadradoCrop.style.left = `${novoX}px`;
+            quadradoCrop.style.top = `${novoY}px`;
+        }
+
+        if (redimensionando) {
+            const diffX = touch.clientX - startX;
+            let novoTamanho = startWidth + diffX;
+            if (novoTamanho < 40) novoTamanho = 40;
+
+            if (startLeft + novoTamanho > container.clientWidth) {
+                novoTamanho = container.clientWidth - startLeft;
+            }
+            if (startTop + novoTamanho > container.clientHeight) {
+                novoTamanho = container.clientHeight - startTop;
+            }
+
+            quadradoCrop.style.width = `${novoTamanho}px`;
+            quadradoCrop.style.height = `${novoTamanho}px`;
+        }
+    });
+
+    document.addEventListener('touchend', () => {
+        arrastando = false;
+        redimensionando = false;
+    });
+
+    /* --- FLUXO INTERATIVO DOS BOTÕES --- */
+
+    // Executa a extração do recorte, oculta o original e exibe formulários/destino
+    btnCortar.addEventListener('click', () => {
+        const escalaX = canvasOrigem.width / canvasOrigem.clientWidth;
+        const escalaY = canvasOrigem.height / canvasOrigem.clientHeight;
+
+        const cropX = quadradoCrop.offsetLeft * escalaX;
+        const cropY = quadradoCrop.offsetTop * escalaY;
+        const cropWidth = quadradoCrop.offsetWidth * escalaX;
+        const cropHeight = quadradoCrop.offsetHeight * escalaY;
+
+        canvasDestino.width = cropWidth;
+        canvasDestino.height = cropHeight;
+
+        ctxDestino.clearRect(0, 0, cropWidth, cropHeight);
+        ctxDestino.drawImage(
+            canvasOrigem,
+            cropX, cropY, cropWidth, cropHeight,
+            0, 0, cropWidth, cropHeight
+        );
+
+        // Transição de Estados Visuais (Hide/Show)
+        areaSelecao.classList.add('hide');
+        btnCortar.classList.add('hide');
+        
+        canvasDestino.classList.remove('hide');
+        btnRecortarNovamente.classList.remove('hide');
+        formDados.classList.remove('hide');
+    });
+
+    // Retorna para o estado de seleção inicial mantendo o quadrado onde estava
+    btnRecortarNovamente.addEventListener('click', () => {
+        voltarEstadoInicial();
+    });
+
+    function voltarEstadoInicial() {
+        canvasDestino.classList.add('hide');
+        btnRecortarNovamente.classList.add('hide');
+        formDados.classList.add('hide');
+
+        areaSelecao.classList.remove('hide');
+        btnCortar.classList.remove('hide');
+    }
 </script>

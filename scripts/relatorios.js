@@ -1331,10 +1331,16 @@ function relat_fotografico(data){
     doc = new jsPDF();
     clearTxt(37,5,[210,297])
     frame()
-    logo([12,10,45,10])    
-    line(25)    
+//    logo([12,10,45,10])    
+//    line(25)    
+    header_pdf()
 
+    addLine(2)
+
+    doc.setFontSize(12)
+    doc.setFont(undefined, 'bold')
     center_text(data.title,[0,doc.internal.pageSize.getWidth()])
+    doc.setFont(undefined, 'normal')
 
     doc.setFontSize(10)
 
@@ -1368,6 +1374,81 @@ function relat_fotografico(data){
     addLine()
     box(data.itens,10,txt.y,170,1,false)
 
+    addLine(2)
+
+//    addPage(32)
+
+    showFiles(`../relat-fotos/${data.id}/`).then((resolve)=>{
+        data.files = JSON.parse(resolve)
+
+        const setores = new Object
+        for(let i=0; i<data.files.length; i++){
+            const setor = data.files[i].split('_')[0]
+            if(!setores.hasOwnProperty(setor)){
+                setores[setor] = []
+            }
+            setores[setor].push(`../relat-fotos/${data.id}/${data.files[i]}`)
+        }
+
+        async function processarImagensNoPDF(doc) {
+            // 1. Cria um array para guardar as Promises de cada imagem
+            const promisesDeImagens = [];
+            Object.keys(setores).forEach(setor => {
+                const lista = setores[setor]
+                checkPage(60)
+                doc.setFont(undefined, 'bold')
+                doc.setFontSize(12)
+                doc.text(setor,10,txt.y)
+                addLine()
+                let x = 10
+                for(let i=0; i<lista.length; i++){
+                    if(i>0 && !(i%3)){
+                        txt.y += 65
+                        x=10
+                        if(checkPage(60)){
+                            doc.setFont(undefined, 'bold')
+                            doc.setFontSize(12)                            
+                            doc.text(setor,10,txt.y)
+                            addLine()
+                        }
+                    }
+                    const img = plotImg(lista[i],x,txt.y,60,60);
+                    x+= 65
+                }
+
+                addLine(16)
+            });
+
+
+        
+            try {
+                // 3. A mágica acontece aqui: o código para e SÓ avança 
+                // depois que TODAS as promises dentro do array forem resolvidas.
+                await Promise.all(promisesDeImagens);
+                
+                console.log("Todas as imagens foram inseridas com sucesso!");
+                return doc; // Retorna o documento pronto
+            } catch (error) {
+                console.error("Erro ao carregar uma ou mais imagens:", error);
+                throw error; // Repassa o erro caso alguma imagem falhe
+            }
+        }
+
+
+        processarImagensNoPDF(doc).then((resolve)=>{
+            openPDF(doc,'relat_fotografico.pdf')
+
+        })
+
+
+
+
+    })
+
+
+
+
+
     doc.setFontSize(8)
     doc.setFont(undefined, 'normal')
 
@@ -1376,5 +1457,5 @@ function relat_fotografico(data){
     center_text('www.flexibus.com.br | comercial@flexibus.com.br | (12) 3653-2230')
  */
 
-    openPDF(doc,'relat_fotografico.pdf')
+
 }
